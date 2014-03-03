@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="10169d06686540c9ad810cfa35a1e9ba" Name="Diagram1">
+        <EntityTypeShape EntityType="HotelModel.BookingRequest" Width="1.5" PointX="5.75" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HotelModel.Country" Width="1.5" PointX="7.75" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HotelModel.Menu" Width="1.5" PointX="0.75" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="HotelModel.News" Width="1.5" PointX="5.75" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="HotelModel.NewsCategory" Width="1.5" PointX="5.75" PointY="5.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="HotelModel.NewsNewsCategory" Width="1.5" PointX="8" PointY="1.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HotelModel.Page" Width="1.5" PointX="9.75" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HotelModel.Role" Width="1.5" PointX="0.75" PointY="6.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="HotelModel.RoleMenu" Width="1.5" PointX="3" PointY="1.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="HotelModel.Room" Width="1.5" PointX="10" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="HotelModel.RoomType" Width="1.5" PointX="7.75" PointY="5.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="HotelModel.SiteSetting" Width="1.5" PointX="10.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HotelModel.Status" Width="1.5" PointX="0.75" PointY="10.625" IsExpanded="true" />
+        <AssociationConnector Association="HotelModel.FK_Menu_Menu" ManuallyRouted="false" />
+        <AssociationConnector Association="HotelModel.FK_RoleMenu_Menu" ManuallyRouted="false" />
+        <AssociationConnector Association="HotelModel.FK_NewsNewsCategory_News" ManuallyRouted="false" />
+        <AssociationConnector Association="HotelModel.FK_NewsNewsCategory_NewsCategory" ManuallyRouted="false" />
+        <AssociationConnector Association="HotelModel.FK_RoleMenu_Role" ManuallyRouted="false" />
+        <AssociationConnector Association="HotelModel.FK_Room_Room" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="HotelModel.User" Width="1.5" PointX="3.0869063227842126" PointY="21.096591586757725" />
+        <AssociationConnector Association="HotelModel.FK_User_Role" />
+        <AssociationConnector Association="HotelModel.FK_User_Status" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

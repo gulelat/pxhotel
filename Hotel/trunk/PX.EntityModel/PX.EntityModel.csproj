@@ -34,10 +34,17 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml.Linq" />
@@ -47,13 +54,110 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BookingRequest.cs">
+      <DependentUpon>Hotel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Country.cs">
+      <DependentUpon>Hotel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\User.cs" />
+    <Compile Include="Enums\StatusEnums.cs" />
+    <Compile Include="Enums\UserEnums.cs" />
+    <Compile Include="Hotel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Hotel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Hotel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Hotel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Hotel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Hotel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Menu.cs">
+      <DependentUpon>Hotel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="News.cs">
+      <DependentUpon>Hotel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NewsCategory.cs">
+      <DependentUpon>Hotel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NewsNewsCategory.cs">
+      <DependentUpon>Hotel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Page.cs">
+      <DependentUpon>Hotel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Resources\SystemResource.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SystemResource.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Role.cs">
+      <DependentUpon>Hotel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoleMenu.cs">
+      <DependentUpon>Hotel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Room.cs">
+      <DependentUpon>Hotel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoomType.cs">
+      <DependentUpon>Hotel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SiteSetting.cs">
+      <DependentUpon>Hotel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Status.cs">
+      <DependentUpon>Hotel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="User.cs">
+      <DependentUpon>Hotel.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\PX.Library\PX.Library.csproj">
       <Project>{c63d2b1b-8b22-405f-9852-3c30a8f0a280}</Project>
       <Name>PX.Library</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EntityDeploy Include="Hotel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Hotel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.Config" />
+    <None Include="Hotel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Hotel.edmx</DependentUpon>
+      <LastGenOutput>Hotel.Context.cs</LastGenOutput>
+    </None>
+    <None Include="Hotel.edmx.diagram">
+      <DependentUpon>Hotel.edmx</DependentUpon>
+    </None>
+    <None Include="Hotel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Hotel.edmx</DependentUpon>
+      <LastGenOutput>Hotel.cs</LastGenOutput>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\SystemResource.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>SystemResource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
