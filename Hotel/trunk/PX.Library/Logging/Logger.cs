@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Text;
-using PX.Library.Common;
 using log4net;
 
 namespace PX.Library.Logging
@@ -103,8 +102,8 @@ namespace PX.Library.Logging
         public void SendEmail(string subject, string body)
         {
             subject = "WebEd 8 Error Logging";
-            var mailService = new MailUtilities();
-            mailService.SendEmail("abc@abc.com", "nam.le@saigontechnology.vn", subject, body);
+            //var mailService = new MailUtilities();
+            //mailService.SendEmail("abc@abc.com", "nam.le@saigontechnology.vn", subject, body);
         }
     }
 
