@@ -12,15 +12,13 @@ namespace PX.EntityModel
     using System;
     using System.Collections.Generic;
     
-    public partial class Country
+    public partial class Resource
     {
-        public Country()
-        {
-            this.Resources = new HashSet<Resource>();
-        }
-    
         public int Id { get; set; }
         public string Name { get; set; }
+        public string DefaultValue { get; set; }
+        public string Value { get; set; }
+        public int CountryId { get; set; }
         public Nullable<int> RecordOrder { get; set; }
         public Nullable<bool> RecordActive { get; set; }
         public System.DateTime Created { get; set; }
@@ -28,6 +26,6 @@ namespace PX.EntityModel
         public Nullable<System.DateTime> Updated { get; set; }
         public string UpdatedBy { get; set; }
     
-        public virtual ICollection<Resource> Resources { get; set; }
+        public virtual Country Country { get; set; }
     }
 }

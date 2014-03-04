@@ -123,4 +123,7 @@
   <data name="InvalidUserFormat" xml:space="preserve">
     <value>InvalidUserFormat</value>
   </data>
+  <data name="UnauthorizedAccessMessage" xml:space="preserve">
+    <value>UnauthorizedAccessMessage</value>
+  </data>
 </root>
