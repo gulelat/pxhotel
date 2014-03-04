@@ -22,7 +22,7 @@ namespace PX.EntityModel.Resources {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class SystemResource {
+    public class SystemResource {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace PX.EntityModel.Resources {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("PX.EntityModel.Resources.SystemResource", typeof(SystemResource).Assembly);
@@ -51,7 +51,7 @@ namespace PX.EntityModel.Resources {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace PX.EntityModel.Resources {
         /// <summary>
         ///   Looks up a localized string similar to InvalidPasswordCompare.
         /// </summary>
-        internal static string InvalidPasswordCompare {
+        public static string InvalidPasswordCompare {
             get {
                 return ResourceManager.GetString("InvalidPasswordCompare", resourceCulture);
             }
@@ -72,9 +72,18 @@ namespace PX.EntityModel.Resources {
         /// <summary>
         ///   Looks up a localized string similar to InvalidUserFormat.
         /// </summary>
-        internal static string InvalidUserFormat {
+        public static string InvalidUserFormat {
             get {
                 return ResourceManager.GetString("InvalidUserFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to UnauthorizedAccessMessage.
+        /// </summary>
+        public static string UnauthorizedAccessMessage {
+            get {
+                return ResourceManager.GetString("UnauthorizedAccessMessage", resourceCulture);
             }
         }
     }

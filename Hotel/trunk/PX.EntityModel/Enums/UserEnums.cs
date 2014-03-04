@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace PX.EntityModel.Enums
+﻿namespace PX.EntityModel.Enums
 {
     public class UserEnums
     {
@@ -12,10 +6,7 @@ namespace PX.EntityModel.Enums
         {
             Admin = 1,
             Moderator = 2,
-            CameraManager = 6,
-            SchoolManager = 3,
-            Teacher = 4,
-            Parent = 5
+            Customer = 3
         }
 
 

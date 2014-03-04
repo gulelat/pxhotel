@@ -13,10 +13,10 @@ namespace PX.EntityModel
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class HotelEntities : DbContext
+    public partial class PXHotelEntities : DbContext
     {
-        public HotelEntities()
-            : base("name=HotelEntities")
+        public PXHotelEntities()
+            : base("name=PXHotelEntities")
         {
         }
     
@@ -32,8 +32,9 @@ namespace PX.EntityModel
         public DbSet<NewsCategory> NewsCategories { get; set; }
         public DbSet<NewsNewsCategory> NewsNewsCategories { get; set; }
         public DbSet<Page> Pages { get; set; }
-        public DbSet<Role> Roles { get; set; }
+        public DbSet<Resource> Resources { get; set; }
         public DbSet<RoleMenu> RoleMenus { get; set; }
+        public DbSet<Role> Roles { get; set; }
         public DbSet<Room> Rooms { get; set; }
         public DbSet<RoomType> RoomTypes { get; set; }
         public DbSet<SiteSetting> SiteSettings { get; set; }

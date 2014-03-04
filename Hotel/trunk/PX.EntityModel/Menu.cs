@@ -16,7 +16,7 @@ namespace PX.EntityModel
     {
         public Menu()
         {
-            this.Menu1 = new HashSet<Menu>();
+            this.Menus1 = new HashSet<Menu>();
             this.RoleMenus = new HashSet<RoleMenu>();
         }
     
@@ -27,6 +27,7 @@ namespace PX.EntityModel
         public string Action { get; set; }
         public Nullable<int> ParentId { get; set; }
         public string Hierarchy { get; set; }
+        public string MenuClass { get; set; }
         public Nullable<bool> RecordActive { get; set; }
         public Nullable<bool> RecordOrder { get; set; }
         public System.DateTime Created { get; set; }
@@ -34,8 +35,8 @@ namespace PX.EntityModel
         public Nullable<System.DateTime> Updated { get; set; }
         public string UpdatedBy { get; set; }
     
-        public virtual ICollection<Menu> Menu1 { get; set; }
-        public virtual Menu Menu2 { get; set; }
+        public virtual ICollection<Menu> Menus1 { get; set; }
+        public virtual Menu Menu1 { get; set; }
         public virtual ICollection<RoleMenu> RoleMenus { get; set; }
     }
 }

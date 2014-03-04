@@ -54,7 +54,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Attributes\EmailValidationAttribute.cs" />
     <Compile Include="Common\CastingUtilities.cs" />
     <Compile Include="Common\ImageUtilities.cs" />
     <Compile Include="Common\ConvertUtilities.cs" />
@@ -66,7 +65,6 @@
     <Compile Include="Common\UrlUtilities.cs" />
     <Compile Include="Configuration\Configurations.cs" />
     <Compile Include="Configuration\Constants.cs" />
-    <Compile Include="Data\DynamicQueryable.cs" />
     <Compile Include="Logging\Logger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

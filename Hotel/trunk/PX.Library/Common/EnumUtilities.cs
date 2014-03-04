@@ -6,7 +6,7 @@ using System.Linq;
 using System.Reflection;
 using System.Web.Mvc;
 
-namespace PX.EntityModel.Common
+namespace PX.Library.Common
 {
     public static class EnumUtilities
     {
