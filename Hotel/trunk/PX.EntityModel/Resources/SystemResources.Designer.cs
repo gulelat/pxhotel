@@ -22,14 +22,14 @@ namespace PX.EntityModel.Resources {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class SystemResource {
+    public class SystemResources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal SystemResource() {
+        internal SystemResources() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace PX.EntityModel.Resources {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("PX.EntityModel.Resources.SystemResource", typeof(SystemResource).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("PX.EntityModel.Resources.SystemResources", typeof(SystemResources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,6 +61,33 @@ namespace PX.EntityModel.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to DeleteFailure.
+        /// </summary>
+        public static string DeleteFailure {
+            get {
+                return ResourceManager.GetString("DeleteFailure", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to DeleteSuccess.
+        /// </summary>
+        public static string DeleteSuccess {
+            get {
+                return ResourceManager.GetString("DeleteSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to InvalidEmail.
+        /// </summary>
+        public static string InvalidEmail {
+            get {
+                return ResourceManager.GetString("InvalidEmail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to InvalidPasswordCompare.
         /// </summary>
         public static string InvalidPasswordCompare {
@@ -75,6 +102,33 @@ namespace PX.EntityModel.Resources {
         public static string InvalidUserFormat {
             get {
                 return ResourceManager.GetString("InvalidUserFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to InvalidUserNameOrPassword.
+        /// </summary>
+        public static string InvalidUserNameOrPassword {
+            get {
+                return ResourceManager.GetString("InvalidUserNameOrPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to RequiredPassword.
+        /// </summary>
+        public static string RequiredPassword {
+            get {
+                return ResourceManager.GetString("RequiredPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to RequiredUserName.
+        /// </summary>
+        public static string RequiredUserName {
+            get {
+                return ResourceManager.GetString("RequiredUserName", resourceCulture);
             }
         }
         

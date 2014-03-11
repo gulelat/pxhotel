@@ -6,10 +6,10 @@ namespace PX.Web.Areas.Admin.Controllers
 {
     public class HomeController : Controller
     {
-        public IMenuServices MenuServices;
+        private readonly IMenuServices _menuServices;
         public HomeController(IMenuServices menuServices)
         {
-            MenuServices = menuServices;
+            _menuServices = menuServices;
         }
 
         //
@@ -21,7 +21,7 @@ namespace PX.Web.Areas.Admin.Controllers
 
         public ActionResult Menu()
         {
-            var model = MenuServices.GetAll().ToList();
+            var model = _menuServices.GetAll().ToList();
             return PartialView("_Menu", model);
         }
     }

@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using PX.Business.Models;
 using PX.EntityModel;
 
 namespace PX.Business.Services.Menus
@@ -7,9 +8,9 @@ namespace PX.Business.Services.Menus
     {
         IQueryable<Menu> GetAll();
         Menu GetById(int id);
-        Menu Insert(Menu menu);
-        Menu Update(Menu menu);
-        bool Delete(Menu menu);
-        bool Delete(int id);
+        ResponseModel Insert(Menu menu);
+        ResponseModel Update(Menu menu);
+        ResponseModel Delete(Menu menu);
+        ResponseModel Delete(int id);
     }
 }

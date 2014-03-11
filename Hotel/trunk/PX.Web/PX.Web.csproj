@@ -190,6 +190,10 @@
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\BackEnd\UserModels\UserListingViewModel.cs" />
+    <Compile Include="ViewModels\BackEnd\UserModels\UserLogOnViewModel.cs" />
+    <Compile Include="ViewModels\BackEnd\UserModels\UserSearchViewModel.cs" />
+    <Compile Include="ViewModels\ViewModelBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\backend\avatars\avatar.png" />
@@ -627,7 +631,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Controllers\" />
-    <Folder Include="ViewModels\" />
+    <Folder Include="ViewModels\FrontEnd\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

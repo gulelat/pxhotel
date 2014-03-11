@@ -91,12 +91,19 @@ namespace PX.EntityModel.Framework.Repositories.RepositoryBase
             return entity;
         }
 
-        public static bool Delete(T entity)
+        public static void Delete(T entity)
         {
             var dbSet = DataContext.Set<T>();
             dbSet.Remove(entity);
             DataContext.SaveChanges();
-            return true;
+        }
+
+        public static void Delete(int id)
+        {
+            var entity = GetById(id);
+            var dbSet = DataContext.Set<T>();
+            dbSet.Remove(entity);
+            DataContext.SaveChanges();
         }
 
         #endregion

@@ -282,7 +282,7 @@ namespace PX.Library.Configuration
         /// <remarks></remarks>
         public static int AdminPageSizes
         {
-            get { return Convert.ToInt32(ConfigurationManager.AppSettings["AdminPageSizes"]); }
+            get { return 10; }
         }
         #endregion
 

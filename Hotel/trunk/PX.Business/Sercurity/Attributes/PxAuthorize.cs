@@ -18,7 +18,7 @@ namespace PX.Business.Sercurity.Attributes
             //If its an unauthorized/timed out ajax request go to top window and redirect to logon.
             if (authorizationContext.Result is HttpUnauthorizedResult && authorizationContext.HttpContext.Request.IsAjaxRequest())
             {
-                authorizationContext.Controller.TempData["ErrorMessage"] = SystemResource.UnauthorizedAccessMessage;
+                authorizationContext.Controller.TempData["ErrorMessage"] = SystemResources.UnauthorizedAccessMessage;
 
                 authorizationContext.Result = new JavaScriptResult { Script = "top.location = '/';" };
             }
@@ -26,7 +26,7 @@ namespace PX.Business.Sercurity.Attributes
             //If authorization results in HttpUnauthorizedResult, redirect to error page instead of Logon page.
             if (authorizationContext.Result is HttpUnauthorizedResult)
             {
-                authorizationContext.Controller.TempData["ErrorMessage"] = SystemResource.UnauthorizedAccessMessage;
+                authorizationContext.Controller.TempData["ErrorMessage"] = SystemResources.UnauthorizedAccessMessage;
                 authorizationContext.Result = 
                     authorizationContext.HttpContext.Request.Path.ToLower().Contains("admin") ? 
                         new RedirectResult(Configurations.AdminLoginPagePath + "?returnUrl=" + authorizationContext.HttpContext.Request.Path) 

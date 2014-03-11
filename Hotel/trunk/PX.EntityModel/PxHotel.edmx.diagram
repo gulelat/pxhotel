@@ -19,16 +19,16 @@
         <EntityTypeShape EntityType="PXHotelModel.RoomType" Width="1.5" PointX="7.75" PointY="5.125" IsExpanded="true" />
         <EntityTypeShape EntityType="PXHotelModel.SiteSetting" Width="1.5" PointX="10.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="PXHotelModel.Status" Width="1.5" PointX="0.75" PointY="10.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="PXHotelModel.User" Width="1.5" PointX="3" PointY="6" IsExpanded="true" />
         <AssociationConnector Association="PXHotelModel.FK_Resources_Countries" ManuallyRouted="false" />
         <AssociationConnector Association="PXHotelModel.FK_Menu_Menu" ManuallyRouted="false" />
         <AssociationConnector Association="PXHotelModel.FK_RoleMenu_Menu" ManuallyRouted="false" />
         <AssociationConnector Association="PXHotelModel.FK_NewsNewsCategory_News" ManuallyRouted="false" />
         <AssociationConnector Association="PXHotelModel.FK_NewsNewsCategory_NewsCategory" ManuallyRouted="false" />
         <AssociationConnector Association="PXHotelModel.FK_RoleMenu_Role" ManuallyRouted="false" />
-        <AssociationConnector Association="PXHotelModel.FK_User_Role" ManuallyRouted="false" />
         <AssociationConnector Association="PXHotelModel.FK_Room_Room" ManuallyRouted="false" />
-        <AssociationConnector Association="PXHotelModel.FK_User_Status" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="PXHotelModel.User" Width="1.5" PointX="11.374133392877008" PointY="3.9317255187461737" />
+        <AssociationConnector Association="PXHotelModel.FK_User_Role" />
+        <AssociationConnector Association="PXHotelModel.FK_User_Status" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
