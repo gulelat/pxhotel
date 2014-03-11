@@ -61,7 +61,10 @@
     <Compile Include="Country.cs">
       <DependentUpon>PXHotel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Enums\ResponseStatusEnums.cs" />
     <Compile Include="Framework\Data\DynamicQueryable.cs" />
+    <Compile Include="Framework\Repositories\RoleRepository.cs" />
+    <Compile Include="Framework\Repositories\UserRepository.cs" />
     <Compile Include="Framework\Repositories\MenuRepository.cs" />
     <Compile Include="Framework\Repositories\RepositoryBase\Repository.cs">
       <SubType>Code</SubType>
@@ -104,10 +107,10 @@
     <Compile Include="Resource.cs">
       <DependentUpon>PXHotel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Resources\SystemResource.Designer.cs">
+    <Compile Include="Resources\SystemResources.Designer.cs">
+      <DependentUpon>SystemResources.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>SystemResource.resx</DependentUpon>
     </Compile>
     <Compile Include="Role.cs">
       <DependentUpon>PXHotel.tt</DependentUpon>
@@ -162,13 +165,13 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\SystemResource.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>SystemResource.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
+    <Folder Include="Framework\Mvc\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Framework\Mvc\" />
+    <EmbeddedResource Include="Resources\SystemResources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>SystemResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

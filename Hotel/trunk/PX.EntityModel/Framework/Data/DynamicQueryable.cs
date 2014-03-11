@@ -9,7 +9,7 @@ using System.Reflection.Emit;
 using System.Text;
 using System.Threading;
 
-namespace PX.Library.Data
+namespace System.Linq
 {
     public static class DynamicQueryable
     {

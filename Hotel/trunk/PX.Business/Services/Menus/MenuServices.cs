@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using PX.Business.Models;
 using PX.EntityModel;
 using PX.EntityModel.Framework.Repositories;
 
@@ -6,6 +8,9 @@ namespace PX.Business.Services.Menus
 {
     public class MenuServices : IMenuServices
     {
+        #region Base
+
+        #endregion
         public IQueryable<Menu> GetAll()
         {
             return MenuRepository.GetAll();
@@ -14,26 +19,66 @@ namespace PX.Business.Services.Menus
         {
             return MenuRepository.GetById(id);
         }
-        public Menu Insert(Menu menu)
+
+        public ResponseModel Insert(Menu menu)
         {
-            return MenuRepository.Insert(menu);
-        }
-        public Menu Update(Menu menu)
-        {
-            return MenuRepository.Update(menu);
-        }
-        public bool Delete(Menu menu)
-        {
-            return MenuRepository.Delete(menu);
-        }
-        public bool Delete(int id)
-        {
-            var menu = GetById(id);
-            if(menu != null)
+            var response = new ResponseModel();
+            try
             {
-                return Delete(menu);
+                MenuRepository.Insert(menu);
+                response.Success = true;
             }
-            return false;
+            catch (Exception exception)
+            {
+                response.Success = false;
+                response.Message = exception.Message;
+            }
+            return response;
+        }
+        public ResponseModel Update(Menu user)
+        {
+            var response = new ResponseModel();
+            try
+            {
+                MenuRepository.Update(user);
+                response.Success = true;
+            }
+            catch (Exception exception)
+            {
+                response.Success = false;
+                response.Message = exception.Message;
+            }
+            return response;
+        }
+        public ResponseModel Delete(Menu menu)
+        {
+            var response = new ResponseModel();
+            try
+            {
+                MenuRepository.Delete(menu);
+                response.Success = true;
+            }
+            catch (Exception exception)
+            {
+                response.Success = false;
+                response.Message = exception.Message;
+            }
+            return response;
+        }
+        public ResponseModel Delete(int id)
+        {
+            var response = new ResponseModel();
+            try
+            {
+                MenuRepository.Delete(id);
+                response.Success = true;
+            }
+            catch (Exception exception)
+            {
+                response.Success = false;
+                response.Message = exception.Message;
+            }
+            return response;
         }
     }
 }

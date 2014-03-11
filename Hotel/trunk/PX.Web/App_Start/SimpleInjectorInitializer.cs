@@ -1,4 +1,5 @@
 using PX.Business.Services.Menus;
+using PX.Business.Services.Users;
 
 [assembly: WebActivator.PostApplicationStartMethod(typeof(PX.Web.App_Start.SimpleInjectorInitializer), "Initialize")]
 
@@ -29,7 +30,8 @@ namespace PX.Web.App_Start
      
         private static void InitializeContainer(Container container)
         {
-            container.Register<IMenuServices, MenuServices>(Lifestyle.Transient);
+            container.Register<IMenuServices, MenuServices>(Lifestyle.Singleton);
+            container.Register<IUserServices, UserServices>(Lifestyle.Singleton);
         }
     }
 }

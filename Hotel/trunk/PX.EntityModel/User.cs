@@ -19,6 +19,7 @@ namespace PX.EntityModel
         public string Password { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public string IdentityNumber { get; set; }
         public string ImageFileName { get; set; }
         public int RoleId { get; set; }
         public int StatusId { get; set; }
