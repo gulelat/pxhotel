@@ -70,11 +70,6 @@
     <Compile Include="Framework\Mvc\Models\JqGrid\JqGrid.cs" />
     <Compile Include="Framework\Mvc\Models\JqGrid\WhereClauseGenerator.cs" />
     <Compile Include="Framework\Mvc\Models\ResponseModel.cs" />
-    <Compile Include="Framework\Repositories\MenuRepository.cs" />
-    <Compile Include="Framework\Repositories\RepositoryBase\Models\EntityObject.cs" />
-    <Compile Include="Framework\Repositories\RepositoryBase\Repository.cs" />
-    <Compile Include="Framework\Repositories\RoleRepository.cs" />
-    <Compile Include="Framework\Repositories\UserRepository.cs" />
     <Compile Include="Logging\ILogger.cs" />
     <Compile Include="Logging\Logger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

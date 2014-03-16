@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PX.EntityModel", "PX.Entity
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PX.Business", "PX.Business\PX.Business.csproj", "{C864E852-11AE-4E1F-A2CE-B4E48B0AD4B1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PX.Library", "PX.Library\PX.Library.csproj", "{C63D2B1B-8B22-405F-9852-3C30A8F0A280}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PX.Core", "PX.Core\PX.Core.csproj", "{881DDE2D-6007-4C94-9911-750A7B0D81AA}"
 EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
@@ -31,10 +31,10 @@ Global
 		{C864E852-11AE-4E1F-A2CE-B4E48B0AD4B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C864E852-11AE-4E1F-A2CE-B4E48B0AD4B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C864E852-11AE-4E1F-A2CE-B4E48B0AD4B1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C63D2B1B-8B22-405F-9852-3C30A8F0A280}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C63D2B1B-8B22-405F-9852-3C30A8F0A280}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C63D2B1B-8B22-405F-9852-3C30A8F0A280}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C63D2B1B-8B22-405F-9852-3C30A8F0A280}.Release|Any CPU.Build.0 = Release|Any CPU
+		{881DDE2D-6007-4C94-9911-750A7B0D81AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{881DDE2D-6007-4C94-9911-750A7B0D81AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{881DDE2D-6007-4C94-9911-750A7B0D81AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{881DDE2D-6007-4C94-9911-750A7B0D81AA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
