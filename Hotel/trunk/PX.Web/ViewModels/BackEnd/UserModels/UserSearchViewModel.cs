@@ -16,7 +16,7 @@ namespace PX.Web.ViewModels.BackEnd.UserModels
         {
             _userServices = userServices;
             StatusList = _userServices.GetStatus();
-            Roles = _userServices.GetRoles().ToList();
+            Roles = _userServices.GetAllRoles().ToList();
         }
 
         #region Public Properties

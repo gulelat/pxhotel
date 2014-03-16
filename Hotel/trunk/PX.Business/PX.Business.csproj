@@ -34,6 +34,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper">
+      <HintPath>..\packages\AutoMapper.3.1.1\lib\net40\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="AutoMapper.Net4">
+      <HintPath>..\packages\AutoMapper.3.1.1\lib\net40\AutoMapper.Net4.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -48,33 +54,35 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Attributes\EmailValidationAttribute.cs" />
-    <Compile Include="Helpers\CommonHelpers.cs" />
-    <Compile Include="Helpers\DropdownlistHelpers.cs" />
-    <Compile Include="Helpers\ImageHelpers.cs" />
-    <Compile Include="Helpers\ViewHelpers.cs" />
     <Compile Include="Models\PaginationModel.cs" />
-    <Compile Include="Models\ResponseModel.cs" />
     <Compile Include="Models\UserModels\UserSearchModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sercurity\Attributes\PxAuthorize.cs" />
     <Compile Include="Sercurity\PxUserTypes.cs" />
-    <Compile Include="Services\Menus\MenuServices.cs" />
     <Compile Include="Services\Menus\IMenuServices.cs" />
+    <Compile Include="Services\Menus\MenuServices.cs" />
     <Compile Include="Services\Users\IUserServices.cs" />
     <Compile Include="Services\Users\UserServices.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\PX.Core\PX.Core.csproj">
+      <Project>{881dde2d-6007-4c94-9911-750a7b0d81aa}</Project>
+      <Name>PX.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PX.EntityModel\PX.EntityModel.csproj">
       <Project>{42d19b08-5776-43c9-ac79-20c76778d15a}</Project>
       <Name>PX.EntityModel</Name>
     </ProjectReference>
-    <ProjectReference Include="..\PX.Library\PX.Library.csproj">
-      <Project>{c63d2b1b-8b22-405f-9852-3c30a8f0a280}</Project>
-      <Name>PX.Library</Name>
-    </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\packages\AutoMapper.3.1.1\lib\net40\AutoMapper.Net4.dll">
+      <Link>AutoMapper.Net4.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

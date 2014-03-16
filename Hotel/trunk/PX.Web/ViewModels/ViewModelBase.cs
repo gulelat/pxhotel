@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Web;
 using System.Web.Mvc;
-using PX.EntityModel.Enums;
-using PX.Library.Configuration;
+using PX.Core.Configurations;
+using PX.Core.Framework.Enums;
 
 namespace PX.Web.ViewModels
 {

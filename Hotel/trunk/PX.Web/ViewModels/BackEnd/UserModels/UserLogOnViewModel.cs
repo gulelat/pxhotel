@@ -2,8 +2,8 @@
 using System.ComponentModel.DataAnnotations;
 using System.Web.Security;
 using PX.Business.Services.Users;
+using PX.Core.Framework.Enums;
 using PX.EntityModel;
-using PX.EntityModel.Enums;
 using PX.EntityModel.Resources;
 
 namespace PX.Web.ViewModels.BackEnd.UserModels
