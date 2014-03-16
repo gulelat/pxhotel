@@ -43,7 +43,16 @@
                 datatype: "json",
                 url: "@Url.Action("_AjaxBinding")",
                 height: 450,
-                colNames: [' ', 'Id', 'Email', 'Password', 'FirstName', 'LastName', 'Role', 'Status', 'Identity Number', 'Phone', 'LastLogin', 'Created', 'CreatedBy', 'Updated', 'UpdatedBy'],
+                onSelectRow: function (id) {
+                    var tmpId = $(gridSelector).getRowData(id)['Id'];
+                    $(gridSelector).setColProp('ParentId', { editoptions: { dataUrl: '@Url.Action("GetParents")/' + tmpId } });
+                },
+                ondblClickRow: function (id) {
+                    var tmpId = $(gridSelector).getRowData(id)['Id'];
+                    $(gridSelector).setColProp('ParentId', { editoptions: { dataUrl: '@Url.Action("GetParents")/' + tmpId } });
+                    jQuery(gridSelector).editRow(id, true);
+                },
+                colNames: [' ', 'Id', 'Name', 'Url', 'Controller', 'Action', 'Parent Menu', 'Order', 'Active', 'MenuClass', 'Created', 'CreatedBy', 'Updated', 'UpdatedBy'],
                 colModel: [
                     {
                         name: 'myac',
@@ -60,30 +69,30 @@
                         search: false
                     },
                     { name: 'Id', index: 'Id', width: 60, key: true, sorttype: "int" },
-                    { name: 'Email', index: 'Email', width: 150, editable: true,  editrules: { required: true, email: true } },
-                    { name: 'Password', index: 'Password', width: 150, editable: true,  editrules: { required: true } },
-                    { name: 'FirstName', index: 'FirstName', width: 150, editable: true,  editrules: { required: true } },
-                    { name: 'LastName', index: 'LastName', width: 150, editable: true,  editrules: { required: true } },
+                    { name: 'Name', index: 'Name', width: 150, editable: true, editrules: { required: true } },
+                    { name: 'Url', index: 'Url', width: 150, editable: true },
+                    { name: 'Controller', index: 'Controller', width: 150, editable: true },
+                    { name: 'Action', index: 'Action', width: 150, editable: true },
                     {
-                        name: 'RoleId', index: 'RoleId', width: 150, editable: true, edittype: "select",
+                        name: 'ParentId', index: 'ParentId', width: 150, editable: true, edittype: "select",
                         editoptions: {
-                            dataUrl: '@Url.Action("GetRoles")',
+                            beforeSelectRow : function () {
+
+                                var rowid = $(gridSelector).jqGrid('getGridParam', 'selrow');
+                                alert(rowid);
+                            },
+                            beforeInitData: function () {
+                                var rowid = $(gridSelector).jqGrid('getGridParam', 'selrow');
+                                $(gridSelector).setColProp('ParentId', { editoptions: { dataUrl: '@Url.Action("GetParents")' + rowid } });
+                            },
                             buildSelect: function (response) {
-                                return buildDropdown(response, false);
+                                return buildDropdown(response);
                             }
                         }, editrules: { required: true }
-                    }, {
-                        name: 'StatusId', index: 'StatusId', width: 150, editable: true, edittype: "select",
-                        editoptions: {
-                            dataUrl: '@Url.Action("GetStatus")',
-                            buildSelect: function (response) {
-                                return buildDropdown(response, false);
-                            }
-                        },editrules: { required: true }
                     },
-                    { name: 'IdentityNumber', index: 'IdentityNumber', width: 150, editable: true, editoptions: { size: "20", maxlength: "30" } },
-                    { name: 'Phone', index: 'Phone', width: 150, editable: true,  editrules: { required: true } },
-                    { name: 'LastLogin', index: 'LastLogin', width: 90, editable: false, sorttype: "datetime", unformat: pickDate },
+                    { name: 'RecordOrder', index: 'RecordOrder', width: 150, sorttype: "int", editable: true },
+                    { name: 'RecordActive', index: 'RecordActive', width: 150, editable: true, edittype: "checkbox", editoptions: { value: "Yes:No" }, unformat: aceSwitch },
+                    { name: 'MenuClass', index: 'MenuClass', width: 150, editable: true },
                     { name: 'Created', index: 'Created', width: 100, editable: false, sorttype: "datetime", unformat: pickDate },
                     { name: 'CreatedBy', index: 'CreatedBy', width: 150, editable: false, editoptions: { size: "20", maxlength: "30" } },
                     { name: 'Updated', index: 'Updated', formatter: "date", width: 90, editable: false, sorttype: "datetime", unformat: pickDate },
@@ -107,8 +116,8 @@
                     }, 0);
                 },
                 editurl: '@Url.Action("Manage")',
-            caption: "User Management",
-            autowidth: true
+                caption: "Menu Management",
+                autowidth: true
             });
 
             //enable search/filter toolbar

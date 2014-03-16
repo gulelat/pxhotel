@@ -1,4 +1,4 @@
-﻿using PX.EntityModel.Enums;
+﻿using PX.Core.Framework.Enums;
 
 namespace PX.Business.Sercurity
 {

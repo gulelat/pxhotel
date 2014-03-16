@@ -2,9 +2,9 @@
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
+using PX.Core.Configurations;
 using PX.EntityModel;
 using PX.EntityModel.Resources;
-using PX.Library.Configuration;
 
 namespace PX.Business.Sercurity.Attributes
 {

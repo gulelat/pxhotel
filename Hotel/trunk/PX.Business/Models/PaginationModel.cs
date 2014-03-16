@@ -15,7 +15,7 @@ namespace PX.Business.Models
             Search = search;
         }
 
-        public IList<T> Paging<T>(IQueryable<T> pagingList)
+        public List<T> Paging<T>(IQueryable<T> pagingList)
         {
             PageIndex = PageIndex > 0 ? PageIndex : 1;
             if (string.IsNullOrEmpty(Order)) Order = "asc";

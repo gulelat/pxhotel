@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web.Mvc;
 using Newtonsoft.Json;
-using PX.Business.Services.Users;
+using PX.Business.Services.Menus;
 using PX.Core.Framework.Enums;
 using PX.Core.Framework.Mvc.Attributes;
 using PX.Core.Framework.Mvc.Models.JqGrid;
@@ -12,12 +12,12 @@ using PX.EntityModel.Models.DTO;
 
 namespace PX.Web.Areas.Admin.Controllers
 {
-    public class UserController : Controller
+    public class MenuController : Controller
     {
-        private readonly IUserServices _userServices;
-        public UserController(IUserServices userServices)
+        private readonly IMenuServices _menuServices;
+        public MenuController(IMenuServices menuServices)
         {
-            _userServices = userServices;
+            _menuServices = menuServices;
         }
 
         public ActionResult Index()
@@ -28,23 +28,19 @@ namespace PX.Web.Areas.Admin.Controllers
         [HttpGet]
         public string _AjaxBinding(JqSearchIn si)
         {
-            return JsonConvert.SerializeObject(_userServices.SearchUsers(si));
+            return JsonConvert.SerializeObject(_menuServices.SearchMenus(si));
         }
 
         #region Ajax Methods
-        public JsonResult GetRoles()
+        public JsonResult GetParents(int? id)
         {
-            return Json(_userServices.GetRoles(), JsonRequestBehavior.AllowGet);
-        }
-        public JsonResult GetStatus()
-        {
-            return Json(_userServices.GetStatus(), JsonRequestBehavior.AllowGet);
+            return Json(_menuServices.GetPossibleParents(id), JsonRequestBehavior.AllowGet);
         }
         #endregion
 
         [HttpPost]
         [HandleJsonException]
-        public JsonResult Manage(UserModel model, GridManagingModel manageModel)
+        public JsonResult Manage(MenuModel model, GridManagingModel manageModel)
         {
             switch (manageModel.Operation)
             {
@@ -63,12 +59,7 @@ namespace PX.Web.Areas.Admin.Controllers
                     }
                     break;
             }
-            return Json(_userServices.ManageUser(manageModel.Operation, model));
-        }
-
-        public ActionResult Login()
-        {
-            return View();
+            return Json(_menuServices.ManageMenu(manageModel.Operation, model));
         }
     }
 }

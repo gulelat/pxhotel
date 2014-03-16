@@ -1,71 +1,11 @@
 ﻿using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.IO;
-using System.Web;
-using PX.Core.Configurations;
-using PX.Core.Framework.Enums;
 using PX.EntityModel.Resources;
 
-namespace PX.EntityModel
+namespace PX.EntityModel.Models.DTO
 {
-
-    [MetadataType(typeof(UserMetaData))]
-    public partial class User
-    {
-        public string RoleName
-        {
-            get { return Role.Name; }
-        }
-
-        public string FullName
-        {
-            get { return string.Format("{0} {1}", FirstName, LastName); }
-        }
-
-        public static User CurrentUser
-        {
-            get { return (User)HttpContext.Current.Session["CurrentUser"]; }
-            set { HttpContext.Current.Session["CurrentUser"] = value; }
-        }
-
-        public string CurrentImageUrl
-        {
-            get
-            {
-                if (string.IsNullOrEmpty(ImageFileName) || !File.Exists(HttpContext.Current.Server.MapPath(Configurations.DefaultUserFolder + ImageFileName)))
-                {
-                    return Configurations.DefaultUserFolder + Configurations.DefaultUserImage;
-                }
-                return Configurations.DefaultUserFolder + ImageFileName;
-            }
-        }
-
-        public string CurrentImageFileName
-        {
-            get
-            {
-                if (string.IsNullOrEmpty(ImageFileName)
-                    || !File.Exists(HttpContext.Current.Server.MapPath(Configurations.DefaultUserFolder + ImageFileName)))
-                {
-                    return Configurations.DefaultUserImage;
-                }
-                return ImageFileName;
-            }
-        }
-
-        public UserEnums.UserTypesEnums RoleEnums
-        {
-            get { return (UserEnums.UserTypesEnums)RoleId; }
-        }
-
-        public UserEnums.UserStatusEnums StatusEnums
-        {
-            get { return (UserEnums.UserStatusEnums)StatusId; }
-        }
-    }
-
-    public class UserMetaData
+    public class UserModel
     {
         [Key]
         public int Id { get; set; }
@@ -102,7 +42,7 @@ namespace PX.EntityModel
 
         public int? RecordOrder { get; set; }
 
-        public bool RecordActive { get; set; }
+        public bool? RecordActive { get; set; }
 
         public DateTime Created { get; set; }
 

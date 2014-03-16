@@ -29,7 +29,7 @@ namespace PX.EntityModel
         public string Hierarchy { get; set; }
         public string MenuClass { get; set; }
         public Nullable<bool> RecordActive { get; set; }
-        public Nullable<bool> RecordOrder { get; set; }
+        public Nullable<int> RecordOrder { get; set; }
         public System.DateTime Created { get; set; }
         public string CreatedBy { get; set; }
         public Nullable<System.DateTime> Updated { get; set; }

@@ -38,6 +38,9 @@
       <HintPath>..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Build.Framework" />
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.4.5.6\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
@@ -61,21 +64,19 @@
     <Compile Include="Country.cs">
       <DependentUpon>PXHotel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Enums\ResponseStatusEnums.cs" />
-    <Compile Include="Framework\Data\DynamicQueryable.cs" />
-    <Compile Include="Framework\Repositories\RoleRepository.cs" />
-    <Compile Include="Framework\Repositories\UserRepository.cs" />
-    <Compile Include="Framework\Repositories\MenuRepository.cs" />
-    <Compile Include="Framework\Repositories\RepositoryBase\Repository.cs">
+    <Compile Include="Models\DTO\MnuModel.cs" />
+    <Compile Include="Models\DTO\UserModel.cs" />
+    <Compile Include="Repositories\RoleRepository.cs" />
+    <Compile Include="Repositories\UserRepository.cs" />
+    <Compile Include="Repositories\MenuRepository.cs" />
+    <Compile Include="Repositories\RepositoryBase\Repository.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Framework\Repositories\RepositoryBase\Models\EntityObject.cs" />
+    <Compile Include="Repositories\RepositoryBase\Models\EntityObject.cs" />
     <Compile Include="Menu.cs">
       <DependentUpon>PXHotel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Entities\User.cs" />
-    <Compile Include="Enums\StatusEnums.cs" />
-    <Compile Include="Enums\UserEnums.cs" />
     <Compile Include="News.cs">
       <DependentUpon>PXHotel.tt</DependentUpon>
     </Compile>
@@ -135,12 +136,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\PX.Library\PX.Library.csproj">
-      <Project>{c63d2b1b-8b22-405f-9852-3c30a8f0a280}</Project>
-      <Name>PX.Library</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="App.Config" />
     <None Include="packages.config" />
     <EntityDeploy Include="PXHotel.edmx">
@@ -165,7 +160,10 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Framework\Mvc\" />
+    <ProjectReference Include="..\PX.Core\PX.Core.csproj">
+      <Project>{881dde2d-6007-4c94-9911-750a7b0d81aa}</Project>
+      <Name>PX.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\SystemResources.resx">

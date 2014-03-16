@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using PX.Business.Models;
-using PX.Business.Models.UserModels;
+using PX.Core.Framework.Enums;
+using PX.Core.Framework.Mvc.Models;
+using PX.Core.Framework.Mvc.Models.JqGrid;
 using PX.EntityModel;
+using PX.EntityModel.Models.DTO;
 
 namespace PX.Business.Services.Users
 {
@@ -20,12 +22,16 @@ namespace PX.Business.Services.Users
 
         #endregion
 
+        ResponseModel ManageUser(GridOperationEnums operation, UserModel model);
+
         User GetUser(string email);
 
-        IQueryable<User> SearchUsers(UserSearchModel searchModel);
+        JqGridSearchOut SearchUsers(JqSearchIn si);
 
         IEnumerable<SelectListItem> GetStatus();
 
-        IQueryable<Role> GetRoles();
+        IQueryable<Role> GetAllRoles();
+
+        IEnumerable<SelectListItem> GetRoles();
     }
 }
