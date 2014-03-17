@@ -1,34 +1,31 @@
-﻿@section styles{
+﻿@{
+    ViewBag.Header = "Menu";
+    ViewBag.Title = "Menu management";
+}
+@section styles{
     <link rel="stylesheet" href="/Content/backend/css/jquery-ui-1.10.3.full.min.css" />
     <link rel="stylesheet" href="/Content/backend/css/datepicker.css" />
     <link rel="stylesheet" href="/Content/backend/css/ui.jqgrid.css" />
 }
-
-<div class="page-content">
-    <div class="page-header">
-        <h1>jqGrid
+<div class="page-header">
+    <h1>@ViewBag.Header
 			<small>
                 <i class="icon-double-angle-right"></i>
-                Dynamic tables and grids using jqGrid plugin
+                @ViewBag.Title
             </small>
-        </h1>
-    </div>
-    <!-- /.page-header -->
-    <div class="row">
-        <div class="col-xs-12">
-            <!-- PAGE CONTENT BEGINS -->
-
-            <table id="grid-table"></table>
-
-            <div id="grid-pager"></div>
-
-            <!-- PAGE CONTENT ENDS -->
-        </div>
-        <!-- /.col -->
-    </div>
-    <!-- /.row -->
+    </h1>
 </div>
-<!-- /.page-content -->
+<div class="row">
+    <div class="col-xs-12">
+        <!-- PAGE CONTENT BEGINS -->
+
+        <table id="grid-table"></table>
+
+        <div id="grid-pager"></div>
+
+        <!-- PAGE CONTENT ENDS -->
+    </div>
+</div>
 @section scripts
 {
     <script src="/Content/backend/js/date-time/bootstrap-datepicker.min.js"></script>
@@ -37,37 +34,100 @@
     <script type="text/javascript">
         var gridSelector = "#grid-table";
         var pagerSelector = "#grid-pager";
+        var icons = {
+            "icon-adjust": "icon-adjust",
+            "icon-asterisk": "icon-asterisk",
+            "icon-ban-circle": "icon-ban-circle",
+            "icon-bar-chart": "icon-bar-chart",
+            "icon-barcode": "icon-barcode",
+            "icon-beaker": "icon-beaker",
+            "icon-beer": "icon-beer",
+            "icon-bell": "icon-bell",
+            "icon-bell-alt": "icon-bell-alt",
+            "icon-bolt": "icon-bolt",
+            "icon-book": "icon-book",
+            "icon-bookmark": "icon-bookmark",
+            "icon-bookmark-empty": "icon-bookmark-empty",
+            "icon-briefcase": "icon-briefcase",
+            "icon-bullhorn": "icon-bullhorn",
+            "icon-calendar": "icon-calendar",
+            "icon-camera": "icon-camera",
+            "icon-camera-retro": "icon-camera",
+            "icon-certificate": "icon-certificate",
+            "icon-check": "icon-check",
+            "icon-check-empty": "icon-check-empty",
+            "icon-circle": "icon-circle",
+            "icon-circle-blank": "icon-circle-blank",
+            "icon-cloud": "icon-cloud",
+            "icon-cloud-download": "icon-cloud-download",
+            "icon-cloud-upload": "icon-cloud-upload",
+            "icon-coffee": "icon-coffee",
+            "icon-cog": "icon-cog",
+            "icon-cogs": "icon-cogs",
+            "icon-comment": "icon-comment",
+            "icon-comment-alt": "icon-comment-alt",
+            "icon-comments": "icon-comments",
+            "icon-comments-alt": "icon-comments-alt",
+            "icon-credit-card": "icon-credit-card",
+            "icon-dashboard": "icon-dashboard",
+            "icon-desktop": "icon-desktop",
+            "icon-download": "icon-download",
+            "icon-download-alt": "icon-download-alt",
+            "icon-edit": "icon-edit",
+            "icon-envelope": "icon-envelope",
+            "icon-envelope-alt": "icon-envelope-alt",
+            "icon-exchange": "icon-exchange",
+            "icon-exclamation-sign": "icon-exclamation-sign",
+            "icon-external-link": "icon-external-link",
+            "icon-eye-close": "icon-eye-close",
+            "icon-eye-open": "icon-eye-open",
+            "icon-facetime-video": "icon-facetime-video",
+            "icon-fighter-jet": "icon-fighter-jet",
+            "icon-film": "icon-film",
+            "icon-filter": "icon-filter",
+            "icon-fire": "icon-fire",
+            "icon-flag": "icon-flag",
+            "icon-folder-close": "icon-folder-close",
+            "icon-folder-open": "icon-folder-open",
+            "icon-folder-close-alt": "icon-folder-close-alt",
+            "icon-folder-open-alt": "icon-folder-open-alt",
+            "icon-food": "icon-food",
+            "icon-gift": "icon-gift",
+            "icon-glass": "icon-glass",
+            "icon-globe": "icon-globe",
+            "icon-group": "icon-group",
+            "icon-hdd": "icon-hdd",
+            "icon-headphones": "icon-headphones",
+            "icon-heart": "icon-heart",
+            "icon-heart-empty": "icon-heart-empty",
+            "icon-home": "icon-home",
+            "icon-inbox": "icon-inbox",
+            "icon-info-sign": "icon-info-sign",
+            "icon-key": "icon-key",
+            "icon-leaf": "icon-leaf",
+            "icon-laptop": "icon-laptop",
+            "icon-legal": "icon-legal",
+            "icon-lemon": "icon-lemon",
+            "icon-lightbulb": "icon-lightbulb",
+            "icon-lock": "icon-lock",
+            "icon-unlock": "icon-unlock"
+        };
         jQuery(function ($) {
-
             jQuery(gridSelector).jqGrid({
                 datatype: "json",
                 url: "@Url.Action("_AjaxBinding")",
-                height: 450,
-                onSelectRow: function (id) {
-                    var tmpId = $(gridSelector).getRowData(id)['Id'];
+                height: 400,
+                onSelectRow: function (rowId) {
+                    var tmpId = $(gridSelector).getRowData(rowId)['Id'];
                     $(gridSelector).setColProp('ParentId', { editoptions: { dataUrl: '@Url.Action("GetParents")/' + tmpId } });
                 },
-                ondblClickRow: function (id) {
-                    var tmpId = $(gridSelector).getRowData(id)['Id'];
+                ondblClickRow: function (rowId) {
+                    var tmpId = $(gridSelector).getRowData(rowId)['Id'];
                     $(gridSelector).setColProp('ParentId', { editoptions: { dataUrl: '@Url.Action("GetParents")/' + tmpId } });
-                    jQuery(gridSelector).editRow(id, true);
+                    jQuery(gridSelector).editRow(rowId, true);
                 },
-                colNames: [' ', 'Id', 'Name', 'Url', 'Controller', 'Action', 'Parent Menu', 'Order', 'Active', 'MenuClass', 'Created', 'CreatedBy', 'Updated', 'UpdatedBy'],
+                colNames: ['Id', 'Name', 'Url', 'Controller', 'Action', 'Parent Menu', 'MenuClass', 'Order', 'Active', 'Created', 'CreatedBy', 'Updated', 'UpdatedBy'],
                 colModel: [
-                    {
-                        name: 'myac',
-                        index: '',
-                        width: 80,
-                        fixed: true,
-                        sortable: false,
-                        resize: false,
-                        formatter: 'actions',
-                        formatoptions: {
-                            keys: true,
-                            delOptions: { recreateForm: true, beforeShowForm: beforeDeleteCallback }
-                        },
-                        search: false
-                    },
                     { name: 'Id', index: 'Id', width: 60, key: true, sorttype: "int" },
                     { name: 'Name', index: 'Name', width: 150, editable: true, editrules: { required: true } },
                     { name: 'Url', index: 'Url', width: 150, editable: true },
@@ -76,23 +136,20 @@
                     {
                         name: 'ParentId', index: 'ParentId', width: 150, editable: true, edittype: "select",
                         editoptions: {
-                            beforeSelectRow : function () {
-
-                                var rowid = $(gridSelector).jqGrid('getGridParam', 'selrow');
-                                alert(rowid);
-                            },
-                            beforeInitData: function () {
-                                var rowid = $(gridSelector).jqGrid('getGridParam', 'selrow');
-                                $(gridSelector).setColProp('ParentId', { editoptions: { dataUrl: '@Url.Action("GetParents")' + rowid } });
-                            },
+                            dataUrl: '@Url.Action("GetParents")',
                             buildSelect: function (response) {
                                 return buildDropdown(response);
                             }
-                        }, editrules: { required: true }
+                        }
                     },
-                    { name: 'RecordOrder', index: 'RecordOrder', width: 150, sorttype: "int", editable: true },
+                    {
+                        name: 'MenuClass', index: 'MenuClass', width: 150, editable: true, edittype: "select",
+                        editoptions: {
+                            value: icons
+                        }
+                    },
+                    { name: 'RecordOrder', index: 'RecordOrder', width: 150, sorttype: "int", editable: true, editrules: { required: true } },
                     { name: 'RecordActive', index: 'RecordActive', width: 150, editable: true, edittype: "checkbox", editoptions: { value: "Yes:No" }, unformat: aceSwitch },
-                    { name: 'MenuClass', index: 'MenuClass', width: 150, editable: true },
                     { name: 'Created', index: 'Created', width: 100, editable: false, sorttype: "datetime", unformat: pickDate },
                     { name: 'CreatedBy', index: 'CreatedBy', width: 150, editable: false, editoptions: { size: "20", maxlength: "30" } },
                     { name: 'Updated', index: 'Updated', formatter: "date", width: 90, editable: false, sorttype: "datetime", unformat: pickDate },

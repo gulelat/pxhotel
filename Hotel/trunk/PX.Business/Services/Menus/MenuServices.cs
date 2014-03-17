@@ -3,6 +3,7 @@ using System.Data.Objects.SqlClient;
 using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
+using PX.Business.Models.MenuModels;
 using PX.Core.Framework.Enums;
 using PX.Core.Framework.Mvc.Models;
 using PX.Core.Framework.Mvc.Models.JqGrid;
@@ -20,7 +21,7 @@ namespace PX.Business.Services.Menus
         {
             return MenuRepository.GetAll();
         }
-        public Menu GetById(int id)
+        public Menu GetById(int? id)
         {
             return MenuRepository.GetById(id);
         }
@@ -32,6 +33,14 @@ namespace PX.Business.Services.Menus
         {
             return MenuRepository.Update(menu);
         }
+        public ResponseModel HierarchyUpdate(Menu menu)
+        {
+            return MenuRepository.HierarchyUpdate(menu);
+        }
+        public ResponseModel HierarchyInsert(Menu menu)
+        {
+            return MenuRepository.HierarchyInsert(menu);
+        }
         public ResponseModel Delete(Menu menu)
         {
             return MenuRepository.Delete(menu);
@@ -39,6 +48,10 @@ namespace PX.Business.Services.Menus
         public ResponseModel Delete(int id)
         {
             return MenuRepository.Delete(id);
+        }
+        public ResponseModel InactiveRecord(int id)
+        {
+            return MenuRepository.InactiveRecord(id);
         }
         #endregion
 
@@ -58,6 +71,7 @@ namespace PX.Business.Services.Menus
                 Hierarchy = u.Hierarchy,
                 MenuClass = u.MenuClass,
                 ParentId = u.ParentId,
+                ParentName = u.Menu1.Name,
                 RecordActive = u.RecordActive,
                 RecordOrder = u.RecordOrder,
                 Created = u.Created,
@@ -110,32 +124,79 @@ namespace PX.Business.Services.Menus
                     menu.Controller = model.Controller;
                     menu.Action = model.Action;
                     menu.ParentId = model.ParentId;
-                    return Update(menu);
+                    menu.MenuClass = model.MenuClass;
+                    menu.RecordActive = model.RecordActive;
+                    menu.RecordOrder = model.RecordOrder;
+                    return HierarchyUpdate(menu);
                 case GridOperationEnums.Add:
                     menu = Mapper.Map<MenuModel, Menu>(model);
-                    return Insert(menu);
+                    menu.Hierarchy = string.Empty;
+                    return HierarchyInsert(menu);
                 case GridOperationEnums.Del:
                     return Delete(model.Id);
             }
             return new ResponseModel
-                {
-                    Success = false,
-                    Message = "Object not founded"
-                };
+            {
+                Success = false,
+                Message = "Object not founded"
+            };
         }
 
+        /// <summary>
+        /// Get possible parent menu
+        /// </summary>
+        /// <param name="id">the current menu id</param>
+        /// <returns></returns>
         public IEnumerable<SelectListItem> GetPossibleParents(int? id)
         {
-            var key = string.Empty;
+            var menus = GetAll();
             if (id.HasValue)
             {
-                key = string.Format(".{0}.", id.Value.ToString("D5"));
+                var key = string.Format(".{0}.", id.Value.ToString("D5"));
+                menus = menus.Where(m => !m.Hierarchy.Contains(key));
             }
-            return GetAll().Where(m => !m.Hierarchy.Contains(key)).Select(m => new SelectListItem
-                 {
-                     Text = m.Name,
-                     Value = SqlFunctions.StringConvert((double)m.Id).Trim()
-                 });
+            return MenuRepository.BuildSelectList(menus.ToList(), "--", "Name");
+        }
+
+        /// <summary>
+        /// Get breadcrumbs
+        /// </summary>
+        /// <param name="controller">the current controller name</param>
+        /// <param name="action">the current action name</param>
+        /// <returns></returns>
+        public BreadCrumbModel GetBreadCrumbs(string controller, string action)
+        {
+            var menu =
+                GetAll().FirstOrDefault(m => m.Controller.ToLower().Equals(controller) && m.Action.ToLower().Equals(action));
+            if (menu != null)
+            {
+                return new BreadCrumbModel
+                {
+                    BreadCrumbs =
+                        GetAll().Where(m => menu.Hierarchy.Contains(m.Hierarchy) && menu.Id != m.Id).OrderBy(m => m.Hierarchy).Select(m => new BreadCrumbItem
+                        {
+                            Name = m.Name,
+                            Url = m.Url,
+                            Action = m.Action,
+                            Controller = m.Controller,
+                            MenuIcon = m.MenuClass
+                        }).ToList(),
+                        CurrentBreadCrumbItem = new BreadCrumbItem
+                        {
+                            Name = menu.Name,
+                            Url = menu.Url,
+                            Action = menu.Action,
+                            Controller = menu.Controller,
+                            MenuIcon = menu.MenuClass
+                        }
+                };
+            }
+            return new BreadCrumbModel();
+        }
+
+        public List<Menu> GetMenus()
+        {
+            return GetAll().Where(m => !m.ParentId.HasValue).OrderBy(m => m.RecordOrder).ToList();
         }
     }
 }

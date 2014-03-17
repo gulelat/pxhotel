@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using PX.Business.Models.MenuModels;
 using PX.Core.Framework.Enums;
 using PX.Core.Framework.Mvc.Models;
 using PX.Core.Framework.Mvc.Models.JqGrid;
@@ -14,7 +15,7 @@ namespace PX.Business.Services.Menus
         #region Base
 
         IQueryable<Menu> GetAll();
-        Menu GetById(int id);
+        Menu GetById(int? id);
         ResponseModel Insert(Menu menu);
         ResponseModel Update(Menu menu);
         ResponseModel Delete(Menu menu);
@@ -27,5 +28,9 @@ namespace PX.Business.Services.Menus
         JqGridSearchOut SearchMenus(JqSearchIn si);
 
         IEnumerable<SelectListItem> GetPossibleParents(int? id);
+
+        BreadCrumbModel GetBreadCrumbs(string controller, string action);
+
+        List<Menu> GetMenus();
     }
 }

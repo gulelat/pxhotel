@@ -1,26 +1,14 @@
 ﻿using System;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.IO;
-using System.Web;
-using PX.Core.Configurations;
-using PX.Core.Framework.Mvc.Attributes;
-using PX.EntityModel.Resources;
 
-namespace PX.EntityModel
+namespace PX.EntityModel.Models.DTO
 {
-
-    [MetadataType(typeof(MenuMetaData))]
-    [Table(Name = "Menus")]
-    public partial class Menu
-    {
-    }
-
-    public class MenuMetaData
+    public class MenuModel
     {
         [Key]
         public int Id { get; set; }
 
+        [Required]
         public string Name { get; set; }
 
         public string Url { get; set; }
@@ -31,13 +19,16 @@ namespace PX.EntityModel
 
         public int? ParentId { get; set; }
 
-        public string Hierarchy { get; set; }
+        public string ParentName { get; set; }
 
-        public string MenuClass { get; set; }
+        public string Hierarchy { get; set; }
         
+        [Required]
+        public string MenuClass { get; set; }
+
         public int? RecordOrder { get; set; }
 
-        public bool RecordActive { get; set; }
+        public bool? RecordActive { get; set; }
 
         public DateTime Created { get; set; }
 

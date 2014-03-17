@@ -11,7 +11,7 @@ function buildDropdown(response, hasDefaultSelect, name) {
         $.parseJSON(response) : response;
     var s = "<select>";
     if (hasDefaultSelect)
-        s += '<option value="0">--Select ' + name + '--</option>';
+        s += '<option value="">--Select ' + name + '--</option>';
     $.each(data, function (i, item) {
         s += '<option value="' + item.Value + '">' + item.Text + '</option>';
     });
