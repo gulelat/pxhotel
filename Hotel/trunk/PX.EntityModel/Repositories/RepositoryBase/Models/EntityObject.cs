@@ -1,6 +1,6 @@
 ﻿using System.Data.Objects.DataClasses;
 
-namespace PX.EntityModel.Framework.Repositories.RepositoryBase.Models
+namespace PX.EntityModel.Repositories.RepositoryBase.Models
 {
     public class HotelEntityObject
     {

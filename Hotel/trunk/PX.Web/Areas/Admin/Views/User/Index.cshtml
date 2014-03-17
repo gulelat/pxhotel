@@ -1,34 +1,34 @@
-﻿@section styles{
+﻿@{
+    ViewBag.Header = "User";
+    ViewBag.Title = "User management";
+}
+
+@section styles{
     <link rel="stylesheet" href="/Content/backend/css/jquery-ui-1.10.3.full.min.css" />
     <link rel="stylesheet" href="/Content/backend/css/datepicker.css" />
     <link rel="stylesheet" href="/Content/backend/css/ui.jqgrid.css" />
 }
-
-<div class="page-content">
-    <div class="page-header">
-        <h1>jqGrid
+<div class="page-header">
+    <h1>@ViewBag.Header
 			<small>
                 <i class="icon-double-angle-right"></i>
-                Dynamic tables and grids using jqGrid plugin
+                @ViewBag.Title
             </small>
-        </h1>
-    </div>
-    <!-- /.page-header -->
-    <div class="row">
-        <div class="col-xs-12">
-            <!-- PAGE CONTENT BEGINS -->
-
-            <table id="grid-table"></table>
-
-            <div id="grid-pager"></div>
-
-            <!-- PAGE CONTENT ENDS -->
-        </div>
-        <!-- /.col -->
-    </div>
-    <!-- /.row -->
+    </h1>
 </div>
-<!-- /.page-content -->
+
+<div class="row">
+    <div class="col-xs-12">
+        <!-- PAGE CONTENT BEGINS -->
+
+        <table id="grid-table"></table>
+
+        <div id="grid-pager"></div>
+
+        <!-- PAGE CONTENT ENDS -->
+    </div>
+</div>
+
 @section scripts
 {
     <script src="/Content/backend/js/date-time/bootstrap-datepicker.min.js"></script>
@@ -42,7 +42,7 @@
             jQuery(gridSelector).jqGrid({
                 datatype: "json",
                 url: "@Url.Action("_AjaxBinding")",
-                height: 450,
+                height: 400,
                 colNames: [' ', 'Id', 'Email', 'Password', 'FirstName', 'LastName', 'Role', 'Status', 'Identity Number', 'Phone', 'LastLogin', 'Created', 'CreatedBy', 'Updated', 'UpdatedBy'],
                 colModel: [
                     {
@@ -60,10 +60,10 @@
                         search: false
                     },
                     { name: 'Id', index: 'Id', width: 60, key: true, sorttype: "int" },
-                    { name: 'Email', index: 'Email', width: 150, editable: true,  editrules: { required: true, email: true } },
-                    { name: 'Password', index: 'Password', width: 150, editable: true,  editrules: { required: true } },
-                    { name: 'FirstName', index: 'FirstName', width: 150, editable: true,  editrules: { required: true } },
-                    { name: 'LastName', index: 'LastName', width: 150, editable: true,  editrules: { required: true } },
+                    { name: 'Email', index: 'Email', width: 150, editable: true, editrules: { required: true, email: true } },
+                    { name: 'Password', index: 'Password', width: 150, editable: true, editrules: { required: true } },
+                    { name: 'FirstName', index: 'FirstName', width: 150, editable: true, editrules: { required: true } },
+                    { name: 'LastName', index: 'LastName', width: 150, editable: true, editrules: { required: true } },
                     {
                         name: 'RoleId', index: 'RoleId', width: 150, editable: true, edittype: "select",
                         editoptions: {
@@ -79,10 +79,10 @@
                             buildSelect: function (response) {
                                 return buildDropdown(response, false);
                             }
-                        },editrules: { required: true }
+                        }, editrules: { required: true }
                     },
                     { name: 'IdentityNumber', index: 'IdentityNumber', width: 150, editable: true, editoptions: { size: "20", maxlength: "30" } },
-                    { name: 'Phone', index: 'Phone', width: 150, editable: true,  editrules: { required: true } },
+                    { name: 'Phone', index: 'Phone', width: 150, editable: true, editrules: { required: true } },
                     { name: 'LastLogin', index: 'LastLogin', width: 90, editable: false, sorttype: "datetime", unformat: pickDate },
                     { name: 'Created', index: 'Created', width: 100, editable: false, sorttype: "datetime", unformat: pickDate },
                     { name: 'CreatedBy', index: 'CreatedBy', width: 150, editable: false, editoptions: { size: "20", maxlength: "30" } },
@@ -107,8 +107,8 @@
                     }, 0);
                 },
                 editurl: '@Url.Action("Manage")',
-            caption: "User Management",
-            autowidth: true
+                caption: "User Management",
+                autowidth: true
             });
 
             //enable search/filter toolbar

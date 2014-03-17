@@ -586,6 +586,14 @@
     <Content Include="Areas\Admin\Views\Shared\_Head.Scripts.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_Head.Styles.cshtml" />
     <Content Include="Areas\Admin\Views\Menu\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\_Breadcrumb.cshtml" />
+    <Content Include="Areas\Admin\Views\Menu\ChildItem.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\DisplayTemplates\Menu.cshtml" />
+    <Content Include="Areas\Admin\Views\Menu\ChildItem2.cshtml" />
+    <Content Include="Areas\Admin\Views\Menu\ChildItem3.cshtml" />
+    <Content Include="Areas\Admin\Views\Menu\ChildItem4.cshtml" />
+    <Content Include="Areas\Admin\Views\Menu\ChildItem5.cshtml" />
+    <Content Include="Areas\Admin\Views\Menu\ChildItem6.cshtml" />
     <None Include="Scripts\jquery-1.7.1.intellisense.js" />
     <Content Include="Scripts\jquery-1.7.1.js" />
     <Content Include="Scripts\jquery-1.7.1.min.js" />

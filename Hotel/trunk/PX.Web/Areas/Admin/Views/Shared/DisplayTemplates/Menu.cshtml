@@ -1,0 +1,35 @@
+﻿@model PX.EntityModel.Menu
+@{
+    var hierarchy = (string)ViewBag.Hierarchy;
+    var isSelected = hierarchy.Equals(Model.Hierarchy);
+    var isOpen = hierarchy.Contains(Model.Hierarchy);
+
+    string cClass = string.Empty;
+    if (isSelected)
+    {
+        cClass = "active";
+    }
+    else if (isOpen)
+    {
+        cClass = "open active";
+    }
+}
+<li class="@cClass">
+    <a href="@Url.Action(Model.Action, Model.Controller)" class="dropdown-toggle">
+        <i class="@Model.MenuClass"></i>
+        <span class="menu-text">@Model.Name </span>
+        @if (Model.Menus1.Any())
+        {
+            <b class="arrow icon-angle-down"></b>
+        }
+    </a>
+    @if (Model.Menus1.Any())
+    {
+        <ul class="submenu" style="@(isOpen ? "display: block" : "")">
+            @foreach (var item in Model.Menus1.OrderBy(m => m.RecordOrder))
+            {
+                @Html.DisplayFor(m => item)             
+            }
+        </ul>
+    }
+</li>

@@ -58,6 +58,7 @@
     <Compile Include="Framework\Enums\ResponseStatusEnums.cs" />
     <Compile Include="Framework\Enums\StatusEnums.cs" />
     <Compile Include="Framework\Enums\UserEnums.cs" />
+    <Compile Include="Framework\Mvc\Attributes\TableAttribute.cs" />
     <Compile Include="Framework\Mvc\Attributes\HandleJsonExceptionAttribute.cs" />
     <Compile Include="Framework\Mvc\Attributes\DefaultOrderAttribute.cs" />
     <Compile Include="Framework\Mvc\Attributes\EmailValidationAttribute.cs" />

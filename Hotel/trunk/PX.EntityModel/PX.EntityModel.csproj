@@ -64,14 +64,14 @@
     <Compile Include="Country.cs">
       <DependentUpon>PXHotel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\DTO\MnuModel.cs" />
+    <Compile Include="Models\DTO\MenuModel.cs" />
     <Compile Include="Models\DTO\UserModel.cs" />
+    <Compile Include="Models\Entities\Menu.cs" />
+    <Compile Include="Repositories\RepositoryBase\Extensions\EntityExtensions.cs" />
+    <Compile Include="Repositories\RepositoryBase\Repository.cs" />
     <Compile Include="Repositories\RoleRepository.cs" />
     <Compile Include="Repositories\UserRepository.cs" />
     <Compile Include="Repositories\MenuRepository.cs" />
-    <Compile Include="Repositories\RepositoryBase\Repository.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Repositories\RepositoryBase\Models\EntityObject.cs" />
     <Compile Include="Menu.cs">
       <DependentUpon>PXHotel.tt</DependentUpon>
@@ -170,6 +170,9 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>SystemResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="PXHotel.edmx.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

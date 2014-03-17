@@ -1,106 +1,10 @@
-﻿<ul class="nav nav-list">
-    <li class="active">
-        <a href="index.html">
-            <i class="icon-dashboard"></i>
-            <span class="menu-text">Dashboard </span>
-        </a>
-    </li>
+﻿@model List<PX.EntityModel.Menu>
 
-    <li>
-        <a href="typography.html">
-            <i class="icon-text-width"></i>
-            <span class="menu-text">Typography </span>
-        </a>
-    </li>
-
-    <li>
-        <a href="#" class="dropdown-toggle">
-            <i class="icon-desktop"></i>
-            <span class="menu-text">UI Elements </span>
-
-            <b class="arrow icon-angle-down"></b>
-        </a>
-
-        <ul class="submenu">
-            <li>
-                <a href="elements.html">
-                    <i class="icon-double-angle-right"></i>
-                    Elements
-                </a>
-            </li>
-
-            <li>
-                <a href="buttons.html">
-                    <i class="icon-double-angle-right"></i>
-                    Buttons &amp; Icons
-                </a>
-            </li>
-
-            <li>
-                <a href="treeview.html">
-                    <i class="icon-double-angle-right"></i>
-                    Treeview
-                </a>
-            </li>
-
-            <li>
-                <a href="jquery-ui.html">
-                    <i class="icon-double-angle-right"></i>
-                    jQuery UI
-                </a>
-            </li>
-
-            <li>
-                <a href="nestable-list.html">
-                    <i class="icon-double-angle-right"></i>
-                    Nestable Lists
-                </a>
-            </li>
-
-            <li>
-                <a href="#" class="dropdown-toggle">
-                    <i class="icon-double-angle-right"></i>
-
-                    Three Level Menu
-										<b class="arrow icon-angle-down"></b>
-                </a>
-
-                <ul class="submenu">
-                    <li>
-                        <a href="#">
-                            <i class="icon-leaf"></i>
-                            Item #1
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="#" class="dropdown-toggle">
-                            <i class="icon-pencil"></i>
-
-                            4th level
-												<b class="arrow icon-angle-down"></b>
-                        </a>
-
-                        <ul class="submenu">
-                            <li>
-                                <a href="#">
-                                    <i class="icon-plus"></i>
-                                    Add Product
-                                </a>
-                            </li>
-
-                            <li>
-                                <a href="#">
-                                    <i class="icon-eye-open"></i>
-                                    View Products
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-            </li>
-        </ul>
-    </li>
+<ul class="nav nav-list">
+    @foreach (var item in Model)
+    {
+        @Html.DisplayFor(m => item)
+    }
 
     <li>
         <a href="#" class="dropdown-toggle">
@@ -178,9 +82,9 @@
             <i class="icon-calendar"></i>
 
             <span class="menu-text">Calendar
-									<span class="badge badge-transparent tooltip-error" title="2&nbsp;Important&nbsp;Events">
-                                        <i class="icon-warning-sign red bigger-130"></i>
-                                    </span>
+                <span class="badge badge-transparent tooltip-error" title="2&nbsp;Important&nbsp;Events">
+                    <i class="icon-warning-sign red bigger-130"></i>
+                </span>
             </span>
         </a>
     </li>
@@ -250,7 +154,7 @@
             <i class="icon-file-alt"></i>
 
             <span class="menu-text">Other Pages
-									<span class="badge badge-primary ">5</span>
+                <span class="badge badge-primary ">5</span>
             </span>
 
             <b class="arrow icon-angle-down"></b>

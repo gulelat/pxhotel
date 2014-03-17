@@ -21,8 +21,20 @@ namespace PX.Web.Areas.Admin.Controllers
 
         public ActionResult Menu()
         {
-            var model = _menuServices.GetAll().ToList();
+            var controller = ControllerContext.ParentActionViewContext.RouteData.Values["controller"].ToString();
+            var action = ControllerContext.ParentActionViewContext.RouteData.Values["action"].ToString();
+            var menu = _menuServices.GetAll().FirstOrDefault(m => m.Controller.Equals(controller) && m.Action.Equals(action));
+            ViewBag.Hierarchy = menu != null ? menu.Hierarchy : string.Empty;
+            var model = _menuServices.GetMenus();
             return PartialView("_Menu", model);
+        }
+
+        public PartialViewResult GetBreadCrumb()
+        {
+            var controller = ControllerContext.ParentActionViewContext.RouteData.Values["controller"].ToString();
+            var action = ControllerContext.ParentActionViewContext.RouteData.Values["action"].ToString();
+            var model = _menuServices.GetBreadCrumbs(controller, action);
+            return PartialView("_Breadcrumb", model);
         }
     }
 }

@@ -46,7 +46,7 @@ namespace PX.Web.Areas.Admin.Controllers
             {
                 case GridOperationEnums.Edit:
                 case GridOperationEnums.Add:
-                    var context = new ValidationContext(model, serviceProvider: null, items: null);
+                    var context = new ValidationContext(model, null, null);
                     var results = new List<ValidationResult>();
                     
                     if (Validator.TryValidateObject(model, context, results, true))
@@ -60,6 +60,36 @@ namespace PX.Web.Areas.Admin.Controllers
                     break;
             }
             return Json(_menuServices.ManageMenu(manageModel.Operation, model));
+        }
+
+        public ActionResult ChildItem()
+        {
+            return View();
+        }
+
+        public ActionResult ChildItem2()
+        {
+            return View();
+        }
+
+        public ActionResult ChildItem3()
+        {
+            return View();
+        }
+
+        public ActionResult ChildItem4()
+        {
+            return View();
+        }
+
+        public ActionResult ChildItem5()
+        {
+            return View();
+        }
+
+        public ActionResult ChildItem6()
+        {
+            return View();
         }
     }
 }
