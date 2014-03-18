@@ -1,16 +1,16 @@
 ﻿using System.Collections.Generic;
-using System.Data.Objects.SqlClient;
 using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
+using PX.Business.Models.DTO;
 using PX.Business.Models.MenuModels;
 using PX.Core.Framework.Enums;
 using PX.Core.Framework.Mvc.Models;
 using PX.Core.Framework.Mvc.Models.JqGrid;
 using PX.EntityModel;
-using PX.EntityModel.Models.DTO;
 using AutoMapper;
 using PX.EntityModel.Repositories;
+using UserGroup = PX.EntityModel.UserGroup;
 
 namespace PX.Business.Services.Menus
 {
@@ -61,7 +61,7 @@ namespace PX.Business.Services.Menus
         /// <returns></returns>
         public JqGridSearchOut SearchMenus(JqSearchIn si)
         {
-            var menus = GetAll().Select(u => new MenuModel
+            var menus = GetAll().Select(u => new MenuDTO
             {
                 Id = u.Id,
                 Url = u.Url,
@@ -69,7 +69,7 @@ namespace PX.Business.Services.Menus
                 Action = u.Action,
                 Name = u.Name,
                 Hierarchy = u.Hierarchy,
-                MenuClass = u.MenuClass,
+                MenuIcon = u.MenuIcon,
                 ParentId = u.ParentId,
                 ParentName = u.Menu1.Name,
                 RecordActive = u.RecordActive,
@@ -87,9 +87,9 @@ namespace PX.Business.Services.Menus
         /// Gets the Menu roles.
         /// </summary>
         /// <returns></returns>
-        public IQueryable<Role> GetAllRoles()
+        public IQueryable<UserGroup> GetAllRoles()
         {
-            return RoleRepository.GetAll();
+            return UserGroupRepository.GetAll();
         }
 
         /// <summary>
@@ -98,7 +98,7 @@ namespace PX.Business.Services.Menus
         /// <returns></returns>
         public IEnumerable<SelectListItem> GetRoles()
         {
-            return RoleRepository.GetAll().ToList().Select(r => new SelectListItem
+            return UserGroupRepository.GetAll().ToList().Select(r => new SelectListItem
                 {
                     Text = r.Name,
                     Value = r.Id.ToString(CultureInfo.InvariantCulture)
@@ -111,9 +111,9 @@ namespace PX.Business.Services.Menus
         /// <param name="operation"></param>
         /// <param name="model"></param>
         /// <returns></returns>
-        public ResponseModel ManageMenu(GridOperationEnums operation, MenuModel model)
+        public ResponseModel ManageMenu(GridOperationEnums operation, MenuDTO model)
         {
-            Mapper.CreateMap<MenuModel, Menu>();
+            Mapper.CreateMap<MenuDTO, Menu>();
             Menu menu;
             switch (operation)
             {
@@ -124,12 +124,29 @@ namespace PX.Business.Services.Menus
                     menu.Controller = model.Controller;
                     menu.Action = model.Action;
                     menu.ParentId = model.ParentId;
-                    menu.MenuClass = model.MenuClass;
+                    menu.MenuIcon = model.MenuIcon;
                     menu.RecordActive = model.RecordActive;
                     menu.RecordOrder = model.RecordOrder;
+                    int parentId;
+                    if (int.TryParse(model.ParentName, out parentId))
+                    {
+                        menu.ParentId = parentId;
+                    }
+                    else
+                    {
+                        menu.ParentId = null;
+                    }
                     return HierarchyUpdate(menu);
                 case GridOperationEnums.Add:
-                    menu = Mapper.Map<MenuModel, Menu>(model);
+                    menu = Mapper.Map<MenuDTO, Menu>(model);
+                    if (int.TryParse(model.ParentName, out parentId))
+                    {
+                        menu.ParentId = parentId;
+                    }
+                    else
+                    {
+                        menu.ParentId = null;
+                    }
                     menu.Hierarchy = string.Empty;
                     return HierarchyInsert(menu);
                 case GridOperationEnums.Del:
@@ -179,16 +196,16 @@ namespace PX.Business.Services.Menus
                             Url = m.Url,
                             Action = m.Action,
                             Controller = m.Controller,
-                            MenuIcon = m.MenuClass
+                            MenuIcon = m.MenuIcon
                         }).ToList(),
-                        CurrentBreadCrumbItem = new BreadCrumbItem
-                        {
-                            Name = menu.Name,
-                            Url = menu.Url,
-                            Action = menu.Action,
-                            Controller = menu.Controller,
-                            MenuIcon = menu.MenuClass
-                        }
+                    CurrentBreadCrumbItem = new BreadCrumbItem
+                    {
+                        Name = menu.Name,
+                        Url = menu.Url,
+                        Action = menu.Action,
+                        Controller = menu.Controller,
+                        MenuIcon = menu.MenuIcon
+                    }
                 };
             }
             return new BreadCrumbModel();

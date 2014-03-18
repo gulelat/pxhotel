@@ -4,7 +4,7 @@ namespace PX.Core.Ultilities
 {
     public static class ConvertUtilities
     {
-        public static bool ToBool(object value, bool defaultValue)
+        public static bool ToBool(this object value, bool defaultValue)
         {
             if (value == null || value == DBNull.Value)
                 return defaultValue;
@@ -19,7 +19,7 @@ namespace PX.Core.Ultilities
             }
         }
 
-        public static DateTime ToDate(object value, DateTime defaultValue)
+        public static DateTime ToDate(this object value, DateTime defaultValue)
         {
             if (value == null || value == DBNull.Value)
                 return defaultValue;
@@ -34,7 +34,7 @@ namespace PX.Core.Ultilities
             }
         }
 
-        public static int ToInt(object value, int defaultValue)
+        public static int ToInt(this object value, int defaultValue)
         {
             if (value == null || value == DBNull.Value)
                 return defaultValue;
@@ -49,7 +49,7 @@ namespace PX.Core.Ultilities
             }
         }
 
-        public static long ToLong(object value, long defaultValue)
+        public static long ToLong(this object value, long defaultValue)
         {
             if (value == null || value == DBNull.Value)
                 return defaultValue;
@@ -64,7 +64,7 @@ namespace PX.Core.Ultilities
             }
         }
 
-        public static float ToFloat(object value, float defaultValue)
+        public static float ToFloat(this object value, float defaultValue)
         {
             if (value == null || value == DBNull.Value)
                 return defaultValue;
@@ -79,7 +79,7 @@ namespace PX.Core.Ultilities
             }
         }
 
-        public static double ToDouble(object value, double defaultValue)
+        public static double ToDouble(this object value, double defaultValue)
         {
             if (value == null || value == DBNull.Value)
                 return defaultValue;
@@ -94,7 +94,7 @@ namespace PX.Core.Ultilities
             }
         }
 
-        public static decimal ToDecimal(object value, decimal defaultValue)
+        public static decimal ToDecimal(this object value, decimal defaultValue)
         {
             if (value == null || value == DBNull.Value)
                 return defaultValue;
@@ -109,7 +109,7 @@ namespace PX.Core.Ultilities
             }
         }
 
-        public static string ToString(object value, string defaultValue)
+        public static string ToString(this object value, string defaultValue)
         {
             if (value == null || value == DBNull.Value)
                 return defaultValue;
@@ -124,50 +124,44 @@ namespace PX.Core.Ultilities
             }
         }
 
-        public static bool ToBool(object value)
+        public static bool ToBool(this object value)
         {
             return ToBool(value, false);
         }
 
-        public static DateTime ToDate(object value)
+        public static DateTime ToDate(this object value)
         {
             return ToDate(value, new DateTime(0));
         }
 
-        public static int ToInt(object value)
+        public static int ToInt(this object value)
         {
             return ToInt(value, 0);
         }
 
-        public static long ToLong(object value)
+        public static long ToLong(this object value)
         {
             return ToLong(value, 0);
         }
 
-        public static float ToFloat(object value)
+        public static float ToFloat(this object value)
         {
             return ToFloat(value, 0);
         }
 
-        public static double ToDouble(object value)
+        public static double ToDouble(this object value)
         {
             return ToDouble(value, 0);
         }
 
-        public static decimal ToDecimal(object value)
+        public static decimal ToDecimal(this object value)
         {
             return ToDecimal(value, 0);
         }
 
-        public static string ToString(object value)
+        public static string ToString(this object value)
         {
             return ToString(value, "");
-        }
-
-        // Deprecated
-        public static int SafeInt(object o, int defaultValue)
-        {
-            return ToInt(o, defaultValue);
         }
 
         public static string SafeText(string value)

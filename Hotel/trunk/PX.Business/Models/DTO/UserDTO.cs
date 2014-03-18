@@ -1,12 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using PX.Business.Services.Users;
 using PX.EntityModel.Resources;
 
-namespace PX.EntityModel.Models.DTO
+namespace PX.Business.Models.DTO
 {
-    public class UserModel
+    public class UserDTO : BaseDTO, IValidatableObject
     {
+        #region Public Properties
+        
         [Key]
         public int Id { get; set; }
 
@@ -28,6 +33,7 @@ namespace PX.EntityModel.Models.DTO
         [Required]
         public string Phone { get; set; }
 
+        [Required]
         public string IdentityNumber { get; set; }
 
         public string ImageFileName { get; set; }
@@ -39,17 +45,15 @@ namespace PX.EntityModel.Models.DTO
 
         [Required]
         public int StatusId { get; set; }
+        #endregion
 
-        public int? RecordOrder { get; set; }
-
-        public bool? RecordActive { get; set; }
-
-        public DateTime Created { get; set; }
-
-        public string CreatedBy { get; set; }
-
-        public DateTime? Updated { get; set; }
-
-        public string UpdatedBy { get; set; }
+        public IEnumerable<ValidationResult> Validate(ValidationContext context)
+        {
+            IUserServices userServices = new UserServices();
+            if(userServices.GetAll().Any(u => u.Email.Equals(Email) && u.Id != Id))
+            {
+                yield return new ValidationResult("Email is existed.");                
+            }
+        }   
     }
 }

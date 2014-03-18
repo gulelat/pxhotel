@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using PX.Business.Models.DTO;
 using PX.Business.Models.MenuModels;
 using PX.Core.Framework.Enums;
 using PX.Core.Framework.Mvc.Models;
 using PX.Core.Framework.Mvc.Models.JqGrid;
 using PX.EntityModel;
-using PX.EntityModel.Models.DTO;
 
 namespace PX.Business.Services.Menus
 {
@@ -23,7 +23,7 @@ namespace PX.Business.Services.Menus
 
         #endregion
 
-        ResponseModel ManageMenu(GridOperationEnums operation, MenuModel model);
+        ResponseModel ManageMenu(GridOperationEnums operation, MenuDTO model);
 
         JqGridSearchOut SearchMenus(JqSearchIn si);
 

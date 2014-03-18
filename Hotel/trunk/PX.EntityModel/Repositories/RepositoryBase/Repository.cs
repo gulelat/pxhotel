@@ -15,7 +15,7 @@ using PX.EntityModel.Repositories.RepositoryBase.Extensions;
 
 namespace PX.EntityModel.Repositories.RepositoryBase
 {
-    public class Repository<T> where T : class 
+    public class Repository<T> where T : class
     {
         #region Protected Properties
 
@@ -45,7 +45,7 @@ namespace PX.EntityModel.Repositories.RepositoryBase
         }
 
         #endregion
-        
+
         #region Public Methods
 
         public static IQueryable<T> GetAll()
@@ -248,12 +248,12 @@ namespace PX.EntityModel.Repositories.RepositoryBase
                 var parent = GetById(parentId);
 
                 var currentPrefix = entity.GetHierarchy();
-                var hierarchy = entity.CalculateAncestorValue(parent);
+                var hierarchy = parent == null ? entity.GetAncestorValueForRoot() : entity.CalculateAncestorValue(parent);
 
                 var query = string.Format("UPDATE " + tableName +
                                           " SET {2} = '{1}' + RIGHT({2}, LEN({2}) - LEN('{0}')) " +
                                           " WHERE {2} LIKE '{0}%'"
-                    , currentPrefix , hierarchy, HierarchyPropertyName);
+                    , currentPrefix, hierarchy, HierarchyPropertyName);
                 DataContext.Database.ExecuteSqlCommand(query);
             }
             return Update(entity);
@@ -291,7 +291,7 @@ namespace PX.EntityModel.Repositories.RepositoryBase
 
         private static List<SelectListItem> InternalBuildSelectList(List<T> data, string levelPrefix, string textFieldName)
         {
-            var dic = data.ToDictionary(i => i.GetId(), i => (int) i.GetPropertyValue(OrderPropertyName));
+            var dic = data.ToDictionary(i => i.GetId(), i => (int)i.GetPropertyValue(OrderPropertyName));
 
             foreach (var item in data)
             {

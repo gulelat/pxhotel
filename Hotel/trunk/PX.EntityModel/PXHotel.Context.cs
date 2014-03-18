@@ -27,18 +27,18 @@ namespace PX.EntityModel
     
         public DbSet<BookingRequest> BookingRequests { get; set; }
         public DbSet<Country> Countries { get; set; }
+        public DbSet<GroupMenu> GroupMenus { get; set; }
         public DbSet<Menu> Menus { get; set; }
         public DbSet<News> News { get; set; }
         public DbSet<NewsCategory> NewsCategories { get; set; }
         public DbSet<NewsNewsCategory> NewsNewsCategories { get; set; }
         public DbSet<Page> Pages { get; set; }
         public DbSet<Resource> Resources { get; set; }
-        public DbSet<RoleMenu> RoleMenus { get; set; }
-        public DbSet<Role> Roles { get; set; }
         public DbSet<Room> Rooms { get; set; }
         public DbSet<RoomType> RoomTypes { get; set; }
         public DbSet<SiteSetting> SiteSettings { get; set; }
         public DbSet<Status> Status { get; set; }
+        public DbSet<UserGroup> UserGroups { get; set; }
         public DbSet<User> Users { get; set; }
     }
 }

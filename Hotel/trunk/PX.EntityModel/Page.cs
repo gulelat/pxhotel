@@ -22,8 +22,8 @@ namespace PX.EntityModel
         public string Content_Working { get; set; }
         public int StatusId { get; set; }
         public string FriendlyUrl { get; set; }
-        public Nullable<int> RecordOrder { get; set; }
-        public Nullable<bool> RecordActive { get; set; }
+        public int RecordOrder { get; set; }
+        public bool RecordActive { get; set; }
         public System.DateTime Created { get; set; }
         public string CreatedBy { get; set; }
         public Nullable<System.DateTime> Updated { get; set; }

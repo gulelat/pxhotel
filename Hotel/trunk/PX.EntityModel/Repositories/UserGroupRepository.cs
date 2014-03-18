@@ -2,7 +2,7 @@
 
 namespace PX.EntityModel.Repositories
 {
-    public class RoleRepository : Repository<Role>
+    public class UserGroupRepository : Repository<UserGroup>
     {
     }
 }

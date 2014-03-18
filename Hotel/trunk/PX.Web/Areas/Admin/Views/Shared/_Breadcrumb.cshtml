@@ -8,7 +8,19 @@
         @foreach (var item in Model.BreadCrumbs)
         {
             <li>
-                @Html.ActionLink(item.Name, item.Action, item.Controller)
+                @{
+                    var url = !string.IsNullOrEmpty(item.Url) ? 
+                                                                    item.Url 
+                                     : (string.IsNullOrEmpty(item.Controller) ? "" : Url.Action(item.Action, item.Controller));
+                } 
+                @if(string.IsNullOrEmpty(url))
+                {
+                    @item.Name
+                }
+                else
+                {
+                    <a href="@url">@item.Name</a>
+                }
             </li>
         }
         <li class="active">@Model.CurrentBreadCrumbItem.Name</li>

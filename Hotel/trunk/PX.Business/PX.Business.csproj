@@ -54,6 +54,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\DTO\BaseDTO.cs" />
+    <Compile Include="Models\DTO\MenuDTO.cs" />
+    <Compile Include="Models\DTO\UserDTO.cs" />
+    <Compile Include="Models\DTO\UserGroupDTO.cs" />
     <Compile Include="Models\MenuModels\BreadCrumbModel.cs" />
     <Compile Include="Models\MenuModels\AdminMenuModel.cs" />
     <Compile Include="Models\PaginationModel.cs" />

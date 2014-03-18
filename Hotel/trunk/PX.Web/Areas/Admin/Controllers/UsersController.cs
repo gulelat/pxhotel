@@ -4,18 +4,19 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web.Mvc;
 using Newtonsoft.Json;
+using PX.Business.Models.DTO;
 using PX.Business.Services.Users;
 using PX.Core.Framework.Enums;
 using PX.Core.Framework.Mvc.Attributes;
+using PX.Core.Framework.Mvc.Models;
 using PX.Core.Framework.Mvc.Models.JqGrid;
-using PX.EntityModel.Models.DTO;
 
 namespace PX.Web.Areas.Admin.Controllers
 {
-    public class UserController : Controller
+    public class UsersController : Controller
     {
         private readonly IUserServices _userServices;
-        public UserController(IUserServices userServices)
+        public UsersController(IUserServices userServices)
         {
             _userServices = userServices;
         }
@@ -44,26 +45,14 @@ namespace PX.Web.Areas.Admin.Controllers
 
         [HttpPost]
         [HandleJsonException]
-        public JsonResult Manage(UserModel model, GridManagingModel manageModel)
+        public JsonResult Manage(UserDTO model, GridManagingModel manageModel)
         {
-            switch (manageModel.Operation)
-            {
-                case GridOperationEnums.Edit:
-                case GridOperationEnums.Add:
-                    var context = new ValidationContext(model, serviceProvider: null, items: null);
-                    var results = new List<ValidationResult>();
-                    
-                    if (Validator.TryValidateObject(model, context, results, true))
-                    {
-                        var validationErrors =
-                            results.Where(r => !r.MemberNames.Contains("Created") && !r.MemberNames.Contains("CreatedBy"));
-                        if (validationErrors.Any()){
-                            throw new Exception(results.First().ErrorMessage);
-                        }
-                    }
-                    break;
-            }
             return Json(_userServices.ManageUser(manageModel.Operation, model));
+        }
+
+        public ActionResult Edit()
+        {
+            return View();
         }
 
         public ActionResult Login()
