@@ -68,7 +68,7 @@ namespace PX.EntityModel.Repositories.RepositoryBase
             entity.SetProperty("Updated", DateTime.Now);
             if (User.CurrentUser != null)
             {
-                entity.SetProperty("UpdatedBy", User.CurrentUser.Id);
+                entity.SetProperty("UpdatedBy", User.CurrentUser.Email);
             }
             var response = new ResponseModel();
             try
@@ -94,7 +94,7 @@ namespace PX.EntityModel.Repositories.RepositoryBase
             entity.SetProperty("Created", DateTime.Now);
             if (User.CurrentUser != null)
             {
-                entity.SetProperty("CreatedBy", User.CurrentUser.Id);
+                entity.SetProperty("CreatedBy", User.CurrentUser.Email);
             }
             else
             {

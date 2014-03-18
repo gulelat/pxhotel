@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace PX.Business.Models.DTO
+namespace PX.Business.Models
 {
-    public class BaseDTO
+    public class BaseModel
     {
         public int RecordOrder { get; set; }
 

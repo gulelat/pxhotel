@@ -1,0 +1,913 @@
+﻿@section styles
+{
+    <link rel="stylesheet" href="/Content/BackEnd/css/jquery-ui-1.10.3.custom.min.css" />
+    <link rel="stylesheet" href="/Content/BackEnd/css/jquery.gritter.css" />
+    <link rel="stylesheet" href="/Content/BackEnd/css/select2.css" />
+    <link rel="stylesheet" href="/Content/BackEnd/css/bootstrap-editable.css" />
+}
+
+<div class="page-header">
+    <h1>My Profile
+    </h1>
+</div>
+
+<div class="row">
+    <div class="col-xs-12">
+        <!-- PAGE CONTENT BEGINS -->
+
+        <div id="user-profile-1" class="user-profile row">
+            <div class="col-xs-12 col-sm-3 center">
+                <div>
+                    <span class="profile-picture">
+                        <img id="avatar" class="editable img-responsive" alt="Alex's Avatar" src="/Content/Backend/avatars/profile-pic.jpg" />
+                    </span>
+
+                    <div class="space-4"></div>
+
+                    <div class="width-80 label label-info label-xlg arrowed-in arrowed-in-right">
+                        <div class="inline position-relative">
+                            <a href="#" class="user-title-label dropdown-toggle" data-toggle="dropdown">
+                                <i class="icon-circle light-green middle"></i>
+                                &nbsp;
+															<span class="white">Alex M. Doe</span>
+                            </a>
+
+                            <ul class="align-left dropdown-menu dropdown-caret dropdown-lighter">
+                                <li class="dropdown-header">Change Status </li>
+
+                                <li>
+                                    <a href="#">
+                                        <i class="icon-circle green"></i>
+                                        &nbsp;
+																	<span class="green">Available</span>
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a href="#">
+                                        <i class="icon-circle red"></i>
+                                        &nbsp;
+																	<span class="red">Busy</span>
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a href="#">
+                                        <i class="icon-circle grey"></i>
+                                        &nbsp;
+																	<span class="grey">Invisible</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="space-6"></div>
+
+                <div class="profile-contact-info">
+                    <div class="profile-contact-links align-left">
+                        <a class="btn btn-link" href="#">
+                            <i class="icon-plus-sign bigger-120 green"></i>
+                            Add as a friend
+                        </a>
+
+                        <a class="btn btn-link" href="#">
+                            <i class="icon-envelope bigger-120 pink"></i>
+                            Send a message
+                        </a>
+
+                        <a class="btn btn-link" href="#">
+                            <i class="icon-globe bigger-125 blue"></i>
+                            www.alexdoe.com
+                        </a>
+                    </div>
+
+                    <div class="space-6"></div>
+
+                    <div class="profile-social-links center">
+                        <a href="#" class="tooltip-info" title="" data-original-title="Visit my Facebook">
+                            <i class="middle icon-facebook-sign icon-2x blue"></i>
+                        </a>
+
+                        <a href="#" class="tooltip-info" title="" data-original-title="Visit my Twitter">
+                            <i class="middle icon-twitter-sign icon-2x light-blue"></i>
+                        </a>
+
+                        <a href="#" class="tooltip-error" title="" data-original-title="Visit my Pinterest">
+                            <i class="middle icon-pinterest-sign icon-2x red"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="hr hr12 dotted"></div>
+
+                <div class="clearfix">
+                    <div class="grid2">
+                        <span class="bigger-175 blue">25</span>
+
+                        <br />
+                        Followers
+                    </div>
+
+                    <div class="grid2">
+                        <span class="bigger-175 blue">12</span>
+
+                        <br />
+                        Following
+                    </div>
+                </div>
+
+                <div class="hr hr16 dotted"></div>
+            </div>
+
+            <div class="col-xs-12 col-sm-9">
+                <div class="center">
+                    <span class="btn btn-app btn-sm btn-light no-hover">
+                        <span class="line-height-1 bigger-170 blue">1,411 </span>
+
+                        <br />
+                        <span class="line-height-1 smaller-90">Views </span>
+                    </span>
+
+                    <span class="btn btn-app btn-sm btn-yellow no-hover">
+                        <span class="line-height-1 bigger-170">32 </span>
+
+                        <br />
+                        <span class="line-height-1 smaller-90">Followers </span>
+                    </span>
+
+                    <span class="btn btn-app btn-sm btn-pink no-hover">
+                        <span class="line-height-1 bigger-170">4 </span>
+
+                        <br />
+                        <span class="line-height-1 smaller-90">Projects </span>
+                    </span>
+
+                    <span class="btn btn-app btn-sm btn-grey no-hover">
+                        <span class="line-height-1 bigger-170">23 </span>
+
+                        <br />
+                        <span class="line-height-1 smaller-90">Reviews </span>
+                    </span>
+
+                    <span class="btn btn-app btn-sm btn-success no-hover">
+                        <span class="line-height-1 bigger-170">7 </span>
+
+                        <br />
+                        <span class="line-height-1 smaller-90">Albums </span>
+                    </span>
+
+                    <span class="btn btn-app btn-sm btn-primary no-hover">
+                        <span class="line-height-1 bigger-170">55 </span>
+
+                        <br />
+                        <span class="line-height-1 smaller-90">Contacts </span>
+                    </span>
+                </div>
+
+                <div class="space-12"></div>
+
+                <div class="profile-user-info profile-user-info-striped">
+                    <div class="profile-info-row">
+                        <div class="profile-info-name">Username </div>
+
+                        <div class="profile-info-value">
+                            <span class="editable" id="username">alexdoe</span>
+                        </div>
+                    </div>
+
+                    <div class="profile-info-row">
+                        <div class="profile-info-name">Location </div>
+
+                        <div class="profile-info-value">
+                            <i class="icon-map-marker light-orange bigger-110"></i>
+                            <span class="editable" id="country">Netherlands</span>
+                            <span class="editable" id="city">Amsterdam</span>
+                        </div>
+                    </div>
+
+                    <div class="profile-info-row">
+                        <div class="profile-info-name">Age </div>
+
+                        <div class="profile-info-value">
+                            <span class="editable" id="age">38</span>
+                        </div>
+                    </div>
+
+                    <div class="profile-info-row">
+                        <div class="profile-info-name">Joined </div>
+
+                        <div class="profile-info-value">
+                            <span class="editable" id="signup">20/06/2010</span>
+                        </div>
+                    </div>
+
+                    <div class="profile-info-row">
+                        <div class="profile-info-name">Last Online </div>
+
+                        <div class="profile-info-value">
+                            <span class="editable" id="login">3 hours ago</span>
+                        </div>
+                    </div>
+
+                    <div class="profile-info-row">
+                        <div class="profile-info-name">About Me </div>
+
+                        <div class="profile-info-value">
+                            <span class="editable" id="about">Editable as WYSIWYG</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="space-20"></div>
+
+                <div class="widget-box transparent">
+                    <div class="widget-header widget-header-small">
+                        <h4 class="blue smaller">
+                            <i class="icon-rss orange"></i>
+                            Recent Activities
+                        </h4>
+
+                        <div class="widget-toolbar action-buttons">
+                            <a href="#" data-action="reload">
+                                <i class="icon-refresh blue"></i>
+                            </a>
+
+                            &nbsp;
+														<a href="#" class="pink">
+                                                            <i class="icon-trash"></i>
+                                                        </a>
+                        </div>
+                    </div>
+
+                    <div class="widget-body">
+                        <div class="widget-main padding-8">
+                            <div id="profile-feed-1" class="profile-feed">
+                                <div class="profile-activity clearfix">
+                                    <div>
+                                        <img class="pull-left" alt="Alex Doe's avatar" src="/Content/Backend/avatars/avatar5.png" />
+                                        <a class="user" href="#">Alex Doe </a>
+                                        changed his profile photo.
+																	<a href="#">Take a look</a>
+
+                                        <div class="time">
+                                            <i class="icon-time bigger-110"></i>
+                                            an hour ago
+                                        </div>
+                                    </div>
+
+                                    <div class="tools action-buttons">
+                                        <a href="#" class="blue">
+                                            <i class="icon-pencil bigger-125"></i>
+                                        </a>
+
+                                        <a href="#" class="red">
+                                            <i class="icon-remove bigger-125"></i>
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <div class="profile-activity clearfix">
+                                    <div>
+                                        <img class="pull-left" alt="Susan Smith's avatar" src="/Content/Backend/avatars/avatar1.png" />
+                                        <a class="user" href="#">Susan Smith </a>
+
+                                        is now friends with Alex Doe.
+																	<div class="time">
+                                                                        <i class="icon-time bigger-110"></i>
+                                                                        2 hours ago
+                                                                    </div>
+                                    </div>
+
+                                    <div class="tools action-buttons">
+                                        <a href="#" class="blue">
+                                            <i class="icon-pencil bigger-125"></i>
+                                        </a>
+
+                                        <a href="#" class="red">
+                                            <i class="icon-remove bigger-125"></i>
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <div class="profile-activity clearfix">
+                                    <div>
+                                        <i class="pull-left thumbicon icon-ok btn-success no-hover"></i>
+                                        <a class="user" href="#">Alex Doe </a>
+                                        joined
+																	<a href="#">Country Music</a>
+
+                                        group.
+																	<div class="time">
+                                                                        <i class="icon-time bigger-110"></i>
+                                                                        5 hours ago
+                                                                    </div>
+                                    </div>
+
+                                    <div class="tools action-buttons">
+                                        <a href="#" class="blue">
+                                            <i class="icon-pencil bigger-125"></i>
+                                        </a>
+
+                                        <a href="#" class="red">
+                                            <i class="icon-remove bigger-125"></i>
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <div class="profile-activity clearfix">
+                                    <div>
+                                        <i class="pull-left thumbicon icon-picture btn-info no-hover"></i>
+                                        <a class="user" href="#">Alex Doe </a>
+                                        uploaded a new photo.
+																	<a href="#">Take a look</a>
+
+                                        <div class="time">
+                                            <i class="icon-time bigger-110"></i>
+                                            5 hours ago
+                                        </div>
+                                    </div>
+
+                                    <div class="tools action-buttons">
+                                        <a href="#" class="blue">
+                                            <i class="icon-pencil bigger-125"></i>
+                                        </a>
+
+                                        <a href="#" class="red">
+                                            <i class="icon-remove bigger-125"></i>
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <div class="profile-activity clearfix">
+                                    <div>
+                                        <img class="pull-left" alt="David Palms's avatar" src="/Content/Backend/avatars/avatar4.png" />
+                                        <a class="user" href="#">David Palms </a>
+
+                                        left a comment on Alex's wall.
+																	<div class="time">
+                                                                        <i class="icon-time bigger-110"></i>
+                                                                        8 hours ago
+                                                                    </div>
+                                    </div>
+
+                                    <div class="tools action-buttons">
+                                        <a href="#" class="blue">
+                                            <i class="icon-pencil bigger-125"></i>
+                                        </a>
+
+                                        <a href="#" class="red">
+                                            <i class="icon-remove bigger-125"></i>
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <div class="profile-activity clearfix">
+                                    <div>
+                                        <i class="pull-left thumbicon icon-edit btn-pink no-hover"></i>
+                                        <a class="user" href="#">Alex Doe </a>
+                                        published a new blog post.
+																	<a href="#">Read now</a>
+
+                                        <div class="time">
+                                            <i class="icon-time bigger-110"></i>
+                                            11 hours ago
+                                        </div>
+                                    </div>
+
+                                    <div class="tools action-buttons">
+                                        <a href="#" class="blue">
+                                            <i class="icon-pencil bigger-125"></i>
+                                        </a>
+
+                                        <a href="#" class="red">
+                                            <i class="icon-remove bigger-125"></i>
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <div class="profile-activity clearfix">
+                                    <div>
+                                        <img class="pull-left" alt="Alex Doe's avatar" src="/Content/Backend/avatars/avatar5.png" />
+                                        <a class="user" href="#">Alex Doe </a>
+
+                                        upgraded his skills.
+																	<div class="time">
+                                                                        <i class="icon-time bigger-110"></i>
+                                                                        12 hours ago
+                                                                    </div>
+                                    </div>
+
+                                    <div class="tools action-buttons">
+                                        <a href="#" class="blue">
+                                            <i class="icon-pencil bigger-125"></i>
+                                        </a>
+
+                                        <a href="#" class="red">
+                                            <i class="icon-remove bigger-125"></i>
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <div class="profile-activity clearfix">
+                                    <div>
+                                        <i class="pull-left thumbicon icon-key btn-info no-hover"></i>
+                                        <a class="user" href="#">Alex Doe </a>
+
+                                        logged in.
+																	<div class="time">
+                                                                        <i class="icon-time bigger-110"></i>
+                                                                        12 hours ago
+                                                                    </div>
+                                    </div>
+
+                                    <div class="tools action-buttons">
+                                        <a href="#" class="blue">
+                                            <i class="icon-pencil bigger-125"></i>
+                                        </a>
+
+                                        <a href="#" class="red">
+                                            <i class="icon-remove bigger-125"></i>
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <div class="profile-activity clearfix">
+                                    <div>
+                                        <i class="pull-left thumbicon icon-off btn-inverse no-hover"></i>
+                                        <a class="user" href="#">Alex Doe </a>
+
+                                        logged out.
+																	<div class="time">
+                                                                        <i class="icon-time bigger-110"></i>
+                                                                        16 hours ago
+                                                                    </div>
+                                    </div>
+
+                                    <div class="tools action-buttons">
+                                        <a href="#" class="blue">
+                                            <i class="icon-pencil bigger-125"></i>
+                                        </a>
+
+                                        <a href="#" class="red">
+                                            <i class="icon-remove bigger-125"></i>
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <div class="profile-activity clearfix">
+                                    <div>
+                                        <i class="pull-left thumbicon icon-key btn-info no-hover"></i>
+                                        <a class="user" href="#">Alex Doe </a>
+
+                                        logged in.
+																	<div class="time">
+                                                                        <i class="icon-time bigger-110"></i>
+                                                                        16 hours ago
+                                                                    </div>
+                                    </div>
+
+                                    <div class="tools action-buttons">
+                                        <a href="#" class="blue">
+                                            <i class="icon-pencil bigger-125"></i>
+                                        </a>
+
+                                        <a href="#" class="red">
+                                            <i class="icon-remove bigger-125"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="hr hr2 hr-double"></div>
+
+                <div class="space-6"></div>
+
+                <div class="center">
+                    <a href="#" class="btn btn-sm btn-primary">
+                        <i class="icon-rss bigger-150 middle"></i>
+                        <span class="bigger-110">View more activities</span>
+
+                        <i class="icon-on-right icon-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- PAGE CONTENT ENDS -->
+    </div>
+    <!-- /.col -->
+</div>
+<!-- /.row -->
+@section scripts{
+
+    <script src="/Content/BackEnd/js/jquery-ui-1.10.3.custom.min.js"></script>
+    <script src="/Content/BackEnd/js/jquery.ui.touch-punch.min.js"></script>
+    <script src="/Content/BackEnd/js/jquery.gritter.min.js"></script>
+    <script src="/Content/BackEnd/js/bootbox.min.js"></script>
+    <script src="/Content/BackEnd/js/jquery.slimscroll.min.js"></script>
+    <script src="/Content/BackEnd/js/jquery.easy-pie-chart.min.js"></script>
+    <script src="/Content/BackEnd/js/jquery.hotkeys.min.js"></script>
+    <script src="/Content/BackEnd/js/bootstrap-wysiwyg.min.js"></script>
+    <script src="/Content/BackEnd/js/select2.min.js"></script>
+    <script src="/Content/BackEnd/js/date-time/bootstrap-datepicker.min.js"></script>
+    <script src="/Content/BackEnd/js/fuelux/fuelux.spinner.min.js"></script>
+    <script src="/Content/BackEnd/js/x-editable/bootstrap-editable.min.js"></script>
+    <script src="/Content/BackEnd/js/x-editable/ace-editable.min.js"></script>
+    <script src="/Content/BackEnd/js/jquery.maskedinput.min.js"></script>
+    <script type="text/javascript">
+        jQuery(function ($) {
+
+            //editables on first profile page
+            $.fn.editable.defaults.mode = 'inline';
+            $.fn.editableform.loading = "<div class='editableform-loading'><i class='light-blue icon-2x icon-spinner icon-spin'></i></div>";
+            $.fn.editableform.buttons = '<button type="submit" class="btn btn-info editable-submit"><i class="icon-ok icon-white"></i></button>' +
+                                        '<button type="button" class="btn editable-cancel"><i class="icon-remove"></i></button>';
+
+            //editables 
+            $('#username').editable({
+                type: 'text',
+                name: 'username'
+            });
+
+
+            var countries = [];
+            $.each({ "CA": "Canada", "IN": "India", "NL": "Netherlands", "TR": "Turkey", "US": "United States" }, function (k, v) {
+                countries.push({ id: k, text: v });
+            });
+
+            var cities = [];
+            cities["CA"] = [];
+            $.each(["Toronto", "Ottawa", "Calgary", "Vancouver"], function (k, v) {
+                cities["CA"].push({ id: v, text: v });
+            });
+            cities["IN"] = [];
+            $.each(["Delhi", "Mumbai", "Bangalore"], function (k, v) {
+                cities["IN"].push({ id: v, text: v });
+            });
+            cities["NL"] = [];
+            $.each(["Amsterdam", "Rotterdam", "The Hague"], function (k, v) {
+                cities["NL"].push({ id: v, text: v });
+            });
+            cities["TR"] = [];
+            $.each(["Ankara", "Istanbul", "Izmir"], function (k, v) {
+                cities["TR"].push({ id: v, text: v });
+            });
+            cities["US"] = [];
+            $.each(["New York", "Miami", "Los Angeles", "Chicago", "Wysconsin"], function (k, v) {
+                cities["US"].push({ id: v, text: v });
+            });
+
+            var currentValue = "NL";
+            $('#country').editable({
+                type: 'select2',
+                value: 'NL',
+                source: countries,
+                success: function (response, newValue) {
+                    if (currentValue == newValue) return;
+                    currentValue = newValue;
+
+                    var new_source = (!newValue || newValue == "") ? [] : cities[newValue];
+
+                    //the destroy method is causing errors in x-editable v1.4.6
+                    //it worked fine in v1.4.5
+                    /**			
+                    $('#city').editable('destroy').editable({
+                        type: 'select2',
+                        source: new_source
+                    }).editable('setValue', null);
+                    */
+
+                    //so we remove it altogether and create a new element
+                    var city = $('#city').removeAttr('id').get(0);
+                    $(city).clone().attr('id', 'city').text('Select City').editable({
+                        type: 'select2',
+                        value: null,
+                        source: new_source
+                    }).insertAfter(city);//insert it after previous instance
+                    $(city).remove();//remove previous instance
+
+                }
+            });
+
+            $('#city').editable({
+                type: 'select2',
+                value: 'Amsterdam',
+                source: cities[currentValue]
+            });
+
+
+
+            $('#signup').editable({
+                type: 'date',
+                format: 'yyyy-mm-dd',
+                viewformat: 'dd/mm/yyyy',
+                datepicker: {
+                    weekStart: 1
+                }
+            });
+
+            $('#age').editable({
+                type: 'spinner',
+                name: 'age',
+                spinner: {
+                    min: 16, max: 99, step: 1
+                }
+            });
+
+            //var $range = document.createElement("INPUT");
+            //$range.type = 'range';
+            $('#login').editable({
+                type: 'slider',//$range.type == 'range' ? 'range' : 'slider',
+                name: 'login',
+                slider: {
+                    min: 1, max: 50, width: 100
+                },
+                success: function (response, newValue) {
+                    if (parseInt(newValue) == 1)
+                        $(this).html(newValue + " hour ago");
+                    else $(this).html(newValue + " hours ago");
+                }
+            });
+
+            $('#about').editable({
+                mode: 'inline',
+                type: 'wysiwyg',
+                name: 'about',
+                wysiwyg: {
+                    //css : {'max-width':'300px'}
+                },
+                success: function (response, newValue) {
+                }
+            });
+
+
+
+            // *** editable avatar *** //
+            try {//ie8 throws some harmless exception, so let's catch it
+
+                //it seems that editable plugin calls appendChild, and as Image doesn't have it, it causes errors on IE at unpredicted points
+                //so let's have a fake appendChild for it!
+                if (/msie\s*(8|7|6)/.test(navigator.userAgent.toLowerCase())) Image.prototype.appendChild = function (el) { }
+
+                var last_gritter
+                $('#avatar').editable({
+                    type: 'image',
+                    name: 'avatar',
+                    value: null,
+                    image: {
+                        //specify ace file input plugin's options here
+                        btn_choose: 'Change Avatar',
+                        droppable: true,
+                        /**
+                        //this will override the default before_change that only accepts image files
+                        before_change: function(files, dropped) {
+                            return true;
+                        },
+                        */
+
+                        //and a few extra ones here
+                        name: 'avatar',//put the field name here as well, will be used inside the custom plugin
+                        max_size: 110000,//~100Kb
+                        on_error: function (code) {//on_error function will be called when the selected file has a problem
+                            if (last_gritter) $.gritter.remove(last_gritter);
+                            if (code == 1) {//file format error
+                                last_gritter = $.gritter.add({
+                                    title: 'File is not an image!',
+                                    text: 'Please choose a jpg|gif|png image!',
+                                    class_name: 'gritter-error gritter-center'
+                                });
+                            } else if (code == 2) {//file size rror
+                                last_gritter = $.gritter.add({
+                                    title: 'File too big!',
+                                    text: 'Image size should not exceed 100Kb!',
+                                    class_name: 'gritter-error gritter-center'
+                                });
+                            }
+                            else {//other error
+                            }
+                        },
+                        on_success: function () {
+                            $.gritter.removeAll();
+                        }
+                    },
+                    url: function (params) {
+                        // ***UPDATE AVATAR HERE*** //
+                        //You can replace the contents of this function with examples/profile-avatar-update.js for actual upload
+
+                        //This is similar to the file-upload.html example
+                        //Replace the code inside profile page where it says ***UPDATE AVATAR HERE*** with the code below
+
+
+                        //please modify submit_url accordingly
+                        var submitUrl = '@Url.Action("UploadAvatar")';
+                        var deferred;
+
+
+                        //if value is empty, means no valid files were selected
+                        //but it may still be submitted by the plugin, because "" (empty string) is different from previous non-empty value whatever it was
+                        //so we return just here to prevent problems
+                        var value = $('#avatar').next().find('input[type=hidden]:eq(0)').val();
+                        if (!value || value.length == 0) {
+                            deferred = new $.Deferred
+                            deferred.resolve();
+                            return deferred.promise();
+                        }
+
+                        var $form = $('#avatar').next().find('.editableform:eq(0)')
+                        var file_input = $form.find('input[type=file]:eq(0)');
+
+                        //user iframe for older browsers that don't support file upload via FormData & Ajax
+                        if (!("FormData" in window)) {
+                            deferred = new $.Deferred
+
+                            var iframe_id = 'temporary-iframe-' + (new Date()).getTime() + '-' + (parseInt(Math.random() * 1000));
+                            $form.after('<iframe id="' + iframe_id + '" name="' + iframe_id + '" frameborder="0" width="0" height="0" src="about:blank" style="position:absolute;z-index:-1;"></iframe>');
+                            $form.append('<input type="hidden" name="temporary-iframe-id" value="' + iframe_id + '" />');
+                            $form.next().data('deferrer', deferred);//save the deferred object to the iframe
+                            $form.attr({
+                                'method': 'POST', 'enctype': 'multipart/form-data',
+                                'target': iframe_id, 'action': submitUrl
+                            });
+
+                            $form.get(0).submit();
+
+                            //if we don't receive the response after 60 seconds, declare it as failed!
+                            setTimeout(function () {
+                                var iframe = document.getElementById(iframe_id);
+                                if (iframe != null) {
+                                    iframe.src = "about:blank";
+                                    $(iframe).remove();
+
+                                    deferred.reject({ 'status': 'fail', 'message': 'Timeout!' });
+                                }
+                            }, 60000);
+                        }
+                        else {
+                            var fd = null;
+                            try {
+                                fd = new FormData($form.get(0));
+                            } catch (e) {
+                                //IE10 throws "SCRIPT5: Access is denied" exception,
+                                //so we need to add the key/value pairs one by one
+                                fd = new FormData();
+                                $.each($form.serializeArray(), function (index, item) {
+                                    fd.append(item.name, item.value);
+                                });
+                                //and then add files because files are not included in serializeArray()'s result
+                                $form.find('input[type=file]').each(function () {
+                                    if (this.files.length > 0) fd.append(this.getAttribute('name'), this.files[0]);
+                                });
+                            }
+
+                            //if file has been drag&dropped , append it to FormData
+                            if (file_input.data('ace_input_method') == 'drop') {
+                                var files = file_input.data('ace_input_files');
+                                if (files && files.length > 0) {
+                                    fd.append(file_input.attr('name'), files[0]);
+                                }
+                            }
+
+                            deferred = $.ajax({
+                                url: submitUrl,
+                                type: 'POST',
+                                processData: false,
+                                contentType: false,
+                                dataType: 'json',
+                                data: fd,
+                                xhr: function() {
+                                    var req = $.ajaxSettings.xhr();
+                                    return req;
+                                },
+                                beforeSend: function() {
+                                    //bar.css('width', '0%').parent().attr('data-percent', '0%');
+                                },
+                                success: function() {
+                                    //bar.css('width', '100%').parent().attr('data-percent', '100%');
+                                }
+                            });
+                        }
+
+
+
+                        deferred.done(function (response) {
+                            if (response.Success) {
+                                $('#avatar').get(0).src = response.Data;
+                            } 
+                            else alert(response.Message);
+                        }).fail(function (res) {
+                            alert("Failure");
+                        });
+
+
+                        return deferred.promise();
+                    },
+
+                    success: function (response, newValue) {
+                    }
+                })
+                } catch (e) { }
+
+
+
+            //another option is using modals
+            $('#avatar2').on('click', function () {
+                var modal =
+                '<div class="modal hide fade">\
+						<div class="modal-header">\
+							<button type="button" class="close" data-dismiss="modal">&times;</button>\
+							<h4 class="blue">Change Avatar</h4>\
+						</div>\
+						\
+						<form class="no-margin">\
+						<div class="modal-body">\
+							<div class="space-4"></div>\
+							<div style="width:75%;margin-left:12%;"><input type="file" name="file-input" /></div>\
+						</div>\
+						\
+						<div class="modal-footer center">\
+							<button type="submit" class="btn btn-small btn-success"><i class="icon-ok"></i> Submit</button>\
+							<button type="button" class="btn btn-small" data-dismiss="modal"><i class="icon-remove"></i> Cancel</button>\
+						</div>\
+						</form>\
+					</div>';
+
+
+                var modal = $(modal);
+                modal.modal("show").on("hidden", function () {
+                    modal.remove();
+                });
+
+                var working = false;
+
+                var form = modal.find('form:eq(0)');
+                var file = form.find('input[type=file]').eq(0);
+                file.ace_file_input({
+                    style: 'well',
+                    btn_choose: 'Click to choose new avatar',
+                    btn_change: null,
+                    no_icon: 'icon-picture',
+                    thumbnail: 'small',
+                    before_remove: function () {
+                        //don't remove/reset files while being uploaded
+                        return !working;
+                    },
+                    before_change: function (files, dropped) {
+                        var file = files[0];
+                        if (typeof file === "string") {
+                            //file is just a file name here (in browsers that don't support FileReader API)
+                            if (!(/\.(jpe?g|png|gif)$/i).test(file)) return false;
+                        }
+                        else {//file is a File object
+                            var type = $.trim(file.type);
+                            if ((type.length > 0 && !(/^image\/(jpe?g|png|gif)$/i).test(type))
+                                    || (type.length == 0 && !(/\.(jpe?g|png|gif)$/i).test(file.name))//for android default browser!
+                                ) return false;
+
+                            if (file.size > 110000) {//~100Kb
+                                return false;
+                            }
+                        }
+
+                        return true;
+                    }
+                });
+
+                form.on('submit', function () {
+                    if (!file.data('ace_input_files')) return false;
+
+                    file.ace_file_input('disable');
+                    form.find('button').attr('disabled', 'disabled');
+                    form.find('.modal-body').append("<div class='center'><i class='icon-spinner icon-spin bigger-150 orange'></i></div>");
+
+                    var deferred = new $.Deferred;
+                    working = true;
+                    deferred.done(function () {
+                        form.find('button').removeAttr('disabled');
+                        form.find('input[type=file]').ace_file_input('enable');
+                        form.find('.modal-body > :last-child').remove();
+
+                        modal.modal("hide");
+
+                        var thumb = file.next().find('img').data('thumb');
+                        if (thumb) $('#avatar2').get(0).src = thumb;
+
+                        working = false;
+                    });
+
+
+                    setTimeout(function () {
+                        deferred.resolve();
+                    }, parseInt(Math.random() * 800 + 800));
+
+                    return false;
+                });
+
+            });
+        });
+    </script>
+}

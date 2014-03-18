@@ -54,21 +54,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\DTO\BaseDTO.cs" />
-    <Compile Include="Models\DTO\MenuDTO.cs" />
-    <Compile Include="Models\DTO\UserDTO.cs" />
-    <Compile Include="Models\DTO\UserGroupDTO.cs" />
-    <Compile Include="Models\MenuModels\BreadCrumbModel.cs" />
-    <Compile Include="Models\MenuModels\AdminMenuModel.cs" />
-    <Compile Include="Models\PaginationModel.cs" />
-    <Compile Include="Models\UserModels\Logins\ForgotPasswordModel.cs" />
-    <Compile Include="Models\UserModels\Logins\RegisterModel.cs" />
-    <Compile Include="Models\UserModels\Logins\LoginModel.cs" />
-    <Compile Include="Models\UserModels\UserProfileModel.cs" />
-    <Compile Include="Models\UserModels\UserSearchModel.cs" />
+    <Compile Include="Attributes\PxAuthorizeAttribute.cs" />
+    <Compile Include="Models\BaseModel.cs" />
+    <Compile Include="Models\UserGroups\UserGroupModel.cs" />
+    <Compile Include="Models\Menus\BreadCrumbModel.cs" />
+    <Compile Include="Models\Menus\AdminMenuModel.cs" />
+    <Compile Include="Models\Menus\MenuModel.cs" />
+    <Compile Include="Models\Users\Logins\ForgotPasswordModel.cs" />
+    <Compile Include="Models\Users\Logins\RegisterModel.cs" />
+    <Compile Include="Models\Users\Logins\LoginModel.cs" />
+    <Compile Include="Models\Users\UserModel.cs" />
+    <Compile Include="Models\Users\UserProfileModel.cs" />
+    <Compile Include="Models\Users\UserSearchModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Sercurity\Attributes\PxAuthorize.cs" />
-    <Compile Include="Sercurity\PxUserTypes.cs" />
     <Compile Include="Services\Menus\IMenuServices.cs" />
     <Compile Include="Services\Menus\MenuServices.cs" />
     <Compile Include="Services\Users\IUserServices.cs" />

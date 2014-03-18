@@ -1,12 +1,14 @@
 ﻿using System.Web.Mvc;
 using Newtonsoft.Json;
-using PX.Business.Models.DTO;
+using PX.Business.Attributes;
+using PX.Business.Models.UserGroups;
 using PX.Business.Services.Users;
 using PX.Core.Framework.Mvc.Attributes;
 using PX.Core.Framework.Mvc.Models.JqGrid;
 
 namespace PX.Web.Areas.Admin.Controllers
 {
+    [PxAuthorize]
     public class UserGroupsController : Controller
     {
         private readonly IUserServices _userServices;
@@ -39,7 +41,7 @@ namespace PX.Web.Areas.Admin.Controllers
 
         [HttpPost]
         [HandleJsonException]
-        public JsonResult Manage(UserGroupDTO model, GridManagingModel manageModel)
+        public JsonResult Manage(UserGroupModel model, GridManagingModel manageModel)
         {
             return Json(_userServices.ManageUserGroup(manageModel.Operation, model));
         }
