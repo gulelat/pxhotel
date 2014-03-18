@@ -6,9 +6,9 @@ using System.Linq;
 using PX.Business.Services.Users;
 using PX.EntityModel.Resources;
 
-namespace PX.Business.Models.DTO
+namespace PX.Business.Models.Users
 {
-    public class UserDTO : BaseDTO, IValidatableObject
+    public class UserModel : BaseModel, IValidatableObject
     {
         #region Public Properties
         

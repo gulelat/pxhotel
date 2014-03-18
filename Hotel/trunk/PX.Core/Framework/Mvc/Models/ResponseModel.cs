@@ -8,6 +8,8 @@ namespace PX.Core.Framework.Mvc.Models
 
         public string Message { get; set; }
 
+        public object Data { get; set; }
+
         public ResponseStatusEnums ResponseStatus { get; set; }
     }
 }

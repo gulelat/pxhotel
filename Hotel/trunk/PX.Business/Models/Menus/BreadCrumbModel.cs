@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace PX.Business.Models.MenuModels
+namespace PX.Business.Models.Menus
 {
     public class BreadCrumbModel
     {

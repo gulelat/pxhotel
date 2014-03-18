@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace PX.Business.Models.DTO
+namespace PX.Business.Models.Menus
 {
-    public class MenuDTO : BaseDTO
+    public class MenuModel : BaseModel
     {
         [Key]
         public int Id { get; set; }

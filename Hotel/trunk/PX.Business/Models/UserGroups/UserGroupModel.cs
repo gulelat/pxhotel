@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace PX.Business.Models.DTO
+namespace PX.Business.Models.UserGroups
 {
-    public class UserGroupDTO : BaseDTO
+    public class UserGroupModel : BaseModel
     {
         [Key]
         public int Id { get; set; }

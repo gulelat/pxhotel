@@ -78,13 +78,15 @@
                 </div>
 
                 <script type="text/javascript">
-                    try { ace.settings.check('sidebar', 'collapsed') } catch (e) { }
+                    try {
+                        ace.settings.check('sidebar', 'collapsed'); } catch (e) { }
                 </script>
             </div>
 
             <div class="main-content">
                 <script type="text/javascript">
-                    try { ace.settings.check('breadcrumbs', 'fixed') } catch (e) { }
+                    try {
+                        ace.settings.check('breadcrumbs', 'fixed'); } catch (e) { }
                 </script>
                 @{
                     Html.RenderAction("GetBreadCrumb", "Home");
@@ -151,5 +153,10 @@
         </a>
     </div>
     <!-- /.main-container -->
+    <div style="display: none" id="loading-wrapper">
+        <div class="loading">
+            <div id="spinner-preview"></div>
+        </div>
+    </div>
 </body>
 </html>

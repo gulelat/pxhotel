@@ -1,9 +1,11 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
+using PX.Business.Attributes;
 using PX.Business.Services.Menus;
 
 namespace PX.Web.Areas.Admin.Controllers
 {
+    [PxAuthorize]
     public class HomeController : Controller
     {
         private readonly IMenuServices _menuServices;

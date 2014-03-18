@@ -1,12 +1,14 @@
 ﻿using System.Web.Mvc;
 using Newtonsoft.Json;
-using PX.Business.Models.DTO;
+using PX.Business.Attributes;
+using PX.Business.Models.Menus;
 using PX.Business.Services.Menus;
 using PX.Core.Framework.Mvc.Attributes;
 using PX.Core.Framework.Mvc.Models.JqGrid;
 
 namespace PX.Web.Areas.Admin.Controllers
 {
+    [PxAuthorize]
     public class MenusController : Controller
     {
         private readonly IMenuServices _menuServices;
@@ -35,9 +37,9 @@ namespace PX.Web.Areas.Admin.Controllers
 
         [HttpPost]
         [HandleJsonException]
-        public JsonResult Manage(MenuDTO dto, GridManagingModel manageModel)
+        public JsonResult Manage(MenuModel model, GridManagingModel manageModel)
         {
-            return Json(_menuServices.ManageMenu(manageModel.Operation, dto));
+            return Json(_menuServices.ManageMenu(manageModel.Operation, model));
         }
     }
 }

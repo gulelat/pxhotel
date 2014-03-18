@@ -2,8 +2,7 @@
 using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
-using PX.Business.Models.DTO;
-using PX.Business.Models.MenuModels;
+using PX.Business.Models.Menus;
 using PX.Core.Framework.Enums;
 using PX.Core.Framework.Mvc.Models;
 using PX.Core.Framework.Mvc.Models.JqGrid;
@@ -61,7 +60,7 @@ namespace PX.Business.Services.Menus
         /// <returns></returns>
         public JqGridSearchOut SearchMenus(JqSearchIn si)
         {
-            var menus = GetAll().Select(u => new MenuDTO
+            var menus = GetAll().Select(u => new MenuModel
             {
                 Id = u.Id,
                 Url = u.Url,
@@ -111,9 +110,9 @@ namespace PX.Business.Services.Menus
         /// <param name="operation"></param>
         /// <param name="model"></param>
         /// <returns></returns>
-        public ResponseModel ManageMenu(GridOperationEnums operation, MenuDTO model)
+        public ResponseModel ManageMenu(GridOperationEnums operation, MenuModel model)
         {
-            Mapper.CreateMap<MenuDTO, Menu>();
+            Mapper.CreateMap<MenuModel, Menu>();
             Menu menu;
             switch (operation)
             {
@@ -138,7 +137,7 @@ namespace PX.Business.Services.Menus
                     }
                     return HierarchyUpdate(menu);
                 case GridOperationEnums.Add:
-                    menu = Mapper.Map<MenuDTO, Menu>(model);
+                    menu = Mapper.Map<MenuModel, Menu>(model);
                     if (int.TryParse(model.ParentName, out parentId))
                     {
                         menu.ParentId = parentId;

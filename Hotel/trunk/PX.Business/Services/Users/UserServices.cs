@@ -1,8 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Web;
 using System.Web.Mvc;
-using PX.Business.Models.DTO;
+using System.Web.Security;
+using PX.Business.Models.UserGroups;
+using PX.Business.Models.UserModels;
+using PX.Business.Models.Users;
+using PX.Business.Models.Users.Logins;
 using PX.Core.Framework.Enums;
 using PX.Core.Framework.Mvc.Models;
 using PX.Core.Framework.Mvc.Models.JqGrid;
@@ -87,7 +93,7 @@ namespace PX.Business.Services.Users
         /// <returns></returns>
         public JqGridSearchOut SearchUsers(JqSearchIn si)
         {
-            var users = GetAll().Select(u => new UserDTO
+            var users = GetAll().Select(u => new UserModel
             {
                 Id = u.Id,
                 Email = u.Email,
@@ -117,7 +123,7 @@ namespace PX.Business.Services.Users
         /// <returns></returns>
         public JqGridSearchOut SearchUserGroups(JqSearchIn si)
         {
-            var userGroups = GetAllUserGroups().Select(u => new UserGroupDTO
+            var userGroups = GetAllUserGroups().Select(u => new UserGroupModel
             {
                 Id = u.Id,
                 Name = u.Name,
@@ -143,9 +149,9 @@ namespace PX.Business.Services.Users
         /// <param name="operation">the operation</param>
         /// <param name="model">the user model</param>
         /// <returns></returns>
-        public ResponseModel ManageUser(GridOperationEnums operation, UserDTO model)
+        public ResponseModel ManageUser(GridOperationEnums operation, UserModel model)
         {
-            Mapper.CreateMap<UserDTO, User>();
+            Mapper.CreateMap<UserModel, User>();
             User user;
             switch (operation)
             {
@@ -163,7 +169,7 @@ namespace PX.Business.Services.Users
                     user.RecordOrder = 0;
                     return Update(user);
                 case GridOperationEnums.Add:
-                    user = Mapper.Map<UserDTO, User>(model);
+                    user = Mapper.Map<UserModel, User>(model);
                     user.RecordOrder = 0;
                     return Insert(user);
                 case GridOperationEnums.Del:
@@ -182,9 +188,9 @@ namespace PX.Business.Services.Users
         /// <param name="operation">the operation</param>
         /// <param name="model">the user group model</param>
         /// <returns></returns>
-        public ResponseModel ManageUserGroup(GridOperationEnums operation, UserGroupDTO model)
+        public ResponseModel ManageUserGroup(GridOperationEnums operation, UserGroupModel model)
         {
-            Mapper.CreateMap<UserGroupDTO, UserGroup>();
+            Mapper.CreateMap<UserGroupModel, UserGroup>();
             UserGroup userGroup;
             switch (operation)
             {
@@ -196,7 +202,7 @@ namespace PX.Business.Services.Users
                     userGroup.RecordActive = model.RecordActive;
                     return UserGroupRepository.Update(userGroup);
                 case GridOperationEnums.Add:
-                    userGroup = Mapper.Map<UserGroupDTO, UserGroup>(model);
+                    userGroup = Mapper.Map<UserGroupModel, UserGroup>(model);
                     return UserGroupRepository.Insert(userGroup);
                 case GridOperationEnums.Del:
                     return UserGroupRepository.Delete(model.Id);
@@ -208,6 +214,53 @@ namespace PX.Business.Services.Users
             };
         }
 
+        #endregion
+
+        #region Login/ Register / Forgot Password
+        public ResponseModel Login(LoginModel model)
+        {
+            var user = GetUser(model.Email);
+            if(user != null)
+            {
+                if(user.StatusEnums == UserEnums.UserStatusEnums.Active && user.Password.Equals(model.Password))
+                {
+                    if(model.RememberMe)
+                    {
+                        var authenticationTicket = new FormsAuthenticationTicket(
+                            1,
+                            user.Email,
+                            DateTime.Now,
+                            DateTime.Now.AddYears(1),
+                            model.RememberMe,
+                            user.UserGroup.Name,
+                            "/"
+                            );
+
+                        //encrypt the ticket and add it to a cookie
+                        var cookie = new HttpCookie(FormsAuthentication.FormsCookieName, FormsAuthentication.Encrypt(authenticationTicket));
+                        HttpContext.Current.Response.Cookies.Add(cookie);
+                    }
+
+                    FormsAuthentication.SetAuthCookie(Convert.ToString(user.Email), true);
+                    User.CurrentUser = user;
+
+                    user.LastLogin = DateTime.Now;
+                    Update(user);
+                    var urlHelper = new UrlHelper(HttpContext.Current.Request.RequestContext);
+                    return new ResponseModel
+                        {
+                            Success = true,
+                            Message = "Login Success.",
+                            Data = urlHelper.Action("LoginSuccess", "Account")
+                        };
+                }
+            }
+            return new ResponseModel
+                {
+                    Success = false,
+                    Message = "Invalid email or password. Please try again."
+                };
+        }
         #endregion
     }
 }

@@ -1,13 +1,14 @@
 ﻿using System.Web.Mvc;
 using Newtonsoft.Json;
-using PX.Business.Models.DTO;
+using PX.Business.Attributes;
+using PX.Business.Models.Users;
 using PX.Business.Services.Users;
 using PX.Core.Framework.Mvc.Attributes;
 using PX.Core.Framework.Mvc.Models.JqGrid;
-using PX.EntityModel;
 
 namespace PX.Web.Areas.Admin.Controllers
 {
+    [PxAuthorize]
     public class UsersController : Controller
     {
         private readonly IUserServices _userServices;
@@ -15,6 +16,8 @@ namespace PX.Web.Areas.Admin.Controllers
         {
             _userServices = userServices;
         }
+
+        #region Listing & Manage User
 
         public ActionResult Index()
         {
@@ -40,72 +43,23 @@ namespace PX.Web.Areas.Admin.Controllers
 
         [HttpPost]
         [HandleJsonException]
-        public JsonResult Manage(UserDTO model, GridManagingModel manageModel)
+        public JsonResult Manage(UserModel model, GridManagingModel manageModel)
         {
             return Json(_userServices.ManageUser(manageModel.Operation, model));
         }
+        #endregion
 
         public ActionResult Edit()
         {
             return View();
         }
 
-        #region My Profile
-        public ActionResult Profile(int? id)
+        #region Profiles
+        public ActionResult Profiles(int id)
         {
-            if (!id.HasValue)
-            {
-                id = 4;
-                //id = EntityModel.User.CurrentUser.Id;
-            }
             var model = _userServices.GetById(id);
             return View(model);
         }
-        #endregion
-
-        #region Login
-
-        public ActionResult Login()
-        {
-            return View();
-        }
-
-        [ChildActionOnly]
-        public ActionResult LoginForm()
-        {
-            return PartialView("_Login");
-        }
-
-        [HttpPost]
-        public JsonResult LoginForm(User model)
-        {
-            return Json("");
-        }
-
-        [ChildActionOnly]
-        public ActionResult ForgotPasswordForm()
-        {
-            return PartialView("_ForgotPassword");
-        }
-
-        [HttpPost]
-        public JsonResult ForgotPasswordForm(User model)
-        {
-            return Json("");
-        }
-
-        [ChildActionOnly]
-        public ActionResult RegisterForm()
-        {
-            return PartialView("_Register");
-        }
-
-        [HttpPost]
-        public JsonResult RegisterForm(User model)
-        {
-            return Json("");
-        }
-
         #endregion
     }
 }
