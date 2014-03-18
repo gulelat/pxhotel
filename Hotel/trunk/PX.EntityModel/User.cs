@@ -25,14 +25,14 @@ namespace PX.EntityModel
         public int RoleId { get; set; }
         public int StatusId { get; set; }
         public Nullable<System.DateTime> LastLogin { get; set; }
-        public Nullable<int> RecordOrder { get; set; }
-        public Nullable<bool> RecordActive { get; set; }
+        public int RecordOrder { get; set; }
+        public bool RecordActive { get; set; }
         public System.DateTime Created { get; set; }
         public string CreatedBy { get; set; }
         public Nullable<System.DateTime> Updated { get; set; }
         public string UpdatedBy { get; set; }
     
-        public virtual Role Role { get; set; }
         public virtual Status Status { get; set; }
+        public virtual UserGroup UserGroup { get; set; }
     }
 }

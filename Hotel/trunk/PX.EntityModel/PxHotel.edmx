@@ -5,435 +5,439 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="PXHotelModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-  <EntityContainer Name="PXHotelModelStoreContainer">
-    <EntitySet Name="BookingRequests" EntityType="PXHotelModel.Store.BookingRequests" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Countries" EntityType="PXHotelModel.Store.Countries" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Menus" EntityType="PXHotelModel.Store.Menus" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="News" EntityType="PXHotelModel.Store.News" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="NewsCategories" EntityType="PXHotelModel.Store.NewsCategories" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="NewsNewsCategories" EntityType="PXHotelModel.Store.NewsNewsCategories" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Pages" EntityType="PXHotelModel.Store.Pages" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Resources" EntityType="PXHotelModel.Store.Resources" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="RoleMenus" EntityType="PXHotelModel.Store.RoleMenus" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Roles" EntityType="PXHotelModel.Store.Roles" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Rooms" EntityType="PXHotelModel.Store.Rooms" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="RoomTypes" EntityType="PXHotelModel.Store.RoomTypes" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="SiteSettings" EntityType="PXHotelModel.Store.SiteSettings" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Status" EntityType="PXHotelModel.Store.Status" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Users" EntityType="PXHotelModel.Store.Users" store:Type="Tables" Schema="dbo" />
-    <AssociationSet Name="FK_Resources_Countries" Association="PXHotelModel.Store.FK_Resources_Countries">
-      <End Role="Country" EntitySet="Countries" />
-      <End Role="Resource" EntitySet="Resources" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Menu_Menu" Association="PXHotelModel.Store.FK_Menu_Menu">
-      <End Role="Menu" EntitySet="Menus" />
-      <End Role="Menu1" EntitySet="Menus" />
-    </AssociationSet>
-    <AssociationSet Name="FK_RoleMenu_Menu" Association="PXHotelModel.Store.FK_RoleMenu_Menu">
-      <End Role="Menu" EntitySet="Menus" />
-      <End Role="RoleMenu" EntitySet="RoleMenus" />
-    </AssociationSet>
-    <AssociationSet Name="FK_NewsNewsCategory_News" Association="PXHotelModel.Store.FK_NewsNewsCategory_News">
-      <End Role="News" EntitySet="News" />
-      <End Role="NewsNewsCategory" EntitySet="NewsNewsCategories" />
-    </AssociationSet>
-    <AssociationSet Name="FK_NewsNewsCategory_NewsCategory" Association="PXHotelModel.Store.FK_NewsNewsCategory_NewsCategory">
-      <End Role="NewsCategory" EntitySet="NewsCategories" />
-      <End Role="NewsNewsCategory" EntitySet="NewsNewsCategories" />
-    </AssociationSet>
-    <AssociationSet Name="FK_RoleMenu_Role" Association="PXHotelModel.Store.FK_RoleMenu_Role">
-      <End Role="Role" EntitySet="Roles" />
-      <End Role="RoleMenu" EntitySet="RoleMenus" />
-    </AssociationSet>
-    <AssociationSet Name="FK_User_Role" Association="PXHotelModel.Store.FK_User_Role">
-      <End Role="Role" EntitySet="Roles" />
-      <End Role="User" EntitySet="Users" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Room_Room" Association="PXHotelModel.Store.FK_Room_Room">
-      <End Role="RoomType" EntitySet="RoomTypes" />
-      <End Role="Room" EntitySet="Rooms" />
-    </AssociationSet>
-    <AssociationSet Name="FK_User_Status" Association="PXHotelModel.Store.FK_User_Status">
-      <End Role="Status" EntitySet="Status" />
-      <End Role="User" EntitySet="Users" />
-    </AssociationSet>
-  </EntityContainer>
-  <EntityType Name="BookingRequests">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="FullName" Type="nvarchar" Nullable="false" MaxLength="512" />
-    <Property Name="Email" Type="nvarchar" Nullable="false" MaxLength="512" />
-    <Property Name="IndentityNumber" Type="nvarchar" Nullable="false" MaxLength="128" />
-    <Property Name="Address" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Country" Type="nvarchar" Nullable="false" MaxLength="512" />
-    <Property Name="Phone" Type="nvarchar" Nullable="false" MaxLength="512" />
-    <Property Name="Note" Type="nvarchar(max)" Nullable="true" />
-    <Property Name="TotalRooms" Type="int" Nullable="false" />
-    <Property Name="BookingFrom" Type="datetime" Nullable="false" />
-    <Property Name="BookingTo" Type="datetime" Nullable="false" />
-    <Property Name="RecordOrder" Type="int" Nullable="true" />
-    <Property Name="RecordActive" Type="bit" Nullable="true" />
-    <Property Name="Created" Type="datetime" Nullable="false" />
-    <Property Name="CreatedBy" Type="nvarchar" Nullable="false" MaxLength="512" />
-    <Property Name="Updated" Type="datetime" Nullable="true" />
-    <Property Name="UpdatedBy" Type="nvarchar" Nullable="true" MaxLength="512" />
-  </EntityType>
-  <EntityType Name="Countries">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="512" />
-    <Property Name="RecordOrder" Type="int" Nullable="true" />
-    <Property Name="RecordActive" Type="bit" Nullable="true" />
-    <Property Name="Created" Type="datetime" Nullable="false" />
-    <Property Name="CreatedBy" Type="nvarchar" Nullable="false" MaxLength="512" />
-    <Property Name="Updated" Type="datetime" Nullable="true" />
-    <Property Name="UpdatedBy" Type="nvarchar" Nullable="true" MaxLength="512" />
-  </EntityType>
-  <EntityType Name="Menus">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="256" />
-    <Property Name="Url" Type="nvarchar" Nullable="true" MaxLength="512" />
-    <Property Name="Controller" Type="nvarchar" Nullable="true" MaxLength="512" />
-    <Property Name="Action" Type="nvarchar" Nullable="true" MaxLength="512" />
-    <Property Name="ParentId" Type="int" Nullable="true" />
-    <Property Name="Hierarchy" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="MenuClass" Type="nvarchar" Nullable="true" MaxLength="512" />
-    <Property Name="RecordActive" Type="bit" Nullable="true" />
-    <Property Name="RecordOrder" Type="int" Nullable="true" />
-    <Property Name="Created" Type="datetime" Nullable="false" />
-    <Property Name="CreatedBy" Type="nvarchar" Nullable="false" MaxLength="512" />
-    <Property Name="Updated" Type="datetime" Nullable="true" />
-    <Property Name="UpdatedBy" Type="nvarchar" Nullable="true" MaxLength="512" />
-  </EntityType>
-  <EntityType Name="News">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Title" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Content" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="ImageFileName" Type="nvarchar" Nullable="true" MaxLength="512" />
-    <Property Name="Status" Type="int" Nullable="false" />
-    <Property Name="RecordOrder" Type="int" Nullable="true" />
-    <Property Name="RecordActive" Type="bit" Nullable="true" />
-    <Property Name="Created" Type="datetime" Nullable="false" />
-    <Property Name="CreatedBy" Type="nvarchar" Nullable="false" MaxLength="512" />
-    <Property Name="Updated" Type="datetime" Nullable="true" />
-    <Property Name="UpdatedBy" Type="nvarchar" Nullable="true" MaxLength="512" />
-  </EntityType>
-  <EntityType Name="NewsCategories">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="512" />
-    <Property Name="Description" Type="nvarchar(max)" Nullable="true" />
-    <Property Name="RecordOrder" Type="int" Nullable="true" />
-    <Property Name="RecordActive" Type="bit" Nullable="true" />
-    <Property Name="Created" Type="datetime" Nullable="false" />
-    <Property Name="CreatedBy" Type="nvarchar" Nullable="false" MaxLength="512" />
-    <Property Name="Updated" Type="datetime" Nullable="true" />
-    <Property Name="UpdatedBy" Type="nvarchar" Nullable="true" MaxLength="512" />
-  </EntityType>
-  <EntityType Name="NewsNewsCategories">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="NewsId" Type="int" Nullable="false" />
-    <Property Name="NewsCategoryId" Type="int" Nullable="false" />
-  </EntityType>
-  <EntityType Name="Pages">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Title" Type="nvarchar" Nullable="false" MaxLength="512" />
-    <Property Name="Caption" Type="nvarchar(max)" Nullable="true" />
-    <Property Name="Caption_Working" Type="nvarchar(max)" Nullable="true" />
-    <Property Name="Content" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Content_Working" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="StatusId" Type="int" Nullable="false" />
-    <Property Name="FriendlyUrl" Type="nvarchar" Nullable="false" MaxLength="512" />
-    <Property Name="RecordOrder" Type="int" Nullable="true" />
-    <Property Name="RecordActive" Type="bit" Nullable="true" />
-    <Property Name="Created" Type="datetime" Nullable="false" />
-    <Property Name="CreatedBy" Type="nvarchar" Nullable="false" MaxLength="512" />
-    <Property Name="Updated" Type="datetime" Nullable="true" />
-    <Property Name="UpdatedBy" Type="nvarchar" Nullable="true" MaxLength="512" />
-  </EntityType>
-  <EntityType Name="Resources">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" Nullable="false" />
-    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="512" />
-    <Property Name="DefaultValue" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Value" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="CountryId" Type="int" Nullable="false" />
-    <Property Name="RecordOrder" Type="int" Nullable="true" />
-    <Property Name="RecordActive" Type="bit" Nullable="true" />
-    <Property Name="Created" Type="datetime" Nullable="false" />
-    <Property Name="CreatedBy" Type="nvarchar" Nullable="false" MaxLength="512" />
-    <Property Name="Updated" Type="datetime" Nullable="true" />
-    <Property Name="UpdatedBy" Type="nvarchar" Nullable="true" MaxLength="512" />
-  </EntityType>
-  <EntityType Name="RoleMenus">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="RoleId" Type="int" Nullable="false" />
-    <Property Name="MenuId" Type="int" Nullable="false" />
-    <Property Name="RecordOrder" Type="int" Nullable="true" />
-    <Property Name="RecordActive" Type="bit" Nullable="true" />
-    <Property Name="Created" Type="datetime" Nullable="false" />
-    <Property Name="CreatedBy" Type="nvarchar" Nullable="false" MaxLength="512" />
-    <Property Name="Updated" Type="datetime" Nullable="true" />
-    <Property Name="UpdatedBy" Type="nvarchar" Nullable="true" MaxLength="512" />
-  </EntityType>
-  <EntityType Name="Roles">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="256" />
-    <Property Name="Description" Type="nvarchar" Nullable="true" MaxLength="512" />
-    <Property Name="RecordOrder" Type="int" Nullable="true" />
-    <Property Name="RecordActive" Type="bit" Nullable="true" />
-    <Property Name="Created" Type="datetime" Nullable="false" />
-    <Property Name="CreatedBy" Type="nvarchar" Nullable="false" MaxLength="512" />
-    <Property Name="Updated" Type="datetime" Nullable="true" />
-    <Property Name="UpdatedBy" Type="nvarchar" Nullable="true" MaxLength="512" />
-  </EntityType>
-  <EntityType Name="Rooms">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="512" />
-    <Property Name="Note" Type="nvarchar(max)" Nullable="true" />
-    <Property Name="StatusId" Type="int" Nullable="false" />
-    <Property Name="RoomTypeId" Type="int" Nullable="false" />
-    <Property Name="RecordOrder" Type="int" Nullable="true" />
-    <Property Name="RecordActive" Type="bit" Nullable="true" />
-    <Property Name="Created" Type="datetime" Nullable="false" />
-    <Property Name="CreatedBy" Type="nvarchar" Nullable="false" MaxLength="512" />
-    <Property Name="Updated" Type="datetime" Nullable="true" />
-    <Property Name="UpdatedBy" Type="nvarchar" Nullable="true" MaxLength="512" />
-  </EntityType>
-  <EntityType Name="RoomTypes">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="512" />
-    <Property Name="Description" Type="nvarchar(max)" Nullable="true" />
-    <Property Name="Price" Type="float" Nullable="false" />
-    <Property Name="RecordOrder" Type="int" Nullable="true" />
-    <Property Name="RecordActive" Type="bit" Nullable="true" />
-    <Property Name="Created" Type="datetime" Nullable="false" />
-    <Property Name="CreatedDate" Type="nvarchar" Nullable="false" MaxLength="512" />
-    <Property Name="Updated" Type="datetime" Nullable="true" />
-    <Property Name="UpdatedBy" Type="nvarchar" Nullable="true" MaxLength="512" />
-  </EntityType>
-  <EntityType Name="SiteSettings">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="512" />
-    <Property Name="Value" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="RecordOrder" Type="int" Nullable="true" />
-    <Property Name="RecordActive" Type="bit" Nullable="true" />
-    <Property Name="Created" Type="datetime" Nullable="false" />
-    <Property Name="CreatedBy" Type="nvarchar" Nullable="false" MaxLength="512" />
-    <Property Name="Updated" Type="datetime" Nullable="true" />
-    <Property Name="UpdatedBy" Type="nvarchar" Nullable="true" MaxLength="512" />
-  </EntityType>
-  <EntityType Name="Status">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="256" />
-    <Property Name="Description" Type="nvarchar" Nullable="true" MaxLength="512" />
-    <Property Name="RecordOrder" Type="int" Nullable="true" />
-    <Property Name="RecordActive" Type="bit" Nullable="true" />
-    <Property Name="Created" Type="datetime" Nullable="false" />
-    <Property Name="CreatedBy" Type="nvarchar" Nullable="false" MaxLength="512" />
-    <Property Name="Updated" Type="datetime" Nullable="true" />
-    <Property Name="UpdatedBy" Type="nvarchar" Nullable="true" MaxLength="512" />
-  </EntityType>
-  <EntityType Name="Users">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Email" Type="nvarchar" Nullable="false" MaxLength="256" />
-    <Property Name="Password" Type="nvarchar" Nullable="false" MaxLength="256" />
-    <Property Name="FirstName" Type="nvarchar" Nullable="false" MaxLength="256" />
-    <Property Name="LastName" Type="nvarchar" Nullable="false" MaxLength="256" />
-    <Property Name="Phone" Type="nvarchar" Nullable="false" MaxLength="50" />
-    <Property Name="IdentityNumber" Type="nvarchar" Nullable="true" MaxLength="50" />
-    <Property Name="ImageFileName" Type="nvarchar" Nullable="true" MaxLength="512" />
-    <Property Name="RoleId" Type="int" Nullable="false" />
-    <Property Name="StatusId" Type="int" Nullable="false" />
-    <Property Name="LastLogin" Type="datetime" Nullable="true" />
-    <Property Name="RecordOrder" Type="int" Nullable="true" />
-    <Property Name="RecordActive" Type="bit" Nullable="true" />
-    <Property Name="Created" Type="datetime" Nullable="false" />
-    <Property Name="CreatedBy" Type="nvarchar" Nullable="false" MaxLength="512" />
-    <Property Name="Updated" Type="datetime" Nullable="true" />
-    <Property Name="UpdatedBy" Type="nvarchar" Nullable="true" MaxLength="512" />
-  </EntityType>
-  <Association Name="FK_Resources_Countries">
-    <End Role="Country" Type="PXHotelModel.Store.Countries" Multiplicity="1" />
-    <End Role="Resource" Type="PXHotelModel.Store.Resources" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Country">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Resource">
-        <PropertyRef Name="CountryId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Menu_Menu">
-    <End Role="Menu" Type="PXHotelModel.Store.Menus" Multiplicity="0..1" />
-    <End Role="Menu1" Type="PXHotelModel.Store.Menus" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Menu">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Menu1">
-        <PropertyRef Name="ParentId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_RoleMenu_Menu">
-    <End Role="Menu" Type="PXHotelModel.Store.Menus" Multiplicity="1" />
-    <End Role="RoleMenu" Type="PXHotelModel.Store.RoleMenus" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Menu">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="RoleMenu">
-        <PropertyRef Name="MenuId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_NewsNewsCategory_News">
-    <End Role="News" Type="PXHotelModel.Store.News" Multiplicity="1" />
-    <End Role="NewsNewsCategory" Type="PXHotelModel.Store.NewsNewsCategories" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="News">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="NewsNewsCategory">
-        <PropertyRef Name="NewsId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_NewsNewsCategory_NewsCategory">
-    <End Role="NewsCategory" Type="PXHotelModel.Store.NewsCategories" Multiplicity="1" />
-    <End Role="NewsNewsCategory" Type="PXHotelModel.Store.NewsNewsCategories" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="NewsCategory">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="NewsNewsCategory">
-        <PropertyRef Name="NewsCategoryId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_RoleMenu_Role">
-    <End Role="Role" Type="PXHotelModel.Store.Roles" Multiplicity="1" />
-    <End Role="RoleMenu" Type="PXHotelModel.Store.RoleMenus" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Role">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="RoleMenu">
-        <PropertyRef Name="RoleId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_User_Role">
-    <End Role="Role" Type="PXHotelModel.Store.Roles" Multiplicity="1" />
-    <End Role="User" Type="PXHotelModel.Store.Users" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Role">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="User">
-        <PropertyRef Name="RoleId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Room_Room">
-    <End Role="RoomType" Type="PXHotelModel.Store.RoomTypes" Multiplicity="1" />
-    <End Role="Room" Type="PXHotelModel.Store.Rooms" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="RoomType">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Room">
-        <PropertyRef Name="RoomTypeId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_User_Status">
-    <End Role="Status" Type="PXHotelModel.Store.Status" Multiplicity="1" />
-    <End Role="User" Type="PXHotelModel.Store.Users" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Status">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="User">
-        <PropertyRef Name="StatusId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-</Schema></edmx:StorageModels>
+        <EntityContainer Name="PXHotelModelStoreContainer">
+          <EntitySet Name="BookingRequests" EntityType="PXHotelModel.Store.BookingRequests" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Countries" EntityType="PXHotelModel.Store.Countries" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="GroupMenus" EntityType="PXHotelModel.Store.GroupMenus" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Menus" EntityType="PXHotelModel.Store.Menus" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="News" EntityType="PXHotelModel.Store.News" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="NewsCategories" EntityType="PXHotelModel.Store.NewsCategories" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="NewsNewsCategories" EntityType="PXHotelModel.Store.NewsNewsCategories" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Pages" EntityType="PXHotelModel.Store.Pages" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Resources" EntityType="PXHotelModel.Store.Resources" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Rooms" EntityType="PXHotelModel.Store.Rooms" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="RoomTypes" EntityType="PXHotelModel.Store.RoomTypes" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="SiteSettings" EntityType="PXHotelModel.Store.SiteSettings" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Status" EntityType="PXHotelModel.Store.Status" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="UserGroups" EntityType="PXHotelModel.Store.UserGroups" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Users" EntityType="PXHotelModel.Store.Users" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK_Menu_Menu" Association="PXHotelModel.Store.FK_Menu_Menu">
+            <End Role="Menus" EntitySet="Menus" />
+            <End Role="Menus1" EntitySet="Menus" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NewsNewsCategory_News" Association="PXHotelModel.Store.FK_NewsNewsCategory_News">
+            <End Role="News" EntitySet="News" />
+            <End Role="NewsNewsCategories" EntitySet="NewsNewsCategories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NewsNewsCategory_NewsCategory" Association="PXHotelModel.Store.FK_NewsNewsCategory_NewsCategory">
+            <End Role="NewsCategories" EntitySet="NewsCategories" />
+            <End Role="NewsNewsCategories" EntitySet="NewsNewsCategories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Resources_Countries" Association="PXHotelModel.Store.FK_Resources_Countries">
+            <End Role="Countries" EntitySet="Countries" />
+            <End Role="Resources" EntitySet="Resources" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RoleMenu_Menu" Association="PXHotelModel.Store.FK_RoleMenu_Menu">
+            <End Role="Menus" EntitySet="Menus" />
+            <End Role="GroupMenus" EntitySet="GroupMenus" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RoleMenu_Role" Association="PXHotelModel.Store.FK_RoleMenu_Role">
+            <End Role="UserGroups" EntitySet="UserGroups" />
+            <End Role="GroupMenus" EntitySet="GroupMenus" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Room_Room" Association="PXHotelModel.Store.FK_Room_Room">
+            <End Role="RoomTypes" EntitySet="RoomTypes" />
+            <End Role="Rooms" EntitySet="Rooms" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_Role" Association="PXHotelModel.Store.FK_User_Role">
+            <End Role="UserGroups" EntitySet="UserGroups" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_Status" Association="PXHotelModel.Store.FK_User_Status">
+            <End Role="Status" EntitySet="Status" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="BookingRequests">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="FullName" Type="nvarchar" Nullable="false" MaxLength="512" />
+          <Property Name="Email" Type="nvarchar" Nullable="false" MaxLength="512" />
+          <Property Name="IndentityNumber" Type="nvarchar" Nullable="false" MaxLength="128" />
+          <Property Name="Address" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Country" Type="nvarchar" Nullable="false" MaxLength="512" />
+          <Property Name="Phone" Type="nvarchar" Nullable="false" MaxLength="512" />
+          <Property Name="Note" Type="nvarchar(max)" />
+          <Property Name="TotalRooms" Type="int" Nullable="false" />
+          <Property Name="BookingFrom" Type="datetime" Nullable="false" />
+          <Property Name="BookingTo" Type="datetime" Nullable="false" />
+          <Property Name="RecordOrder" Type="int" Nullable="false" />
+          <Property Name="RecordActive" Type="bit" Nullable="false" />
+          <Property Name="Created" Type="datetime" Nullable="false" />
+          <Property Name="CreatedBy" Type="nvarchar" Nullable="false" MaxLength="512" />
+          <Property Name="Updated" Type="datetime" />
+          <Property Name="UpdatedBy" Type="nvarchar" MaxLength="512" />
+        </EntityType>
+        <EntityType Name="Countries">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="512" />
+          <Property Name="RecordOrder" Type="int" Nullable="false" />
+          <Property Name="RecordActive" Type="bit" Nullable="false" />
+          <Property Name="Created" Type="datetime" Nullable="false" />
+          <Property Name="CreatedBy" Type="nvarchar" Nullable="false" MaxLength="512" />
+          <Property Name="Updated" Type="datetime" />
+          <Property Name="UpdatedBy" Type="nvarchar" MaxLength="512" />
+        </EntityType>
+        <EntityType Name="GroupMenus">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="UserGroupId" Type="int" Nullable="false" />
+          <Property Name="MenuId" Type="int" Nullable="false" />
+          <Property Name="RecordOrder" Type="int" Nullable="false" />
+          <Property Name="RecordActive" Type="bit" Nullable="false" />
+          <Property Name="Created" Type="datetime" Nullable="false" />
+          <Property Name="CreatedBy" Type="nvarchar" Nullable="false" MaxLength="512" />
+          <Property Name="Updated" Type="datetime" />
+          <Property Name="UpdatedBy" Type="nvarchar" MaxLength="512" />
+        </EntityType>
+        <EntityType Name="Menus">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="256" />
+          <Property Name="Url" Type="nvarchar" MaxLength="512" />
+          <Property Name="Controller" Type="nvarchar" MaxLength="512" />
+          <Property Name="Action" Type="nvarchar" MaxLength="512" />
+          <Property Name="ParentId" Type="int" />
+          <Property Name="Hierarchy" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="MenuIcon" Type="nvarchar" MaxLength="512" />
+          <Property Name="RecordActive" Type="bit" Nullable="false" />
+          <Property Name="RecordOrder" Type="int" Nullable="false" />
+          <Property Name="Created" Type="datetime" Nullable="false" />
+          <Property Name="CreatedBy" Type="nvarchar" Nullable="false" MaxLength="512" />
+          <Property Name="Updated" Type="datetime" />
+          <Property Name="UpdatedBy" Type="nvarchar" MaxLength="512" />
+        </EntityType>
+        <EntityType Name="News">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Content" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="ImageFileName" Type="nvarchar" MaxLength="512" />
+          <Property Name="Status" Type="int" Nullable="false" />
+          <Property Name="RecordOrder" Type="int" Nullable="false" />
+          <Property Name="RecordActive" Type="bit" Nullable="false" />
+          <Property Name="Created" Type="datetime" Nullable="false" />
+          <Property Name="CreatedBy" Type="nvarchar" Nullable="false" MaxLength="512" />
+          <Property Name="Updated" Type="datetime" />
+          <Property Name="UpdatedBy" Type="nvarchar" MaxLength="512" />
+        </EntityType>
+        <EntityType Name="NewsCategories">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="512" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="RecordOrder" Type="int" Nullable="false" />
+          <Property Name="RecordActive" Type="bit" Nullable="false" />
+          <Property Name="Created" Type="datetime" Nullable="false" />
+          <Property Name="CreatedBy" Type="nvarchar" Nullable="false" MaxLength="512" />
+          <Property Name="Updated" Type="datetime" />
+          <Property Name="UpdatedBy" Type="nvarchar" MaxLength="512" />
+        </EntityType>
+        <EntityType Name="NewsNewsCategories">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="NewsId" Type="int" Nullable="false" />
+          <Property Name="NewsCategoryId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Pages">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="nvarchar" Nullable="false" MaxLength="512" />
+          <Property Name="Caption" Type="nvarchar(max)" />
+          <Property Name="Caption_Working" Type="nvarchar(max)" />
+          <Property Name="Content" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Content_Working" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="StatusId" Type="int" Nullable="false" />
+          <Property Name="FriendlyUrl" Type="nvarchar" Nullable="false" MaxLength="512" />
+          <Property Name="RecordOrder" Type="int" Nullable="false" />
+          <Property Name="RecordActive" Type="bit" Nullable="false" />
+          <Property Name="Created" Type="datetime" Nullable="false" />
+          <Property Name="CreatedBy" Type="nvarchar" Nullable="false" MaxLength="512" />
+          <Property Name="Updated" Type="datetime" />
+          <Property Name="UpdatedBy" Type="nvarchar" MaxLength="512" />
+        </EntityType>
+        <EntityType Name="Resources">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="512" />
+          <Property Name="DefaultValue" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Value" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="CountryId" Type="int" Nullable="false" />
+          <Property Name="RecordOrder" Type="int" Nullable="false" />
+          <Property Name="RecordActive" Type="bit" Nullable="false" />
+          <Property Name="Created" Type="datetime" Nullable="false" />
+          <Property Name="CreatedBy" Type="nvarchar" Nullable="false" MaxLength="512" />
+          <Property Name="Updated" Type="datetime" />
+          <Property Name="UpdatedBy" Type="nvarchar" MaxLength="512" />
+        </EntityType>
+        <EntityType Name="Rooms">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="512" />
+          <Property Name="Note" Type="nvarchar(max)" />
+          <Property Name="StatusId" Type="int" Nullable="false" />
+          <Property Name="RoomTypeId" Type="int" Nullable="false" />
+          <Property Name="RecordOrder" Type="int" Nullable="false" />
+          <Property Name="RecordActive" Type="bit" Nullable="false" />
+          <Property Name="Created" Type="datetime" Nullable="false" />
+          <Property Name="CreatedBy" Type="nvarchar" Nullable="false" MaxLength="512" />
+          <Property Name="Updated" Type="datetime" />
+          <Property Name="UpdatedBy" Type="nvarchar" MaxLength="512" />
+        </EntityType>
+        <EntityType Name="RoomTypes">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="512" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="Price" Type="float" Nullable="false" />
+          <Property Name="RecordOrder" Type="int" Nullable="false" />
+          <Property Name="RecordActive" Type="bit" Nullable="false" />
+          <Property Name="Created" Type="datetime" Nullable="false" />
+          <Property Name="CreatedDate" Type="nvarchar" Nullable="false" MaxLength="512" />
+          <Property Name="Updated" Type="datetime" />
+          <Property Name="UpdatedBy" Type="nvarchar" MaxLength="512" />
+        </EntityType>
+        <EntityType Name="SiteSettings">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="512" />
+          <Property Name="Value" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="RecordOrder" Type="int" Nullable="false" />
+          <Property Name="RecordActive" Type="bit" Nullable="false" />
+          <Property Name="Created" Type="datetime" Nullable="false" />
+          <Property Name="CreatedBy" Type="nvarchar" Nullable="false" MaxLength="512" />
+          <Property Name="Updated" Type="datetime" />
+          <Property Name="UpdatedBy" Type="nvarchar" MaxLength="512" />
+        </EntityType>
+        <EntityType Name="Status">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="256" />
+          <Property Name="Description" Type="nvarchar" MaxLength="512" />
+          <Property Name="RecordOrder" Type="int" Nullable="false" />
+          <Property Name="RecordActive" Type="bit" Nullable="false" />
+          <Property Name="Created" Type="datetime" Nullable="false" />
+          <Property Name="CreatedBy" Type="nvarchar" Nullable="false" MaxLength="512" />
+          <Property Name="Updated" Type="datetime" />
+          <Property Name="UpdatedBy" Type="nvarchar" MaxLength="512" />
+        </EntityType>
+        <EntityType Name="UserGroups">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="256" />
+          <Property Name="Description" Type="nvarchar" MaxLength="512" />
+          <Property Name="RecordOrder" Type="int" Nullable="false" />
+          <Property Name="RecordActive" Type="bit" Nullable="false" />
+          <Property Name="Created" Type="datetime" Nullable="false" />
+          <Property Name="CreatedBy" Type="nvarchar" Nullable="false" MaxLength="512" />
+          <Property Name="Updated" Type="datetime" />
+          <Property Name="UpdatedBy" Type="nvarchar" MaxLength="512" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Email" Type="nvarchar" Nullable="false" MaxLength="256" />
+          <Property Name="Password" Type="nvarchar" Nullable="false" MaxLength="256" />
+          <Property Name="FirstName" Type="nvarchar" Nullable="false" MaxLength="256" />
+          <Property Name="LastName" Type="nvarchar" Nullable="false" MaxLength="256" />
+          <Property Name="Phone" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="IdentityNumber" Type="nvarchar" MaxLength="50" />
+          <Property Name="ImageFileName" Type="nvarchar" MaxLength="512" />
+          <Property Name="RoleId" Type="int" Nullable="false" />
+          <Property Name="StatusId" Type="int" Nullable="false" />
+          <Property Name="LastLogin" Type="datetime" />
+          <Property Name="RecordOrder" Type="int" Nullable="false" />
+          <Property Name="RecordActive" Type="bit" Nullable="false" />
+          <Property Name="Created" Type="datetime" Nullable="false" />
+          <Property Name="CreatedBy" Type="nvarchar" Nullable="false" MaxLength="512" />
+          <Property Name="Updated" Type="datetime" />
+          <Property Name="UpdatedBy" Type="nvarchar" MaxLength="512" />
+        </EntityType>
+        <Association Name="FK_Menu_Menu">
+          <End Role="Menus" Type="PXHotelModel.Store.Menus" Multiplicity="0..1" />
+          <End Role="Menus1" Type="PXHotelModel.Store.Menus" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Menus">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Menus1">
+              <PropertyRef Name="ParentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NewsNewsCategory_News">
+          <End Role="News" Type="PXHotelModel.Store.News" Multiplicity="1" />
+          <End Role="NewsNewsCategories" Type="PXHotelModel.Store.NewsNewsCategories" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="News">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="NewsNewsCategories">
+              <PropertyRef Name="NewsId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NewsNewsCategory_NewsCategory">
+          <End Role="NewsCategories" Type="PXHotelModel.Store.NewsCategories" Multiplicity="1" />
+          <End Role="NewsNewsCategories" Type="PXHotelModel.Store.NewsNewsCategories" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NewsCategories">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="NewsNewsCategories">
+              <PropertyRef Name="NewsCategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Resources_Countries">
+          <End Role="Countries" Type="PXHotelModel.Store.Countries" Multiplicity="1" />
+          <End Role="Resources" Type="PXHotelModel.Store.Resources" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Countries">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Resources">
+              <PropertyRef Name="CountryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RoleMenu_Menu">
+          <End Role="Menus" Type="PXHotelModel.Store.Menus" Multiplicity="1" />
+          <End Role="GroupMenus" Type="PXHotelModel.Store.GroupMenus" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Menus">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="GroupMenus">
+              <PropertyRef Name="MenuId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RoleMenu_Role">
+          <End Role="UserGroups" Type="PXHotelModel.Store.UserGroups" Multiplicity="1" />
+          <End Role="GroupMenus" Type="PXHotelModel.Store.GroupMenus" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserGroups">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="GroupMenus">
+              <PropertyRef Name="UserGroupId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Room_Room">
+          <End Role="RoomTypes" Type="PXHotelModel.Store.RoomTypes" Multiplicity="1" />
+          <End Role="Rooms" Type="PXHotelModel.Store.Rooms" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RoomTypes">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Rooms">
+              <PropertyRef Name="RoomTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_Role">
+          <End Role="UserGroups" Type="PXHotelModel.Store.UserGroups" Multiplicity="1" />
+          <End Role="Users" Type="PXHotelModel.Store.Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserGroups">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_Status">
+          <End Role="Status" Type="PXHotelModel.Store.Status" Multiplicity="1" />
+          <End Role="Users" Type="PXHotelModel.Store.Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Status">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="StatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="PXHotelModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="PXHotelEntities" p1:LazyLoadingEnabled="true">
           <EntitySet Name="BookingRequests" EntityType="PXHotelModel.BookingRequest" />
           <EntitySet Name="Countries" EntityType="PXHotelModel.Country" />
+          <EntitySet Name="GroupMenus" EntityType="PXHotelModel.GroupMenu" />
           <EntitySet Name="Menus" EntityType="PXHotelModel.Menu" />
           <EntitySet Name="News" EntityType="PXHotelModel.News" />
           <EntitySet Name="NewsCategories" EntityType="PXHotelModel.NewsCategory" />
           <EntitySet Name="NewsNewsCategories" EntityType="PXHotelModel.NewsNewsCategory" />
           <EntitySet Name="Pages" EntityType="PXHotelModel.Page" />
           <EntitySet Name="Resources" EntityType="PXHotelModel.Resource" />
-          <EntitySet Name="RoleMenus" EntityType="PXHotelModel.RoleMenu" />
-          <EntitySet Name="Roles" EntityType="PXHotelModel.Role" />
           <EntitySet Name="Rooms" EntityType="PXHotelModel.Room" />
           <EntitySet Name="RoomTypes" EntityType="PXHotelModel.RoomType" />
           <EntitySet Name="SiteSettings" EntityType="PXHotelModel.SiteSetting" />
           <EntitySet Name="Status" EntityType="PXHotelModel.Status" />
+          <EntitySet Name="UserGroups" EntityType="PXHotelModel.UserGroup" />
           <EntitySet Name="Users" EntityType="PXHotelModel.User" />
           <AssociationSet Name="FK_Resources_Countries" Association="PXHotelModel.FK_Resources_Countries">
             <End Role="Country" EntitySet="Countries" />
             <End Role="Resource" EntitySet="Resources" />
           </AssociationSet>
+          <AssociationSet Name="FK_RoleMenu_Menu" Association="PXHotelModel.FK_RoleMenu_Menu">
+            <End Role="Menu" EntitySet="Menus" />
+            <End Role="GroupMenu" EntitySet="GroupMenus" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RoleMenu_Role" Association="PXHotelModel.FK_RoleMenu_Role">
+            <End Role="UserGroup" EntitySet="UserGroups" />
+            <End Role="GroupMenu" EntitySet="GroupMenus" />
+          </AssociationSet>
           <AssociationSet Name="FK_Menu_Menu" Association="PXHotelModel.FK_Menu_Menu">
             <End Role="Menu" EntitySet="Menus" />
             <End Role="Menu1" EntitySet="Menus" />
-          </AssociationSet>
-          <AssociationSet Name="FK_RoleMenu_Menu" Association="PXHotelModel.FK_RoleMenu_Menu">
-            <End Role="Menu" EntitySet="Menus" />
-            <End Role="RoleMenu" EntitySet="RoleMenus" />
           </AssociationSet>
           <AssociationSet Name="FK_NewsNewsCategory_News" Association="PXHotelModel.FK_NewsNewsCategory_News">
             <End Role="News" EntitySet="News" />
@@ -443,20 +447,16 @@
             <End Role="NewsCategory" EntitySet="NewsCategories" />
             <End Role="NewsNewsCategory" EntitySet="NewsNewsCategories" />
           </AssociationSet>
-          <AssociationSet Name="FK_RoleMenu_Role" Association="PXHotelModel.FK_RoleMenu_Role">
-            <End Role="Role" EntitySet="Roles" />
-            <End Role="RoleMenu" EntitySet="RoleMenus" />
-          </AssociationSet>
-          <AssociationSet Name="FK_User_Role" Association="PXHotelModel.FK_User_Role">
-            <End Role="Role" EntitySet="Roles" />
-            <End Role="User" EntitySet="Users" />
-          </AssociationSet>
           <AssociationSet Name="FK_Room_Room" Association="PXHotelModel.FK_Room_Room">
             <End Role="RoomType" EntitySet="RoomTypes" />
             <End Role="Room" EntitySet="Rooms" />
           </AssociationSet>
           <AssociationSet Name="FK_User_Status" Association="PXHotelModel.FK_User_Status">
             <End Role="Status" EntitySet="Status" />
+            <End Role="User" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_Role" Association="PXHotelModel.FK_User_Role">
+            <End Role="UserGroup" EntitySet="UserGroups" />
             <End Role="User" EntitySet="Users" />
           </AssociationSet>
         </EntityContainer>
@@ -475,8 +475,8 @@
           <Property Type="Int32" Name="TotalRooms" Nullable="false" />
           <Property Type="DateTime" Name="BookingFrom" Nullable="false" Precision="3" />
           <Property Type="DateTime" Name="BookingTo" Nullable="false" Precision="3" />
-          <Property Type="Int32" Name="RecordOrder" />
-          <Property Type="Boolean" Name="RecordActive" />
+          <Property Type="Int32" Name="RecordOrder" Nullable="false" />
+          <Property Type="Boolean" Name="RecordActive" Nullable="false" />
           <Property Type="DateTime" Name="Created" Nullable="false" Precision="3" />
           <Property Type="String" Name="CreatedBy" Nullable="false" MaxLength="512" FixedLength="false" Unicode="true" />
           <Property Type="DateTime" Name="Updated" Precision="3" />
@@ -488,13 +488,29 @@
           </Key>
           <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="String" Name="Name" Nullable="false" MaxLength="512" FixedLength="false" Unicode="true" />
-          <Property Type="Int32" Name="RecordOrder" />
-          <Property Type="Boolean" Name="RecordActive" />
+          <Property Type="Int32" Name="RecordOrder" Nullable="false" />
+          <Property Type="Boolean" Name="RecordActive" Nullable="false" />
           <Property Type="DateTime" Name="Created" Nullable="false" Precision="3" />
           <Property Type="String" Name="CreatedBy" Nullable="false" MaxLength="512" FixedLength="false" Unicode="true" />
           <Property Type="DateTime" Name="Updated" Precision="3" />
           <Property Type="String" Name="UpdatedBy" MaxLength="512" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Resources" Relationship="PXHotelModel.FK_Resources_Countries" FromRole="Country" ToRole="Resource" />
+        </EntityType>
+        <EntityType Name="GroupMenu">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="UserGroupId" Nullable="false" />
+          <Property Type="Int32" Name="MenuId" Nullable="false" />
+          <Property Type="Int32" Name="RecordOrder" Nullable="false" />
+          <Property Type="Boolean" Name="RecordActive" Nullable="false" />
+          <Property Type="DateTime" Name="Created" Nullable="false" Precision="3" />
+          <Property Type="String" Name="CreatedBy" Nullable="false" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Type="DateTime" Name="Updated" Precision="3" />
+          <Property Type="String" Name="UpdatedBy" MaxLength="512" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Menu" Relationship="PXHotelModel.FK_RoleMenu_Menu" FromRole="GroupMenu" ToRole="Menu" />
+          <NavigationProperty Name="UserGroup" Relationship="PXHotelModel.FK_RoleMenu_Role" FromRole="GroupMenu" ToRole="UserGroup" />
         </EntityType>
         <EntityType Name="Menu">
           <Key>
@@ -507,16 +523,16 @@
           <Property Type="String" Name="Action" MaxLength="512" FixedLength="false" Unicode="true" />
           <Property Type="Int32" Name="ParentId" />
           <Property Type="String" Name="Hierarchy" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="MenuClass" MaxLength="512" FixedLength="false" Unicode="true" />
-          <Property Type="Boolean" Name="RecordActive" />
-          <Property Type="Int32" Name="RecordOrder" />
+          <Property Type="String" Name="MenuIcon" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Type="Boolean" Name="RecordActive" Nullable="false" />
+          <Property Type="Int32" Name="RecordOrder" Nullable="false" />
           <Property Type="DateTime" Name="Created" Nullable="false" Precision="3" />
           <Property Type="String" Name="CreatedBy" Nullable="false" MaxLength="512" FixedLength="false" Unicode="true" />
           <Property Type="DateTime" Name="Updated" Precision="3" />
           <Property Type="String" Name="UpdatedBy" MaxLength="512" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="GroupMenus" Relationship="PXHotelModel.FK_RoleMenu_Menu" FromRole="Menu" ToRole="GroupMenu" />
           <NavigationProperty Name="Menus1" Relationship="PXHotelModel.FK_Menu_Menu" FromRole="Menu" ToRole="Menu1" />
           <NavigationProperty Name="Menu1" Relationship="PXHotelModel.FK_Menu_Menu" FromRole="Menu1" ToRole="Menu" />
-          <NavigationProperty Name="RoleMenus" Relationship="PXHotelModel.FK_RoleMenu_Menu" FromRole="Menu" ToRole="RoleMenu" />
         </EntityType>
         <EntityType Name="News">
           <Key>
@@ -528,8 +544,8 @@
           <Property Type="String" Name="Content" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="ImageFileName" MaxLength="512" FixedLength="false" Unicode="true" />
           <Property Type="Int32" Name="Status" Nullable="false" />
-          <Property Type="Int32" Name="RecordOrder" />
-          <Property Type="Boolean" Name="RecordActive" />
+          <Property Type="Int32" Name="RecordOrder" Nullable="false" />
+          <Property Type="Boolean" Name="RecordActive" Nullable="false" />
           <Property Type="DateTime" Name="Created" Nullable="false" Precision="3" />
           <Property Type="String" Name="CreatedBy" Nullable="false" MaxLength="512" FixedLength="false" Unicode="true" />
           <Property Type="DateTime" Name="Updated" Precision="3" />
@@ -543,8 +559,8 @@
           <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="String" Name="Name" Nullable="false" MaxLength="512" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="Description" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Type="Int32" Name="RecordOrder" />
-          <Property Type="Boolean" Name="RecordActive" />
+          <Property Type="Int32" Name="RecordOrder" Nullable="false" />
+          <Property Type="Boolean" Name="RecordActive" Nullable="false" />
           <Property Type="DateTime" Name="Created" Nullable="false" Precision="3" />
           <Property Type="String" Name="CreatedBy" Nullable="false" MaxLength="512" FixedLength="false" Unicode="true" />
           <Property Type="DateTime" Name="Updated" Precision="3" />
@@ -573,8 +589,8 @@
           <Property Type="String" Name="Content_Working" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Type="Int32" Name="StatusId" Nullable="false" />
           <Property Type="String" Name="FriendlyUrl" Nullable="false" MaxLength="512" FixedLength="false" Unicode="true" />
-          <Property Type="Int32" Name="RecordOrder" />
-          <Property Type="Boolean" Name="RecordActive" />
+          <Property Type="Int32" Name="RecordOrder" Nullable="false" />
+          <Property Type="Boolean" Name="RecordActive" Nullable="false" />
           <Property Type="DateTime" Name="Created" Nullable="false" Precision="3" />
           <Property Type="String" Name="CreatedBy" Nullable="false" MaxLength="512" FixedLength="false" Unicode="true" />
           <Property Type="DateTime" Name="Updated" Precision="3" />
@@ -589,45 +605,13 @@
           <Property Type="String" Name="DefaultValue" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="Value" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Type="Int32" Name="CountryId" Nullable="false" />
-          <Property Type="Int32" Name="RecordOrder" />
-          <Property Type="Boolean" Name="RecordActive" />
+          <Property Type="Int32" Name="RecordOrder" Nullable="false" />
+          <Property Type="Boolean" Name="RecordActive" Nullable="false" />
           <Property Type="DateTime" Name="Created" Nullable="false" Precision="3" />
           <Property Type="String" Name="CreatedBy" Nullable="false" MaxLength="512" FixedLength="false" Unicode="true" />
           <Property Type="DateTime" Name="Updated" Precision="3" />
           <Property Type="String" Name="UpdatedBy" MaxLength="512" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Country" Relationship="PXHotelModel.FK_Resources_Countries" FromRole="Resource" ToRole="Country" />
-        </EntityType>
-        <EntityType Name="RoleMenu">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="Int32" Name="RoleId" Nullable="false" />
-          <Property Type="Int32" Name="MenuId" Nullable="false" />
-          <Property Type="Int32" Name="RecordOrder" />
-          <Property Type="Boolean" Name="RecordActive" />
-          <Property Type="DateTime" Name="Created" Nullable="false" Precision="3" />
-          <Property Type="String" Name="CreatedBy" Nullable="false" MaxLength="512" FixedLength="false" Unicode="true" />
-          <Property Type="DateTime" Name="Updated" Precision="3" />
-          <Property Type="String" Name="UpdatedBy" MaxLength="512" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Menu" Relationship="PXHotelModel.FK_RoleMenu_Menu" FromRole="RoleMenu" ToRole="Menu" />
-          <NavigationProperty Name="Role" Relationship="PXHotelModel.FK_RoleMenu_Role" FromRole="RoleMenu" ToRole="Role" />
-        </EntityType>
-        <EntityType Name="Role">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="String" Name="Name" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Description" MaxLength="512" FixedLength="false" Unicode="true" />
-          <Property Type="Int32" Name="RecordOrder" />
-          <Property Type="Boolean" Name="RecordActive" />
-          <Property Type="DateTime" Name="Created" Nullable="false" Precision="3" />
-          <Property Type="String" Name="CreatedBy" Nullable="false" MaxLength="512" FixedLength="false" Unicode="true" />
-          <Property Type="DateTime" Name="Updated" Precision="3" />
-          <Property Type="String" Name="UpdatedBy" MaxLength="512" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="RoleMenus" Relationship="PXHotelModel.FK_RoleMenu_Role" FromRole="Role" ToRole="RoleMenu" />
-          <NavigationProperty Name="Users" Relationship="PXHotelModel.FK_User_Role" FromRole="Role" ToRole="User" />
         </EntityType>
         <EntityType Name="Room">
           <Key>
@@ -638,8 +622,8 @@
           <Property Type="String" Name="Note" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Type="Int32" Name="StatusId" Nullable="false" />
           <Property Type="Int32" Name="RoomTypeId" Nullable="false" />
-          <Property Type="Int32" Name="RecordOrder" />
-          <Property Type="Boolean" Name="RecordActive" />
+          <Property Type="Int32" Name="RecordOrder" Nullable="false" />
+          <Property Type="Boolean" Name="RecordActive" Nullable="false" />
           <Property Type="DateTime" Name="Created" Nullable="false" Precision="3" />
           <Property Type="String" Name="CreatedBy" Nullable="false" MaxLength="512" FixedLength="false" Unicode="true" />
           <Property Type="DateTime" Name="Updated" Precision="3" />
@@ -654,8 +638,8 @@
           <Property Type="String" Name="Name" Nullable="false" MaxLength="512" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="Description" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Type="Double" Name="Price" Nullable="false" />
-          <Property Type="Int32" Name="RecordOrder" />
-          <Property Type="Boolean" Name="RecordActive" />
+          <Property Type="Int32" Name="RecordOrder" Nullable="false" />
+          <Property Type="Boolean" Name="RecordActive" Nullable="false" />
           <Property Type="DateTime" Name="Created" Nullable="false" Precision="3" />
           <Property Type="String" Name="CreatedDate" Nullable="false" MaxLength="512" FixedLength="false" Unicode="true" />
           <Property Type="DateTime" Name="Updated" Precision="3" />
@@ -669,8 +653,8 @@
           <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="String" Name="Name" Nullable="false" MaxLength="512" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="Value" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Type="Int32" Name="RecordOrder" />
-          <Property Type="Boolean" Name="RecordActive" />
+          <Property Type="Int32" Name="RecordOrder" Nullable="false" />
+          <Property Type="Boolean" Name="RecordActive" Nullable="false" />
           <Property Type="DateTime" Name="Created" Nullable="false" Precision="3" />
           <Property Type="String" Name="CreatedBy" Nullable="false" MaxLength="512" FixedLength="false" Unicode="true" />
           <Property Type="DateTime" Name="Updated" Precision="3" />
@@ -683,13 +667,29 @@
           <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="String" Name="Name" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="Description" MaxLength="512" FixedLength="false" Unicode="true" />
-          <Property Type="Int32" Name="RecordOrder" />
-          <Property Type="Boolean" Name="RecordActive" />
+          <Property Type="Int32" Name="RecordOrder" Nullable="false" />
+          <Property Type="Boolean" Name="RecordActive" Nullable="false" />
           <Property Type="DateTime" Name="Created" Nullable="false" Precision="3" />
           <Property Type="String" Name="CreatedBy" Nullable="false" MaxLength="512" FixedLength="false" Unicode="true" />
           <Property Type="DateTime" Name="Updated" Precision="3" />
           <Property Type="String" Name="UpdatedBy" MaxLength="512" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Users" Relationship="PXHotelModel.FK_User_Status" FromRole="Status" ToRole="User" />
+        </EntityType>
+        <EntityType Name="UserGroup">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Description" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="RecordOrder" Nullable="false" />
+          <Property Type="Boolean" Name="RecordActive" Nullable="false" />
+          <Property Type="DateTime" Name="Created" Nullable="false" Precision="3" />
+          <Property Type="String" Name="CreatedBy" Nullable="false" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Type="DateTime" Name="Updated" Precision="3" />
+          <Property Type="String" Name="UpdatedBy" MaxLength="512" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="GroupMenus" Relationship="PXHotelModel.FK_RoleMenu_Role" FromRole="UserGroup" ToRole="GroupMenu" />
+          <NavigationProperty Name="Users" Relationship="PXHotelModel.FK_User_Role" FromRole="UserGroup" ToRole="User" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -706,14 +706,14 @@
           <Property Type="Int32" Name="RoleId" Nullable="false" />
           <Property Type="Int32" Name="StatusId" Nullable="false" />
           <Property Type="DateTime" Name="LastLogin" Precision="3" />
-          <Property Type="Int32" Name="RecordOrder" />
-          <Property Type="Boolean" Name="RecordActive" />
+          <Property Type="Int32" Name="RecordOrder" Nullable="false" />
+          <Property Type="Boolean" Name="RecordActive" Nullable="false" />
           <Property Type="DateTime" Name="Created" Nullable="false" Precision="3" />
           <Property Type="String" Name="CreatedBy" Nullable="false" MaxLength="512" FixedLength="false" Unicode="true" />
           <Property Type="DateTime" Name="Updated" Precision="3" />
           <Property Type="String" Name="UpdatedBy" MaxLength="512" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Role" Relationship="PXHotelModel.FK_User_Role" FromRole="User" ToRole="Role" />
           <NavigationProperty Name="Status" Relationship="PXHotelModel.FK_User_Status" FromRole="User" ToRole="Status" />
+          <NavigationProperty Name="UserGroup" Relationship="PXHotelModel.FK_User_Role" FromRole="User" ToRole="UserGroup" />
         </EntityType>
         <Association Name="FK_Resources_Countries">
           <End Type="PXHotelModel.Country" Role="Country" Multiplicity="1" />
@@ -727,6 +727,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_RoleMenu_Menu">
+          <End Type="PXHotelModel.Menu" Role="Menu" Multiplicity="1" />
+          <End Type="PXHotelModel.GroupMenu" Role="GroupMenu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Menu">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="GroupMenu">
+              <PropertyRef Name="MenuId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RoleMenu_Role">
+          <End Type="PXHotelModel.UserGroup" Role="UserGroup" Multiplicity="1" />
+          <End Type="PXHotelModel.GroupMenu" Role="GroupMenu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserGroup">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="GroupMenu">
+              <PropertyRef Name="UserGroupId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Menu_Menu">
           <End Type="PXHotelModel.Menu" Role="Menu" Multiplicity="0..1" />
           <End Type="PXHotelModel.Menu" Role="Menu1" Multiplicity="*" />
@@ -736,18 +760,6 @@
             </Principal>
             <Dependent Role="Menu1">
               <PropertyRef Name="ParentId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_RoleMenu_Menu">
-          <End Type="PXHotelModel.Menu" Role="Menu" Multiplicity="1" />
-          <End Type="PXHotelModel.RoleMenu" Role="RoleMenu" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Menu">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="RoleMenu">
-              <PropertyRef Name="MenuId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -775,30 +787,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_RoleMenu_Role">
-          <End Type="PXHotelModel.Role" Role="Role" Multiplicity="1" />
-          <End Type="PXHotelModel.RoleMenu" Role="RoleMenu" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Role">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="RoleMenu">
-              <PropertyRef Name="RoleId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_User_Role">
-          <End Type="PXHotelModel.Role" Role="Role" Multiplicity="1" />
-          <End Type="PXHotelModel.User" Role="User" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Role">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="User">
-              <PropertyRef Name="RoleId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Room_Room">
           <End Type="PXHotelModel.RoomType" Role="RoomType" Multiplicity="1" />
           <End Type="PXHotelModel.Room" Role="Room" Multiplicity="*" />
@@ -823,265 +811,277 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_User_Role">
+          <End Type="PXHotelModel.UserGroup" Role="UserGroup" Multiplicity="1" />
+          <End Type="PXHotelModel.User" Role="User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserGroup">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
     <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
   <EntityContainerMapping StorageEntityContainer="PXHotelModelStoreContainer" CdmEntityContainer="PXHotelEntities">
-    <EntitySetMapping Name="BookingRequests">
-      <EntityTypeMapping TypeName="IsTypeOf(PXHotelModel.BookingRequest)">
-        <MappingFragment StoreEntitySet="BookingRequests">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="FullName" ColumnName="FullName" />
-          <ScalarProperty Name="Email" ColumnName="Email" />
-          <ScalarProperty Name="IndentityNumber" ColumnName="IndentityNumber" />
-          <ScalarProperty Name="Address" ColumnName="Address" />
-          <ScalarProperty Name="Country" ColumnName="Country" />
-          <ScalarProperty Name="Phone" ColumnName="Phone" />
-          <ScalarProperty Name="Note" ColumnName="Note" />
-          <ScalarProperty Name="TotalRooms" ColumnName="TotalRooms" />
-          <ScalarProperty Name="BookingFrom" ColumnName="BookingFrom" />
-          <ScalarProperty Name="BookingTo" ColumnName="BookingTo" />
-          <ScalarProperty Name="RecordOrder" ColumnName="RecordOrder" />
-          <ScalarProperty Name="RecordActive" ColumnName="RecordActive" />
-          <ScalarProperty Name="Created" ColumnName="Created" />
-          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-          <ScalarProperty Name="Updated" ColumnName="Updated" />
-          <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Countries">
-      <EntityTypeMapping TypeName="IsTypeOf(PXHotelModel.Country)">
-        <MappingFragment StoreEntitySet="Countries">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="RecordOrder" ColumnName="RecordOrder" />
-          <ScalarProperty Name="RecordActive" ColumnName="RecordActive" />
-          <ScalarProperty Name="Created" ColumnName="Created" />
-          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-          <ScalarProperty Name="Updated" ColumnName="Updated" />
-          <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Menus">
-      <EntityTypeMapping TypeName="IsTypeOf(PXHotelModel.Menu)">
-        <MappingFragment StoreEntitySet="Menus">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="Url" ColumnName="Url" />
-          <ScalarProperty Name="Controller" ColumnName="Controller" />
-          <ScalarProperty Name="Action" ColumnName="Action" />
-          <ScalarProperty Name="ParentId" ColumnName="ParentId" />
-          <ScalarProperty Name="Hierarchy" ColumnName="Hierarchy" />
-          <ScalarProperty Name="MenuClass" ColumnName="MenuClass" />
-          <ScalarProperty Name="RecordActive" ColumnName="RecordActive" />
-          <ScalarProperty Name="RecordOrder" ColumnName="RecordOrder" />
-          <ScalarProperty Name="Created" ColumnName="Created" />
-          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-          <ScalarProperty Name="Updated" ColumnName="Updated" />
-          <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="News">
-      <EntityTypeMapping TypeName="IsTypeOf(PXHotelModel.News)">
-        <MappingFragment StoreEntitySet="News">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="Title" ColumnName="Title" />
-          <ScalarProperty Name="Description" ColumnName="Description" />
-          <ScalarProperty Name="Content" ColumnName="Content" />
-          <ScalarProperty Name="ImageFileName" ColumnName="ImageFileName" />
-          <ScalarProperty Name="Status" ColumnName="Status" />
-          <ScalarProperty Name="RecordOrder" ColumnName="RecordOrder" />
-          <ScalarProperty Name="RecordActive" ColumnName="RecordActive" />
-          <ScalarProperty Name="Created" ColumnName="Created" />
-          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-          <ScalarProperty Name="Updated" ColumnName="Updated" />
-          <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="NewsCategories">
-      <EntityTypeMapping TypeName="IsTypeOf(PXHotelModel.NewsCategory)">
-        <MappingFragment StoreEntitySet="NewsCategories">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="Description" ColumnName="Description" />
-          <ScalarProperty Name="RecordOrder" ColumnName="RecordOrder" />
-          <ScalarProperty Name="RecordActive" ColumnName="RecordActive" />
-          <ScalarProperty Name="Created" ColumnName="Created" />
-          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-          <ScalarProperty Name="Updated" ColumnName="Updated" />
-          <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="NewsNewsCategories">
-      <EntityTypeMapping TypeName="IsTypeOf(PXHotelModel.NewsNewsCategory)">
-        <MappingFragment StoreEntitySet="NewsNewsCategories">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="NewsId" ColumnName="NewsId" />
-          <ScalarProperty Name="NewsCategoryId" ColumnName="NewsCategoryId" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Pages">
-      <EntityTypeMapping TypeName="IsTypeOf(PXHotelModel.Page)">
-        <MappingFragment StoreEntitySet="Pages">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="Title" ColumnName="Title" />
-          <ScalarProperty Name="Caption" ColumnName="Caption" />
-          <ScalarProperty Name="Caption_Working" ColumnName="Caption_Working" />
-          <ScalarProperty Name="Content" ColumnName="Content" />
-          <ScalarProperty Name="Content_Working" ColumnName="Content_Working" />
-          <ScalarProperty Name="StatusId" ColumnName="StatusId" />
-          <ScalarProperty Name="FriendlyUrl" ColumnName="FriendlyUrl" />
-          <ScalarProperty Name="RecordOrder" ColumnName="RecordOrder" />
-          <ScalarProperty Name="RecordActive" ColumnName="RecordActive" />
-          <ScalarProperty Name="Created" ColumnName="Created" />
-          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-          <ScalarProperty Name="Updated" ColumnName="Updated" />
-          <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Resources">
-      <EntityTypeMapping TypeName="IsTypeOf(PXHotelModel.Resource)">
-        <MappingFragment StoreEntitySet="Resources">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="DefaultValue" ColumnName="DefaultValue" />
-          <ScalarProperty Name="Value" ColumnName="Value" />
-          <ScalarProperty Name="CountryId" ColumnName="CountryId" />
-          <ScalarProperty Name="RecordOrder" ColumnName="RecordOrder" />
-          <ScalarProperty Name="RecordActive" ColumnName="RecordActive" />
-          <ScalarProperty Name="Created" ColumnName="Created" />
-          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-          <ScalarProperty Name="Updated" ColumnName="Updated" />
-          <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="RoleMenus">
-      <EntityTypeMapping TypeName="IsTypeOf(PXHotelModel.RoleMenu)">
-        <MappingFragment StoreEntitySet="RoleMenus">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="RoleId" ColumnName="RoleId" />
-          <ScalarProperty Name="MenuId" ColumnName="MenuId" />
-          <ScalarProperty Name="RecordOrder" ColumnName="RecordOrder" />
-          <ScalarProperty Name="RecordActive" ColumnName="RecordActive" />
-          <ScalarProperty Name="Created" ColumnName="Created" />
-          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-          <ScalarProperty Name="Updated" ColumnName="Updated" />
-          <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Roles">
-      <EntityTypeMapping TypeName="IsTypeOf(PXHotelModel.Role)">
-        <MappingFragment StoreEntitySet="Roles">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="Description" ColumnName="Description" />
-          <ScalarProperty Name="RecordOrder" ColumnName="RecordOrder" />
-          <ScalarProperty Name="RecordActive" ColumnName="RecordActive" />
-          <ScalarProperty Name="Created" ColumnName="Created" />
-          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-          <ScalarProperty Name="Updated" ColumnName="Updated" />
-          <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Rooms">
-      <EntityTypeMapping TypeName="IsTypeOf(PXHotelModel.Room)">
-        <MappingFragment StoreEntitySet="Rooms">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="Note" ColumnName="Note" />
-          <ScalarProperty Name="StatusId" ColumnName="StatusId" />
-          <ScalarProperty Name="RoomTypeId" ColumnName="RoomTypeId" />
-          <ScalarProperty Name="RecordOrder" ColumnName="RecordOrder" />
-          <ScalarProperty Name="RecordActive" ColumnName="RecordActive" />
-          <ScalarProperty Name="Created" ColumnName="Created" />
-          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-          <ScalarProperty Name="Updated" ColumnName="Updated" />
-          <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="RoomTypes">
-      <EntityTypeMapping TypeName="IsTypeOf(PXHotelModel.RoomType)">
-        <MappingFragment StoreEntitySet="RoomTypes">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="Description" ColumnName="Description" />
-          <ScalarProperty Name="Price" ColumnName="Price" />
-          <ScalarProperty Name="RecordOrder" ColumnName="RecordOrder" />
-          <ScalarProperty Name="RecordActive" ColumnName="RecordActive" />
-          <ScalarProperty Name="Created" ColumnName="Created" />
-          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-          <ScalarProperty Name="Updated" ColumnName="Updated" />
-          <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="SiteSettings">
-      <EntityTypeMapping TypeName="IsTypeOf(PXHotelModel.SiteSetting)">
-        <MappingFragment StoreEntitySet="SiteSettings">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="Value" ColumnName="Value" />
-          <ScalarProperty Name="RecordOrder" ColumnName="RecordOrder" />
-          <ScalarProperty Name="RecordActive" ColumnName="RecordActive" />
-          <ScalarProperty Name="Created" ColumnName="Created" />
-          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-          <ScalarProperty Name="Updated" ColumnName="Updated" />
-          <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Status">
-      <EntityTypeMapping TypeName="IsTypeOf(PXHotelModel.Status)">
-        <MappingFragment StoreEntitySet="Status">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="Description" ColumnName="Description" />
-          <ScalarProperty Name="RecordOrder" ColumnName="RecordOrder" />
-          <ScalarProperty Name="RecordActive" ColumnName="RecordActive" />
-          <ScalarProperty Name="Created" ColumnName="Created" />
-          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-          <ScalarProperty Name="Updated" ColumnName="Updated" />
-          <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Users">
-      <EntityTypeMapping TypeName="IsTypeOf(PXHotelModel.User)">
-        <MappingFragment StoreEntitySet="Users">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="Email" ColumnName="Email" />
-          <ScalarProperty Name="Password" ColumnName="Password" />
-          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-          <ScalarProperty Name="LastName" ColumnName="LastName" />
-          <ScalarProperty Name="Phone" ColumnName="Phone" />
-          <ScalarProperty Name="IdentityNumber" ColumnName="IdentityNumber" />
-          <ScalarProperty Name="ImageFileName" ColumnName="ImageFileName" />
-          <ScalarProperty Name="RoleId" ColumnName="RoleId" />
-          <ScalarProperty Name="StatusId" ColumnName="StatusId" />
-          <ScalarProperty Name="LastLogin" ColumnName="LastLogin" />
-          <ScalarProperty Name="RecordOrder" ColumnName="RecordOrder" />
-          <ScalarProperty Name="RecordActive" ColumnName="RecordActive" />
-          <ScalarProperty Name="Created" ColumnName="Created" />
-          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-          <ScalarProperty Name="Updated" ColumnName="Updated" />
-          <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-  </EntityContainerMapping>
+          <EntitySetMapping Name="BookingRequests">
+            <EntityTypeMapping TypeName="PXHotelModel.BookingRequest">
+              <MappingFragment StoreEntitySet="BookingRequests">
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="Updated" ColumnName="Updated" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+                <ScalarProperty Name="RecordActive" ColumnName="RecordActive" />
+                <ScalarProperty Name="RecordOrder" ColumnName="RecordOrder" />
+                <ScalarProperty Name="BookingTo" ColumnName="BookingTo" />
+                <ScalarProperty Name="BookingFrom" ColumnName="BookingFrom" />
+                <ScalarProperty Name="TotalRooms" ColumnName="TotalRooms" />
+                <ScalarProperty Name="Note" ColumnName="Note" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="IndentityNumber" ColumnName="IndentityNumber" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Countries">
+            <EntityTypeMapping TypeName="PXHotelModel.Country">
+              <MappingFragment StoreEntitySet="Countries">
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="Updated" ColumnName="Updated" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+                <ScalarProperty Name="RecordActive" ColumnName="RecordActive" />
+                <ScalarProperty Name="RecordOrder" ColumnName="RecordOrder" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GroupMenus">
+            <EntityTypeMapping TypeName="PXHotelModel.GroupMenu">
+              <MappingFragment StoreEntitySet="GroupMenus">
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="Updated" ColumnName="Updated" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+                <ScalarProperty Name="RecordActive" ColumnName="RecordActive" />
+                <ScalarProperty Name="RecordOrder" ColumnName="RecordOrder" />
+                <ScalarProperty Name="MenuId" ColumnName="MenuId" />
+                <ScalarProperty Name="UserGroupId" ColumnName="UserGroupId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Menus">
+            <EntityTypeMapping TypeName="PXHotelModel.Menu">
+              <MappingFragment StoreEntitySet="Menus">
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="Updated" ColumnName="Updated" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+                <ScalarProperty Name="RecordOrder" ColumnName="RecordOrder" />
+                <ScalarProperty Name="RecordActive" ColumnName="RecordActive" />
+                <ScalarProperty Name="MenuIcon" ColumnName="MenuIcon" />
+                <ScalarProperty Name="Hierarchy" ColumnName="Hierarchy" />
+                <ScalarProperty Name="ParentId" ColumnName="ParentId" />
+                <ScalarProperty Name="Action" ColumnName="Action" />
+                <ScalarProperty Name="Controller" ColumnName="Controller" />
+                <ScalarProperty Name="Url" ColumnName="Url" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="News">
+            <EntityTypeMapping TypeName="PXHotelModel.News">
+              <MappingFragment StoreEntitySet="News">
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="Updated" ColumnName="Updated" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+                <ScalarProperty Name="RecordActive" ColumnName="RecordActive" />
+                <ScalarProperty Name="RecordOrder" ColumnName="RecordOrder" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="ImageFileName" ColumnName="ImageFileName" />
+                <ScalarProperty Name="Content" ColumnName="Content" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NewsCategories">
+            <EntityTypeMapping TypeName="PXHotelModel.NewsCategory">
+              <MappingFragment StoreEntitySet="NewsCategories">
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="Updated" ColumnName="Updated" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+                <ScalarProperty Name="RecordActive" ColumnName="RecordActive" />
+                <ScalarProperty Name="RecordOrder" ColumnName="RecordOrder" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NewsNewsCategories">
+            <EntityTypeMapping TypeName="PXHotelModel.NewsNewsCategory">
+              <MappingFragment StoreEntitySet="NewsNewsCategories">
+                <ScalarProperty Name="NewsCategoryId" ColumnName="NewsCategoryId" />
+                <ScalarProperty Name="NewsId" ColumnName="NewsId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Pages">
+            <EntityTypeMapping TypeName="PXHotelModel.Page">
+              <MappingFragment StoreEntitySet="Pages">
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="Updated" ColumnName="Updated" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+                <ScalarProperty Name="RecordActive" ColumnName="RecordActive" />
+                <ScalarProperty Name="RecordOrder" ColumnName="RecordOrder" />
+                <ScalarProperty Name="FriendlyUrl" ColumnName="FriendlyUrl" />
+                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+                <ScalarProperty Name="Content_Working" ColumnName="Content_Working" />
+                <ScalarProperty Name="Content" ColumnName="Content" />
+                <ScalarProperty Name="Caption_Working" ColumnName="Caption_Working" />
+                <ScalarProperty Name="Caption" ColumnName="Caption" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Resources">
+            <EntityTypeMapping TypeName="PXHotelModel.Resource">
+              <MappingFragment StoreEntitySet="Resources">
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="Updated" ColumnName="Updated" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+                <ScalarProperty Name="RecordActive" ColumnName="RecordActive" />
+                <ScalarProperty Name="RecordOrder" ColumnName="RecordOrder" />
+                <ScalarProperty Name="CountryId" ColumnName="CountryId" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="DefaultValue" ColumnName="DefaultValue" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Rooms">
+            <EntityTypeMapping TypeName="PXHotelModel.Room">
+              <MappingFragment StoreEntitySet="Rooms">
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="Updated" ColumnName="Updated" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+                <ScalarProperty Name="RecordActive" ColumnName="RecordActive" />
+                <ScalarProperty Name="RecordOrder" ColumnName="RecordOrder" />
+                <ScalarProperty Name="RoomTypeId" ColumnName="RoomTypeId" />
+                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+                <ScalarProperty Name="Note" ColumnName="Note" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RoomTypes">
+            <EntityTypeMapping TypeName="PXHotelModel.RoomType">
+              <MappingFragment StoreEntitySet="RoomTypes">
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="Updated" ColumnName="Updated" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+                <ScalarProperty Name="RecordActive" ColumnName="RecordActive" />
+                <ScalarProperty Name="RecordOrder" ColumnName="RecordOrder" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SiteSettings">
+            <EntityTypeMapping TypeName="PXHotelModel.SiteSetting">
+              <MappingFragment StoreEntitySet="SiteSettings">
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="Updated" ColumnName="Updated" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+                <ScalarProperty Name="RecordActive" ColumnName="RecordActive" />
+                <ScalarProperty Name="RecordOrder" ColumnName="RecordOrder" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Status">
+            <EntityTypeMapping TypeName="PXHotelModel.Status">
+              <MappingFragment StoreEntitySet="Status">
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="Updated" ColumnName="Updated" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+                <ScalarProperty Name="RecordActive" ColumnName="RecordActive" />
+                <ScalarProperty Name="RecordOrder" ColumnName="RecordOrder" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserGroups">
+            <EntityTypeMapping TypeName="PXHotelModel.UserGroup">
+              <MappingFragment StoreEntitySet="UserGroups">
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="Updated" ColumnName="Updated" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+                <ScalarProperty Name="RecordActive" ColumnName="RecordActive" />
+                <ScalarProperty Name="RecordOrder" ColumnName="RecordOrder" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="PXHotelModel.User">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="Updated" ColumnName="Updated" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+                <ScalarProperty Name="RecordActive" ColumnName="RecordActive" />
+                <ScalarProperty Name="RecordOrder" ColumnName="RecordOrder" />
+                <ScalarProperty Name="LastLogin" ColumnName="LastLogin" />
+                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+                <ScalarProperty Name="ImageFileName" ColumnName="ImageFileName" />
+                <ScalarProperty Name="IdentityNumber" ColumnName="IdentityNumber" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
 </Mapping></edmx:Mappings>
   </edmx:Runtime>
   <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->

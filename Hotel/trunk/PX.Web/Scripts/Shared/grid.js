@@ -1,6 +1,29 @@
 ﻿//Grid Functions
-
+var gridSelector = gridSelector || "";
+var lastSel = lastSel || 0;
+var pagerSelector = pagerSelector || "";
 $(function () {
+    //Register default ondblClickRow
+    $(gridSelector).jqGrid('setGridParam', {
+        ondblClickRow: function (rowId) {
+            if (rowId && rowId !== lastSel) {
+                jQuery(gridSelector).restoreRow(lastSel);
+                lastSel = rowId;
+            }
+            jQuery(gridSelector).jqGrid("editRow", rowId, {
+                keys: true,
+                successfunc: function (response) {
+                    var res = jQuery.parseJSON(response.responseText);
+                    if (res.Success) {
+                        return true;
+                    } else {
+                        alert(res.Message);
+                        return false;
+                    }
+                }
+            });
+        }
+    });
     //navButtons
     jQuery(gridSelector).jqGrid('navGrid', pagerSelector,
         {
@@ -25,6 +48,15 @@ $(function () {
                 var form = $(e[0]);
                 form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />');
                 styleEditForm(form);
+            },
+            afterSubmit: function (response) {
+                var res = jQuery.parseJSON(response.responseText);
+                if (res.Success) {
+                    return [true, '', res.Message];
+                }
+                else {
+                    return [false, '', res.Message];
+                }
             }
         },
         {
@@ -36,6 +68,14 @@ $(function () {
                 var form = $(e[0]);
                 form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />');
                 styleEditForm(form);
+            },
+            afterSubmit: function (response) {
+                if (response.Success) {
+                    return [true, '', response.Message];
+                }
+                else {
+                    return [false, '', response.Message];
+                }
             }
         },
         {
@@ -49,6 +89,14 @@ $(function () {
                 styleDeleteForm(form);
 
                 form.data('styled', true);
+            },
+            afterSubmit: function (response) {
+                if (response.Success) {
+                    return [true, '', response.Message];
+                }
+                else {
+                    return [false, '', response.Message];
+                }
             }
         },
         {

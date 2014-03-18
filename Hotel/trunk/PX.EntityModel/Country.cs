@@ -21,8 +21,8 @@ namespace PX.EntityModel
     
         public int Id { get; set; }
         public string Name { get; set; }
-        public Nullable<int> RecordOrder { get; set; }
-        public Nullable<bool> RecordActive { get; set; }
+        public int RecordOrder { get; set; }
+        public bool RecordActive { get; set; }
         public System.DateTime Created { get; set; }
         public string CreatedBy { get; set; }
         public Nullable<System.DateTime> Updated { get; set; }

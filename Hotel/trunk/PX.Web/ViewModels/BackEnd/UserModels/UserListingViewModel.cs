@@ -3,8 +3,9 @@ using System.Linq;
 using PX.Business.Models;
 using PX.Business.Models.UserModels;
 using PX.Business.Services.Users;
+using PX.Core.Configurations;
 using PX.EntityModel;
-using PX.Library.Configuration;
+using PX.EntityModel.Models.DTO;
 
 namespace PX.Web.ViewModels.BackEnd.UserModels
 {
@@ -38,7 +39,7 @@ namespace PX.Web.ViewModels.BackEnd.UserModels
                     IdentityNumber = UserSearchViewModel.IdentityNumber
                 };
             var users = _userServices.SearchUsers(userSearchModel);
-            Users = Pagination.Paging(users).ToList();
+            Users = Pagination.Paging(users);
         }
 
         public void DeleteUser(int id)
@@ -61,7 +62,7 @@ namespace PX.Web.ViewModels.BackEnd.UserModels
 
         public PaginationModel Pagination { get; set; }
 
-        public List<User> Users { get; set; }
+        public List<UserModel> Users { get; set; }
 
         public UserSearchViewModel UserSearchViewModel { get; set; }
 

@@ -47,7 +47,6 @@ ace.handle_side_menu = function($) {
         //check to see if we have clicked on an element which is inside a .dropdown-toggle element?!
         //if so, it means we should toggle a submenu
         var link_element = $(e.target).closest('a');
-        console.log(link_element);
         if (!link_element || link_element.length == 0) return; //if not clicked inside a link element
 
         $minimized = $('#sidebar').hasClass('menu-min');
@@ -95,17 +94,45 @@ ace.handle_side_menu = function($) {
         $(sub).slideToggle(200).parent().toggleClass('open');
         return false;
     });
-    $('.nav-list').on("click", ".menu-text", function(e) {
+    $('.nav-list').on("click", ".dropdown-toggle", function (e) {
         //check to see if we have clicked on an element which is inside a .dropdown-toggle element?!
         //if so, it means we should toggle a submenu
         var link_element = $(e.target).closest('a');
-        console.log(link_element);
 
         //if not clicked inside a link element
         if (!link_element || link_element.length == 0) {
             return;
         } else {
-            location.href = link_element.attr("href");
+            var href = link_element.attr("href");
+            if (href != "#")
+                location.href = link_element.attr("href");
+            else {
+                var sub = link_element.next().get(0);
+
+                //if we are opening this submenu, close all other submenus except the ".active" one
+                if (!$(sub).is(':visible')) { //if not open and visible, let's open it and make it visible
+                    var parent_ul = $(sub.parentNode).closest('ul');
+                    if ($minimized && parent_ul.hasClass('nav-list')) return;
+
+                    parent_ul.find('> .open > .submenu').each(function () {
+                        //close all other open submenus except for the active one
+                        if (this != sub && !$(this.parentNode).hasClass('active')) {
+                            $(this).slideUp(200).parent().removeClass('open');
+
+                            //uncomment the following line to close all submenus on deeper levels when closing a submenu
+                            //$(this).find('.open > .submenu').slideUp(0).parent().removeClass('open');
+                        }
+                    });
+                } else {
+                    //uncomment the following line to close all submenus on deeper levels when closing a submenu
+                    //$(sub).find('.open > .submenu').slideUp(0).parent().removeClass('open');
+                }
+
+                if ($minimized && $(sub.parentNode.parentNode).hasClass('nav-list')) return false;
+
+                $(sub).slideToggle(200).parent().toggleClass('open');
+                return false;
+            }
         }
     });
 };

@@ -10,10 +10,10 @@
 }
 <div class="page-header">
     <h1>@ViewBag.Header
-			<small>
-                <i class="icon-double-angle-right"></i>
-                @ViewBag.Title
-            </small>
+        <small>
+            <i class="icon-double-angle-right"></i>
+            @ViewBag.Title
+        </small>
     </h1>
 </div>
 
@@ -37,27 +37,28 @@
     <script type="text/javascript">
         var gridSelector = "#grid-table";
         var pagerSelector = "#grid-pager";
+        var lastSel;
+
+        function Edit(row) {
+            console.log(row);
+        }
         jQuery(function ($) {
 
             jQuery(gridSelector).jqGrid({
                 datatype: "json",
                 url: "@Url.Action("_AjaxBinding")",
+                caption: "User Management",
                 height: 400,
-                colNames: [' ', 'Id', 'Email', 'Password', 'FirstName', 'LastName', 'Role', 'Status', 'Identity Number', 'Phone', 'LastLogin', 'Created', 'CreatedBy', 'Updated', 'UpdatedBy'],
+                colNames: ['', 'Id', 'Email', 'Password', 'FirstName', 'LastName', 'Role', 'Status', 'Identity Number', 'Phone', 'Active', 'LastLogin', 'Created', 'CreatedBy', 'Updated', 'UpdatedBy'],
                 colModel: [
                     {
-                        name: 'myac',
-                        index: '',
-                        width: 80,
-                        fixed: true,
+                        name: 'fullEdit',
+                        width: 30,
                         sortable: false,
-                        resize: false,
-                        formatter: 'actions',
-                        formatoptions: {
-                            keys: true,
-                            delOptions: { recreateForm: true, beforeShowForm: beforeDeleteCallback }
-                        },
-                        search: false
+                        search: false,
+                        formatter: function (cellvalue, options, rowObject) {
+                            return "<a href='@Url.Action("Edit")/" + options.rowId + "'><div class='ui-pg-div ui-inline-edit' onmouseout='jQuery(this).removeClass('ui-state-hover')' onmouseover='jQuery(this).addClass('ui-state-hover');' style='float:left;cursor:pointer;' title='' data-original-title='Edit selected row'><span class='ui-icon ui-icon-pencil'></span></div></a>";
+                        }
                     },
                     { name: 'Id', index: 'Id', width: 60, key: true, sorttype: "int" },
                     { name: 'Email', index: 'Email', width: 150, editable: true, editrules: { required: true, email: true } },
@@ -65,38 +66,52 @@
                     { name: 'FirstName', index: 'FirstName', width: 150, editable: true, editrules: { required: true } },
                     { name: 'LastName', index: 'LastName', width: 150, editable: true, editrules: { required: true } },
                     {
-                        name: 'RoleId', index: 'RoleId', width: 150, editable: true, edittype: "select",
+                        name: 'RoleId',
+                        index: 'RoleId',
+                        width: 150,
+                        editable: true,
+                        edittype: "select",
                         editoptions: {
                             dataUrl: '@Url.Action("GetRoles")',
                             buildSelect: function (response) {
                                 return buildDropdown(response, false);
                             }
-                        }, editrules: { required: true }
+                        },
+                        editrules: { required: true }
                     }, {
-                        name: 'StatusId', index: 'StatusId', width: 150, editable: true, edittype: "select",
+                        name: 'StatusId',
+                        index: 'StatusId',
+                        width: 150,
+                        editable: true,
+                        edittype: "select",
                         editoptions: {
                             dataUrl: '@Url.Action("GetStatus")',
                             buildSelect: function (response) {
                                 return buildDropdown(response, false);
                             }
-                        }, editrules: { required: true }
+                        },
+                        editrules: { required: true }
                     },
                     { name: 'IdentityNumber', index: 'IdentityNumber', width: 150, editable: true, editoptions: { size: "20", maxlength: "30" } },
                     { name: 'Phone', index: 'Phone', width: 150, editable: true, editrules: { required: true } },
+                    { name: 'Active', index: 'Active', width: 100, editable: true, edittype: "checkbox", editoptions: { value: "Yes:No", defaultValue: 'Yes' }, unformat: aceSwitch },
                     { name: 'LastLogin', index: 'LastLogin', width: 90, editable: false, sorttype: "datetime", unformat: pickDate },
                     { name: 'Created', index: 'Created', width: 100, editable: false, sorttype: "datetime", unformat: pickDate },
                     { name: 'CreatedBy', index: 'CreatedBy', width: 150, editable: false, editoptions: { size: "20", maxlength: "30" } },
                     { name: 'Updated', index: 'Updated', formatter: "date", width: 90, editable: false, sorttype: "datetime", unformat: pickDate },
                     { name: 'UpdatedBy', index: 'UpdatedBy', width: 150, editable: false, editoptions: { size: "20", maxlength: "30" } }
                 ],
-                viewrecords: true,
                 rowNum: 10,
                 rowList: [10, 20, 30],
                 shrinkToFit: false,
-                pager: pagerSelector,
-                altRows: true,
                 multiselect: true,
+                editurl: '@Url.Action("Manage")',
+                
+                //Default Value
+                altRows: true,
                 multiboxonly: true,
+                autowidth: true,
+                viewrecords: true,
                 loadComplete: function () {
                     var table = this;
                     setTimeout(function () {
@@ -105,10 +120,7 @@
                         updatePagerIcons(table);
                         enableTooltips(table);
                     }, 0);
-                },
-                editurl: '@Url.Action("Manage")',
-                caption: "User Management",
-                autowidth: true
+                }
             });
 
             //enable search/filter toolbar

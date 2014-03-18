@@ -12,19 +12,25 @@ namespace PX.EntityModel
     using System;
     using System.Collections.Generic;
     
-    public partial class RoleMenu
+    public partial class UserGroup
     {
+        public UserGroup()
+        {
+            this.GroupMenus = new HashSet<GroupMenu>();
+            this.Users = new HashSet<User>();
+        }
+    
         public int Id { get; set; }
-        public int RoleId { get; set; }
-        public int MenuId { get; set; }
-        public Nullable<int> RecordOrder { get; set; }
-        public Nullable<bool> RecordActive { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public int RecordOrder { get; set; }
+        public bool RecordActive { get; set; }
         public System.DateTime Created { get; set; }
         public string CreatedBy { get; set; }
         public Nullable<System.DateTime> Updated { get; set; }
         public string UpdatedBy { get; set; }
     
-        public virtual Menu Menu { get; set; }
-        public virtual Role Role { get; set; }
+        public virtual ICollection<GroupMenu> GroupMenus { get; set; }
+        public virtual ICollection<User> Users { get; set; }
     }
 }

@@ -26,7 +26,6 @@ namespace PX.Core.Framework.Mvc.Models.JqGrid
         public JqGridSearchOut Search<T>(IQueryable<T> data)
         {
             int totalRecords;
-            var skip = (Page > 0 ? Page - 1 : 0) * Rows;
 
             if (string.IsNullOrEmpty(Sidx))
             {
@@ -49,21 +48,20 @@ namespace PX.Core.Framework.Mvc.Models.JqGrid
                 var wc = GenerateWhereClause<T>();
 
                 data = data.Where(wc.Clause, wc.FormatObjects);
-
-                totalRecords = data.Count();
-
-                data = data
-                    .OrderBy(order)
-                    .Skip(skip)
-                    .Take(Rows);
             }
-            else
+
+            totalRecords = data.Count();
+            if (totalRecords <= (Page - 1) * Rows)
             {
-                totalRecords = data.Count();
-                data = data.OrderBy(order)
-                    .Skip(skip)
-                    .Take(Rows);
+                Page = Page - 1;
             }
+            var skip = (Page > 0 ? Page - 1 : 0) * Rows;
+
+            data = data
+                .OrderBy(order)
+                .Skip(skip)
+                .Take(Rows);
+
             var totalPages = (int)Math.Ceiling((float)totalRecords / Rows);
 
             var grid = new JqGridSearchOut

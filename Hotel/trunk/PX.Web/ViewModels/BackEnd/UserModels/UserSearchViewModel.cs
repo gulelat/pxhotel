@@ -16,14 +16,14 @@ namespace PX.Web.ViewModels.BackEnd.UserModels
         {
             _userServices = userServices;
             StatusList = _userServices.GetStatus();
-            Roles = _userServices.GetAllRoles().ToList();
+            Roles = _userServices.GetAllUserGroups().ToList();
         }
 
         #region Public Properties
 
         public int? RoleId { get; set; }
 
-        public List<Role> Roles { get; set; }
+        public List<UserGroup> Roles { get; set; }
 
         public int? Status { get; set; }
 

@@ -13,10 +13,11 @@
     {
         cClass = "open active";
     }
+    var url = !string.IsNullOrEmpty(Model.Url) ? Model.Url : (string.IsNullOrEmpty(Model.Controller) ? "#" : Url.Action(Model.Action, Model.Controller));
 }
 <li class="@cClass">
-    <a href="@Url.Action(Model.Action, Model.Controller)" class="dropdown-toggle">
-        <i class="@Model.MenuClass"></i>
+    <a href="@url" class="dropdown-toggle">
+        <i class="@Model.MenuIcon"></i>
         <span class="menu-text">@Model.Name </span>
         @if (Model.Menus1.Any())
         {

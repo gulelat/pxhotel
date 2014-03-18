@@ -182,9 +182,10 @@
     <Compile Include="App_Start\SimpleInjectorInitializer.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
-    <Compile Include="Areas\Admin\Controllers\MenuController.cs" />
+    <Compile Include="Areas\Admin\Controllers\UserGroupsController.cs" />
+    <Compile Include="Areas\Admin\Controllers\MenusController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
-    <Compile Include="Areas\Admin\Controllers\UserController.cs" />
+    <Compile Include="Areas\Admin\Controllers\UsersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -581,19 +582,15 @@
     <Content Include="Areas\Admin\Views\Shared\_Menu.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_Header.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_Layout.Blank.cshtml" />
-    <Content Include="Areas\Admin\Views\User\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\User\Login.cshtml" />
+    <Content Include="Areas\Admin\Views\Users\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Users\Login.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_Head.Scripts.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_Head.Styles.cshtml" />
-    <Content Include="Areas\Admin\Views\Menu\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Menus\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_Breadcrumb.cshtml" />
-    <Content Include="Areas\Admin\Views\Menu\ChildItem.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\DisplayTemplates\Menu.cshtml" />
-    <Content Include="Areas\Admin\Views\Menu\ChildItem2.cshtml" />
-    <Content Include="Areas\Admin\Views\Menu\ChildItem3.cshtml" />
-    <Content Include="Areas\Admin\Views\Menu\ChildItem4.cshtml" />
-    <Content Include="Areas\Admin\Views\Menu\ChildItem5.cshtml" />
-    <Content Include="Areas\Admin\Views\Menu\ChildItem6.cshtml" />
+    <Content Include="Areas\Admin\Views\UserGroups\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Users\Edit.cshtml" />
     <None Include="Scripts\jquery-1.7.1.intellisense.js" />
     <Content Include="Scripts\jquery-1.7.1.js" />
     <Content Include="Scripts\jquery-1.7.1.min.js" />
