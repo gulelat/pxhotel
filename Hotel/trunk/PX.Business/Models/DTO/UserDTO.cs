@@ -39,7 +39,7 @@ namespace PX.Business.Models.DTO
         public string ImageFileName { get; set; }
 
         [Required]
-        public int RoleId { get; set; }
+        public int UserGroupId { get; set; }
 
         public DateTime? LastLogin { get; set; }
 

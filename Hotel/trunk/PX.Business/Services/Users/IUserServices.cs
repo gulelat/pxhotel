@@ -14,7 +14,7 @@ namespace PX.Business.Services.Users
         #region Base
 
         IQueryable<User> GetAll();
-        User GetById(int id);
+        User GetById(int? id);
         ResponseModel Insert(User user);
         ResponseModel Update(User user);
         ResponseModel Delete(User user);

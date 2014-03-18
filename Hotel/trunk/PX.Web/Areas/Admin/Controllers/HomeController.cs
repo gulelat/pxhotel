@@ -19,6 +19,7 @@ namespace PX.Web.Areas.Admin.Controllers
             return View();
         }
 
+        [ChildActionOnly]
         public ActionResult Menu()
         {
             var controller = ControllerContext.ParentActionViewContext.RouteData.Values["controller"].ToString();
@@ -29,6 +30,7 @@ namespace PX.Web.Areas.Admin.Controllers
             return PartialView("_Menu", model);
         }
 
+        [ChildActionOnly]
         public PartialViewResult GetBreadCrumb()
         {
             var controller = ControllerContext.ParentActionViewContext.RouteData.Values["controller"].ToString();

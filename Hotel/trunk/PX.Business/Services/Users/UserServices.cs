@@ -21,7 +21,7 @@ namespace PX.Business.Services.Users
         {
             return UserRepository.GetAll();
         }
-        public User GetById(int id)
+        public User GetById(int? id)
         {
             return UserRepository.GetById(id);
         }
@@ -99,7 +99,7 @@ namespace PX.Business.Services.Users
                 Phone = u.Phone,
                 IdentityNumber = u.IdentityNumber,
                 StatusId = u.StatusId,
-                RoleId = u.RoleId,
+                UserGroupId = u.UserGroupId,
                 RecordActive = u.RecordActive,
                 RecordOrder = u.RecordOrder,
                 Created = u.Created,
@@ -156,7 +156,7 @@ namespace PX.Business.Services.Users
                     user.Email = model.Email;
                     user.Password = model.Password;
                     user.Phone = model.Phone;
-                    user.RoleId = model.RoleId;
+                    user.UserGroupId = model.UserGroupId;
                     user.StatusId = model.StatusId;
                     user.IdentityNumber = model.IdentityNumber;
                     user.RecordActive = model.RecordActive;

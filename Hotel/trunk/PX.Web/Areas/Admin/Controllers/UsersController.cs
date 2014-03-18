@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using Newtonsoft.Json;
 using PX.Business.Models.DTO;
 using PX.Business.Services.Users;
-using PX.Core.Framework.Enums;
 using PX.Core.Framework.Mvc.Attributes;
-using PX.Core.Framework.Mvc.Models;
 using PX.Core.Framework.Mvc.Models.JqGrid;
+using PX.EntityModel;
 
 namespace PX.Web.Areas.Admin.Controllers
 {
@@ -55,9 +50,62 @@ namespace PX.Web.Areas.Admin.Controllers
             return View();
         }
 
+        #region My Profile
+        public ActionResult Profile(int? id)
+        {
+            if (!id.HasValue)
+            {
+                id = 4;
+                //id = EntityModel.User.CurrentUser.Id;
+            }
+            var model = _userServices.GetById(id);
+            return View(model);
+        }
+        #endregion
+
+        #region Login
+
         public ActionResult Login()
         {
             return View();
         }
+
+        [ChildActionOnly]
+        public ActionResult LoginForm()
+        {
+            return PartialView("_Login");
+        }
+
+        [HttpPost]
+        public JsonResult LoginForm(User model)
+        {
+            return Json("");
+        }
+
+        [ChildActionOnly]
+        public ActionResult ForgotPasswordForm()
+        {
+            return PartialView("_ForgotPassword");
+        }
+
+        [HttpPost]
+        public JsonResult ForgotPasswordForm(User model)
+        {
+            return Json("");
+        }
+
+        [ChildActionOnly]
+        public ActionResult RegisterForm()
+        {
+            return PartialView("_Register");
+        }
+
+        [HttpPost]
+        public JsonResult RegisterForm(User model)
+        {
+            return Json("");
+        }
+
+        #endregion
     }
 }
