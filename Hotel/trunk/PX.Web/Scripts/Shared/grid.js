@@ -70,11 +70,12 @@ $(function () {
                 styleEditForm(form);
             },
             afterSubmit: function (response) {
-                if (response.Success) {
-                    return [true, '', response.Message];
+                var res = jQuery.parseJSON(response.responseText);
+                if (res.Success) {
+                    return [true, '', res.Message];
                 }
                 else {
-                    return [false, '', response.Message];
+                    return [false, '', res.Message];
                 }
             }
         },
@@ -91,11 +92,12 @@ $(function () {
                 form.data('styled', true);
             },
             afterSubmit: function (response) {
-                if (response.Success) {
-                    return [true, '', response.Message];
+                var res = jQuery.parseJSON(response.responseText);
+                if (res.Success) {
+                    return [true, res.Message];
                 }
                 else {
-                    return [false, '', response.Message];
+                    return [false, res.Message];
                 }
             }
         },

@@ -22,7 +22,7 @@ namespace PX.EntityModel
         public string Phone { get; set; }
         public string IdentityNumber { get; set; }
         public string ImageFileName { get; set; }
-        public int RoleId { get; set; }
+        public int UserGroupId { get; set; }
         public int StatusId { get; set; }
         public Nullable<System.DateTime> LastLogin { get; set; }
         public int RecordOrder { get; set; }

@@ -58,7 +58,7 @@ namespace PX.EntityModel
 
         public UserEnums.UserTypesEnums RoleEnums
         {
-            get { return (UserEnums.UserTypesEnums)RoleId; }
+            get { return (UserEnums.UserTypesEnums)UserGroupId; }
         }
 
         public UserEnums.UserStatusEnums StatusEnums
@@ -95,7 +95,7 @@ namespace PX.EntityModel
         public string ImageFileName { get; set; }
 
         [Required]
-        public int RoleId { get; set; }
+        public int UserGroupId { get; set; }
 
         public DateTime? LastLogin { get; set; }
 

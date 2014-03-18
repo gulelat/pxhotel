@@ -61,6 +61,10 @@
     <Compile Include="Models\MenuModels\BreadCrumbModel.cs" />
     <Compile Include="Models\MenuModels\AdminMenuModel.cs" />
     <Compile Include="Models\PaginationModel.cs" />
+    <Compile Include="Models\UserModels\Logins\ForgotPasswordModel.cs" />
+    <Compile Include="Models\UserModels\Logins\RegisterModel.cs" />
+    <Compile Include="Models\UserModels\Logins\LoginModel.cs" />
+    <Compile Include="Models\UserModels\UserProfileModel.cs" />
     <Compile Include="Models\UserModels\UserSearchModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sercurity\Attributes\PxAuthorize.cs" />

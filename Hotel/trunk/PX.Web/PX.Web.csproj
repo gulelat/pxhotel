@@ -591,6 +591,10 @@
     <Content Include="Areas\Admin\Views\Shared\DisplayTemplates\Menu.cshtml" />
     <Content Include="Areas\Admin\Views\UserGroups\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Users\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Users\Profile.cshtml" />
+    <Content Include="Areas\Admin\Views\Users\_Login.cshtml" />
+    <Content Include="Areas\Admin\Views\Users\_ForgotPassword.cshtml" />
+    <Content Include="Areas\Admin\Views\Users\_Register.cshtml" />
     <None Include="Scripts\jquery-1.7.1.intellisense.js" />
     <Content Include="Scripts\jquery-1.7.1.js" />
     <Content Include="Scripts\jquery-1.7.1.min.js" />

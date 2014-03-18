@@ -285,7 +285,7 @@
           <Property Name="Phone" Type="nvarchar" Nullable="false" MaxLength="50" />
           <Property Name="IdentityNumber" Type="nvarchar" MaxLength="50" />
           <Property Name="ImageFileName" Type="nvarchar" MaxLength="512" />
-          <Property Name="RoleId" Type="int" Nullable="false" />
+          <Property Name="UserGroupId" Type="int" Nullable="false" />
           <Property Name="StatusId" Type="int" Nullable="false" />
           <Property Name="LastLogin" Type="datetime" />
           <Property Name="RecordOrder" Type="int" Nullable="false" />
@@ -387,7 +387,7 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Users">
-              <PropertyRef Name="RoleId" />
+              <PropertyRef Name="UserGroupId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -703,7 +703,7 @@
           <Property Type="String" Name="Phone" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="IdentityNumber" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="ImageFileName" MaxLength="512" FixedLength="false" Unicode="true" />
-          <Property Type="Int32" Name="RoleId" Nullable="false" />
+          <Property Type="Int32" Name="UserGroupId" Nullable="false" />
           <Property Type="Int32" Name="StatusId" Nullable="false" />
           <Property Type="DateTime" Name="LastLogin" Precision="3" />
           <Property Type="Int32" Name="RecordOrder" Nullable="false" />
@@ -819,7 +819,7 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="User">
-              <PropertyRef Name="RoleId" />
+              <PropertyRef Name="UserGroupId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1069,7 +1069,7 @@
                 <ScalarProperty Name="RecordOrder" ColumnName="RecordOrder" />
                 <ScalarProperty Name="LastLogin" ColumnName="LastLogin" />
                 <ScalarProperty Name="StatusId" ColumnName="StatusId" />
-                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+                <ScalarProperty Name="UserGroupId" ColumnName="UserGroupId" />
                 <ScalarProperty Name="ImageFileName" ColumnName="ImageFileName" />
                 <ScalarProperty Name="IdentityNumber" ColumnName="IdentityNumber" />
                 <ScalarProperty Name="Phone" ColumnName="Phone" />

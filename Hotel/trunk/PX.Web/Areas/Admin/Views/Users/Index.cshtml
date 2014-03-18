@@ -49,7 +49,7 @@
                 url: "@Url.Action("_AjaxBinding")",
                 caption: "User Management",
                 height: 400,
-                colNames: ['', 'Id', 'Email', 'Password', 'FirstName', 'LastName', 'Role', 'Status', 'Identity Number', 'Phone', 'Active', 'LastLogin', 'Created', 'CreatedBy', 'Updated', 'UpdatedBy'],
+                colNames: ['', 'Id', 'Email', 'Password', 'FirstName', 'LastName', 'User Group', 'Status', 'Identity Number', 'Phone', 'Active', 'LastLogin', 'Created', 'CreatedBy', 'Updated', 'UpdatedBy'],
                 colModel: [
                     {
                         name: 'fullEdit',
@@ -101,6 +101,7 @@
                     { name: 'Updated', index: 'Updated', formatter: "date", width: 90, editable: false, sorttype: "datetime", unformat: pickDate },
                     { name: 'UpdatedBy', index: 'UpdatedBy', width: 150, editable: false, editoptions: { size: "20", maxlength: "30" } }
                 ],
+                pager: pagerSelector,
                 rowNum: 10,
                 rowList: [10, 20, 30],
                 shrinkToFit: false,
