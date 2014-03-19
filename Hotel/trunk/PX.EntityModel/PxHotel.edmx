@@ -7,7 +7,8 @@
     <Schema Namespace="PXHotelModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityContainer Name="PXHotelModelStoreContainer">
           <EntitySet Name="BookingRequests" EntityType="PXHotelModel.Store.BookingRequests" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="GroupMenus" EntityType="PXHotelModel.Store.GroupMenus" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Countries" EntityType="PXHotelModel.Store.Countries" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="GroupPermissions" EntityType="PXHotelModel.Store.GroupPermissions" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Languages" EntityType="PXHotelModel.Store.Languages" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="LocalizedResources" EntityType="PXHotelModel.Store.LocalizedResources" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Menus" EntityType="PXHotelModel.Store.Menus" store:Type="Tables" Schema="dbo" />
@@ -15,12 +16,17 @@
           <EntitySet Name="NewsCategories" EntityType="PXHotelModel.Store.NewsCategories" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="NewsNewsCategories" EntityType="PXHotelModel.Store.NewsNewsCategories" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Pages" EntityType="PXHotelModel.Store.Pages" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Resources" EntityType="PXHotelModel.Store.Resources" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Rooms" EntityType="PXHotelModel.Store.Rooms" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="RoomTypes" EntityType="PXHotelModel.Store.RoomTypes" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="SiteSettings" EntityType="PXHotelModel.Store.SiteSettings" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Status" EntityType="PXHotelModel.Store.Status" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="UserGroups" EntityType="PXHotelModel.Store.UserGroups" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Users" EntityType="PXHotelModel.Store.Users" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK_GroupPermissions_UserGroups" Association="PXHotelModel.Store.FK_GroupPermissions_UserGroups">
+            <End Role="UserGroups" EntitySet="UserGroups" />
+            <End Role="GroupPermissions" EntitySet="GroupPermissions" />
+          </AssociationSet>
           <AssociationSet Name="FK_LocalizedResources_Languages" Association="PXHotelModel.Store.FK_LocalizedResources_Languages">
             <End Role="Languages" EntitySet="Languages" />
             <End Role="LocalizedResources" EntitySet="LocalizedResources" />
@@ -37,13 +43,9 @@
             <End Role="NewsCategories" EntitySet="NewsCategories" />
             <End Role="NewsNewsCategories" EntitySet="NewsNewsCategories" />
           </AssociationSet>
-          <AssociationSet Name="FK_RoleMenu_Menu" Association="PXHotelModel.Store.FK_RoleMenu_Menu">
-            <End Role="Menus" EntitySet="Menus" />
-            <End Role="GroupMenus" EntitySet="GroupMenus" />
-          </AssociationSet>
-          <AssociationSet Name="FK_RoleMenu_Role" Association="PXHotelModel.Store.FK_RoleMenu_Role">
-            <End Role="UserGroups" EntitySet="UserGroups" />
-            <End Role="GroupMenus" EntitySet="GroupMenus" />
+          <AssociationSet Name="FK_Resources_Countries" Association="PXHotelModel.Store.FK_Resources_Countries">
+            <End Role="Countries" EntitySet="Countries" />
+            <End Role="Resources" EntitySet="Resources" />
           </AssociationSet>
           <AssociationSet Name="FK_Room_Room" Association="PXHotelModel.Store.FK_Room_Room">
             <End Role="RoomTypes" EntitySet="RoomTypes" />
@@ -80,19 +82,27 @@
           <Property Name="Updated" Type="datetime" />
           <Property Name="UpdatedBy" Type="nvarchar" MaxLength="512" />
         </EntityType>
-        <EntityType Name="GroupMenus">
+        <EntityType Name="Countries">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="UserGroupId" Type="int" Nullable="false" />
-          <Property Name="MenuId" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="512" />
           <Property Name="RecordOrder" Type="int" Nullable="false" />
           <Property Name="RecordActive" Type="bit" Nullable="false" />
           <Property Name="Created" Type="datetime" Nullable="false" />
           <Property Name="CreatedBy" Type="nvarchar" Nullable="false" MaxLength="512" />
           <Property Name="Updated" Type="datetime" />
           <Property Name="UpdatedBy" Type="nvarchar" MaxLength="512" />
+        </EntityType>
+        <EntityType Name="GroupPermissions">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="UserGroupId" Type="int" Nullable="false" />
+          <Property Name="PermissionId" Type="int" Nullable="false" />
+          <Property Name="HasPermission" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Languages">
           <Key>
@@ -201,6 +211,22 @@
           <Property Name="Updated" Type="datetime" />
           <Property Name="UpdatedBy" Type="nvarchar" MaxLength="512" />
         </EntityType>
+        <EntityType Name="Resources">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="512" />
+          <Property Name="DefaultValue" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Value" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="CountryId" Type="int" Nullable="false" />
+          <Property Name="RecordOrder" Type="int" Nullable="false" />
+          <Property Name="RecordActive" Type="bit" Nullable="false" />
+          <Property Name="Created" Type="datetime" Nullable="false" />
+          <Property Name="CreatedBy" Type="nvarchar" Nullable="false" MaxLength="512" />
+          <Property Name="Updated" Type="datetime" />
+          <Property Name="UpdatedBy" Type="nvarchar" MaxLength="512" />
+        </EntityType>
         <EntityType Name="Rooms">
           <Key>
             <PropertyRef Name="Id" />
@@ -296,6 +322,18 @@
           <Property Name="Updated" Type="datetime" />
           <Property Name="UpdatedBy" Type="nvarchar" MaxLength="512" />
         </EntityType>
+        <Association Name="FK_GroupPermissions_UserGroups">
+          <End Role="UserGroups" Type="PXHotelModel.Store.UserGroups" Multiplicity="1" />
+          <End Role="GroupPermissions" Type="PXHotelModel.Store.GroupPermissions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserGroups">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="GroupPermissions">
+              <PropertyRef Name="UserGroupId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_LocalizedResources_Languages">
           <End Role="Languages" Type="PXHotelModel.Store.Languages" Multiplicity="1" />
           <End Role="LocalizedResources" Type="PXHotelModel.Store.LocalizedResources" Multiplicity="*" />
@@ -344,27 +382,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_RoleMenu_Menu">
-          <End Role="Menus" Type="PXHotelModel.Store.Menus" Multiplicity="1" />
-          <End Role="GroupMenus" Type="PXHotelModel.Store.GroupMenus" Multiplicity="*" />
+        <Association Name="FK_Resources_Countries">
+          <End Role="Countries" Type="PXHotelModel.Store.Countries" Multiplicity="1" />
+          <End Role="Resources" Type="PXHotelModel.Store.Resources" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Menus">
+            <Principal Role="Countries">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="GroupMenus">
-              <PropertyRef Name="MenuId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_RoleMenu_Role">
-          <End Role="UserGroups" Type="PXHotelModel.Store.UserGroups" Multiplicity="1" />
-          <End Role="GroupMenus" Type="PXHotelModel.Store.GroupMenus" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="UserGroups">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="GroupMenus">
-              <PropertyRef Name="UserGroupId" />
+            <Dependent Role="Resources">
+              <PropertyRef Name="CountryId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -410,7 +436,8 @@
       <Schema Namespace="PXHotelModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="PXHotelEntities" p1:LazyLoadingEnabled="true">
           <EntitySet Name="BookingRequests" EntityType="PXHotelModel.BookingRequest" />
-          <EntitySet Name="GroupMenus" EntityType="PXHotelModel.GroupMenu" />
+          <EntitySet Name="Countries" EntityType="PXHotelModel.Country" />
+          <EntitySet Name="GroupPermissions" EntityType="PXHotelModel.GroupPermission" />
           <EntitySet Name="Languages" EntityType="PXHotelModel.Language" />
           <EntitySet Name="LocalizedResources" EntityType="PXHotelModel.LocalizedResource" />
           <EntitySet Name="Menus" EntityType="PXHotelModel.Menu" />
@@ -418,19 +445,20 @@
           <EntitySet Name="NewsCategories" EntityType="PXHotelModel.NewsCategory" />
           <EntitySet Name="NewsNewsCategories" EntityType="PXHotelModel.NewsNewsCategory" />
           <EntitySet Name="Pages" EntityType="PXHotelModel.Page" />
+          <EntitySet Name="Resources" EntityType="PXHotelModel.Resource" />
           <EntitySet Name="Rooms" EntityType="PXHotelModel.Room" />
           <EntitySet Name="RoomTypes" EntityType="PXHotelModel.RoomType" />
           <EntitySet Name="SiteSettings" EntityType="PXHotelModel.SiteSetting" />
           <EntitySet Name="Status" EntityType="PXHotelModel.Status" />
           <EntitySet Name="UserGroups" EntityType="PXHotelModel.UserGroup" />
           <EntitySet Name="Users" EntityType="PXHotelModel.User" />
-          <AssociationSet Name="FK_RoleMenu_Menu" Association="PXHotelModel.FK_RoleMenu_Menu">
-            <End Role="Menu" EntitySet="Menus" />
-            <End Role="GroupMenu" EntitySet="GroupMenus" />
+          <AssociationSet Name="FK_Resources_Countries" Association="PXHotelModel.FK_Resources_Countries">
+            <End Role="Country" EntitySet="Countries" />
+            <End Role="Resource" EntitySet="Resources" />
           </AssociationSet>
-          <AssociationSet Name="FK_RoleMenu_Role" Association="PXHotelModel.FK_RoleMenu_Role">
+          <AssociationSet Name="FK_GroupPermissions_UserGroups" Association="PXHotelModel.FK_GroupPermissions_UserGroups">
             <End Role="UserGroup" EntitySet="UserGroups" />
-            <End Role="GroupMenu" EntitySet="GroupMenus" />
+            <End Role="GroupPermission" EntitySet="GroupPermissions" />
           </AssociationSet>
           <AssociationSet Name="FK_LocalizedResources_Languages" Association="PXHotelModel.FK_LocalizedResources_Languages">
             <End Role="Language" EntitySet="Languages" />
@@ -483,21 +511,29 @@
           <Property Type="DateTime" Name="Updated" Precision="3" />
           <Property Type="String" Name="UpdatedBy" MaxLength="512" FixedLength="false" Unicode="true" />
         </EntityType>
-        <EntityType Name="GroupMenu">
+        <EntityType Name="Country">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="Int32" Name="UserGroupId" Nullable="false" />
-          <Property Type="Int32" Name="MenuId" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="512" FixedLength="false" Unicode="true" />
           <Property Type="Int32" Name="RecordOrder" Nullable="false" />
           <Property Type="Boolean" Name="RecordActive" Nullable="false" />
           <Property Type="DateTime" Name="Created" Nullable="false" Precision="3" />
           <Property Type="String" Name="CreatedBy" Nullable="false" MaxLength="512" FixedLength="false" Unicode="true" />
           <Property Type="DateTime" Name="Updated" Precision="3" />
           <Property Type="String" Name="UpdatedBy" MaxLength="512" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Menu" Relationship="PXHotelModel.FK_RoleMenu_Menu" FromRole="GroupMenu" ToRole="Menu" />
-          <NavigationProperty Name="UserGroup" Relationship="PXHotelModel.FK_RoleMenu_Role" FromRole="GroupMenu" ToRole="UserGroup" />
+          <NavigationProperty Name="Resources" Relationship="PXHotelModel.FK_Resources_Countries" FromRole="Country" ToRole="Resource" />
+        </EntityType>
+        <EntityType Name="GroupPermission">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="UserGroupId" Nullable="false" />
+          <Property Type="Int32" Name="PermissionId" Nullable="false" />
+          <Property Type="Boolean" Name="HasPermission" Nullable="false" />
+          <NavigationProperty Name="UserGroup" Relationship="PXHotelModel.FK_GroupPermissions_UserGroups" FromRole="GroupPermission" ToRole="UserGroup" />
         </EntityType>
         <EntityType Name="Language">
           <Key>
@@ -549,7 +585,6 @@
           <Property Type="String" Name="CreatedBy" Nullable="false" MaxLength="512" FixedLength="false" Unicode="true" />
           <Property Type="DateTime" Name="Updated" Precision="3" />
           <Property Type="String" Name="UpdatedBy" MaxLength="512" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="GroupMenus" Relationship="PXHotelModel.FK_RoleMenu_Menu" FromRole="Menu" ToRole="GroupMenu" />
           <NavigationProperty Name="Menus1" Relationship="PXHotelModel.FK_Menu_Menu" FromRole="Menu" ToRole="Menu1" />
           <NavigationProperty Name="Menu1" Relationship="PXHotelModel.FK_Menu_Menu" FromRole="Menu1" ToRole="Menu" />
         </EntityType>
@@ -614,6 +649,23 @@
           <Property Type="String" Name="CreatedBy" Nullable="false" MaxLength="512" FixedLength="false" Unicode="true" />
           <Property Type="DateTime" Name="Updated" Precision="3" />
           <Property Type="String" Name="UpdatedBy" MaxLength="512" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Resource">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="DefaultValue" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Value" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="CountryId" Nullable="false" />
+          <Property Type="Int32" Name="RecordOrder" Nullable="false" />
+          <Property Type="Boolean" Name="RecordActive" Nullable="false" />
+          <Property Type="DateTime" Name="Created" Nullable="false" Precision="3" />
+          <Property Type="String" Name="CreatedBy" Nullable="false" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Type="DateTime" Name="Updated" Precision="3" />
+          <Property Type="String" Name="UpdatedBy" MaxLength="512" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Country" Relationship="PXHotelModel.FK_Resources_Countries" FromRole="Resource" ToRole="Country" />
         </EntityType>
         <EntityType Name="Room">
           <Key>
@@ -690,7 +742,7 @@
           <Property Type="String" Name="CreatedBy" Nullable="false" MaxLength="512" FixedLength="false" Unicode="true" />
           <Property Type="DateTime" Name="Updated" Precision="3" />
           <Property Type="String" Name="UpdatedBy" MaxLength="512" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="GroupMenus" Relationship="PXHotelModel.FK_RoleMenu_Role" FromRole="UserGroup" ToRole="GroupMenu" />
+          <NavigationProperty Name="GroupPermissions" Relationship="PXHotelModel.FK_GroupPermissions_UserGroups" FromRole="UserGroup" ToRole="GroupPermission" />
           <NavigationProperty Name="Users" Relationship="PXHotelModel.FK_User_Role" FromRole="UserGroup" ToRole="User" />
         </EntityType>
         <EntityType Name="User">
@@ -717,26 +769,26 @@
           <NavigationProperty Name="Status" Relationship="PXHotelModel.FK_User_Status" FromRole="User" ToRole="Status" />
           <NavigationProperty Name="UserGroup" Relationship="PXHotelModel.FK_User_Role" FromRole="User" ToRole="UserGroup" />
         </EntityType>
-        <Association Name="FK_RoleMenu_Menu">
-          <End Type="PXHotelModel.Menu" Role="Menu" Multiplicity="1" />
-          <End Type="PXHotelModel.GroupMenu" Role="GroupMenu" Multiplicity="*" />
+        <Association Name="FK_Resources_Countries">
+          <End Type="PXHotelModel.Country" Role="Country" Multiplicity="1" />
+          <End Type="PXHotelModel.Resource" Role="Resource" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Menu">
+            <Principal Role="Country">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="GroupMenu">
-              <PropertyRef Name="MenuId" />
+            <Dependent Role="Resource">
+              <PropertyRef Name="CountryId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_RoleMenu_Role">
+        <Association Name="FK_GroupPermissions_UserGroups">
           <End Type="PXHotelModel.UserGroup" Role="UserGroup" Multiplicity="1" />
-          <End Type="PXHotelModel.GroupMenu" Role="GroupMenu" Multiplicity="*" />
+          <End Type="PXHotelModel.GroupPermission" Role="GroupPermission" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="UserGroup">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="GroupMenu">
+            <Dependent Role="GroupPermission">
               <PropertyRef Name="UserGroupId" />
             </Dependent>
           </ReferentialConstraint>
@@ -854,16 +906,25 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="GroupMenus">
-            <EntityTypeMapping TypeName="PXHotelModel.GroupMenu">
-              <MappingFragment StoreEntitySet="GroupMenus">
+          <EntitySetMapping Name="Countries">
+            <EntityTypeMapping TypeName="PXHotelModel.Country">
+              <MappingFragment StoreEntitySet="Countries">
                 <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
                 <ScalarProperty Name="Updated" ColumnName="Updated" />
                 <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
                 <ScalarProperty Name="Created" ColumnName="Created" />
                 <ScalarProperty Name="RecordActive" ColumnName="RecordActive" />
                 <ScalarProperty Name="RecordOrder" ColumnName="RecordOrder" />
-                <ScalarProperty Name="MenuId" ColumnName="MenuId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GroupPermissions">
+            <EntityTypeMapping TypeName="PXHotelModel.GroupPermission">
+              <MappingFragment StoreEntitySet="GroupPermissions">
+                <ScalarProperty Name="HasPermission" ColumnName="HasPermission" />
+                <ScalarProperty Name="PermissionId" ColumnName="PermissionId" />
                 <ScalarProperty Name="UserGroupId" ColumnName="UserGroupId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
@@ -979,6 +1040,23 @@
                 <ScalarProperty Name="Caption_Working" ColumnName="Caption_Working" />
                 <ScalarProperty Name="Caption" ColumnName="Caption" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Resources">
+            <EntityTypeMapping TypeName="PXHotelModel.Resource">
+              <MappingFragment StoreEntitySet="Resources">
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="Updated" ColumnName="Updated" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+                <ScalarProperty Name="RecordActive" ColumnName="RecordActive" />
+                <ScalarProperty Name="RecordOrder" ColumnName="RecordOrder" />
+                <ScalarProperty Name="CountryId" ColumnName="CountryId" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="DefaultValue" ColumnName="DefaultValue" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

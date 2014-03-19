@@ -26,19 +26,11 @@ namespace PX.Business.Services.Users
 
         ResponseModel ManageUser(GridOperationEnums operation, UserModel model);
 
-        ResponseModel ManageUserGroup(GridOperationEnums operation, UserGroupModel model);
-
         User GetUser(string email);
 
         JqGridSearchOut SearchUsers(JqSearchIn si);
 
-        JqGridSearchOut SearchUserGroups(JqSearchIn si);
-
         IEnumerable<SelectListItem> GetStatus();
-
-        IQueryable<UserGroup> GetAllUserGroups();
-
-        IEnumerable<SelectListItem> GetRoles();
 
         ResponseModel Login(LoginModel model);
     }

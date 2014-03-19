@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using AutoMapper;
 using PX.Business.Models.Languages;
-using PX.Business.Services.Settings;
 using PX.Core.Framework.Enums;
 using PX.Core.Framework.Mvc.Models;
 using PX.Core.Framework.Mvc.Models.JqGrid;
@@ -57,7 +56,7 @@ namespace PX.Business.Services.Languages
         /// <returns></returns>
         public JqGridSearchOut SearchLanguages(JqSearchIn si)
         {
-            var Languages = GetAll().Select(u => new LanguageModel
+            var languages = GetAll().Select(u => new LanguageModel
             {
                 Id = u.Id,
                 Name = u.Name,
@@ -70,7 +69,7 @@ namespace PX.Business.Services.Languages
                 UpdatedBy = u.UpdatedBy
             });
 
-            return si.Search(Languages);
+            return si.Search(languages);
         }
 
         /// <summary>
@@ -82,19 +81,19 @@ namespace PX.Business.Services.Languages
         public ResponseModel ManageLanguage(GridOperationEnums operation, LanguageModel model)
         {
             Mapper.CreateMap<LanguageModel, Language>();
-            Language Language;
+            Language language;
             switch (operation)
             {
                 case GridOperationEnums.Edit:
-                    Language = GetById(model.Id);
-                    Language.Name = model.Name;
-                    Language.ShortName = model.ShortName;
-                    Language.RecordActive = model.RecordActive;
-                    Language.RecordOrder = model.RecordOrder;
-                    return Update(Language);
+                    language = GetById(model.Id);
+                    language.Name = model.Name;
+                    language.ShortName = model.ShortName;
+                    language.RecordActive = model.RecordActive;
+                    language.RecordOrder = model.RecordOrder;
+                    return Update(language);
                 case GridOperationEnums.Add:
-                    Language = Mapper.Map<LanguageModel, Language>(model);
-                    return Insert(Language);
+                    language = Mapper.Map<LanguageModel, Language>(model);
+                    return Insert(language);
                 case GridOperationEnums.Del:
                     return Delete(model.Id);
             }

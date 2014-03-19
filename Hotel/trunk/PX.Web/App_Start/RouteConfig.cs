@@ -9,7 +9,7 @@ namespace PX.Web
         {
             get
             {
-                return "PX.Web.Areas.Admin.Controllers";
+                return "PX.Web.Controllers";
             }
         }
         public static void RegisterRoutes(RouteCollection routes)

@@ -26,7 +26,8 @@ namespace PX.EntityModel
         }
     
         public DbSet<BookingRequest> BookingRequests { get; set; }
-        public DbSet<GroupMenu> GroupMenus { get; set; }
+        public DbSet<Country> Countries { get; set; }
+        public DbSet<GroupPermission> GroupPermissions { get; set; }
         public DbSet<Language> Languages { get; set; }
         public DbSet<LocalizedResource> LocalizedResources { get; set; }
         public DbSet<Menu> Menus { get; set; }
@@ -34,6 +35,7 @@ namespace PX.EntityModel
         public DbSet<NewsCategory> NewsCategories { get; set; }
         public DbSet<NewsNewsCategory> NewsNewsCategories { get; set; }
         public DbSet<Page> Pages { get; set; }
+        public DbSet<Resource> Resources { get; set; }
         public DbSet<Room> Rooms { get; set; }
         public DbSet<RoomType> RoomTypes { get; set; }
         public DbSet<SiteSetting> SiteSettings { get; set; }

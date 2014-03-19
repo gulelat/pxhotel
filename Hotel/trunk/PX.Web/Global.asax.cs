@@ -1,19 +1,16 @@
-﻿using System;
-using System.Linq;
-using System.Reflection;
+﻿using System.Reflection;
 using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
-using PX.Business.Models.Localizes;
 using PX.Business.Services.Languages;
 using PX.Business.Services.Localizes;
 using PX.Business.Services.Menus;
 using PX.Business.Services.Settings;
+using PX.Business.Services.UserGroups;
 using PX.Business.Services.Users;
 using PX.Core.Framework.Mvc.Environment;
-using PX.Core.Framework.Mvc.Helpers;
 using SimpleInjector;
 using SimpleInjector.Integration.Web.Mvc;
 
@@ -37,6 +34,12 @@ namespace PX.Web
             //Initialize Simple Injector
             SimpleInjectorInitialize();
 
+            //Initialize some part of core
+            InitializeProcess();
+        }
+
+        public void InitializeProcess()
+        {
             //Load localize resources
             LocalizeResourcesInitialize();
         }
@@ -73,6 +76,7 @@ namespace PX.Web
             container.Register<ISettingServices, SettingServices>(Lifestyle.Singleton);
             container.Register<ILocalizedResourceServices, LocalizedResourceServices>(Lifestyle.Singleton);
             container.Register<ILanguageServices, LanguageServices>(Lifestyle.Singleton);
+            container.Register<IUserGroupServices, UserGroupServices>(Lifestyle.Singleton);
         }
 
         #endregion

@@ -12,17 +12,15 @@ namespace PX.EntityModel
     using System;
     using System.Collections.Generic;
     
-    public partial class UserGroup
+    public partial class Country
     {
-        public UserGroup()
+        public Country()
         {
-            this.GroupPermissions = new HashSet<GroupPermission>();
-            this.Users = new HashSet<User>();
+            this.Resources = new HashSet<Resource>();
         }
     
         public int Id { get; set; }
         public string Name { get; set; }
-        public string Description { get; set; }
         public int RecordOrder { get; set; }
         public bool RecordActive { get; set; }
         public System.DateTime Created { get; set; }
@@ -30,7 +28,6 @@ namespace PX.EntityModel
         public Nullable<System.DateTime> Updated { get; set; }
         public string UpdatedBy { get; set; }
     
-        public virtual ICollection<GroupPermission> GroupPermissions { get; set; }
-        public virtual ICollection<User> Users { get; set; }
+        public virtual ICollection<Resource> Resources { get; set; }
     }
 }

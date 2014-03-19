@@ -3,12 +3,13 @@ using Newtonsoft.Json;
 using PX.Business.Models.Menus;
 using PX.Business.Mvc.Attributes;
 using PX.Business.Services.Menus;
+using PX.Core.Framework.Enums;
 using PX.Core.Framework.Mvc.Attributes;
 using PX.Core.Framework.Mvc.Models.JqGrid;
 
 namespace PX.Web.Areas.Admin.Controllers
 {
-    [PxAuthorize]
+    [PxAuthorize(Permissions = new[] { PermissionEnums.ManageContent })]
     public class MenusController : Controller
     {
         private readonly IMenuServices _menuServices;

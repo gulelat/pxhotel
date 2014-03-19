@@ -1,15 +1,15 @@
 ﻿using System.Web.Mvc;
 using Newtonsoft.Json;
 using PX.Business.Models.Settings;
-using PX.Business.Models.UserGroups;
 using PX.Business.Mvc.Attributes;
 using PX.Business.Services.Settings;
+using PX.Core.Framework.Enums;
 using PX.Core.Framework.Mvc.Attributes;
 using PX.Core.Framework.Mvc.Models.JqGrid;
 
 namespace PX.Web.Areas.Admin.Controllers
 {
-    [PxAuthorize]
+    [PxAuthorize(Permissions = new[] { PermissionEnums.ManageContent })]
     public class SiteSettingsController : Controller
     {
         private readonly ISettingServices _settingServices;

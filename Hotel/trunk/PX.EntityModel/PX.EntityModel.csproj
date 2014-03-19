@@ -61,7 +61,10 @@
     <Compile Include="BookingRequest.cs">
       <DependentUpon>PXHotel.tt</DependentUpon>
     </Compile>
-    <Compile Include="GroupMenu.cs">
+    <Compile Include="Country.cs">
+      <DependentUpon>PXHotel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GroupPermission.cs">
       <DependentUpon>PXHotel.tt</DependentUpon>
     </Compile>
     <Compile Include="Language.cs">
@@ -71,6 +74,7 @@
       <DependentUpon>PXHotel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Entities\User.cs" />
+    <Compile Include="Repositories\GroupPermissionRepository.cs" />
     <Compile Include="Repositories\LanguageRepository.cs" />
     <Compile Include="Repositories\LocalizedStringRepository.cs" />
     <Compile Include="Repositories\SiteSettingRepository.cs" />
@@ -111,6 +115,9 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>PXHotel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Resource.cs">
+      <DependentUpon>PXHotel.tt</DependentUpon>
     </Compile>
     <Compile Include="Resources\SystemResources.Designer.cs">
       <DependentUpon>SystemResources.resx</DependentUpon>
