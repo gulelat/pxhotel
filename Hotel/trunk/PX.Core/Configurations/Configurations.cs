@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Configuration;
+using PX.Core.Configurations.Constants;
 
 namespace PX.Core.Configurations
 {
@@ -31,7 +32,7 @@ namespace PX.Core.Configurations
         /// <remarks></remarks>
         public static string DefaultNewsFolder
         {
-            get { return Constants.DefaultNewsFolder; }
+            get { return DefaultConstants.DefaultNewsFolder; }
         }
 
         /// <summary>
@@ -79,7 +80,7 @@ namespace PX.Core.Configurations
         /// <remarks></remarks>
         public static string DefaultPartnerFolder
         {
-            get { return Constants.DefaultPartnerFolder; }
+            get { return DefaultConstants.DefaultPartnerFolder; }
         }
 
         /// <summary>
@@ -118,7 +119,7 @@ namespace PX.Core.Configurations
         /// <remarks></remarks>
         public static string DefaultClassFolder
         {
-            get { return Constants.DefaultClassFolder; }
+            get { return DefaultConstants.DefaultClassFolder; }
         }
 
         /// <summary>
@@ -157,7 +158,7 @@ namespace PX.Core.Configurations
         /// <remarks></remarks>
         public static string DefaultServiceFolder
         {
-            get { return Constants.DefaultServiceFolder; }
+            get { return DefaultConstants.DefaultServiceFolder; }
         }
 
         /// <summary>
@@ -230,7 +231,7 @@ namespace PX.Core.Configurations
         /// </summary>
         public static string UploadFolder
         {
-            get { return Constants.UploadFolder; }
+            get { return DefaultConstants.UploadFolder; }
         }
 
         /// <summary>
@@ -238,7 +239,7 @@ namespace PX.Core.Configurations
         /// </summary>
         public static string TempFolder
         {
-            get { return Constants.TempFolder; }
+            get { return DefaultConstants.TempFolder; }
         }
 
         /// <summary>
@@ -303,7 +304,7 @@ namespace PX.Core.Configurations
         /// <remarks></remarks>
         public static string DefaultUserFolder
         {
-            get { return Constants.DefaultUserFolder; }
+            get { return DefaultConstants.DefaultUserFolder; }
         }
 
         /// <summary>
@@ -353,23 +354,6 @@ namespace PX.Core.Configurations
             get { return Convert.ToInt32(ConfigurationManager.AppSettings["DayCount"]); }
         }
         #endregion
-
-        /// <summary>
-        /// Gets the default admin id.
-        /// </summary>
-        /// <remarks></remarks>
-        public static int DefaultAdmin
-        {
-            get { return Constants.DefaultAdmin; }
-        }
-
-        /// <summary>
-        /// Gets the default password of parent.
-        /// </summary>
-        /// <remarks></remarks>
-        public static string DefaultPassword
-        {
-            get { return Constants.DefaultPassword; }
-        }
+        
     }
 }

@@ -20,7 +20,7 @@ namespace PX.Business.Services.Menus
         {
             return MenuRepository.GetAll();
         }
-        public Menu GetById(int? id)
+        public Menu GetById(object id)
         {
             return MenuRepository.GetById(id);
         }
@@ -44,7 +44,7 @@ namespace PX.Business.Services.Menus
         {
             return MenuRepository.Delete(menu);
         }
-        public ResponseModel Delete(int id)
+        public ResponseModel Delete(object id)
         {
             return MenuRepository.Delete(id);
         }
@@ -80,28 +80,6 @@ namespace PX.Business.Services.Menus
             });
 
             return si.Search(menus);
-        }
-
-        /// <summary>
-        /// Gets the Menu roles.
-        /// </summary>
-        /// <returns></returns>
-        public IQueryable<UserGroup> GetAllRoles()
-        {
-            return UserGroupRepository.GetAll();
-        }
-
-        /// <summary>
-        /// Gets the Menu roles.
-        /// </summary>
-        /// <returns></returns>
-        public IEnumerable<SelectListItem> GetRoles()
-        {
-            return UserGroupRepository.GetAll().ToList().Select(r => new SelectListItem
-                {
-                    Text = r.Name,
-                    Value = r.Id.ToString(CultureInfo.InvariantCulture)
-                });
         }
 
         /// <summary>

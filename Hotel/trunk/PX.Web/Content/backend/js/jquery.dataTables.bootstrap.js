@@ -2,7 +2,7 @@
 $.extend( true, $.fn.dataTable.defaults, {
 	"sDom": "<'row'<'col-sm-6'l><'col-sm-6'f>r>t<'row'<'col-sm-6'i><'col-sm-6'p>>",
 	"sPaginationType": "bootstrap",
-	"oLanguage": {
+	"oLocalizedResource": {
 		"sLengthMenu": "Display _MENU_ records"
 	}
 } );
@@ -26,7 +26,7 @@ $.fn.dataTableExt.oApi.fnPagingInfo = function ( oSettings )
 $.extend( $.fn.dataTableExt.oPagination, {
     "bootstrap": {
         "fnInit": function( oSettings, nPaging, fnDraw ) {
-            var oLang = oSettings.oLanguage.oPaginate;
+            var oLang = oSettings.oLocalizedResource.oPaginate;
             var fnClickHandler = function ( e ) {
                 e.preventDefault();
                 if ( oSettings.oApi._fnPageChange(oSettings, e.data.action) ) {

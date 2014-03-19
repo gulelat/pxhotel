@@ -27,7 +27,7 @@ namespace PX.Business.Services.Users
         {
             return UserRepository.GetAll();
         }
-        public User GetById(int? id)
+        public User GetById(object id)
         {
             return UserRepository.GetById(id);
         }
@@ -43,7 +43,7 @@ namespace PX.Business.Services.Users
         {
             return UserRepository.Delete(user);
         }
-        public ResponseModel Delete(int id)
+        public ResponseModel Delete(object id)
         {
             return UserRepository.Delete(id);
         }

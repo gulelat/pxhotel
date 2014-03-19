@@ -6,9 +6,9 @@ using PX.Business.Services.Users;
 using PX.EntityModel;
 using PX.EntityModel.Resources;
 
-namespace PX.Business.Attributes
+namespace PX.Business.Mvc.Attributes
 {
-    public class PxAuthorizeAttribute : System.Web.Mvc.AuthorizeAttribute
+    public class PxAuthorizeAttribute : AuthorizeAttribute
     {
         public override void OnAuthorization(AuthorizationContext authorizationContext)
         {

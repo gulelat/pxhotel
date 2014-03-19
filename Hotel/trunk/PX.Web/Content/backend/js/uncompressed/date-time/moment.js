@@ -13,8 +13,8 @@
     var moment,
         VERSION = "2.0.0",
         round = Math.round, i,
-        // internal storage for language config files
-        languages = {},
+        // internal storage for LocalizedResource config files
+        LocalizedResources = {},
 
         // check for nodeJS
         hasModule = (typeof module !== 'undefined' && module.exports),
@@ -194,7 +194,7 @@
         Constructors
     ************************************/
 
-    function Language() {
+    function LocalizedResource() {
 
     }
 
@@ -330,11 +330,11 @@
 
 
     /************************************
-        Languages
+        LocalizedResources
     ************************************/
 
 
-    Language.prototype = {
+    LocalizedResource.prototype = {
         set : function (config) {
             var prop, i;
             for (i in config) {
@@ -480,33 +480,33 @@
         }
     };
 
-    // Loads a language definition into the `languages` cache.  The function
+    // Loads a LocalizedResource definition into the `LocalizedResources` cache.  The function
     // takes a key and optionally values.  If not in the browser and no values
-    // are provided, it will load the language file module.  As a convenience,
-    // this function also returns the language values.
+    // are provided, it will load the LocalizedResource file module.  As a convenience,
+    // this function also returns the LocalizedResource values.
     function loadLang(key, values) {
         values.abbr = key;
-        if (!languages[key]) {
-            languages[key] = new Language();
+        if (!LocalizedResources[key]) {
+            LocalizedResources[key] = new LocalizedResource();
         }
-        languages[key].set(values);
-        return languages[key];
+        LocalizedResources[key].set(values);
+        return LocalizedResources[key];
     }
 
-    // Determines which language definition to use and returns it.
+    // Determines which LocalizedResource definition to use and returns it.
     //
-    // With no parameters, it will return the global language.  If you
-    // pass in a language key, such as 'en', it will return the
+    // With no parameters, it will return the global LocalizedResource.  If you
+    // pass in a LocalizedResource key, such as 'en', it will return the
     // definition for 'en', so long as 'en' has already been loaded using
     // moment.lang.
     function getLangDefinition(key) {
         if (!key) {
             return moment.fn._lang;
         }
-        if (!languages[key] && hasModule) {
+        if (!LocalizedResources[key] && hasModule) {
             require('./lang/' + key);
         }
-        return languages[key];
+        return LocalizedResources[key];
     }
 
 
@@ -996,9 +996,9 @@
     // default format
     moment.defaultFormat = isoFormat;
 
-    // This function will load languages and then set the global language.  If
+    // This function will load LocalizedResources and then set the global LocalizedResource.  If
     // no arguments are passed in, it will simply return the current global
-    // language key.
+    // LocalizedResource key.
     moment.lang = function (key, values) {
         var i;
 
@@ -1007,13 +1007,13 @@
         }
         if (values) {
             loadLang(key, values);
-        } else if (!languages[key]) {
+        } else if (!LocalizedResources[key]) {
             getLangDefinition(key);
         }
         moment.duration.fn._lang = moment.fn._lang = getLangDefinition(key);
     };
 
-    // returns language data
+    // returns LocalizedResource data
     moment.langData = function (key) {
         if (key && key._lang && key._lang._abbr) {
             key = key._lang._abbr;
@@ -1266,8 +1266,8 @@
             return input == null ? week : this.add("d", (input - week) * 7);
         },
 
-        // If passed a language key, it will set the language for this
-        // instance.  Otherwise, it will return the language configuration
+        // If passed a LocalizedResource key, it will set the LocalizedResource for this
+        // instance.  Otherwise, it will return the LocalizedResource configuration
         // variables for this instance.
         lang : function (key) {
             if (key === undefined) {
@@ -1362,7 +1362,7 @@
     ************************************/
 
 
-    // Set default language, other languages will inherit from English.
+    // Set default LocalizedResource, other LocalizedResources will inherit from English.
     moment.lang('en', {
         ordinal : function (number) {
             var b = number % 10,

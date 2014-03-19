@@ -14,7 +14,7 @@
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
+ * See the License for the specific LocalizedResource governing permissions and
  * limitations under the License.
  * ========================================================= */
 
@@ -34,11 +34,11 @@
 		var that = this;
 
 		this.element = $(element);
-		this.language = options.language||this.element.data('date-language')||"en";
-		this.language = this.language in dates ? this.language : this.language.split('-')[0]; //Check if "de-DE" style date is available, if not language should fallback to 2 letter code eg "de"
-		this.language = this.language in dates ? this.language : "en";
-		this.isRTL = dates[this.language].rtl||false;
-		this.format = DPGlobal.parseFormat(options.format||this.element.data('date-format')||dates[this.language].format||'mm/dd/yyyy');
+		this.LocalizedResource = options.LocalizedResource||this.element.data('date-LocalizedResource')||"en";
+		this.LocalizedResource = this.LocalizedResource in dates ? this.LocalizedResource : this.LocalizedResource.split('-')[0]; //Check if "de-DE" style date is available, if not LocalizedResource should fallback to 2 letter code eg "de"
+		this.LocalizedResource = this.LocalizedResource in dates ? this.LocalizedResource : "en";
+		this.isRTL = dates[this.LocalizedResource].rtl||false;
+		this.format = DPGlobal.parseFormat(options.format||this.element.data('date-format')||dates[this.LocalizedResource].format||'mm/dd/yyyy');
 		this.isInline = false;
 		this.isInput = this.element.is('input');
 		this.component = this.element.is('.date') ? this.element.find('.add-on, .btn') : false;
@@ -138,7 +138,7 @@
 							return parseInt(val) + 1;
 						});
 
-		this.weekStart = ((options.weekStart||this.element.data('date-weekstart')||dates[this.language].weekStart||0) % 7);
+		this.weekStart = ((options.weekStart||this.element.data('date-weekstart')||dates[this.LocalizedResource].weekStart||0) % 7);
 		this.weekEnd = ((this.weekStart + 6) % 7);
 		this.startDate = -Infinity;
 		this.endDate = Infinity;
@@ -291,13 +291,13 @@
 		getFormattedDate: function(format) {
 			if (format === undefined)
 				format = this.format;
-			return DPGlobal.formatDate(this.date, format, this.language);
+			return DPGlobal.formatDate(this.date, format, this.LocalizedResource);
 		},
 
 		setStartDate: function(startDate){
 			this.startDate = startDate||-Infinity;
 			if (this.startDate !== -Infinity) {
-				this.startDate = DPGlobal.parseDate(this.startDate, this.format, this.language);
+				this.startDate = DPGlobal.parseDate(this.startDate, this.format, this.LocalizedResource);
 			}
 			this.update();
 			this.updateNavArrows();
@@ -306,7 +306,7 @@
 		setEndDate: function(endDate){
 			this.endDate = endDate||Infinity;
 			if (this.endDate !== Infinity) {
-				this.endDate = DPGlobal.parseDate(this.endDate, this.format, this.language);
+				this.endDate = DPGlobal.parseDate(this.endDate, this.format, this.LocalizedResource);
 			}
 			this.update();
 			this.updateNavArrows();
@@ -347,7 +347,7 @@
 				date = this.isInput ? this.element.val() : this.element.data('date') || this.element.find('input').val();
 			}
 
-			this.date = DPGlobal.parseDate(date, this.format, this.language);
+			this.date = DPGlobal.parseDate(date, this.format, this.LocalizedResource);
 
 			if(fromArgs) this.setValue();
 
@@ -370,7 +370,7 @@
 				this.picker.find('.datepicker-days thead tr:first-child').prepend(cell);
 			}
 			while (dowCnt < this.weekStart + 7) {
-				html += '<th class="dow">'+dates[this.language].daysMin[(dowCnt++)%7]+'</th>';
+				html += '<th class="dow">'+dates[this.LocalizedResource].daysMin[(dowCnt++)%7]+'</th>';
 			}
 			html += '</tr>';
 			this.picker.find('.datepicker-days thead').append(html);
@@ -380,7 +380,7 @@
 			var html = '',
 			i = 0;
 			while (i < 12) {
-				html += '<span class="month">'+dates[this.language].monthsShort[i++]+'</span>';
+				html += '<span class="month">'+dates[this.LocalizedResource].monthsShort[i++]+'</span>';
 			}
 			this.picker.find('.datepicker-months td').html(html);
 		},
@@ -396,9 +396,9 @@
 				currentDate = this.date && this.date.valueOf(),
 				today = new Date();
 			this.picker.find('.datepicker-days thead th.switch')
-						.text(dates[this.language].months[month]+' '+year);
+						.text(dates[this.LocalizedResource].months[month]+' '+year);
 			this.picker.find('tfoot th.today')
-						.text(dates[this.language].today)
+						.text(dates[this.LocalizedResource].today)
 						.toggle(this.todayBtn !== false);
 			this.updateNavArrows();
 			this.fillMonths();
@@ -864,7 +864,7 @@
 			}
 			return {separators: separators, parts: parts};
 		},
-		parseDate: function(date, format, language) {
+		parseDate: function(date, format, LocalizedResource) {
 			if (date instanceof Date) return date;
 			if (/^[\-+]\d+[dmwy]([\s,]+[\-+]\d+[dmwy])*$/.test(date)) {
 				var part_re = /([\-+]\d+)([dmwy])/,
@@ -928,20 +928,20 @@
 					if (isNaN(val)) {
 						switch(part) {
 							case 'MM':
-								filtered = $(dates[language].months).filter(function(){
+								filtered = $(dates[LocalizedResource].months).filter(function(){
 									var m = this.slice(0, parts[i].length),
 										p = parts[i].slice(0, m.length);
 									return m == p;
 								});
-								val = $.inArray(filtered[0], dates[language].months) + 1;
+								val = $.inArray(filtered[0], dates[LocalizedResource].months) + 1;
 								break;
 							case 'M':
-								filtered = $(dates[language].monthsShort).filter(function(){
+								filtered = $(dates[LocalizedResource].monthsShort).filter(function(){
 									var m = this.slice(0, parts[i].length),
 										p = parts[i].slice(0, m.length);
 									return m == p;
 								});
-								val = $.inArray(filtered[0], dates[language].monthsShort) + 1;
+								val = $.inArray(filtered[0], dates[LocalizedResource].monthsShort) + 1;
 								break;
 						}
 					}
@@ -955,14 +955,14 @@
 			}
 			return date;
 		},
-		formatDate: function(date, format, language){
+		formatDate: function(date, format, LocalizedResource){
 			var val = {
 				d: date.getUTCDate(),
-				D: dates[language].daysShort[date.getUTCDay()],
-				DD: dates[language].days[date.getUTCDay()],
+				D: dates[LocalizedResource].daysShort[date.getUTCDay()],
+				DD: dates[LocalizedResource].days[date.getUTCDay()],
 				m: date.getUTCMonth() + 1,
-				M: dates[language].monthsShort[date.getUTCMonth()],
-				MM: dates[language].months[date.getUTCMonth()],
+				M: dates[LocalizedResource].monthsShort[date.getUTCMonth()],
+				MM: dates[LocalizedResource].months[date.getUTCMonth()],
 				yy: date.getUTCFullYear().toString().substring(2),
 				yyyy: date.getUTCFullYear()
 			};

@@ -179,10 +179,12 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="App_Start\SimpleInjectorInitializer.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\AccountController.cs" />
+    <Compile Include="Areas\Admin\Controllers\LocalizedResourcesController.cs" />
+    <Compile Include="Areas\Admin\Controllers\LanguageController.cs" />
+    <Compile Include="Areas\Admin\Controllers\SiteSettingsController.cs" />
     <Compile Include="Areas\Admin\Controllers\UserGroupsController.cs" />
     <Compile Include="Areas\Admin\Controllers\MenusController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
@@ -602,6 +604,9 @@
     <Content Include="Areas\Admin\Views\Account\LoginSuccess.cshtml" />
     <Content Include="Areas\Admin\Views\Account\MyProfile.cshtml" />
     <Content Include="Areas\Admin\Views\Account\Settings.cshtml" />
+    <Content Include="Areas\Admin\Views\SiteSettings\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\LocalizedResources\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Languages\Index.cshtml" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <None Include="Scripts\jquery-1.8.3.intellisense.js" />
     <Content Include="Scripts\jquery-1.8.3.js" />

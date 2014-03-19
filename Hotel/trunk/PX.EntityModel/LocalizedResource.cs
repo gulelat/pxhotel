@@ -12,13 +12,13 @@ namespace PX.EntityModel
     using System;
     using System.Collections.Generic;
     
-    public partial class Resource
+    public partial class LocalizedResource
     {
         public int Id { get; set; }
-        public string Name { get; set; }
+        public string LanguageId { get; set; }
+        public string TextKey { get; set; }
         public string DefaultValue { get; set; }
-        public string Value { get; set; }
-        public int CountryId { get; set; }
+        public string TranslatedValue { get; set; }
         public int RecordOrder { get; set; }
         public bool RecordActive { get; set; }
         public System.DateTime Created { get; set; }
@@ -26,6 +26,6 @@ namespace PX.EntityModel
         public Nullable<System.DateTime> Updated { get; set; }
         public string UpdatedBy { get; set; }
     
-        public virtual Country Country { get; set; }
+        public virtual Language Language { get; set; }
     }
 }
