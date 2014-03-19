@@ -37,7 +37,7 @@ window.bootbox = window.bootbox || (function init($, undefined) {
   var appendTo = $("body");
 
   var defaults = {
-    // default language
+    // default LocalizedResource
     locale: "en",
     // show backdrop or not
     backdrop: true,
@@ -524,7 +524,7 @@ window.bootbox = window.bootbox || (function init($, undefined) {
 
 
   /**
-   * standard locales. Please add more according to ISO 639-1 standard. Multiple language variants are
+   * standard locales. Please add more according to ISO 639-1 standard. Multiple LocalizedResource variants are
    * unlikely to be required. If this gets too large it can be split out into separate JS files.
    */
   var locales = {

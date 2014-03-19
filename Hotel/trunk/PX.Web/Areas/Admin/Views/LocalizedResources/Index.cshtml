@@ -1,0 +1,91 @@
+﻿@{
+    ViewBag.Header = "Localized Resources";
+    ViewBag.Title = "Localized Resource Management";
+    ViewBag.Description = "Localized Resource Management Page";
+}
+@{
+    var language = HttpContext.Current.Request.Params["language"];
+}
+@section styles{
+    <link rel="stylesheet" href="/Content/backend/css/jquery-ui-1.10.3.full.min.css" />
+    <link rel="stylesheet" href="/Content/backend/css/datepicker.css" />
+    <link rel="stylesheet" href="/Content/backend/css/ui.jqgrid.css" />
+}
+<div class="page-header">
+    <h1>@ViewBag.Header
+        <small>
+            <i class="icon-double-angle-right"></i>
+            @ViewBag.Title
+        </small>
+    </h1>
+</div>
+<div class="row">
+    <div class="col-xs-12">
+        <!-- PAGE CONTENT BEGINS -->
+
+        <table id="grid-table"></table>
+
+        <div id="grid-pager"></div>
+
+        <!-- PAGE CONTENT ENDS -->
+    </div>
+</div>
+@section scripts
+{
+    <script src="/Content/backend/js/date-time/bootstrap-datepicker.min.js"></script>
+    <script src="/Content/backend/js/jqGrid/jquery.jqGrid.min.js"></script>
+    <script src="/Content/backend/js/jqGrid/i18n/grid.locale-en.js"></script>
+    <script type="text/javascript">
+        var gridSelector = "#grid-table";
+        var pagerSelector = "#grid-pager";
+        $(function () {
+            $(gridSelector).jqGrid({
+                datatype: "json",
+                url: "@Url.Action("_AjaxBinding")",
+                postData: { language: '@language' },
+                caption: "Localized Resource Management",
+                height: 350,
+                ondblClickRow: function (rowId) {
+                    jQuery(gridSelector).editRow(rowId, true);
+                },
+                colNames: ['Id', 'Language', 'Localized Resource' , 'Text Key', 'Value', 'Created', 'CreatedBy', 'Updated', 'UpdatedBy'],
+                colModel: [
+                    { name: 'Id', index: 'Id', width: 100, key: true },
+                    { name: 'Language', index: 'Language', width: 150, editable: false },
+                    { name: 'TextKey', index: 'TextKey', width: 150, editable: false },
+                    { name: 'TranslatedValue', index: 'TranslatedValue', width: 250, editable: true },
+                    { name: 'Active', index: 'Active', width: 100, editable: true, edittype: "checkbox", align: "center", editoptions: { value: "Yes:No", defaultValue: 'Yes' }, unformat: aceSwitch },
+                    { name: 'Created', index: 'Created', formatter: "date", width: 100, editable: false, sorttype: "datetime", unformat: pickDate },
+                    { name: 'CreatedBy', index: 'CreatedBy', width: 150, editable: false, editoptions: { size: "20", maxlength: "30" } },
+                    { name: 'Updated', index: 'Updated', formatter: "date", width: 90, editable: false, sorttype: "datetime", unformat: pickDate },
+                    { name: 'UpdatedBy', index: 'UpdatedBy', width: 150, editable: false, editoptions: { size: "20", maxlength: "30" } }
+                ],
+                pager: pagerSelector,
+                rowList: [10, 20, 30],
+                shrinkToFit: false,
+                multiselect: true,
+                editurl: '@Url.Action("Manage")',
+
+                //Default Value
+                altRows: true,
+                multiboxonly: true,
+                autowidth: true,
+                viewrecords: true,
+                loadComplete: function () {
+                    var table = this;
+                    setTimeout(function () {
+                        styleCheckbox(table);
+                        updateActionIcons(table);
+                        updatePagerIcons(table);
+                        enableTooltips(table);
+                    }, 0);
+                }
+            });
+
+            //enable search/filter toolbar
+            $(gridSelector).jqGrid('filterToolbar', { defaultSearch: "cn", stringResult: true });
+        });
+    </script>
+    <script src="/Scripts/Shared/grid.js"></script>
+
+}

@@ -1,6 +1,7 @@
 ﻿@{
     ViewBag.Header = "Menu";
-    ViewBag.Title = "Menu management";
+    ViewBag.Title = "Menu Management";
+    ViewBag.Description = "Menu Management Page";
 }
 @section styles{
     <link rel="stylesheet" href="/Content/backend/css/jquery-ui-1.10.3.full.min.css" />
@@ -140,8 +141,8 @@
                             value: icons
                         }
                     },
-                    { name: 'RecordOrder', index: 'RecordOrder', width: 50, sorttype: "int", editable: true, editrules: { required: true } },
-                    { name: 'Active', index: 'Active', width: 100, editable: true, edittype: "checkbox", editoptions: { value: "Yes:No", defaultValue: 'Yes' }, unformat: aceSwitch },
+                    { name: 'RecordOrder', index: 'RecordOrder', width: 50, sorttype: "int", align:"center", editable: true, editrules: { required: true } },
+                    { name: 'Active', index: 'Active', width: 100, editable: true, edittype: "checkbox", align:"center", align:"center", editoptions: { value: "Yes:No", defaultValue: 'Yes' }, unformat: aceSwitch },
                     { name: 'Created', index: 'Created', formatter: "date", width: 100, editable: false, sorttype: "datetime", unformat: pickDate },
                     { name: 'CreatedBy', index: 'CreatedBy', width: 150, editable: false, editoptions: { size: "20", maxlength: "30" } },
                     { name: 'Updated', index: 'Updated', formatter: "date", width: 90, editable: false, sorttype: "datetime", unformat: pickDate },

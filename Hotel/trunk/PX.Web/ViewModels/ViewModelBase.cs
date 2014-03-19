@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Web;
 using System.Web.Mvc;
-using PX.Core.Configurations;
+using PX.Core.Configurations.Constants;
 using PX.Core.Framework.Enums;
 
 namespace PX.Web.ViewModels
@@ -15,7 +15,7 @@ namespace PX.Web.ViewModels
         /// </summary>
         public ViewModelBase()
         {
-            _currentController = (ControllerBase)HttpContext.Current.Items[Constants.CdlgCurrentController];
+            _currentController = (ControllerBase)HttpContext.Current.Items[DefaultConstants.CdlgCurrentController];
         }
         #endregion
 
@@ -40,14 +40,14 @@ namespace PX.Web.ViewModels
                 if (_currentController == null)
                     return null;
 
-                return (string)_currentController.TempData[Constants.TempStatusMessage];
+                return (string)_currentController.TempData[DefaultConstants.TempStatusMessage];
             }
             set
             {
                 if (_currentController == null)
                     return;
 
-                _currentController.TempData[Constants.TempStatusMessage] = value;
+                _currentController.TempData[DefaultConstants.TempStatusMessage] = value;
             }
         }
 

@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 
-namespace PX.Core.Configurations
+namespace PX.Core.Configurations.Constants
 {
-    public class Constants
+    public class DefaultConstants
     {
-        public const int DefaultAdmin = 1;
-        public const string DefaultPassword = "condanglamgi";
+        public const string DefaultAdmin = "administrator";
+
 
         public const string DefaultUserFolder = "~/Images/users/";
         public const string DefaultPartnerFolder = "~/Images/partners/";

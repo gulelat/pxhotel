@@ -2,8 +2,8 @@
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
-using PX.Business.Attributes;
 using PX.Business.Models.Users.Logins;
+using PX.Business.Mvc.Attributes;
 using PX.Business.Services.Users;
 using PX.Core.Framework.Mvc.Models;
 using PX.EntityModel;
@@ -108,7 +108,7 @@ namespace PX.Web.Areas.Admin.Controllers
         }
         #endregion
 
-        #region My Profile
+        #region Settings
         [PxAuthorize]
         public ActionResult Settings()
         {

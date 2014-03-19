@@ -14,11 +14,11 @@ namespace PX.Business.Services.Menus
         #region Base
 
         IQueryable<Menu> GetAll();
-        Menu GetById(int? id);
+        Menu GetById(object id);
         ResponseModel Insert(Menu menu);
         ResponseModel Update(Menu menu);
         ResponseModel Delete(Menu menu);
-        ResponseModel Delete(int id);
+        ResponseModel Delete(object id);
 
         #endregion
 

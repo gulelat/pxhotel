@@ -1,15 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity.Validation;
-using System.Data.Objects.DataClasses;
 using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Reflection;
-using System.Runtime.Serialization;
 using System.Web;
 using System.Web.Mvc;
-using PX.Core.Framework.Mvc.Attributes;
 using PX.Core.Framework.Mvc.Models;
 using PX.EntityModel.Repositories.RepositoryBase.Extensions;
 
@@ -58,7 +54,12 @@ namespace PX.EntityModel.Repositories.RepositoryBase
             return DataContext.Set<T>().Where(expression);
         }
 
-        public static T GetById(int? id)
+        public static T FetchFirst(Expression<Func<T, bool>> expression)
+        {
+            return DataContext.Set<T>().FirstOrDefault(expression);
+        }
+
+        public static T GetById(object id)
         {
             return DataContext.Set<T>().Find(id);
         }
@@ -92,14 +93,8 @@ namespace PX.EntityModel.Repositories.RepositoryBase
         public static ResponseModel Insert(T entity)
         {
             entity.SetProperty("Created", DateTime.Now);
-            if (User.CurrentUser != null)
-            {
-                entity.SetProperty("CreatedBy", User.CurrentUser.Email);
-            }
-            else
-            {
-                entity.SetProperty("CreatedBy", string.Empty);
-            }
+            entity.SetProperty("CreatedBy", User.CurrentUser != null ? User.CurrentUser.Email : string.Empty);
+            
             var response = new ResponseModel();
             try
             {
@@ -144,7 +139,7 @@ namespace PX.EntityModel.Repositories.RepositoryBase
             return response;
         }
 
-        public static ResponseModel Delete(int id)
+        public static ResponseModel Delete(object id)
         {
             var response = new ResponseModel();
             try

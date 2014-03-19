@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
-using PX.Business.Attributes;
+using PX.Business.Mvc.Attributes;
+using PX.Business.Services.Localizes;
 using PX.Business.Services.Menus;
 
 namespace PX.Web.Areas.Admin.Controllers
@@ -9,9 +10,11 @@ namespace PX.Web.Areas.Admin.Controllers
     public class HomeController : Controller
     {
         private readonly IMenuServices _menuServices;
-        public HomeController(IMenuServices menuServices)
+        private readonly ILocalizedResourceServices _localizedResourceServices;
+        public HomeController(IMenuServices menuServices, ILocalizedResourceServices localizedResourceServices)
         {
             _menuServices = menuServices;
+            _localizedResourceServices = localizedResourceServices;
         }
 
         //

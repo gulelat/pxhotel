@@ -1,6 +1,7 @@
 ﻿@{
     ViewBag.Header = "User";
-    ViewBag.Title = "User management";
+    ViewBag.Title = "User Management";
+    ViewBag.Description = "User Management Page";
 }
 
 @section styles{
@@ -52,10 +53,11 @@
                 colNames: ['', 'Id', 'Email', 'Password', 'FirstName', 'LastName', 'User Group', 'Status', 'Identity Number', 'Phone', 'Active', 'LastLogin', 'Created', 'CreatedBy', 'Updated', 'UpdatedBy'],
                 colModel: [
                     {
-                        name: 'fullEdit',
-                        width: 30,
+                        name: 'preview',
+                        width: 50,
                         sortable: false,
                         search: false,
+                        align: "center",
                         formatter: function (cellvalue, options, rowObject) {
                             return "<a href='@Url.Action("Edit")/" + options.rowId + "'><div class='ui-pg-div ui-inline-edit' onmouseout='jQuery(this).removeClass('ui-state-hover')' onmouseover='jQuery(this).addClass('ui-state-hover');' style='float:left;cursor:pointer;' title='' data-original-title='Edit selected row'><span class='ui-icon ui-icon-pencil'></span></div></a>";
                         }
@@ -94,7 +96,7 @@
                     },
                     { name: 'IdentityNumber', index: 'IdentityNumber', width: 150, editable: true, editoptions: { size: "20", maxlength: "30" } },
                     { name: 'Phone', index: 'Phone', width: 150, editable: true, editrules: { required: true } },
-                    { name: 'Active', index: 'Active', width: 100, editable: true, edittype: "checkbox", editoptions: { value: "Yes:No", defaultValue: 'Yes' }, unformat: aceSwitch },
+                    { name: 'Active', index: 'Active', width: 100, editable: true, edittype: "checkbox", align:"center", align:"center", editoptions: { value: "Yes:No", defaultValue: 'Yes' }, unformat: aceSwitch },
                     { name: 'LastLogin', index: 'LastLogin', width: 90, editable: false, sorttype: "datetime", unformat: pickDate },
                     { name: 'Created', index: 'Created', width: 100, editable: false, sorttype: "datetime", unformat: pickDate },
                     { name: 'CreatedBy', index: 'CreatedBy', width: 150, editable: false, editoptions: { size: "20", maxlength: "30" } },

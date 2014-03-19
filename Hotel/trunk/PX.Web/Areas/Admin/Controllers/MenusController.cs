@@ -1,7 +1,7 @@
 ﻿using System.Web.Mvc;
 using Newtonsoft.Json;
-using PX.Business.Attributes;
 using PX.Business.Models.Menus;
+using PX.Business.Mvc.Attributes;
 using PX.Business.Services.Menus;
 using PX.Core.Framework.Mvc.Attributes;
 using PX.Core.Framework.Mvc.Models.JqGrid;
