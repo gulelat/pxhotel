@@ -1,0 +1,63 @@
+﻿@model PX.Business.Models.UserGroups.GroupPermissionsModel
+@{
+    ViewBag.Header = "Group Permission";
+    ViewBag.Title = "Group Permission Management";
+    ViewBag.Description = "Menu Management Page";
+}
+
+<div class="page-header">
+    <h1>@ViewBag.Header
+        <small>
+            <i class="icon-double-angle-right"></i>
+            @ViewBag.Title
+        </small>
+    </h1>
+</div>
+@using (Ajax.BeginForm(new AjaxOptions
+    {
+        LoadingElementId = "loading-wrapper",
+        OnSuccess = "OnSuccess"
+    }))
+{
+    Html.HiddenFor(m => m.UserGroupId);
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="control-group">
+                <label class="control-label bolder blue">
+                    @Model.Name</label>
+
+                @foreach (var item in Model.Permissions)
+                {
+                    
+                    <div class="checkbox">
+                        <label>
+                            <input name="@item.GroupPermissionId" type="checkbox" class="ace ace-switch ace-switch-6" @(item.HasPermission ? "checked" : string.Empty) />
+                            <span class="lbl">&nbsp; &nbsp; @item.PermissionName</span>
+                        </label>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+        <div class="col-md-offset-3 col-md-9">
+            <button class="btn btn-info" type="submit">
+                <i class="icon-ok bigger-110"></i>
+                Submit
+            </button>
+        </div>
+}
+
+@section scripts
+{
+    <script type="text/javascript">
+        function OnSuccess(response) {
+            if (response.Success) {
+                $.gritter.add({
+                    title: 'Message',
+                    text: 'Save Permission Successfully.',
+                    class_name: 'gritter-info gritter-center'
+                });
+            }
+        }
+    </script>
+}

@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using PX.Business.Services.Users;
+using PX.Core.Framework.Enums;
 using PX.EntityModel;
 using PX.EntityModel.Resources;
 
@@ -10,6 +13,8 @@ namespace PX.Business.Mvc.Attributes
 {
     public class PxAuthorizeAttribute : AuthorizeAttribute
     {
+        public PermissionEnums[] Permissions { get; set; }
+
         public override void OnAuthorization(AuthorizationContext authorizationContext)
         {
             base.OnAuthorization(authorizationContext);
@@ -22,15 +27,17 @@ namespace PX.Business.Mvc.Attributes
                 //If its an unauthorized/timed out ajax request go to top window and redirect to logon.
                 if (authorizationContext.HttpContext.Request.IsAjaxRequest())
                 {
-                    authorizationContext.Result = new JavaScriptResult { Script = string.Format("top.location = {0};", urlHelper.Action("Login", "Account", new { returnUrl = authorizationContext.HttpContext.Request.Path })) };
+                    authorizationContext.Result = new JavaScriptResult { Script = string.Format("top.location = {0};", urlHelper.Action("Login", "Account", new { area = "Admin", returnUrl = authorizationContext.HttpContext.Request.Path })) };
                 }
+                //If it's a child action, return 404 result
                 else if (authorizationContext.Controller.ControllerContext.IsChildAction)
                 {
                     authorizationContext.Result = new HttpNotFoundResult();
                 }
+                // Redirect to login page
                 else
                 {
-                    authorizationContext.Result = new RedirectResult(urlHelper.Action("Login", "Account", new { returnUrl = authorizationContext.HttpContext.Request.Path }));
+                    authorizationContext.Result = new RedirectResult(urlHelper.Action("Login", "Account", new { area = "Admin", returnUrl = authorizationContext.HttpContext.Request.Path }));
                 }
 
             }
@@ -42,7 +49,7 @@ namespace PX.Business.Mvc.Attributes
                 throw new ArgumentNullException("httpContext");
 
             var isAuthorize = base.AuthorizeCore(httpContext);
-            if(!isAuthorize)
+            if (!isAuthorize)
             {
                 return false;
             }
@@ -52,7 +59,7 @@ namespace PX.Business.Mvc.Attributes
             {
                 var userServices = new UserServices();
                 currentUser = userServices.GetUser(httpContext.User.Identity.Name);
-                if(currentUser != null)
+                if (currentUser != null)
                 {
                     User.CurrentUser = currentUser;
                 }
@@ -62,11 +69,13 @@ namespace PX.Business.Mvc.Attributes
                     return false;
                 }
             }
-
-            var controllerName = httpContext.Request.RequestContext.RouteData.Values["controller"].ToString();
-            var actionName = httpContext.Request.RequestContext.RouteData.Values["action"].ToString();
-
-            return true;
+            if (Permissions == null || !Permissions.Any())
+            {
+                return true;
+            }
+            var permissions = Permissions.Select(p => (int) p);
+            var userPermissions = currentUser.UserGroup.GroupPermissions.Where(p => p.HasPermission).Select(p => p.PermissionId).ToList();
+            return userPermissions.Intersect(permissions).Count() == Permissions.Count();
         }
     }
 }

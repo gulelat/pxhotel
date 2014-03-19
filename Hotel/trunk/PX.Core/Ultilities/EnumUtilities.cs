@@ -99,13 +99,21 @@ namespace PX.Core.Ultilities
             return requestAsInt.Equals(valueAsInt & requestAsInt);
         }
 
-        public static string GetEnumDescription<T>(T value, Type enumType)
+        public static string GetEnumDescription<T>(this T value, Type enumType)
         {
             var fi = enumType.GetField(value.ToString());
 
             var attribute = fi.GetCustomAttributes(typeof(DescriptionAttribute), false).OfType<DescriptionAttribute>().FirstOrDefault();
 
             return attribute != null ? attribute.Description : value.ToString();
+        }
+
+        public static List<string> GetEnumDescriptions(this Type enumType)
+        {
+            return enumType.GetFields()
+                .Select(f => (DescriptionAttribute) f.GetCustomAttribute(typeof (DescriptionAttribute)))
+                .Where(a => a != null)
+                .Select(a => a.Description).ToList();
         }
 
         public static string GetEnumDescription<T>(this T value)

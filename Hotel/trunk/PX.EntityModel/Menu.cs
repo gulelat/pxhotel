@@ -16,7 +16,6 @@ namespace PX.EntityModel
     {
         public Menu()
         {
-            this.GroupMenus = new HashSet<GroupMenu>();
             this.Menus1 = new HashSet<Menu>();
         }
     
@@ -35,7 +34,6 @@ namespace PX.EntityModel
         public Nullable<System.DateTime> Updated { get; set; }
         public string UpdatedBy { get; set; }
     
-        public virtual ICollection<GroupMenu> GroupMenus { get; set; }
         public virtual ICollection<Menu> Menus1 { get; set; }
         public virtual Menu Menu1 { get; set; }
     }

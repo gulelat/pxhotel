@@ -63,28 +63,6 @@ namespace PX.Business.Services.Users
             return EnumUtilities.GetAllItemsFromEnum<UserEnums.UserStatusEnums>();
         }
 
-        /// <summary>
-        /// Gets the user roles.
-        /// </summary>
-        /// <returns></returns>
-        public IQueryable<UserGroup> GetAllUserGroups()
-        {
-            return UserGroupRepository.GetAll();
-        }
-
-        /// <summary>
-        /// Gets the user roles.
-        /// </summary>
-        /// <returns></returns>
-        public IEnumerable<SelectListItem> GetRoles()
-        {
-            return UserGroupRepository.GetAll().ToList().Select(r => new SelectListItem
-            {
-                Text = r.Name,
-                Value = r.Id.ToString(CultureInfo.InvariantCulture)
-            });
-        }
-
         #region Search Methods
 
         /// <summary>
@@ -115,28 +93,6 @@ namespace PX.Business.Services.Users
             });
 
             return si.Search(users);
-        }
-
-        /// <summary>
-        /// search the users.
-        /// </summary>
-        /// <returns></returns>
-        public JqGridSearchOut SearchUserGroups(JqSearchIn si)
-        {
-            var userGroups = GetAllUserGroups().Select(u => new UserGroupModel
-            {
-                Id = u.Id,
-                Name = u.Name,
-                Description = u.Description,
-                RecordActive = u.RecordActive,
-                RecordOrder = u.RecordOrder,
-                Created = u.Created,
-                CreatedBy = u.CreatedBy,
-                Updated = u.Updated,
-                UpdatedBy = u.UpdatedBy
-            });
-
-            return si.Search(userGroups);
         }
 
         #endregion
@@ -174,38 +130,6 @@ namespace PX.Business.Services.Users
                     return Insert(user);
                 case GridOperationEnums.Del:
                     return Delete(model.Id);
-            }
-            return new ResponseModel
-            {
-                Success = false,
-                Message = "Object not founded"
-            };
-        }
-
-        /// <summary>
-        /// Manage user group
-        /// </summary>
-        /// <param name="operation">the operation</param>
-        /// <param name="model">the user group model</param>
-        /// <returns></returns>
-        public ResponseModel ManageUserGroup(GridOperationEnums operation, UserGroupModel model)
-        {
-            Mapper.CreateMap<UserGroupModel, UserGroup>();
-            UserGroup userGroup;
-            switch (operation)
-            {
-                case GridOperationEnums.Edit:
-                    userGroup = UserGroupRepository.GetById(model.Id);
-                    userGroup.Name = model.Name;
-                    userGroup.Description = model.Description;
-                    userGroup.RecordOrder = model.RecordOrder;
-                    userGroup.RecordActive = model.RecordActive;
-                    return UserGroupRepository.Update(userGroup);
-                case GridOperationEnums.Add:
-                    userGroup = Mapper.Map<UserGroupModel, UserGroup>(model);
-                    return UserGroupRepository.Insert(userGroup);
-                case GridOperationEnums.Del:
-                    return UserGroupRepository.Delete(model.Id);
             }
             return new ResponseModel
             {

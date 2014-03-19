@@ -62,6 +62,7 @@
     <Compile Include="Configurations\Constants\DefaultConstants.cs" />
     <Compile Include="Configurations\Constants\SettingKeyConstants.cs" />
     <Compile Include="Framework\Enums\GridEnums.cs" />
+    <Compile Include="Framework\Enums\PermissionEnums.cs" />
     <Compile Include="Framework\Enums\ResponseStatusEnums.cs" />
     <Compile Include="Framework\Enums\StatusEnums.cs" />
     <Compile Include="Framework\Enums\UserEnums.cs" />

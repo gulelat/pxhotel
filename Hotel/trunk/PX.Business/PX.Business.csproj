@@ -62,7 +62,7 @@
   <ItemGroup>
     <Compile Include="Models\Languages\SiteSettingModel.cs" />
     <Compile Include="Models\LocalizedResources\LocalizeDictionaryItem.cs" />
-    <Compile Include="Mvc\Constants\SettingKeyConstants.cs" />
+    <Compile Include="Models\UserGroups\GroupPermissionsModel.cs" />
     <Compile Include="Mvc\Attributes\PxAuthorizeAttribute.cs" />
     <Compile Include="Models\BaseModel.cs" />
     <Compile Include="Models\LocalizedResources\LocalizedResourceModel.cs" />
@@ -80,13 +80,15 @@
     <Compile Include="Mvc\ViewEngines\Razor\WebViewPage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Languages\ILanguageServices.cs" />
-    <Compile Include="Services\Languages\SettingServices.cs" />
+    <Compile Include="Services\Languages\LanguageServices.cs" />
     <Compile Include="Services\Localizes\ILocalizedResourceServices.cs" />
     <Compile Include="Services\Localizes\LocalizedResourceServices.cs" />
     <Compile Include="Services\Menus\IMenuServices.cs" />
     <Compile Include="Services\Menus\MenuServices.cs" />
     <Compile Include="Services\Settings\ISettingServices.cs" />
     <Compile Include="Services\Settings\SettingServices.cs" />
+    <Compile Include="Services\UserGroups\IUserGroupServices.cs" />
+    <Compile Include="Services\UserGroups\UserGroupServices.cs" />
     <Compile Include="Services\Users\IUserServices.cs" />
     <Compile Include="Services\Users\UserServices.cs" />
   </ItemGroup>

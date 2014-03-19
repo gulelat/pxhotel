@@ -2,19 +2,23 @@
 using Newtonsoft.Json;
 using PX.Business.Models.Users;
 using PX.Business.Mvc.Attributes;
+using PX.Business.Services.UserGroups;
 using PX.Business.Services.Users;
+using PX.Core.Framework.Enums;
 using PX.Core.Framework.Mvc.Attributes;
 using PX.Core.Framework.Mvc.Models.JqGrid;
 
 namespace PX.Web.Areas.Admin.Controllers
 {
-    [PxAuthorize]
+    [PxAuthorize(Permissions = new [] { PermissionEnums.ManageUser })]
     public class UsersController : Controller
     {
         private readonly IUserServices _userServices;
-        public UsersController(IUserServices userServices)
+        private readonly IUserGroupServices _userGroupServices;
+        public UsersController(IUserServices userServices, IUserGroupServices userGroupServices)
         {
             _userServices = userServices;
+            _userGroupServices = userGroupServices;
         }
 
         #region Listing & Manage User
@@ -33,7 +37,7 @@ namespace PX.Web.Areas.Admin.Controllers
         #region Ajax Methods
         public JsonResult GetRoles()
         {
-            return Json(_userServices.GetRoles(), JsonRequestBehavior.AllowGet);
+            return Json(_userGroupServices.GetRoles(), JsonRequestBehavior.AllowGet);
         }
         public JsonResult GetStatus()
         {

@@ -44,8 +44,18 @@
                 ondblClickRow: function (rowId) {
                     jQuery(gridSelector).editRow(rowId, true);
                 },
-                colNames: ['Id', 'Name', 'Description', 'Order', 'Active', 'Created', 'CreatedBy', 'Updated', 'UpdatedBy'],
+                colNames: ['', 'Id', 'Name', 'Description', 'Order', 'Active', 'Created', 'CreatedBy', 'Updated', 'UpdatedBy'],
                 colModel: [
+                    {
+                        name: 'preview',
+                        width: 50,
+                        sortable: false,
+                        search: false,
+                        align: "center",
+                        formatter: function (cellvalue, options, rowObject) {
+                            return "<a href='@Url.Action("Permissions")/" + options.rowId + "'><div class='ui-pg-div ui-inline-edit' onmouseout='jQuery(this).removeClass('ui-state-hover')' onmouseover='jQuery(this).addClass('ui-state-hover');' style='float:left;cursor:pointer;' title='' data-original-title='Edit permissions'><span class='ui-icon icon-lock'></span></div></a>";
+                        }
+                    },
                     { name: 'Id', index: 'Id', width: 60, key: true, sorttype: "int" },
                     { name: 'Name', index: 'Name', width: 150, editable: true, editrules: { required: true } },
                     { name: 'Description', index: 'Description', width: 250, editable: true },

@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, and Azure
 -- --------------------------------------------------
--- Date Created: 03/18/2014 15:29:25
--- Generated from EDMX file: D:\Web Projects\PX Hotel\Source\trunk\PX.EntityModel\PXHotel.edmx
+-- Date Created: 03/19/2014 22:28:58
+-- Generated from EDMX file: D:\Web Projects\PXHotel\trunk\PX.EntityModel\PXHotel.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -17,6 +17,9 @@ GO
 -- Dropping existing FOREIGN KEY constraints
 -- --------------------------------------------------
 
+IF OBJECT_ID(N'[dbo].[FK_LocalizedResources_Languages]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[LocalizedResources] DROP CONSTRAINT [FK_LocalizedResources_Languages];
+GO
 IF OBJECT_ID(N'[dbo].[FK_Menu_Menu]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Menus] DROP CONSTRAINT [FK_Menu_Menu];
 GO
@@ -25,9 +28,6 @@ IF OBJECT_ID(N'[dbo].[FK_NewsNewsCategory_News]', 'F') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[FK_NewsNewsCategory_NewsCategory]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[NewsNewsCategories] DROP CONSTRAINT [FK_NewsNewsCategory_NewsCategory];
-GO
-IF OBJECT_ID(N'[dbo].[FK_Resources_Countries]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Resources] DROP CONSTRAINT [FK_Resources_Countries];
 GO
 IF OBJECT_ID(N'[dbo].[FK_RoleMenu_Menu]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[GroupMenus] DROP CONSTRAINT [FK_RoleMenu_Menu];
@@ -52,11 +52,14 @@ GO
 IF OBJECT_ID(N'[dbo].[BookingRequests]', 'U') IS NOT NULL
     DROP TABLE [dbo].[BookingRequests];
 GO
-IF OBJECT_ID(N'[dbo].[Countries]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[Countries];
-GO
 IF OBJECT_ID(N'[dbo].[GroupMenus]', 'U') IS NOT NULL
     DROP TABLE [dbo].[GroupMenus];
+GO
+IF OBJECT_ID(N'[dbo].[Languages]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Languages];
+GO
+IF OBJECT_ID(N'[dbo].[LocalizedResources]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[LocalizedResources];
 GO
 IF OBJECT_ID(N'[dbo].[Menus]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Menus];
@@ -72,9 +75,6 @@ IF OBJECT_ID(N'[dbo].[NewsNewsCategories]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[Pages]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Pages];
-GO
-IF OBJECT_ID(N'[dbo].[Resources]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[Resources];
 GO
 IF OBJECT_ID(N'[dbo].[Rooms]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Rooms];
@@ -121,10 +121,11 @@ CREATE TABLE [dbo].[BookingRequests] (
 );
 GO
 
--- Creating table 'Countries'
-CREATE TABLE [dbo].[Countries] (
+-- Creating table 'GroupMenus'
+CREATE TABLE [dbo].[GroupMenus] (
     [Id] int IDENTITY(1,1) NOT NULL,
-    [Name] nvarchar(512)  NOT NULL,
+    [UserGroupId] int  NOT NULL,
+    [MenuId] int  NOT NULL,
     [RecordOrder] int  NOT NULL,
     [RecordActive] bit  NOT NULL,
     [Created] datetime  NOT NULL,
@@ -134,11 +135,27 @@ CREATE TABLE [dbo].[Countries] (
 );
 GO
 
--- Creating table 'GroupMenus'
-CREATE TABLE [dbo].[GroupMenus] (
+-- Creating table 'Languages'
+CREATE TABLE [dbo].[Languages] (
+    [Id] nvarchar(10)  NOT NULL,
+    [Name] nvarchar(512)  NOT NULL,
+    [ShortName] nvarchar(10)  NOT NULL,
+    [RecordOrder] int  NOT NULL,
+    [RecordActive] bit  NOT NULL,
+    [Created] datetime  NOT NULL,
+    [CreatedBy] nvarchar(512)  NOT NULL,
+    [Updated] datetime  NULL,
+    [UpdatedBy] nvarchar(512)  NULL
+);
+GO
+
+-- Creating table 'LocalizedResources'
+CREATE TABLE [dbo].[LocalizedResources] (
     [Id] int IDENTITY(1,1) NOT NULL,
-    [UserGroupId] int  NOT NULL,
-    [MenuId] int  NOT NULL,
+    [LanguageId] nvarchar(10)  NOT NULL,
+    [TextKey] nvarchar(max)  NOT NULL,
+    [DefaultValue] nvarchar(max)  NOT NULL,
+    [TranslatedValue] nvarchar(max)  NOT NULL,
     [RecordOrder] int  NOT NULL,
     [RecordActive] bit  NOT NULL,
     [Created] datetime  NOT NULL,
@@ -216,22 +233,6 @@ CREATE TABLE [dbo].[Pages] (
     [Content_Working] nvarchar(max)  NOT NULL,
     [StatusId] int  NOT NULL,
     [FriendlyUrl] nvarchar(512)  NOT NULL,
-    [RecordOrder] int  NOT NULL,
-    [RecordActive] bit  NOT NULL,
-    [Created] datetime  NOT NULL,
-    [CreatedBy] nvarchar(512)  NOT NULL,
-    [Updated] datetime  NULL,
-    [UpdatedBy] nvarchar(512)  NULL
-);
-GO
-
--- Creating table 'Resources'
-CREATE TABLE [dbo].[Resources] (
-    [Id] int  NOT NULL,
-    [Name] nvarchar(512)  NOT NULL,
-    [DefaultValue] nvarchar(max)  NOT NULL,
-    [Value] nvarchar(max)  NOT NULL,
-    [CountryId] int  NOT NULL,
     [RecordOrder] int  NOT NULL,
     [RecordActive] bit  NOT NULL,
     [Created] datetime  NOT NULL,
@@ -324,7 +325,7 @@ CREATE TABLE [dbo].[Users] (
     [Phone] nvarchar(50)  NOT NULL,
     [IdentityNumber] nvarchar(50)  NULL,
     [ImageFileName] nvarchar(512)  NULL,
-    [RoleId] int  NOT NULL,
+    [UserGroupId] int  NOT NULL,
     [StatusId] int  NOT NULL,
     [LastLogin] datetime  NULL,
     [RecordOrder] int  NOT NULL,
@@ -346,15 +347,21 @@ ADD CONSTRAINT [PK_BookingRequests]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
--- Creating primary key on [Id] in table 'Countries'
-ALTER TABLE [dbo].[Countries]
-ADD CONSTRAINT [PK_Countries]
-    PRIMARY KEY CLUSTERED ([Id] ASC);
-GO
-
 -- Creating primary key on [Id] in table 'GroupMenus'
 ALTER TABLE [dbo].[GroupMenus]
 ADD CONSTRAINT [PK_GroupMenus]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'Languages'
+ALTER TABLE [dbo].[Languages]
+ADD CONSTRAINT [PK_Languages]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'LocalizedResources'
+ALTER TABLE [dbo].[LocalizedResources]
+ADD CONSTRAINT [PK_LocalizedResources]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -385,12 +392,6 @@ GO
 -- Creating primary key on [Id] in table 'Pages'
 ALTER TABLE [dbo].[Pages]
 ADD CONSTRAINT [PK_Pages]
-    PRIMARY KEY CLUSTERED ([Id] ASC);
-GO
-
--- Creating primary key on [Id] in table 'Resources'
-ALTER TABLE [dbo].[Resources]
-ADD CONSTRAINT [PK_Resources]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -434,20 +435,6 @@ GO
 -- Creating all FOREIGN KEY constraints
 -- --------------------------------------------------
 
--- Creating foreign key on [CountryId] in table 'Resources'
-ALTER TABLE [dbo].[Resources]
-ADD CONSTRAINT [FK_Resources_Countries]
-    FOREIGN KEY ([CountryId])
-    REFERENCES [dbo].[Countries]
-        ([Id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-
--- Creating non-clustered index for FOREIGN KEY 'FK_Resources_Countries'
-CREATE INDEX [IX_FK_Resources_Countries]
-ON [dbo].[Resources]
-    ([CountryId]);
-GO
-
 -- Creating foreign key on [MenuId] in table 'GroupMenus'
 ALTER TABLE [dbo].[GroupMenus]
 ADD CONSTRAINT [FK_RoleMenu_Menu]
@@ -474,6 +461,20 @@ ADD CONSTRAINT [FK_RoleMenu_Role]
 CREATE INDEX [IX_FK_RoleMenu_Role]
 ON [dbo].[GroupMenus]
     ([UserGroupId]);
+GO
+
+-- Creating foreign key on [LanguageId] in table 'LocalizedResources'
+ALTER TABLE [dbo].[LocalizedResources]
+ADD CONSTRAINT [FK_LocalizedResources_Languages]
+    FOREIGN KEY ([LanguageId])
+    REFERENCES [dbo].[Languages]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_LocalizedResources_Languages'
+CREATE INDEX [IX_FK_LocalizedResources_Languages]
+ON [dbo].[LocalizedResources]
+    ([LanguageId]);
 GO
 
 -- Creating foreign key on [ParentId] in table 'Menus'
@@ -546,10 +547,10 @@ ON [dbo].[Users]
     ([StatusId]);
 GO
 
--- Creating foreign key on [RoleId] in table 'Users'
+-- Creating foreign key on [UserGroupId] in table 'Users'
 ALTER TABLE [dbo].[Users]
 ADD CONSTRAINT [FK_User_Role]
-    FOREIGN KEY ([RoleId])
+    FOREIGN KEY ([UserGroupId])
     REFERENCES [dbo].[UserGroups]
         ([Id])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
@@ -557,7 +558,7 @@ ADD CONSTRAINT [FK_User_Role]
 -- Creating non-clustered index for FOREIGN KEY 'FK_User_Role'
 CREATE INDEX [IX_FK_User_Role]
 ON [dbo].[Users]
-    ([RoleId]);
+    ([UserGroupId]);
 GO
 
 -- --------------------------------------------------
