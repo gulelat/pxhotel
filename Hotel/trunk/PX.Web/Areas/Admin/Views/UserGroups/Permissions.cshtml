@@ -9,7 +9,7 @@
     <h1>@ViewBag.Header
         <small>
             <i class="icon-double-angle-right"></i>
-            @ViewBag.Title
+            @Model.Name
         </small>
     </h1>
 </div>
@@ -21,11 +21,8 @@
 {
     Html.HiddenFor(m => m.UserGroupId);
     <div class="row">
-        <div class="col-xs-12">
+        <div class="col-xs-9 col-md-offset-1">
             <div class="control-group">
-                <label class="control-label bolder blue">
-                    @Model.Name</label>
-
                 @foreach (var item in Model.Permissions)
                 {
                     
@@ -37,14 +34,15 @@
                     </div>
                 }
             </div>
-        </div>
-    </div>
-        <div class="col-md-offset-3 col-md-9">
+            <br/>
+            <br/>
+            <div class="clearfix col-md-offset-1">
             <button class="btn btn-info" type="submit">
                 <i class="icon-ok bigger-110"></i>
-                Submit
-            </button>
+                Save
+            </button></div>
         </div>
+    </div>
 }
 
 @section scripts

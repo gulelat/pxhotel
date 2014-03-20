@@ -1,15 +1,16 @@
-﻿using System.Collections.Generic;
-using System.Globalization;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Web.Mvc;
 using PX.Business.Models.Menus;
+using PX.Business.Mvc.Attributes;
 using PX.Core.Framework.Enums;
 using PX.Core.Framework.Mvc.Models;
 using PX.Core.Framework.Mvc.Models.JqGrid;
 using PX.EntityModel;
 using AutoMapper;
 using PX.EntityModel.Repositories;
-using UserGroup = PX.EntityModel.UserGroup;
 
 namespace PX.Business.Services.Menus
 {
@@ -71,6 +72,7 @@ namespace PX.Business.Services.Menus
                 MenuIcon = u.MenuIcon,
                 ParentId = u.ParentId,
                 ParentName = u.Menu1.Name,
+                Visible = u.Visible,
                 RecordActive = u.RecordActive,
                 RecordOrder = u.RecordOrder,
                 Created = u.Created,
@@ -92,16 +94,19 @@ namespace PX.Business.Services.Menus
         {
             Mapper.CreateMap<MenuModel, Menu>();
             Menu menu;
+            ResponseModel response;
             switch (operation)
             {
                 case GridOperationEnums.Edit:
                     menu = GetById(model.Id);
                     menu.Name = model.Name;
                     menu.Url = model.Url;
+                    var hasUpdatePermission = !(model.Controller == menu.Controller && model.Action == menu.Action);
                     menu.Controller = model.Controller;
                     menu.Action = model.Action;
                     menu.ParentId = model.ParentId;
                     menu.MenuIcon = model.MenuIcon;
+                    menu.Visible = model.Visible;
                     menu.RecordActive = model.RecordActive;
                     menu.RecordOrder = model.RecordOrder;
                     int parentId;
@@ -113,7 +118,9 @@ namespace PX.Business.Services.Menus
                     {
                         menu.ParentId = null;
                     }
-                    return HierarchyUpdate(menu);
+                    response = HierarchyUpdate(menu);
+                    if (hasUpdatePermission) UpdateMenuPermission(menu);
+                    return response;
                 case GridOperationEnums.Add:
                     menu = Mapper.Map<MenuModel, Menu>(model);
                     if (int.TryParse(model.ParentName, out parentId))
@@ -125,7 +132,9 @@ namespace PX.Business.Services.Menus
                         menu.ParentId = null;
                     }
                     menu.Hierarchy = string.Empty;
-                    return HierarchyInsert(menu);
+                    response = HierarchyInsert(menu);
+                    UpdateMenuPermission(menu);
+                    return response;
                 case GridOperationEnums.Del:
                     return Delete(model.Id);
             }
@@ -135,6 +144,70 @@ namespace PX.Business.Services.Menus
                 Message = "Object not founded"
             };
         }
+
+        #region Menu Permissions
+
+        public void InitializeMenuPermissions()
+        {
+            var menus = GetAll().ToList();
+            foreach (var menu in menus)
+            {
+                UpdateMenuPermission(menu);
+            }
+        }
+
+        private void UpdateMenuPermission(Menu menu)
+        {
+            var permissions = new List<PermissionEnums>();
+            if (string.IsNullOrEmpty(menu.Controller))
+            {
+                menu.Permissions = string.Empty;
+            }
+            else
+            {
+                var assemblies = AppDomain.CurrentDomain.GetAssemblies(); // currently loaded assemblies
+                var controllerType = assemblies
+                    .SelectMany(a => a.GetTypes())
+                    .FirstOrDefault(t => t != null
+                        && t.IsPublic
+                        && t.Name.Equals(string.Format("{0}Controller", menu.Controller), StringComparison.OrdinalIgnoreCase)
+                        && !t.IsAbstract
+                        && typeof(IController).IsAssignableFrom(t));
+                if (controllerType != null)
+                {
+
+                    //Get permission from controller
+                    var controllerAuthorizationAttributes = controllerType.GetCustomAttributes(typeof(PxAuthorizeAttribute), false)
+                                    .Cast<PxAuthorizeAttribute>();
+                    foreach (var attribute in controllerAuthorizationAttributes)
+                    {
+                        if (attribute.Permissions != null && attribute.Permissions.Any())
+                            permissions.AddRange(attribute.Permissions);
+                    }
+
+                    //Get permission from actions
+                    var methods = controllerType.GetMethods(BindingFlags.Public | BindingFlags.Instance)
+                        .Where(m => typeof(ActionResult).IsAssignableFrom(m.ReturnType)
+                                    && m.Name.Equals(menu.Action)).ToList();
+                    if (methods.Any())
+                    {
+                        foreach (var methodInfo in methods)
+                        {
+                            var actionAuthorizationAttributes = methodInfo
+                                    .GetCustomAttributes(typeof(PxAuthorizeAttribute), false)
+                                    .Cast<PxAuthorizeAttribute>();
+                            foreach (var attribute in actionAuthorizationAttributes)
+                            {
+                                permissions.AddRange(attribute.Permissions);
+                            }
+                        }
+                    }
+                }
+            }
+            menu.Permissions = permissions.Any() ? string.Join(",", permissions.Select(i => (int)i)) : string.Empty;
+            Update(menu);
+        }
+        #endregion
 
         /// <summary>
         /// Get possible parent menu
@@ -188,9 +261,12 @@ namespace PX.Business.Services.Menus
             return new BreadCrumbModel();
         }
 
-        public List<Menu> GetMenus()
+        public List<Menu> GetMenus(int? parentId = null)
         {
-            return GetAll().Where(m => !m.ParentId.HasValue).OrderBy(m => m.RecordOrder).ToList();
+            var permissions = User.CurrentUser.UserGroup.GroupPermissions.Where(p => p.HasPermission).Select(p => p.PermissionId);
+            var memus = GetAll().Where(m => m.Visible && parentId.HasValue ? m.ParentId == parentId : !m.ParentId.HasValue).ToList();
+
+            return memus.Where(m => string.IsNullOrEmpty(m.Permissions) ||  m.Permissions.Split(',').Select(int.Parse).Intersect(permissions).Count() == m.Permissions.Split(',').Count()).OrderBy(m => m.RecordOrder).ToList();
         }
     }
 }

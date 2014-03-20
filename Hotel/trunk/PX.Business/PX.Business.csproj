@@ -48,6 +48,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.Entity" />
     <Reference Include="System.Web" />
@@ -63,6 +64,7 @@
     <Compile Include="Models\Languages\SiteSettingModel.cs" />
     <Compile Include="Models\LocalizedResources\LocalizeDictionaryItem.cs" />
     <Compile Include="Models\UserGroups\GroupPermissionsModel.cs" />
+    <Compile Include="Models\Users\ChangePasswordModel.cs" />
     <Compile Include="Mvc\Attributes\PxAuthorizeAttribute.cs" />
     <Compile Include="Models\BaseModel.cs" />
     <Compile Include="Models\LocalizedResources\LocalizedResourceModel.cs" />
@@ -77,6 +79,7 @@
     <Compile Include="Models\Users\UserModel.cs" />
     <Compile Include="Models\Users\UserProfileModel.cs" />
     <Compile Include="Models\Users\UserSearchModel.cs" />
+    <Compile Include="Mvc\Heplers\CommonHelpers.cs" />
     <Compile Include="Mvc\ViewEngines\Razor\WebViewPage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Languages\ILanguageServices.cs" />

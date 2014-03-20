@@ -105,6 +105,12 @@ namespace PX.Business.Services.Localizes
         }
 
         #region Get localize resources
+
+        public string T(string textKey)
+        {
+            return GetLocalizedResource(textKey, textKey);
+        }
+
         public string GetLocalizedResource(string textKey, string defaultValue = null, params object[] parameters)
         {
             if (string.IsNullOrEmpty(textKey))

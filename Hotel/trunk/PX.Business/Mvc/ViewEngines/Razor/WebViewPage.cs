@@ -2,16 +2,21 @@
 using System.Web.Mvc;
 using System.Web.Routing;
 using PX.Business.Services.Localizes;
+using PX.Business.Services.Settings;
 using PX.Core.Framework.Mvc.Environment;
+using PX.EntityModel;
 
 namespace PX.Business.Mvc.ViewEngines.Razor
 {
-    public class WebViewPage<T> : System.Web.Mvc.WebViewPage<T>
+    public class WebViewPage<TModel> : System.Web.Mvc.WebViewPage<TModel>
     {
         private ILocalizedResourceServices _localizedResourceServices;
+        private ISettingServices _settingServices;
+
         public override void InitHelpers()
         {
             _localizedResourceServices = DependencyFactory.GetInstance<ILocalizedResourceServices>();
+            _settingServices = DependencyFactory.GetInstance<ISettingServices>();
             base.InitHelpers();
         }
 
@@ -20,6 +25,11 @@ namespace PX.Business.Mvc.ViewEngines.Razor
         }
 
         #region Multi Languages Helpers
+        public string T(string key)
+        {
+            return _localizedResourceServices.T(key);
+        }
+
         /// <summary>
         /// Render a tag with text in multi language
         /// </summary>
@@ -72,5 +82,18 @@ namespace PX.Business.Mvc.ViewEngines.Razor
             Text
         }
         #endregion
+
+        #region Setting Helpers
+        public T SValue<T>(string key)
+        {
+            return _settingServices.GetSetting<T>(key);
+        }
+        #endregion
+
+        public User CurrentUser
+        {
+            get { return (User)HttpContext.Current.Session["CurrentUser"]; }
+            set { HttpContext.Current.Session["CurrentUser"] = value; }
+        }
     }
 }

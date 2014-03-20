@@ -36,147 +36,12 @@ namespace PX.Core.Configurations
         }
 
         /// <summary>
-        /// Gets the number of last News.
-        /// </summary>
-        /// <remarks></remarks>
-        public static int LastNewsPageSizes
-        {
-            get { return Convert.ToInt32(ConfigurationManager.AppSettings["LastNewsPageSizes"]); }
-        }
-
-        /// <summary>
-        /// Gets the page size of News.
-        /// </summary>
-        /// <remarks></remarks>
-        public static int NewsPageSizes
-        {
-            get { return Convert.ToInt32(ConfigurationManager.AppSettings["NewsPageSizes"]); }
-        }
-
-        /// <summary>
         /// Gets the default ratio of news thumbnail.
         /// </summary>
         /// <remarks></remarks>
         public static double DefaultNewsRatio
         {
             get { return Convert.ToDouble(ConfigurationManager.AppSettings["DefaultNewsRatio"]); }
-        }
-        #endregion
-
-        #region Parner Configurations
-
-        /// <summary>
-        /// Gets the default partner image.
-        /// </summary>
-        /// <remarks></remarks>
-        public static string DefaultPartnerImage
-        {
-            get { return ConfigurationManager.AppSettings["DefaultPartnerImage"]; }
-        }
-
-        /// <summary>
-        /// Gets the default partner save folder.
-        /// </summary>
-        /// <remarks></remarks>
-        public static string DefaultPartnerFolder
-        {
-            get { return DefaultConstants.DefaultPartnerFolder; }
-        }
-
-        /// <summary>
-        /// Gets the page size of partners.
-        /// </summary>
-        /// <remarks></remarks>
-        public static int PartnerPageSizes
-        {
-            get { return Convert.ToInt32(ConfigurationManager.AppSettings["PartnerPageSizes"]); }
-        }
-
-        /// <summary>
-        /// Gets the default ratio of partner thumbnail.
-        /// </summary>
-        /// <remarks></remarks>
-        public static double DefaultPartnerRatio
-        {
-            get { return Convert.ToDouble(ConfigurationManager.AppSettings["DefaultPartnerRatio"]); }
-        }
-        #endregion
-
-        #region Class Configurations
-
-        /// <summary>
-        /// Gets the default class image.
-        /// </summary>
-        /// <remarks></remarks>
-        public static string DefaultClassImage
-        {
-            get { return ConfigurationManager.AppSettings["DefaultClassImage"]; }
-        }
-
-        /// <summary>
-        /// Gets the default class save folder.
-        /// </summary>
-        /// <remarks></remarks>
-        public static string DefaultClassFolder
-        {
-            get { return DefaultConstants.DefaultClassFolder; }
-        }
-
-        /// <summary>
-        /// Gets the page size of classes.
-        /// </summary>
-        /// <remarks></remarks>
-        public static int ClassPageSizes
-        {
-            get { return Convert.ToInt32(ConfigurationManager.AppSettings["ClassPageSizes"]); }
-        }
-
-        /// <summary>
-        /// Gets the default ratio of class thumbnail.
-        /// </summary>
-        /// <remarks></remarks>
-        public static double DefaultClassRatio
-        {
-            get { return Convert.ToDouble(ConfigurationManager.AppSettings["DefaultClassRatio"]); }
-        }
-        #endregion
-
-        #region Service Configurations
-
-        /// <summary>
-        /// Gets the default Service image.
-        /// </summary>
-        /// <remarks></remarks>
-        public static string DefaultServiceImage
-        {
-            get { return ConfigurationManager.AppSettings["DefaultServiceImage"]; }
-        }
-
-        /// <summary>
-        /// Gets the default Service save folder.
-        /// </summary>
-        /// <remarks></remarks>
-        public static string DefaultServiceFolder
-        {
-            get { return DefaultConstants.DefaultServiceFolder; }
-        }
-
-        /// <summary>
-        /// Gets the page size of Services.
-        /// </summary>
-        /// <remarks></remarks>
-        public static int ServicePageSizes
-        {
-            get { return Convert.ToInt32(ConfigurationManager.AppSettings["ServicePageSizes"]); }
-        }
-
-        /// <summary>
-        /// Gets the default ratio of Service thumbnail.
-        /// </summary>
-        /// <remarks></remarks>
-        public static double DefaultServiceRatio
-        {
-            get { return Convert.ToDouble(ConfigurationManager.AppSettings["DefaultServiceRatio"]); }
         }
         #endregion
 
@@ -293,18 +158,18 @@ namespace PX.Core.Configurations
         /// Gets the default user image.
         /// </summary>
         /// <remarks></remarks>
-        public static string DefaultUserImage
+        public static string DefaultAvatar
         {
-            get { return ConfigurationManager.AppSettings["DefaultUserImage"]; }
+            get { return DefaultConstants.NoAvatar; }
         }
 
         /// <summary>
         /// Gets the default user save folder.
         /// </summary>
         /// <remarks></remarks>
-        public static string DefaultUserFolder
+        public static string AvatarFolder
         {
-            get { return DefaultConstants.DefaultUserFolder; }
+            get { return DefaultConstants.AvatarFolder; }
         }
 
         /// <summary>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -9,19 +10,31 @@ using PX.Business.Models.UserGroups;
 using PX.Business.Models.UserModels;
 using PX.Business.Models.Users;
 using PX.Business.Models.Users.Logins;
+using PX.Business.Services.Localizes;
+using PX.Core.Configurations;
 using PX.Core.Framework.Enums;
 using PX.Core.Framework.Mvc.Models;
+using PX.Core.Framework.Mvc.Models.Editable;
 using PX.Core.Framework.Mvc.Models.JqGrid;
 using PX.Core.Ultilities;
 using PX.EntityModel;
 using AutoMapper;
 using PX.EntityModel.Repositories;
+using PX.EntityModel.Repositories.RepositoryBase.Extensions;
+using Configurations = PX.Core.Configurations.Configurations;
 using UserGroup = PX.EntityModel.UserGroup;
 
 namespace PX.Business.Services.Users
 {
     public class UserServices : IUserServices
     {
+        private readonly ILocalizedResourceServices _localizedResourceServices;
+
+        public UserServices(ILocalizedResourceServices localizedResourceServices)
+        {
+            _localizedResourceServices = localizedResourceServices;
+        }
+
         #region Base
         public IQueryable<User> GetAll()
         {
@@ -78,12 +91,13 @@ namespace PX.Business.Services.Users
                 Password = u.Password,
                 FirstName = u.FirstName,
                 LastName = u.LastName,
-                ImageFileName = u.ImageFileName,
+                AvatarFileName = u.AvatarFileName,
                 LastLogin = u.LastLogin,
                 Phone = u.Phone,
                 IdentityNumber = u.IdentityNumber,
                 StatusId = u.StatusId,
                 UserGroupId = u.UserGroupId,
+                UserGroupName = u.UserGroup.Name,
                 RecordActive = u.RecordActive,
                 RecordOrder = u.RecordOrder,
                 Created = u.Created,
@@ -118,7 +132,10 @@ namespace PX.Business.Services.Users
                     user.Email = model.Email;
                     user.Password = model.Password;
                     user.Phone = model.Phone;
-                    user.UserGroupId = model.UserGroupId;
+
+                    // Convert post data from jqGrid post
+                    user.UserGroupId = int.Parse(model.UserGroupName);
+
                     user.StatusId = model.StatusId;
                     user.IdentityNumber = model.IdentityNumber;
                     user.RecordActive = model.RecordActive;
@@ -126,6 +143,8 @@ namespace PX.Business.Services.Users
                     return Update(user);
                 case GridOperationEnums.Add:
                     user = Mapper.Map<UserModel, User>(model);
+                    // Convert post data from jqGrid post
+                    user.UserGroupId = int.Parse(model.UserGroupName);
                     user.RecordOrder = 0;
                     return Insert(user);
                 case GridOperationEnums.Del:
@@ -186,5 +205,57 @@ namespace PX.Business.Services.Users
                 };
         }
         #endregion
+
+        #region User Profile
+        public ResponseModel UploadAvatar(int userId, HttpPostedFileBase avatar)
+        {
+            var user = GetById(userId);
+            if(user == null)
+            {
+                return new ResponseModel
+                    {
+                        Success = false,
+                        Message = _localizedResourceServices.T("User not founded")
+                    };
+            }
+            var avatarUploadFolder = Configurations.AvatarFolder;
+            var extension = avatar.FileName.GetExtension();
+            var fileName = user.Id.GenerateAvatarFileName(extension);
+            var path = Path.Combine(HttpContext.Current.Server.MapPath(avatarUploadFolder), fileName);
+            var returnPath = string.Format("{0}{1}", avatarUploadFolder, fileName);
+            user.AvatarFileName = fileName;
+            var response = Update(user);
+            if(response.Success)
+            {
+                avatar.SaveAs(path);
+                response.Message = _localizedResourceServices.T("Upload Successfully.");
+                response.Data = returnPath;
+            }
+            return response;
+        }
+        #endregion
+
+        public ResponseModel UpdateUserData(XEditableModel model)
+        {
+            var user = GetById(model.Pk);
+            if(user != null)
+            {
+                object value = model.Value;
+                if(model.Name.Equals("BirthDay"))
+                {
+                    value = model.Value.ToDate();
+                }
+                user.SetProperty(model.Name, value);
+                var response = Update(user);
+                if (user.Id == User.CurrentUser.Id && response.Success)
+                    User.CurrentUser = user;
+                return response;
+            }
+            return new ResponseModel
+                {
+                    Success = false,
+                    Message = _localizedResourceServices.T("User not founded")
+                };
+        }
     }
 }

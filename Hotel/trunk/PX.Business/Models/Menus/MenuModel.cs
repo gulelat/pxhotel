@@ -4,10 +4,8 @@ namespace PX.Business.Models.Menus
 {
     public class MenuModel : BaseModel
     {
-        [Key]
         public int Id { get; set; }
 
-        [Required]
         public string Name { get; set; }
 
         public string Url { get; set; }
@@ -23,5 +21,9 @@ namespace PX.Business.Models.Menus
         public string Hierarchy { get; set; }
         
         public string MenuIcon { get; set; }
+
+        public bool Visible { get; set; }
+
+        public string VisibleString { get { return Visible ? "Yes" : "No"; } set { Visible = value.Equals("Yes"); } }
     }
 }

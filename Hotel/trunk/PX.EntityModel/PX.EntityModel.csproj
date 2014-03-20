@@ -130,6 +130,9 @@
     <Compile Include="RoomType.cs">
       <DependentUpon>PXHotel.tt</DependentUpon>
     </Compile>
+    <Compile Include="SettingType.cs">
+      <DependentUpon>PXHotel.tt</DependentUpon>
+    </Compile>
     <Compile Include="SiteSetting.cs">
       <DependentUpon>PXHotel.tt</DependentUpon>
     </Compile>

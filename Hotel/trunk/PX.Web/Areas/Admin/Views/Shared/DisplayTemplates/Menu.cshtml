@@ -1,8 +1,13 @@
-﻿@model PX.EntityModel.Menu
+﻿@using PX.Business.Services.Menus
+@using PX.Core.Framework.Mvc.Environment
+@model PX.EntityModel.Menu
 @{
     var hierarchy = (string)ViewBag.Hierarchy;
     var isSelected = hierarchy.Equals(Model.Hierarchy);
     var isOpen = hierarchy.Contains(Model.Hierarchy);
+
+    var menusServices = DependencyFactory.GetInstance<IMenuServices>();
+    var childMenus = menusServices.GetMenus(Model.Id);
 
     string cClass = string.Empty;
     if (isSelected)
@@ -14,20 +19,24 @@
         cClass = "open active";
     }
     var url = !string.IsNullOrEmpty(Model.Url) ? Model.Url : (string.IsNullOrEmpty(Model.Controller) ? "#" : Url.Action(Model.Action, Model.Controller));
+    if(url.Equals("#") && !childMenus.Any())
+    {
+        return;
+    }
 }
 <li class="@cClass">
     <a href="@url" class="dropdown-toggle">
         <i class="@Model.MenuIcon"></i>
         <span class="menu-text">@Model.Name </span>
-        @if (Model.Menus1.Any())
+        @if (childMenus.Any())
         {
             <b class="arrow icon-angle-down"></b>
         }
     </a>
-    @if (Model.Menus1.Any())
+    @if (childMenus.Any())
     {
         <ul class="submenu" style="@(isOpen ? "display: block" : "")">
-            @foreach (var item in Model.Menus1.OrderBy(m => m.RecordOrder))
+            @foreach (var item in childMenus.OrderBy(m => m.RecordOrder))
             {
                 @Html.DisplayFor(m => item)             
             }

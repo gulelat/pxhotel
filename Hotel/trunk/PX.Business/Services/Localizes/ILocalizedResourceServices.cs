@@ -37,5 +37,7 @@ namespace PX.Business.Services.Localizes
         /// Refresh dictionary
         /// </summary>
         void RefreshDictionary();
+
+        string T(string textKey);
     }
 }

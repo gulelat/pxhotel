@@ -21,7 +21,9 @@ namespace PX.EntityModel
         public string LastName { get; set; }
         public string Phone { get; set; }
         public string IdentityNumber { get; set; }
-        public string ImageFileName { get; set; }
+        public Nullable<System.DateTime> BirthDay { get; set; }
+        public string About { get; set; }
+        public string AvatarFileName { get; set; }
         public int UserGroupId { get; set; }
         public int StatusId { get; set; }
         public Nullable<System.DateTime> LastLogin { get; set; }

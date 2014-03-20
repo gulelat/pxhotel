@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Web;
 using System.Web.Mvc;
-using PX.Business.Models.UserGroups;
 using PX.Business.Models.Users;
 using PX.Business.Models.Users.Logins;
 using PX.Core.Framework.Enums;
 using PX.Core.Framework.Mvc.Models;
+using PX.Core.Framework.Mvc.Models.Editable;
 using PX.Core.Framework.Mvc.Models.JqGrid;
 using PX.EntityModel;
 
@@ -33,5 +34,9 @@ namespace PX.Business.Services.Users
         IEnumerable<SelectListItem> GetStatus();
 
         ResponseModel Login(LoginModel model);
+
+        ResponseModel UploadAvatar(int userId, HttpPostedFileBase avatar);
+
+        ResponseModel UpdateUserData(XEditableModel model);
     }
 }

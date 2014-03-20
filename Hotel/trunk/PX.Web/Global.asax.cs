@@ -38,10 +38,15 @@ namespace PX.Web
             InitializeProcess();
         }
 
+        #region Initialize Process
+
         public void InitializeProcess()
         {
             //Load localize resources
             LocalizeResourcesInitialize();
+
+            //Initialize menu permissions
+            MenuPermissionsInitialize();
         }
 
         public void LocalizeResourcesInitialize()
@@ -49,6 +54,14 @@ namespace PX.Web
             var localizeServices = DependencyFactory.GetInstance<ILocalizedResourceServices>();
             localizeServices.RefreshDictionary();
         }
+
+        public void MenuPermissionsInitialize()
+        {
+            var menuServices = DependencyFactory.GetInstance<IMenuServices>();
+            menuServices.InitializeMenuPermissions();
+        }
+        
+        #endregion
 
         #region Simple Injector Initialize
         public static void SimpleInjectorInitialize()
@@ -71,11 +84,11 @@ namespace PX.Web
 
         private static void SimpleInjectorInitializeContainer(Container container)
         {
+            container.Register<ILocalizedResourceServices, LocalizedResourceServices>(Lifestyle.Singleton);
+            container.Register<ILanguageServices, LanguageServices>(Lifestyle.Singleton);
             container.Register<IMenuServices, MenuServices>(Lifestyle.Singleton);
             container.Register<IUserServices, UserServices>(Lifestyle.Singleton);
             container.Register<ISettingServices, SettingServices>(Lifestyle.Singleton);
-            container.Register<ILocalizedResourceServices, LocalizedResourceServices>(Lifestyle.Singleton);
-            container.Register<ILanguageServices, LanguageServices>(Lifestyle.Singleton);
             container.Register<IUserGroupServices, UserGroupServices>(Lifestyle.Singleton);
         }
 
