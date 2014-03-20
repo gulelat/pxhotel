@@ -11,6 +11,11 @@ namespace PX.Business.Services.Menus
 {
     public interface IMenuServices
     {
+        #region Initialize
+
+        void InitializeMenuPermissions();
+        #endregion
+
         #region Base
 
         IQueryable<Menu> GetAll();
@@ -30,6 +35,6 @@ namespace PX.Business.Services.Menus
 
         BreadCrumbModel GetBreadCrumbs(string controller, string action);
 
-        List<Menu> GetMenus();
+        List<Menu> GetMenus(int? parentId = null);
     }
 }

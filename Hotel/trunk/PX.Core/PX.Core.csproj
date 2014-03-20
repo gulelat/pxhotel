@@ -71,11 +71,11 @@
     <Compile Include="Framework\Mvc\Attributes\DefaultOrderAttribute.cs" />
     <Compile Include="Framework\Mvc\Attributes\EmailValidationAttribute.cs" />
     <Compile Include="Framework\Data\DynamicQueryable.cs" />
-    <Compile Include="Framework\Mvc\Helpers\CommonHelpers.cs" />
     <Compile Include="Framework\Mvc\Helpers\DictionaryHelper.cs" />
     <Compile Include="Framework\Mvc\Helpers\DropdownlistHelpers.cs" />
     <Compile Include="Framework\Mvc\Helpers\ImageHelpers.cs" />
     <Compile Include="Framework\Mvc\Helpers\ViewHelpers.cs" />
+    <Compile Include="Framework\Mvc\Models\Editable\XEditableModel.cs" />
     <Compile Include="Framework\Mvc\Models\JqGrid\GridManagingModel.cs" />
     <Compile Include="Framework\Mvc\Models\JqGrid\JqGrid.cs" />
     <Compile Include="Framework\Mvc\Models\JqGrid\WhereClauseGenerator.cs" />

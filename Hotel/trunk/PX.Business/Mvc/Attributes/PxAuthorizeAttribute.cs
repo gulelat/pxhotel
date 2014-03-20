@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using System.Web.Security;
 using PX.Business.Services.Users;
 using PX.Core.Framework.Enums;
+using PX.Core.Framework.Mvc.Environment;
 using PX.EntityModel;
 using PX.EntityModel.Resources;
 
@@ -57,10 +58,12 @@ namespace PX.Business.Mvc.Attributes
             var currentUser = User.CurrentUser;
             if (currentUser == null)
             {
-                var userServices = new UserServices();
+                var userServices = DependencyFactory.GetInstance<IUserServices>();
                 currentUser = userServices.GetUser(httpContext.User.Identity.Name);
                 if (currentUser != null)
                 {
+                    currentUser.LastLogin = DateTime.Now;
+                    userServices.Update(currentUser);
                     User.CurrentUser = currentUser;
                 }
                 else

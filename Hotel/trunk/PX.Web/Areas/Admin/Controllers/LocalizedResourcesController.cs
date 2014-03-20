@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using PX.Business.Models.Localizes;
 using PX.Business.Mvc.Attributes;
+using PX.Business.Services.Languages;
 using PX.Business.Services.Localizes;
 using PX.Core.Framework.Enums;
 using PX.Core.Framework.Mvc.Attributes;
@@ -13,14 +14,17 @@ namespace PX.Web.Areas.Admin.Controllers
     public class LocalizedResourcesController : Controller
     {
         private readonly ILocalizedResourceServices _localizedResourceServices;
-        public LocalizedResourcesController(ILocalizedResourceServices localizedResourceServices)
+        private readonly ILanguageServices _languageServices;
+        public LocalizedResourcesController(ILocalizedResourceServices localizedResourceServices, ILanguageServices languageServices)
         {
             _localizedResourceServices = localizedResourceServices;
+            _languageServices = languageServices;
         }
 
-        public ActionResult Index()
+        public ActionResult Index(string language)
         {
-            return View();
+            var model = _languageServices.GetById(language);
+            return View(model);
         }
 
         [HttpGet]

@@ -33,6 +33,8 @@ namespace PX.EntityModel
         public string CreatedBy { get; set; }
         public Nullable<System.DateTime> Updated { get; set; }
         public string UpdatedBy { get; set; }
+        public string Permissions { get; set; }
+        public bool Visible { get; set; }
     
         public virtual ICollection<Menu> Menus1 { get; set; }
         public virtual Menu Menu1 { get; set; }

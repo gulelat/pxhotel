@@ -6,12 +6,14 @@ namespace PX.Core.Configurations.Constants
     {
         public const string DefaultAdmin = "administrator";
 
+        public const string NoAvatar = "noavatar.png";
+        public const string AvatarFolder = "/Images/uploads/Avatars/";
 
-        public const string DefaultUserFolder = "~/Images/users/";
-        public const string DefaultPartnerFolder = "~/Images/partners/";
-        public const string DefaultServiceFolder = "~/Images/partners/";
-        public const string DefaultClassFolder = "~/Images/classes/";
-        public const string DefaultNewsFolder = "~/Images/news/";
+        public const string DateFormat = "dd/MM/yyyy";
+
+        public const string DefaultNewsFolder = "~/Images/uploads/news/";
+
+        public const string DefaultUserFolder = "/Images/uploads/Avatars/";
         public const string TempFolder = "~/Images/temp/";
         public const string UploadFolder = "~/Images/upload/";
 

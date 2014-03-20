@@ -12,13 +12,11 @@ namespace PX.EntityModel
     using System;
     using System.Collections.Generic;
     
-    public partial class SiteSetting
+    public partial class SettingType
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public string Value { get; set; }
-        public Nullable<int> SettingTypeId { get; set; }
-        public int RecordOrder { get; set; }
+        public int RecordOder { get; set; }
         public bool RecordActive { get; set; }
         public System.DateTime Created { get; set; }
         public string CreatedBy { get; set; }

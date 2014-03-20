@@ -19,6 +19,7 @@
           <EntitySet Name="Resources" EntityType="PXHotelModel.Store.Resources" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Rooms" EntityType="PXHotelModel.Store.Rooms" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="RoomTypes" EntityType="PXHotelModel.Store.RoomTypes" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="SettingTypes" EntityType="PXHotelModel.Store.SettingTypes" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="SiteSettings" EntityType="PXHotelModel.Store.SiteSettings" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Status" EntityType="PXHotelModel.Store.Status" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="UserGroups" EntityType="PXHotelModel.Store.UserGroups" store:Type="Tables" Schema="dbo" />
@@ -152,6 +153,8 @@
           <Property Name="CreatedBy" Type="nvarchar" Nullable="false" MaxLength="512" />
           <Property Name="Updated" Type="datetime" />
           <Property Name="UpdatedBy" Type="nvarchar" MaxLength="512" />
+          <Property Name="Permissions" Type="nvarchar(max)" />
+          <Property Name="Visible" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="News">
           <Key>
@@ -258,6 +261,19 @@
           <Property Name="Updated" Type="datetime" />
           <Property Name="UpdatedBy" Type="nvarchar" MaxLength="512" />
         </EntityType>
+        <EntityType Name="SettingTypes">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="512" />
+          <Property Name="RecordOder" Type="int" Nullable="false" />
+          <Property Name="RecordActive" Type="bit" Nullable="false" />
+          <Property Name="Created" Type="datetime" Nullable="false" />
+          <Property Name="CreatedBy" Type="nvarchar" Nullable="false" MaxLength="512" />
+          <Property Name="Updated" Type="datetime" />
+          <Property Name="UpdatedBy" Type="nvarchar" MaxLength="512" />
+        </EntityType>
         <EntityType Name="SiteSettings">
           <Key>
             <PropertyRef Name="Id" />
@@ -265,6 +281,7 @@
           <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="512" />
           <Property Name="Value" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="SettingTypeId" Type="int" />
           <Property Name="RecordOrder" Type="int" Nullable="false" />
           <Property Name="RecordActive" Type="bit" Nullable="false" />
           <Property Name="Created" Type="datetime" Nullable="false" />
@@ -311,7 +328,9 @@
           <Property Name="LastName" Type="nvarchar" Nullable="false" MaxLength="256" />
           <Property Name="Phone" Type="nvarchar" Nullable="false" MaxLength="50" />
           <Property Name="IdentityNumber" Type="nvarchar" MaxLength="50" />
-          <Property Name="ImageFileName" Type="nvarchar" MaxLength="512" />
+          <Property Name="BirthDay" Type="datetime" />
+          <Property Name="About" Type="nvarchar(max)" />
+          <Property Name="AvatarFileName" Type="nvarchar" MaxLength="512" />
           <Property Name="UserGroupId" Type="int" Nullable="false" />
           <Property Name="StatusId" Type="int" Nullable="false" />
           <Property Name="LastLogin" Type="datetime" />
@@ -448,6 +467,7 @@
           <EntitySet Name="Resources" EntityType="PXHotelModel.Resource" />
           <EntitySet Name="Rooms" EntityType="PXHotelModel.Room" />
           <EntitySet Name="RoomTypes" EntityType="PXHotelModel.RoomType" />
+          <EntitySet Name="SettingTypes" EntityType="PXHotelModel.SettingType" />
           <EntitySet Name="SiteSettings" EntityType="PXHotelModel.SiteSetting" />
           <EntitySet Name="Status" EntityType="PXHotelModel.Status" />
           <EntitySet Name="UserGroups" EntityType="PXHotelModel.UserGroup" />
@@ -585,6 +605,8 @@
           <Property Type="String" Name="CreatedBy" Nullable="false" MaxLength="512" FixedLength="false" Unicode="true" />
           <Property Type="DateTime" Name="Updated" Precision="3" />
           <Property Type="String" Name="UpdatedBy" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Permissions" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="Boolean" Name="Visible" Nullable="false" />
           <NavigationProperty Name="Menus1" Relationship="PXHotelModel.FK_Menu_Menu" FromRole="Menu" ToRole="Menu1" />
           <NavigationProperty Name="Menu1" Relationship="PXHotelModel.FK_Menu_Menu" FromRole="Menu1" ToRole="Menu" />
         </EntityType>
@@ -700,6 +722,19 @@
           <Property Type="String" Name="UpdatedBy" MaxLength="512" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Rooms" Relationship="PXHotelModel.FK_Room_Room" FromRole="RoomType" ToRole="Room" />
         </EntityType>
+        <EntityType Name="SettingType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="RecordOder" Nullable="false" />
+          <Property Type="Boolean" Name="RecordActive" Nullable="false" />
+          <Property Type="DateTime" Name="Created" Nullable="false" Precision="3" />
+          <Property Type="String" Name="CreatedBy" Nullable="false" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Type="DateTime" Name="Updated" Precision="3" />
+          <Property Type="String" Name="UpdatedBy" MaxLength="512" FixedLength="false" Unicode="true" />
+        </EntityType>
         <EntityType Name="SiteSetting">
           <Key>
             <PropertyRef Name="Id" />
@@ -707,6 +742,7 @@
           <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="String" Name="Name" Nullable="false" MaxLength="512" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="Value" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="SettingTypeId" />
           <Property Type="Int32" Name="RecordOrder" Nullable="false" />
           <Property Type="Boolean" Name="RecordActive" Nullable="false" />
           <Property Type="DateTime" Name="Created" Nullable="false" Precision="3" />
@@ -756,7 +792,9 @@
           <Property Type="String" Name="LastName" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="Phone" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="IdentityNumber" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="ImageFileName" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Type="DateTime" Name="BirthDay" Precision="3" />
+          <Property Type="String" Name="About" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="AvatarFileName" MaxLength="512" FixedLength="false" Unicode="true" />
           <Property Type="Int32" Name="UserGroupId" Nullable="false" />
           <Property Type="Int32" Name="StatusId" Nullable="false" />
           <Property Type="DateTime" Name="LastLogin" Precision="3" />
@@ -965,6 +1003,8 @@
           <EntitySetMapping Name="Menus">
             <EntityTypeMapping TypeName="PXHotelModel.Menu">
               <MappingFragment StoreEntitySet="Menus">
+                <ScalarProperty Name="Visible" ColumnName="Visible" />
+                <ScalarProperty Name="Permissions" ColumnName="Permissions" />
                 <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
                 <ScalarProperty Name="Updated" ColumnName="Updated" />
                 <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
@@ -1094,6 +1134,20 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="SettingTypes">
+            <EntityTypeMapping TypeName="PXHotelModel.SettingType">
+              <MappingFragment StoreEntitySet="SettingTypes">
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="Updated" ColumnName="Updated" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+                <ScalarProperty Name="RecordActive" ColumnName="RecordActive" />
+                <ScalarProperty Name="RecordOder" ColumnName="RecordOder" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="SiteSettings">
             <EntityTypeMapping TypeName="PXHotelModel.SiteSetting">
               <MappingFragment StoreEntitySet="SiteSettings">
@@ -1103,6 +1157,7 @@
                 <ScalarProperty Name="Created" ColumnName="Created" />
                 <ScalarProperty Name="RecordActive" ColumnName="RecordActive" />
                 <ScalarProperty Name="RecordOrder" ColumnName="RecordOrder" />
+                <ScalarProperty Name="SettingTypeId" ColumnName="SettingTypeId" />
                 <ScalarProperty Name="Value" ColumnName="Value" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
@@ -1151,7 +1206,9 @@
                 <ScalarProperty Name="LastLogin" ColumnName="LastLogin" />
                 <ScalarProperty Name="StatusId" ColumnName="StatusId" />
                 <ScalarProperty Name="UserGroupId" ColumnName="UserGroupId" />
-                <ScalarProperty Name="ImageFileName" ColumnName="ImageFileName" />
+                <ScalarProperty Name="AvatarFileName" ColumnName="AvatarFileName" />
+                <ScalarProperty Name="About" ColumnName="About" />
+                <ScalarProperty Name="BirthDay" ColumnName="BirthDay" />
                 <ScalarProperty Name="IdentityNumber" ColumnName="IdentityNumber" />
                 <ScalarProperty Name="Phone" ColumnName="Phone" />
                 <ScalarProperty Name="LastName" ColumnName="LastName" />

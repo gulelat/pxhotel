@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using PX.Business.Services.Users;
+using PX.Core.Framework.Mvc.Environment;
 using PX.EntityModel.Resources;
 
 namespace PX.Business.Models.Users
@@ -36,9 +37,8 @@ namespace PX.Business.Models.Users
         [Required]
         public string IdentityNumber { get; set; }
 
-        public string ImageFileName { get; set; }
+        public string AvatarFileName { get; set; }
 
-        [Required]
         public int UserGroupId { get; set; }
 
         public DateTime? LastLogin { get; set; }
@@ -47,13 +47,15 @@ namespace PX.Business.Models.Users
         public int StatusId { get; set; }
         #endregion
 
+        public string UserGroupName { get; set; }
+
         public IEnumerable<ValidationResult> Validate(ValidationContext context)
         {
-            IUserServices userServices = new UserServices();
+            var userServices = DependencyFactory.GetInstance<IUserServices>();
             if(userServices.GetAll().Any(u => u.Email.Equals(Email) && u.Id != Id))
             {
                 yield return new ValidationResult("Email is existed.");                
             }
-        }   
+        }
     }
 }

@@ -1,9 +1,12 @@
-﻿using System.Linq;
+﻿using System;
+using System.Data;
+using System.Linq;
 using AutoMapper;
 using PX.Business.Models.Settings;
 using PX.Core.Framework.Enums;
 using PX.Core.Framework.Mvc.Models;
 using PX.Core.Framework.Mvc.Models.JqGrid;
+using PX.Core.Ultilities;
 using PX.EntityModel;
 using PX.EntityModel.Repositories;
 
@@ -102,6 +105,39 @@ namespace PX.Business.Services.Settings
                 Success = false,
                 Message = "Object not founded"
             };
+        }
+
+        /// <summary>
+        /// Get setting with key
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="key"></param>
+        /// <param name="defaultValue"></param>
+        /// <returns></returns>
+        public T GetSetting<T>(string key, T defaultValue)
+        {
+            var setting = SiteSettingRepository.GetByKey(key);
+            if(setting == null)
+            {
+                setting = new SiteSetting
+                    {
+                        Name = key,
+                        Value = key
+                    };
+                Insert(setting);
+                return defaultValue;
+            }
+            return setting.Value.ToType<T>();
+        }
+
+        public T GetSetting<T>(string key)
+        {
+            var setting = SiteSettingRepository.GetByKey(key);
+            if(setting == null)
+            {
+                throw new ObjectNotFoundException();
+            }
+            return setting.Value.ToType<T>();
         }
     }
 }

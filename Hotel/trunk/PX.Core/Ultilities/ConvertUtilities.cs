@@ -1,9 +1,40 @@
 ﻿using System;
+using System.ComponentModel;
+using PX.Core.Configurations.Constants;
 
 namespace PX.Core.Ultilities
 {
     public static class ConvertUtilities
     {
+
+        public static T ToType<T>(this object value)
+        {
+            Type t = typeof(T);
+
+            if (t.IsGenericType && t.GetGenericTypeDefinition() == typeof(Nullable<>))
+            {
+                // Nullable type.
+
+                if (value == null)
+                {
+                    // you may want to do something different here.
+                    return default(T);
+                }
+                else
+                {
+                    // Get the type that was made nullable.
+                    Type valueType = t.GetGenericArguments()[0];
+
+                    // Convert to the value type.
+                    object result = Convert.ChangeType(value, valueType);
+
+                    // Cast the value type to the nullable type.
+                    return (T)result;
+                }
+            }
+            // Not nullable.
+            return (T)Convert.ChangeType(value, typeof(T));
+        } 
         public static bool ToBool(this object value, bool defaultValue)
         {
             if (value == null || value == DBNull.Value)
@@ -26,7 +57,7 @@ namespace PX.Core.Ultilities
 
             try
             {
-                return DateTime.ParseExact(value.ToString(), "ddMMyy", null);
+                return DateTime.ParseExact(value.ToString(), DefaultConstants.DateFormat, null);
             }
             catch
             {
@@ -178,7 +209,7 @@ namespace PX.Core.Ultilities
             {
                 var dateInfo = new System.Globalization.DateTimeFormatInfo();
 
-                shortDatePattern = string.IsNullOrEmpty(shortDatePattern) ? "dd/MM/yyyy" : shortDatePattern;
+                shortDatePattern = string.IsNullOrEmpty(shortDatePattern) ? DefaultConstants.DateFormat : shortDatePattern;
                 dateInfo.ShortDatePattern = shortDatePattern;
 
                 return Convert.ToDateTime(value, dateInfo);

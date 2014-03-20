@@ -1,11 +1,12 @@
-﻿using System.IO;
-using System.Web;
+﻿using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
+using PX.Business.Models.Users;
 using PX.Business.Models.Users.Logins;
 using PX.Business.Mvc.Attributes;
 using PX.Business.Services.Users;
 using PX.Core.Framework.Mvc.Models;
+using PX.Core.Framework.Mvc.Models.Editable;
 using PX.EntityModel;
 
 namespace PX.Web.Areas.Admin.Controllers
@@ -97,14 +98,8 @@ namespace PX.Web.Areas.Admin.Controllers
         [HttpPost]
         public JsonResult UploadAvatar(HttpPostedFileBase avatar)
         {
-            var path = Path.Combine(Server.MapPath("~/Images/uploads/"), avatar.FileName);
-            var returnPath = string.Format("/Images/uploads/{0}", avatar.FileName);
-            avatar.SaveAs(path);
-            return Json(new ResponseModel
-                {
-                    Success = true,
-                    Data = returnPath
-                });
+            var response = _userServices.UploadAvatar(EntityModel.User.CurrentUser.Id, avatar);
+            return Json(response);
         }
         #endregion
 
@@ -115,5 +110,31 @@ namespace PX.Web.Areas.Admin.Controllers
             return View();
         }
         #endregion
+
+        [HttpPost]
+        public JsonResult UpdateUserData(XEditableModel model)
+        {
+            var response = _userServices.UpdateUserData(model);
+            return Json(response);
+        }
+
+        [ChildActionOnly]
+        public PartialViewResult ChangePassword()
+        {
+            var model = new ChangePasswordModel
+                {
+                    UserId = EntityModel.User.CurrentUser.Id
+                };
+            return PartialView("_ChangePassword", model);
+        }
+
+        [HttpPost]
+        public JsonResult ChangePassword(ChangePasswordModel model)
+        {
+            return Json(new ResponseModel
+                {
+                    Success = true
+                });
+        }
     }
 }

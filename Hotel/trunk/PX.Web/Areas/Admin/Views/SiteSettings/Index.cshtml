@@ -29,9 +29,9 @@
 </div>
 @section scripts
 {
-    <script src="/Content/backend/js/date-time/bootstrap-datepicker.min.js"></script>
-    <script src="/Content/backend/js/jqGrid/jquery.jqGrid.min.js"></script>
-    <script src="/Content/backend/js/jqGrid/i18n/grid.locale-en.js"></script>
+    <script src="/Scripts/BackEnd/date-time/bootstrap-datepicker.min.js"></script>
+    <script src="/Scripts/BackEnd/jqGrid/jquery.jqGrid.min.js"></script>
+    <script src="/Scripts/BackEnd/jqGrid/i18n/grid.locale-en.js"></script>
     <script type="text/javascript">
         var gridSelector = "#grid-table";
         var pagerSelector = "#grid-pager";
@@ -40,7 +40,7 @@
                 datatype: "json",
                 url: "@Url.Action("_AjaxBinding")",
                 caption: "Site Setting Management",
-                height: 350,
+                height: 370,
                 ondblClickRow: function (rowId) {
                     jQuery(gridSelector).editRow(rowId, true);
                 },
@@ -50,7 +50,7 @@
                     { name: 'Name', index: 'Name', width: 150, editable: true, editrules: { required: true } },
                     { name: 'Value', index: 'Value', width: 250, editable: true },
                     { name: 'RecordOrder', index: 'RecordOrder', width: 50, sorttype: "int", align:"center", editable: true, editrules: { required: true } },
-                    { name: 'Active', index: 'Active', width: 100, editable: true, edittype: "checkbox", align:"center", align:"center", editoptions: { value: "Yes:No", defaultValue: 'Yes' }, unformat: aceSwitch },
+                    { name: 'Active', index: 'Active', width: 100, editable: true, edittype: "checkbox",  align:"center", editoptions: { value: "Yes:No", defaultValue: 'Yes' }, unformat: aceSwitch },
                     { name: 'Created', index: 'Created', formatter: "date", width: 100, editable: false, sorttype: "datetime", unformat: pickDate },
                     { name: 'CreatedBy', index: 'CreatedBy', width: 150, editable: false, editoptions: { size: "20", maxlength: "30" } },
                     { name: 'Updated', index: 'Updated', formatter: "date", width: 90, editable: false, sorttype: "datetime", unformat: pickDate },

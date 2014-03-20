@@ -23,5 +23,9 @@ namespace PX.Business.Services.Settings
         ResponseModel ManageSiteSetting(GridOperationEnums operation, SiteSettingModel model);
 
         JqGridSearchOut SearchSiteSettings(JqSearchIn si);
+
+        T GetSetting<T>(string key);
+
+        T GetSetting<T>(string key, T defaultValue);
     }
 }

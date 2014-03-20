@@ -31,28 +31,28 @@ namespace PX.EntityModel
             set { HttpContext.Current.Session["CurrentUser"] = value; }
         }
 
-        public string CurrentImageUrl
+        public string AvatarPath
         {
             get
             {
-                if (string.IsNullOrEmpty(ImageFileName) || !File.Exists(HttpContext.Current.Server.MapPath(Configurations.DefaultUserFolder + ImageFileName)))
+                if (string.IsNullOrEmpty(AvatarFileName) || !File.Exists(HttpContext.Current.Server.MapPath(Configurations.AvatarFolder + AvatarFileName)))
                 {
-                    return Configurations.DefaultUserFolder + Configurations.DefaultUserImage;
+                    return Configurations.AvatarFolder + Configurations.DefaultAvatar;
                 }
-                return Configurations.DefaultUserFolder + ImageFileName;
+                return Configurations.AvatarFolder + AvatarFileName;
             }
         }
 
-        public string CurrentImageFileName
+        public string CurrentAvatarFileName
         {
             get
             {
-                if (string.IsNullOrEmpty(ImageFileName)
-                    || !File.Exists(HttpContext.Current.Server.MapPath(Configurations.DefaultUserFolder + ImageFileName)))
+                if (string.IsNullOrEmpty(AvatarFileName)
+                    || !File.Exists(HttpContext.Current.Server.MapPath(Configurations.AvatarFolder + AvatarFileName)))
                 {
-                    return Configurations.DefaultUserImage;
+                    return Configurations.DefaultAvatar;
                 }
-                return ImageFileName;
+                return AvatarFileName;
             }
         }
 
@@ -64,6 +64,23 @@ namespace PX.EntityModel
         public UserEnums.UserStatusEnums StatusEnums
         {
             get { return (UserEnums.UserStatusEnums)StatusId; }
+        }
+
+        public double LastLoginHours
+        {
+            get { return (DateTime.Now - LastLogin.Value).TotalHours; }
+        }
+
+        public int? Age
+        {
+            get
+            {
+                if(BirthDay.HasValue)
+                {
+                    return (int)(DateTime.Now - BirthDay.Value).TotalDays/365;
+                }
+                return null;
+            }
         }
     }
 
@@ -92,7 +109,7 @@ namespace PX.EntityModel
 
         public string IdentityNumber { get; set; }
 
-        public string ImageFileName { get; set; }
+        public string AvatarFileName { get; set; }
 
         [Required]
         public int UserGroupId { get; set; }

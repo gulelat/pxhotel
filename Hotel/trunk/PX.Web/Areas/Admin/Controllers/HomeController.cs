@@ -3,6 +3,7 @@ using System.Web.Mvc;
 using PX.Business.Mvc.Attributes;
 using PX.Business.Services.Localizes;
 using PX.Business.Services.Menus;
+using PX.Core.Framework.Enums;
 
 namespace PX.Web.Areas.Admin.Controllers
 {

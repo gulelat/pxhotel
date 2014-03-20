@@ -66,10 +66,13 @@ namespace PX.EntityModel.Repositories.RepositoryBase
 
         public static ResponseModel Update(T entity)
         {
-            entity.SetProperty("Updated", DateTime.Now);
-            if (User.CurrentUser != null)
+            if (HttpContext.Current.Session != null)
             {
-                entity.SetProperty("UpdatedBy", User.CurrentUser.Email);
+                entity.SetProperty("Updated", DateTime.Now);
+                if (User.CurrentUser != null)
+                {
+                    entity.SetProperty("UpdatedBy", User.CurrentUser.Email);
+                }
             }
             var response = new ResponseModel();
             try
@@ -92,8 +95,11 @@ namespace PX.EntityModel.Repositories.RepositoryBase
 
         public static ResponseModel Insert(T entity)
         {
-            entity.SetProperty("Created", DateTime.Now);
-            entity.SetProperty("CreatedBy", User.CurrentUser != null ? User.CurrentUser.Email : string.Empty);
+            if (HttpContext.Current.Session != null)
+            {
+                entity.SetProperty("Created", DateTime.Now);
+                entity.SetProperty("CreatedBy", User.CurrentUser != null ? User.CurrentUser.Email : string.Empty);
+            }
             
             var response = new ResponseModel();
             try

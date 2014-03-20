@@ -38,3 +38,15 @@ function showLoading() {
 function hideLoading() {
     $("#spinner-preview").hide();
 }
+
+function ShowErrorMessage(message) {
+    
+}
+
+function ShowSuccessMessage(message) {
+
+}
+
+function ShowWarningMessage(message) {
+
+}

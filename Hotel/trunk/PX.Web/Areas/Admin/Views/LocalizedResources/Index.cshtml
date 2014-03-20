@@ -1,10 +1,8 @@
-﻿@{
+﻿@model PX.EntityModel.Language
+@{
     ViewBag.Header = "Localized Resources";
     ViewBag.Title = "Localized Resource Management";
     ViewBag.Description = "Localized Resource Management Page";
-}
-@{
-    var language = HttpContext.Current.Request.Params["language"];
 }
 @section styles{
     <link rel="stylesheet" href="/Content/backend/css/jquery-ui-1.10.3.full.min.css" />
@@ -15,7 +13,7 @@
     <h1>@ViewBag.Header
         <small>
             <i class="icon-double-angle-right"></i>
-            @ViewBag.Title
+            @Model.Name - @Model.Id
         </small>
     </h1>
 </div>
@@ -32,9 +30,9 @@
 </div>
 @section scripts
 {
-    <script src="/Content/backend/js/date-time/bootstrap-datepicker.min.js"></script>
-    <script src="/Content/backend/js/jqGrid/jquery.jqGrid.min.js"></script>
-    <script src="/Content/backend/js/jqGrid/i18n/grid.locale-en.js"></script>
+    <script src="/Scripts/BackEnd/date-time/bootstrap-datepicker.min.js"></script>
+    <script src="/Scripts/BackEnd/jqGrid/jquery.jqGrid.min.js"></script>
+    <script src="/Scripts/BackEnd/jqGrid/i18n/grid.locale-en.js"></script>
     <script type="text/javascript">
         var gridSelector = "#grid-table";
         var pagerSelector = "#grid-pager";
@@ -42,9 +40,9 @@
             $(gridSelector).jqGrid({
                 datatype: "json",
                 url: "@Url.Action("_AjaxBinding")",
-                postData: { language: '@language' },
+                postData: { language: '@Model.Id' },
                 caption: "Localized Resource Management",
-                height: 350,
+                height: 370,
                 ondblClickRow: function (rowId) {
                     jQuery(gridSelector).editRow(rowId, true);
                 },

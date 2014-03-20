@@ -257,6 +257,27 @@ namespace PX.Core.Ultilities
             }
             return input.Substring(pos + 1);
         }
+
+        /// <summary>
+        /// Get extension from fole name
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <returns></returns>
+        public static string GetExtension(this string fileName)
+        {
+            return fileName.Split('.').Last();
+        }
+
+        /// <summary>
+        /// Generate unique avatar file name
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="extension"> </param>
+        /// <returns></returns>
+        public static string GenerateAvatarFileName(this int id, string extension)
+        {
+            return string.Format("{0}_{1}.{2}", id, DateTime.Now.ToString("yyyyMMddhhmmss"), extension);
+        }
     }
 
     public class StringLengthComparer : IComparer<string>
