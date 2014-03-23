@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Web.Mvc;
 using Newtonsoft.Json;
 using PX.Business.Models.UserGroups;
 using PX.Business.Mvc.Attributes;
+using PX.Business.Mvc.Controllers;
+using PX.Business.Mvc.Enums;
 using PX.Business.Services.UserGroups;
 using PX.Business.Services.Users;
 using PX.Core.Framework.Enums;
@@ -13,7 +14,7 @@ using PX.Core.Framework.Mvc.Models.JqGrid;
 namespace PX.Web.Areas.Admin.Controllers
 {
     [PxAuthorize(Permissions = new[] { PermissionEnums.ManageUser })]
-    public class UserGroupsController : Controller
+    public class UserGroupsController : PxController
     {
         private readonly IUserServices _userServices;
         private readonly IUserGroupServices _userGroupServices;

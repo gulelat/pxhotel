@@ -4,7 +4,6 @@ namespace PX.Business.Models.UserGroups
 {
     public class UserGroupModel : BaseModel
     {
-        [Key]
         public int Id { get; set; }
 
         [Required]

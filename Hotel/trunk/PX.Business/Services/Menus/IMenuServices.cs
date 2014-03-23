@@ -33,8 +33,8 @@ namespace PX.Business.Services.Menus
 
         IEnumerable<SelectListItem> GetPossibleParents(int? id);
 
-        BreadCrumbModel GetBreadCrumbs(string controller, string action);
-
         List<Menu> GetMenus(int? parentId = null);
+
+        BreadCrumbModel GetBreadCrumbs(string controller, string action);
     }
 }

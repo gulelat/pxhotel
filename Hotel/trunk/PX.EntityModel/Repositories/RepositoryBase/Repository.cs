@@ -15,9 +15,6 @@ namespace PX.EntityModel.Repositories.RepositoryBase
     {
         #region Protected Properties
 
-        // this static context is a bad, bad thing, but the only things that hit this will be
-
-
         public static PXHotelEntities StaticContext
         {
             get;
@@ -66,13 +63,10 @@ namespace PX.EntityModel.Repositories.RepositoryBase
 
         public static ResponseModel Update(T entity)
         {
-            if (HttpContext.Current.Session != null)
+            entity.SetProperty("Updated", DateTime.Now);
+            if (entity.GetPropertyValue("UpdatedBy") == null)
             {
-                entity.SetProperty("Updated", DateTime.Now);
-                if (User.CurrentUser != null)
-                {
-                    entity.SetProperty("UpdatedBy", User.CurrentUser.Email);
-                }
+                entity.SetProperty("UpdatedBy", HttpContext.Current.User.Identity.Name);
             }
             var response = new ResponseModel();
             try
@@ -95,12 +89,9 @@ namespace PX.EntityModel.Repositories.RepositoryBase
 
         public static ResponseModel Insert(T entity)
         {
-            if (HttpContext.Current.Session != null)
-            {
-                entity.SetProperty("Created", DateTime.Now);
-                entity.SetProperty("CreatedBy", User.CurrentUser != null ? User.CurrentUser.Email : string.Empty);
-            }
-            
+            entity.SetProperty("Created", DateTime.Now);
+            entity.SetProperty("CreatedBy", HttpContext.Current.User.Identity.Name);
+
             var response = new ResponseModel();
             try
             {
@@ -226,11 +217,11 @@ namespace PX.EntityModel.Repositories.RepositoryBase
                 if (parent != null)
                 {
                     var menuHierarchy = parent.GetHierarchy();
-                    entity.SetProperty("Hierarchy", string.Format("{0}{1}{2}", menuHierarchy, id.ToString("D5"), IdSeparator));
+                    entity.SetProperty(HierarchyPropertyName, string.Format("{0}{1}{2}", menuHierarchy, id.ToString("D5"), IdSeparator));
                 }
                 else
                 {
-                    entity.SetProperty("Hierarchy", string.Format("{0}{1}{0}", IdSeparator, id.ToString("D5")));
+                    entity.SetProperty(HierarchyPropertyName, string.Format("{0}{1}{0}", IdSeparator, id.ToString("D5")));
                 }
 
                 return Update(entity);
@@ -241,7 +232,7 @@ namespace PX.EntityModel.Repositories.RepositoryBase
         public static ResponseModel HierarchyUpdate(T entity)
         {
             var entry = DataContext.Entry(entity);
-            if (!Equals(entry.OriginalValues["ParentId"], entry.CurrentValues["ParentId"]))
+            if (!Equals(entry.OriginalValues[ParentIdPropertyName], entry.CurrentValues[ParentIdPropertyName]))
             {
                 var tableName = entity.GetTableName();
 
@@ -280,20 +271,11 @@ namespace PX.EntityModel.Repositories.RepositoryBase
             return GetAll().Where(string.Format("{0} LIKE '{1}%'", HierarchyPropertyName, prefix));
         }
 
-        public static List<SelectListItem> BuildSelectList(string levelPrefix, string textFieldName)
-        {
-            return InternalBuildSelectList(null, levelPrefix, textFieldName);
-        }
-
         public static List<SelectListItem> BuildSelectList(List<T> data, string levelPrefix, string textFieldName)
         {
-            return InternalBuildSelectList(data, levelPrefix, textFieldName);
-        }
-
-        private static List<SelectListItem> InternalBuildSelectList(List<T> data, string levelPrefix, string textFieldName)
-        {
+            //This will appear when call this 2 times in 1 action
+            //Todo: call 2nd time cache hierarchy from item.SetProperty
             var dic = data.ToDictionary(i => i.GetId(), i => (int)i.GetPropertyValue(OrderPropertyName));
-
             foreach (var item in data)
             {
                 var hierarchy = item.GetHierarchy();
@@ -320,7 +302,7 @@ namespace PX.EntityModel.Repositories.RepositoryBase
                 }
                 selectList.Add(new SelectListItem
                 {
-                    Text = string.Format("{0} {1}", prefix, menu.GetPropertyValue(textFieldName)),
+                    Text = string.Format("{0}{1}", prefix, menu.GetPropertyValue(textFieldName)),
                     Value = a.ToString(CultureInfo.InvariantCulture)
                 });
             }

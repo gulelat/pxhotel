@@ -6,6 +6,7 @@ namespace PX.Business.Models.Menus
     {
         public int Id { get; set; }
 
+        [Required]
         public string Name { get; set; }
 
         public string Url { get; set; }
@@ -19,9 +20,11 @@ namespace PX.Business.Models.Menus
         public string ParentName { get; set; }
 
         public string Hierarchy { get; set; }
-        
+
+        [Required]
         public string MenuIcon { get; set; }
 
+        [Required]
         public bool Visible { get; set; }
 
         public string VisibleString { get { return Visible ? "Yes" : "No"; } set { Visible = value.Equals("Yes"); } }

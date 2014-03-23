@@ -15,7 +15,7 @@ namespace PX.Web.ViewModels
         /// </summary>
         public ViewModelBase()
         {
-            _currentController = (ControllerBase)HttpContext.Current.Items[DefaultConstants.CdlgCurrentController];
+            _currentController = (ControllerBase)HttpContext.Current.Items[DefaultConstants.PxHotelCurrentController];
         }
         #endregion
 
@@ -40,14 +40,14 @@ namespace PX.Web.ViewModels
                 if (_currentController == null)
                     return null;
 
-                return (string)_currentController.TempData[DefaultConstants.TempStatusMessage];
+                return (string)_currentController.TempData[DefaultConstants.SuccessMessage];
             }
             set
             {
                 if (_currentController == null)
                     return;
 
-                _currentController.TempData[DefaultConstants.TempStatusMessage] = value;
+                _currentController.TempData[DefaultConstants.SuccessMessage] = value;
             }
         }
 

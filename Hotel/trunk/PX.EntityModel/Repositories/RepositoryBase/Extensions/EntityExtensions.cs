@@ -1,5 +1,9 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Reflection;
+using System.Runtime.Serialization.Formatters.Binary;
 using PX.Core.Framework.Mvc.Attributes;
 
 namespace PX.EntityModel.Repositories.RepositoryBase.Extensions
@@ -16,6 +20,18 @@ namespace PX.EntityModel.Repositories.RepositoryBase.Extensions
         
         #endregion
 
+        /// <summary>
+        /// Get list of type implement the interface
+        /// </summary>
+        /// <param name="type">the interface type</param>
+        /// <returns></returns>
+        public static List<Type> GetAllClassImplementInteface(Type type)
+        {
+            return AppDomain.CurrentDomain.GetAssemblies()
+                .SelectMany(s => s.GetTypes())
+                .Where(x => type.IsAssignableFrom(x) && !x.IsInterface && !x.IsAbstract).ToList();
+        }
+
         #region Table Methods
 
         public static string GetTableName<T>(this T entity)
@@ -25,7 +41,7 @@ namespace PX.EntityModel.Repositories.RepositoryBase.Extensions
             return at.Name;
         }
 
-        private static T GetAttribute<T>(MemberInfo memberInfo) where T : class
+        public static T GetAttribute<T>(MemberInfo memberInfo) where T : class
         {
             var customAttributes = memberInfo.GetCustomAttributes(typeof(T), false);
             var attribute = customAttributes.First(a => a is T) as T;

@@ -5,9 +5,14 @@ using System.Reflection;
 using System.Web.Mvc;
 using PX.Business.Models.Menus;
 using PX.Business.Mvc.Attributes;
+using PX.Business.Mvc.Enums;
+using PX.Business.Mvc.Environments;
+using PX.Business.Mvc.WorkContext;
+using PX.Business.Services.Localizes;
 using PX.Core.Framework.Enums;
 using PX.Core.Framework.Mvc.Models;
 using PX.Core.Framework.Mvc.Models.JqGrid;
+using PX.Core.Ultilities;
 using PX.EntityModel;
 using AutoMapper;
 using PX.EntityModel.Repositories;
@@ -16,6 +21,12 @@ namespace PX.Business.Services.Menus
 {
     public class MenuServices : IMenuServices
     {
+        private readonly ILocalizedResourceServices _localizedResourceServices;
+        public MenuServices()
+        {
+            _localizedResourceServices = HostContainer.GetInstance<ILocalizedResourceServices>();
+        }
+
         #region Base
         public IQueryable<Menu> GetAll()
         {
@@ -109,39 +120,33 @@ namespace PX.Business.Services.Menus
                     menu.Visible = model.Visible;
                     menu.RecordActive = model.RecordActive;
                     menu.RecordOrder = model.RecordOrder;
-                    int parentId;
-                    if (int.TryParse(model.ParentName, out parentId))
-                    {
-                        menu.ParentId = parentId;
-                    }
-                    else
-                    {
-                        menu.ParentId = null;
-                    }
+                    menu.ParentId = model.ParentName.ToNullableInt();
                     response = HierarchyUpdate(menu);
                     if (hasUpdatePermission) UpdateMenuPermission(menu);
-                    return response;
+                    return response.SetMessage(response.Success ?
+                        _localizedResourceServices.T("AdminModule:::Menus:::Update menu successfully")
+                        : _localizedResourceServices.T("AdminModule:::Menus:::Update menu failure"));
+
                 case GridOperationEnums.Add:
                     menu = Mapper.Map<MenuModel, Menu>(model);
-                    if (int.TryParse(model.ParentName, out parentId))
-                    {
-                        menu.ParentId = parentId;
-                    }
-                    else
-                    {
-                        menu.ParentId = null;
-                    }
+                    menu.ParentId = model.ParentName.ToNullableInt();
                     menu.Hierarchy = string.Empty;
                     response = HierarchyInsert(menu);
                     UpdateMenuPermission(menu);
-                    return response;
+                    return response.SetMessage(response.Success ? 
+                        _localizedResourceServices.T("AdminModule:::Menus:::Create menu successfully")
+                        : _localizedResourceServices.T("AdminModule:::Menus:::Create menu failure"));
+
                 case GridOperationEnums.Del:
-                    return Delete(model.Id);
+                    response = Delete(model.Id);
+                    return response.SetMessage(response.Success ?
+                        _localizedResourceServices.T("AdminModule:::Menus:::Delete menu successfully")
+                        : _localizedResourceServices.T("AdminModule:::Menus:::Delete menu failure"));
             }
             return new ResponseModel
             {
                 Success = false,
-                Message = "Object not founded"
+                Message = _localizedResourceServices.T("AdminModule:::Menus:::Object not founded")
             };
         }
 
@@ -225,6 +230,20 @@ namespace PX.Business.Services.Menus
             return MenuRepository.BuildSelectList(menus.ToList(), "--", "Name");
         }
 
+
+        /// <summary>
+        /// Get page by parent id
+        /// </summary>
+        /// <param name="parentId">the parent id</param>
+        /// <returns></returns>
+        public List<Menu> GetMenus(int? parentId = null)
+        {
+            var permissions = WorkContext.CurrentUser.UserGroup.GroupPermissions.Where(p => p.HasPermission).Select(p => p.PermissionId);
+            var memus = GetAll().Where(m => m.Visible && parentId.HasValue ? m.ParentId == parentId : !m.ParentId.HasValue).ToList();
+
+            return memus.Where(m => string.IsNullOrEmpty(m.Permissions) || m.Permissions.Split(',').Select(int.Parse).Intersect(permissions).Count() == m.Permissions.Split(',').Count()).OrderBy(m => m.RecordOrder).ToList();
+        }
+
         /// <summary>
         /// Get breadcrumbs
         /// </summary>
@@ -259,14 +278,6 @@ namespace PX.Business.Services.Menus
                 };
             }
             return new BreadCrumbModel();
-        }
-
-        public List<Menu> GetMenus(int? parentId = null)
-        {
-            var permissions = User.CurrentUser.UserGroup.GroupPermissions.Where(p => p.HasPermission).Select(p => p.PermissionId);
-            var memus = GetAll().Where(m => m.Visible && parentId.HasValue ? m.ParentId == parentId : !m.ParentId.HasValue).ToList();
-
-            return memus.Where(m => string.IsNullOrEmpty(m.Permissions) ||  m.Permissions.Split(',').Select(int.Parse).Intersect(permissions).Count() == m.Permissions.Split(',').Count()).OrderBy(m => m.RecordOrder).ToList();
         }
     }
 }

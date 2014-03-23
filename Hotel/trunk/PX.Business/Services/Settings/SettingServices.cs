@@ -1,8 +1,13 @@
 ﻿using System;
 using System.Data;
+using System.Data.Objects;
 using System.Linq;
+using System.Reflection;
 using AutoMapper;
 using PX.Business.Models.Settings;
+using PX.Business.Models.Settings.SettingTypes;
+using PX.Business.Mvc.Environments;
+using PX.Business.Services.Localizes;
 using PX.Core.Framework.Enums;
 using PX.Core.Framework.Mvc.Models;
 using PX.Core.Framework.Mvc.Models.JqGrid;
@@ -14,6 +19,12 @@ namespace PX.Business.Services.Settings
 {
     public class SettingServices : ISettingServices
     {
+        private readonly ILocalizedResourceServices _localizedResourceServices;
+        public SettingServices()
+        {
+            _localizedResourceServices = HostContainer.GetInstance<ILocalizedResourceServices>();
+        }
+
         #region Base
         public IQueryable<SiteSetting> GetAll()
         {
@@ -30,14 +41,6 @@ namespace PX.Business.Services.Settings
         public ResponseModel Update(SiteSetting siteSetting)
         {
             return SiteSettingRepository.Update(siteSetting);
-        }
-        public ResponseModel HierarchyUpdate(SiteSetting siteSetting)
-        {
-            return SiteSettingRepository.HierarchyUpdate(siteSetting);
-        }
-        public ResponseModel HierarchyInsert(SiteSetting siteSetting)
-        {
-            return SiteSettingRepository.HierarchyInsert(siteSetting);
         }
         public ResponseModel Delete(SiteSetting siteSetting)
         {
@@ -76,13 +79,14 @@ namespace PX.Business.Services.Settings
         }
 
         /// <summary>
-        /// Manage SiteSetting
+        /// Manage Site Setting
         /// </summary>
-        /// <param name="operation"></param>
-        /// <param name="model"></param>
+        /// <param name="operation">the operation</param>
+        /// <param name="model">the setting model</param>
         /// <returns></returns>
         public ResponseModel ManageSiteSetting(GridOperationEnums operation, SiteSettingModel model)
         {
+            ResponseModel response;
             Mapper.CreateMap<SiteSettingModel, SiteSetting>();
             SiteSetting siteSetting;
             switch (operation)
@@ -93,31 +97,43 @@ namespace PX.Business.Services.Settings
                     siteSetting.Value = model.Value;
                     siteSetting.RecordActive = model.RecordActive;
                     siteSetting.RecordOrder = model.RecordOrder;
-                    return Update(siteSetting);
+
+                    response = Update(siteSetting);
+                    return response.SetMessage(response.Success ?
+                        _localizedResourceServices.T("AdminModule:::Settings:::Update setting successfully")
+                        : _localizedResourceServices.T("AdminModule:::Settings:::Update setting failure"));
+
                 case GridOperationEnums.Add:
                     siteSetting = Mapper.Map<SiteSettingModel, SiteSetting>(model);
-                    return Insert(siteSetting);
+                    response = Insert(siteSetting);
+                    return response.SetMessage(response.Success ?
+                        _localizedResourceServices.T("AdminModule:::Settings:::Insert setting successfully")
+                        : _localizedResourceServices.T("AdminModule:::Settings:::Insert setting failure"));
+
                 case GridOperationEnums.Del:
-                    return Delete(model.Id);
+                    response = Delete(model.Id);
+                    return response.SetMessage(response.Success ?
+                        _localizedResourceServices.T("AdminModule:::Settings:::Delete setting successfully")
+                        : _localizedResourceServices.T("AdminModule:::Settings:::Delete setting failure"));
             }
             return new ResponseModel
             {
                 Success = false,
-                Message = "Object not founded"
+                Message = _localizedResourceServices.T("AdminModule:::Settings:::Setting not founded")
             };
         }
 
         /// <summary>
-        /// Get setting with key
+        /// Get setting with key, if not found, insert setting to database
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="key"></param>
-        /// <param name="defaultValue"></param>
+        /// <typeparam name="T">the return object type</typeparam>
+        /// <param name="key">key to search</param>
+        /// <param name="defaultValue">default value</param>
         /// <returns></returns>
         public T GetSetting<T>(string key, T defaultValue)
         {
             var setting = SiteSettingRepository.GetByKey(key);
-            if(setting == null)
+            if (setting == null)
             {
                 setting = new SiteSetting
                     {
@@ -130,14 +146,47 @@ namespace PX.Business.Services.Settings
             return setting.Value.ToType<T>();
         }
 
+        /// <summary>
+        /// Get setting by key
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="key"></param>
+        /// <returns></returns>
         public T GetSetting<T>(string key)
         {
             var setting = SiteSettingRepository.GetByKey(key);
-            if(setting == null)
+            if (setting == null)
             {
-                throw new ObjectNotFoundException();
+                return default(T);
             }
             return setting.Value.ToType<T>();
+        }
+
+        /// <summary>
+        /// Load object setting
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="parameterArray"></param>
+        /// <returns></returns>
+        public object LoadSetting<T>(object[] parameterArray = null)
+        {
+            var type = typeof(T);
+            var methodInfo = type.GetMethod("LoadSetting");
+            object result = null;
+            if (methodInfo != null)
+            {
+                var parameters = methodInfo.GetParameters();
+                var classInstance = Activator.CreateInstance(type, null);
+                if (parameters.Length == 0)
+                {
+                    result = methodInfo.Invoke(classInstance, null);
+                }
+                else
+                {
+                    result = methodInfo.Invoke(classInstance, parameterArray);
+                }
+            }
+            return result;
         }
     }
 }

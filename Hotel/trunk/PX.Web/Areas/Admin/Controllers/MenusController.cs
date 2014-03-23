@@ -2,15 +2,18 @@
 using Newtonsoft.Json;
 using PX.Business.Models.Menus;
 using PX.Business.Mvc.Attributes;
+using PX.Business.Mvc.Controllers;
+using PX.Business.Mvc.Enums;
 using PX.Business.Services.Menus;
 using PX.Core.Framework.Enums;
 using PX.Core.Framework.Mvc.Attributes;
+using PX.Core.Framework.Mvc.Models;
 using PX.Core.Framework.Mvc.Models.JqGrid;
 
 namespace PX.Web.Areas.Admin.Controllers
 {
     [PxAuthorize(Permissions = new[] { PermissionEnums.ManageContent })]
-    public class MenusController : Controller
+    public class MenusController : PxController
     {
         private readonly IMenuServices _menuServices;
         public MenusController(IMenuServices menuServices)
@@ -40,7 +43,16 @@ namespace PX.Web.Areas.Admin.Controllers
         [HandleJsonException]
         public JsonResult Manage(MenuModel model, GridManagingModel manageModel)
         {
-            return Json(_menuServices.ManageMenu(manageModel.Operation, model));
+            if (ModelState.IsValid || manageModel.Operation == GridOperationEnums.Del)
+            {
+                return Json(_menuServices.ManageMenu(manageModel.Operation, model));
+            }
+
+            return Json(new ResponseModel
+            {
+                Success = false,
+                Message = GetFirstValidationResults(ModelState).Message
+            });
         }
     }
 }

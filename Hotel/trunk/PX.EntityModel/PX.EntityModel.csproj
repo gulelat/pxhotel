@@ -73,21 +73,22 @@
     <Compile Include="LocalizedResource.cs">
       <DependentUpon>PXHotel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Entities\User.cs" />
-    <Compile Include="Repositories\GroupPermissionRepository.cs" />
-    <Compile Include="Repositories\LanguageRepository.cs" />
-    <Compile Include="Repositories\LocalizedStringRepository.cs" />
-    <Compile Include="Repositories\SiteSettingRepository.cs" />
-    <Compile Include="Repositories\RepositoryBase\Extensions\EntityExtensions.cs" />
-    <Compile Include="Repositories\RepositoryBase\Repository.cs" />
-    <Compile Include="Repositories\UserGroupRepository.cs" />
-    <Compile Include="Repositories\UserRepository.cs" />
-    <Compile Include="Repositories\MenuRepository.cs" />
-    <Compile Include="Repositories\RepositoryBase\Models\EntityObject.cs" />
     <Compile Include="Menu.cs">
       <DependentUpon>PXHotel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Entities\Menu.cs" />
+    <Compile Include="Models\Entities\SiteSetting.cs" />
+    <Compile Include="Models\Entities\UserGroup.cs" />
+    <Compile Include="Models\Entities\SettingType.cs" />
+    <Compile Include="Models\Entities\NewsNewsCategory.cs" />
+    <Compile Include="Models\Entities\NewsCategory.cs" />
+    <Compile Include="Models\Entities\GroupPermission.cs" />
+    <Compile Include="Models\Entities\Country.cs" />
+    <Compile Include="Models\Entities\New.cs" />
+    <Compile Include="Models\Entities\LocalizedResources.cs" />
+    <Compile Include="Models\Entities\Language.cs" />
+    <Compile Include="Models\Entities\PageTemplate.cs" />
+    <Compile Include="Models\Entities\Page.cs" />
+    <Compile Include="Models\Entities\User.cs" />
     <Compile Include="News.cs">
       <DependentUpon>PXHotel.tt</DependentUpon>
     </Compile>
@@ -100,6 +101,23 @@
     <Compile Include="Page.cs">
       <DependentUpon>PXHotel.tt</DependentUpon>
     </Compile>
+    <Compile Include="PageTemplate.cs">
+      <DependentUpon>PXHotel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repositories\PageRepository.cs" />
+    <Compile Include="Repositories\PageTemplateRepository.cs" />
+    <Compile Include="Repositories\GroupPermissionRepository.cs" />
+    <Compile Include="Repositories\LanguageRepository.cs" />
+    <Compile Include="Repositories\LocalizedStringRepository.cs" />
+    <Compile Include="Repositories\RepositoryBase\Extensions\ObjectExtensions.cs" />
+    <Compile Include="Repositories\SiteSettingRepository.cs" />
+    <Compile Include="Repositories\RepositoryBase\Extensions\EntityExtensions.cs" />
+    <Compile Include="Repositories\RepositoryBase\Repository.cs" />
+    <Compile Include="Repositories\UserGroupRepository.cs" />
+    <Compile Include="Repositories\UserRepository.cs" />
+    <Compile Include="Repositories\MenuRepository.cs" />
+    <Compile Include="Repositories\RepositoryBase\Models\EntityObject.cs" />
+    <Compile Include="Models\Entities\Menu.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PXHotel.Context.cs">
       <AutoGen>True</AutoGen>
@@ -119,11 +137,6 @@
     <Compile Include="Resource.cs">
       <DependentUpon>PXHotel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Resources\SystemResources.Designer.cs">
-      <DependentUpon>SystemResources.resx</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <Compile Include="Room.cs">
       <DependentUpon>PXHotel.tt</DependentUpon>
     </Compile>
@@ -136,13 +149,13 @@
     <Compile Include="SiteSetting.cs">
       <DependentUpon>PXHotel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Status.cs">
-      <DependentUpon>PXHotel.tt</DependentUpon>
-    </Compile>
     <Compile Include="User.cs">
       <DependentUpon>PXHotel.tt</DependentUpon>
     </Compile>
     <Compile Include="UserGroup.cs">
+      <DependentUpon>PXHotel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UserInfo.cs">
       <DependentUpon>PXHotel.tt</DependentUpon>
     </Compile>
   </ItemGroup>
@@ -171,20 +184,15 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="PXHotel.edmx.sql" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\PX.Core\PX.Core.csproj">
       <Project>{881dde2d-6007-4c94-9911-750a7b0d81aa}</Project>
       <Name>PX.Core</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\SystemResources.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>SystemResources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="PXHotel.edmx.sql" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

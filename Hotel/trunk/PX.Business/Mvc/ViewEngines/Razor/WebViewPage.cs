@@ -1,22 +1,26 @@
-﻿using System.Web;
+﻿using System;
+using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using PX.Business.Mvc.Environments;
 using PX.Business.Services.Localizes;
 using PX.Business.Services.Settings;
-using PX.Core.Framework.Mvc.Environment;
+using PX.Core.Configurations.Constants;
 using PX.EntityModel;
 
 namespace PX.Business.Mvc.ViewEngines.Razor
 {
     public class WebViewPage<TModel> : System.Web.Mvc.WebViewPage<TModel>
     {
+        private ControllerBase _currentController;
         private ILocalizedResourceServices _localizedResourceServices;
         private ISettingServices _settingServices;
 
         public override void InitHelpers()
         {
-            _localizedResourceServices = DependencyFactory.GetInstance<ILocalizedResourceServices>();
-            _settingServices = DependencyFactory.GetInstance<ISettingServices>();
+            _localizedResourceServices = HostContainer.GetInstance<ILocalizedResourceServices>();
+            _settingServices = HostContainer.GetInstance<ISettingServices>();
+            _currentController = (ControllerBase)HttpContext.Current.Items[DefaultConstants.PxHotelCurrentController];
             base.InitHelpers();
         }
 
@@ -25,7 +29,23 @@ namespace PX.Business.Mvc.ViewEngines.Razor
         }
 
         #region Multi Languages Helpers
+        /// <summary>
+        /// Get translated value by key
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
         public string T(string key)
+        {
+            return _localizedResourceServices.T(key);
+        }
+
+        /// <summary>
+        /// Get translated value by key
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="defaultValue"></param>
+        /// <returns></returns>
+        public string T(string key, string defaultValue)
         {
             return _localizedResourceServices.T(key);
         }
@@ -90,10 +110,104 @@ namespace PX.Business.Mvc.ViewEngines.Razor
         }
         #endregion
 
+        #region Message Helpers
+
+        #region Private Properties
+
+        /// <summary>
+        /// Gets or sets the error message.
+        /// </summary>
+        public String ErrorMessage
+        {
+            get
+            {
+                if (_currentController == null) return null;
+                return (string)_currentController.TempData[DefaultConstants.ErrorMessage];
+            }
+            set
+            {
+                if (_currentController == null) return;
+                _currentController.TempData[DefaultConstants.ErrorMessage] = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the warning message.
+        /// </summary>
+        public String WarningMessage
+        {
+            get
+            {
+                if (_currentController == null) return null;
+                return (string)_currentController.TempData[DefaultConstants.WarningMessage];
+            }
+            set
+            {
+                if (_currentController == null) return;
+                _currentController.TempData[DefaultConstants.WarningMessage] = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the status message.
+        /// </summary>
+        public String SuccessMessage
+        {
+            get
+            {
+                if (_currentController == null) return null;
+                return (string)_currentController.TempData[DefaultConstants.SuccessMessage];
+            }
+            set
+            {
+                if (_currentController == null) return;
+                _currentController.TempData[DefaultConstants.SuccessMessage] = value;
+            }
+        }
+
+        #endregion
+
+        /// <summary>
+        /// Show status message after page refresh
+        /// </summary>
+        /// <returns></returns>
+        public IHtmlString ShowStatusMessage()
+        {
+            var template = @"<div class=""alert alert-{0}"">
+<button class=""close"" data-dismiss=""alert"" type=""button"">
+<i class=""icon-remove""></i>
+</button>
+{1}
+<br>
+</div>";
+            if (!string.IsNullOrEmpty(SuccessMessage))
+            {
+                template = string.Format(template, "info", SuccessMessage);
+            }
+            else if (!string.IsNullOrEmpty(ErrorMessage))
+            {
+                template = string.Format(template, "danger", ErrorMessage);
+            }
+            else if (!string.IsNullOrEmpty(WarningMessage))
+            {
+                template = string.Format(template, "warning", WarningMessage);
+            }
+            else
+            {
+                return new HtmlString(string.Empty);
+            }
+            return new HtmlString(template);
+        }
+
+        #endregion
+
+        /// <summary>
+        /// Get current logged in user
+        /// </summary>
         public User CurrentUser
         {
-            get { return (User)HttpContext.Current.Session["CurrentUser"]; }
-            set { HttpContext.Current.Session["CurrentUser"] = value; }
+            get { return WorkContext.WorkContext.CurrentUser; }
+            set { WorkContext.WorkContext.CurrentUser = value; }
         }
     }
 }

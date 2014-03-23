@@ -4,6 +4,9 @@ using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
 using PX.Business.Models.UserGroups;
+using PX.Business.Mvc.Enums;
+using PX.Business.Mvc.Environments;
+using PX.Business.Services.Localizes;
 using PX.Core.Framework.Enums;
 using PX.Core.Framework.Mvc.Models;
 using PX.Core.Framework.Mvc.Models.JqGrid;
@@ -16,6 +19,12 @@ namespace PX.Business.Services.UserGroups
 {
     public class UserGroupServices : IUserGroupServices
     {
+        private readonly ILocalizedResourceServices _localizedResourceServices;
+        public UserGroupServices()
+        {
+            _localizedResourceServices = HostContainer.GetInstance<ILocalizedResourceServices>();
+        }
+
         #region Base
         public IQueryable<UserGroup> GetAll()
         {
@@ -79,6 +88,7 @@ namespace PX.Business.Services.UserGroups
         /// <returns></returns>
         public ResponseModel ManageUserGroup(GridOperationEnums operation, UserGroupModel model)
         {
+            ResponseModel response;
             Mapper.CreateMap<UserGroupModel, UserGroup>();
             UserGroup userGroup;
             switch (operation)
@@ -89,27 +99,38 @@ namespace PX.Business.Services.UserGroups
                     userGroup.Description = model.Description;
                     userGroup.RecordOrder = model.RecordOrder;
                     userGroup.RecordActive = model.RecordActive;
-                    return UserGroupRepository.Update(userGroup);
+                    response = Update(userGroup);
+                    return response.SetMessage(response.Success ?
+                        _localizedResourceServices.T("AdminModule:::UserGroups:::Update group successfully")
+                        : _localizedResourceServices.T("AdminModule:::UserGroups:::Update group failure"));
+                
                 case GridOperationEnums.Add:
                     userGroup = Mapper.Map<UserGroupModel, UserGroup>(model);
-                    return UserGroupRepository.Insert(userGroup);
+                    response = Insert(userGroup);
+                    return response.SetMessage(response.Success ?
+                        _localizedResourceServices.T("AdminModule:::UserGroups:::Insert group successfully")
+                        : _localizedResourceServices.T("AdminModule:::UserGroups:::Insert group failure"));
+                
                 case GridOperationEnums.Del:
-                    return UserGroupRepository.Delete(model.Id);
+                    response = Delete(model.Id);
+                    return response.SetMessage(response.Success ?
+                        _localizedResourceServices.T("AdminModule:::UserGroups:::Delete group successfully")
+                        : _localizedResourceServices.T("AdminModule:::UserGroups:::Delete group failure"));
             }
             return new ResponseModel
             {
                 Success = false,
-                Message = "Object not founded"
+                Message = _localizedResourceServices.T("AdminModule:::UserGroups:::Object not founded")
             };
         }
 
         #endregion
 
         /// <summary>
-        /// Gets the user roles.
+        /// Gets the user groups.
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<SelectListItem> GetRoles()
+        public IEnumerable<SelectListItem> GetUserGroups()
         {
             return GetAll().ToList().Select(r => new SelectListItem
             {
@@ -118,6 +139,11 @@ namespace PX.Business.Services.UserGroups
             });
         }
 
+        /// <summary>
+        /// Gets permission setting of user group
+        /// </summary>
+        /// <param name="id">the user group id</param>
+        /// <returns></returns>
         public GroupPermissionsModel GetPermissionSettings(int id)
         {
             var userGroup = GetById(id);
@@ -156,6 +182,12 @@ namespace PX.Business.Services.UserGroups
                 };
         }
 
+        /// <summary>
+        /// Save permissions
+        /// </summary>
+        /// <param name="permissionIds">the right permission of user group</param>
+        /// <param name="userGroupId">user group id</param>
+        /// <returns></returns>
         public ResponseModel SavePermissions(List<int> permissionIds, int userGroupId)
         {
             var currentUserPermission = GroupPermissionRepository.GetByGroupId(userGroupId).ToList();
@@ -177,7 +209,8 @@ namespace PX.Business.Services.UserGroups
             }
             return new ResponseModel
                 {
-                    Success = true
+                    Success = true,
+                    Message = _localizedResourceServices.T("AdminModule:::UserGroupPermissions:::Save permission successfully.")
                 }
             ;
         }

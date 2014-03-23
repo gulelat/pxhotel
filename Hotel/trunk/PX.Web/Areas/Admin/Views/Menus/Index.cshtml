@@ -35,6 +35,11 @@
     <script type="text/javascript">
         var gridSelector = "#grid-table";
         var pagerSelector = "#grid-pager";
+        //init some data before create box show
+        function initCreateData() {
+            $(gridSelector).setColProp('ParentName', { editoptions: { dataUrl: '@Url.Action("GetParents")' } });
+        }
+
         var icons = {
             "icon-adjust": "icon-adjust",
             "icon-asterisk": "icon-asterisk",
@@ -155,16 +160,12 @@
                 shrinkToFit: false,
                 multiselect: true,
                 editurl: '@Url.Action("Manage")',
-                
-                //Add more action to ondblClickRow
-                onSelectRow: function (rowId) {
+
+                //Before select row change data Url base on page id
+                beforeSelectRow: function (rowId) {
                     var tmpId = $(gridSelector).getRowData(rowId)['Id'];
                     $(gridSelector).setColProp('ParentName', { editoptions: { dataUrl: '@Url.Action("GetParents")/' + tmpId } });
-                },
-                //Add more action to ondblClickRow
-                ondblClickRow: function (rowId) {
-                    var tmpId = $(gridSelector).getRowData(rowId)['Id'];
-                    $(gridSelector).setColProp('ParentName', { editoptions: { dataUrl: '@Url.Action("GetParents")/' + tmpId } });
+                    return true;
                 },
                 //Default Value
                 altRows: true,

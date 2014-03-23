@@ -39,14 +39,52 @@ function hideLoading() {
     $("#spinner-preview").hide();
 }
 
-function ShowErrorMessage(message) {
-    
+//Show message by reponse data
+function ShowMessage(response, center) {
+    if (response.Success) {
+        ShowSuccessMessage(response.Message, center);
+    }
+    else {
+        ShowErrorMessage(response.Message, center);
+    }
 }
 
-function ShowSuccessMessage(message) {
-
+//Show success message
+function ShowSuccessMessage(message, center) {
+    var centerClass = "";
+    if (center == null || center)
+        centerClass = "gritter-center ";
+        
+    $.gritter.add({
+        time: 2000,
+        title: 'Message',
+        text: message,
+        class_name: centerClass + 'gritter-info'
+    });
 }
 
-function ShowWarningMessage(message) {
+//Show error message
+function ShowErrorMessage(message, center) {
+    var centerClass = "";
+    if (center == null || center)
+        centerClass = "gritter-center ";
+    $.gritter.add({
+        time: 2000,
+        title: 'Error',
+        text: message,
+        class_name: centerClass + 'gritter-error'
+    });
+}
 
+//Show warning message
+function ShowWarningMessage(message, center) {
+    var centerClass = "";
+    if (center == null || center)
+        centerClass = "gritter-center ";
+    $.gritter.add({
+        time: 2000,
+        title: 'Warning',
+        text: message,
+        class_name: centerClass + 'gritter-warning'
+    });
 }
