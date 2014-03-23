@@ -4,7 +4,6 @@ using PX.Core.Framework.Mvc.Attributes;
 
 namespace PX.EntityModel
 {
-
     [MetadataType(typeof(MenuMetaData))]
     [Table(Name = "Menus")]
     public partial class Menu

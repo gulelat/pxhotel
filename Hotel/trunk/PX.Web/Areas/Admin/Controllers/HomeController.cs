@@ -1,21 +1,18 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
 using PX.Business.Mvc.Attributes;
-using PX.Business.Services.Localizes;
+using PX.Business.Mvc.Controllers;
 using PX.Business.Services.Menus;
-using PX.Core.Framework.Enums;
 
 namespace PX.Web.Areas.Admin.Controllers
 {
     [PxAuthorize]
-    public class HomeController : Controller
+    public class HomeController : PxController
     {
         private readonly IMenuServices _menuServices;
-        private readonly ILocalizedResourceServices _localizedResourceServices;
-        public HomeController(IMenuServices menuServices, ILocalizedResourceServices localizedResourceServices)
+        public HomeController(IMenuServices menuServices)
         {
             _menuServices = menuServices;
-            _localizedResourceServices = localizedResourceServices;
         }
 
         //

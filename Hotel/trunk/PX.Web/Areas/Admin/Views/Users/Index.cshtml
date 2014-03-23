@@ -1,4 +1,5 @@
-﻿@{
+﻿@using PX.Core.Framework.Enums
+@{
     ViewBag.Header = "User";
     ViewBag.Title = "User Management";
     ViewBag.Description = "User Management Page";
@@ -53,13 +54,9 @@
                 colNames: ['', 'Id', 'Email', 'Password', 'FirstName', 'LastName', 'User Group', 'Status', 'Identity Number', 'Phone', 'Active', 'LastLogin', 'Created', 'CreatedBy', 'Updated', 'UpdatedBy'],
                 colModel: [
                     {
-                        name: 'preview',
-                        width: 50,
-                        sortable: false,
-                        search: false,
-                        align: "center",
+                        name: 'preview', width: 50, sortable: false, search: false, align: "center",
                         formatter: function (cellvalue, options, rowObject) {
-                            return "<a href='@Url.Action("Edit")/" + options.rowId + "'><div class='ui-pg-div ui-inline-edit' onmouseout='jQuery(this).removeClass('ui-state-hover')' onmouseover='jQuery(this).addClass('ui-state-hover');' title='' data-original-title='Edit selected row'><span class='ui-icon ui-icon-pencil'></span></div></a>";
+                            return "<a href='@Url.Action("Profiles")/" + options.rowId + "'><div class='ui-pg-div ui-inline-edit' title='' data-original-title='Show User Information'><span class='icon-eye-open'></span></div></a>";
                         }
                     },
                     { name: 'Id', index: 'Id', width: 60, key: true, sorttype: "int" },
@@ -74,15 +71,27 @@
                         editable: true,
                         edittype: "select",
                         editoptions: {
-                            dataUrl: '@Url.Action("GetRoles")',
+                            dataUrl: '@Url.Action("GetUserGroups")',
                             buildSelect: function (response) {
                                 return buildDropdown(response, false);
                             }
                         },
                         editrules: { required: true }
                     }, {
-                        name: 'StatusId',
-                        index: 'StatusId',
+                        name: 'Status',
+                        index: 'Status',
+                        formatter: function (cellvalue, options, rowObject) {
+                            switch (cellvalue) {
+                                case @((int)UserEnums.UserStatusEnums.Active):
+                                    return "Active";
+                                case @((int)UserEnums.UserStatusEnums.Inactive):
+                                    return "Inactive";
+                                case @((int)UserEnums.UserStatusEnums.Locked):
+                                    return "Locked";
+                                default:
+                                    return cellvalue;
+                            }
+                        },
                         width: 150,
                         editable: true,
                         edittype: "select",

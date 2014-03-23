@@ -1,30 +1,36 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
+using PX.Business.Mvc.Enums;
+using PX.Business.Mvc.Environments;
+using PX.Business.Services.Localizes;
 using PX.Business.Services.Users;
-using PX.Core.Framework.Enums;
-using PX.Core.Framework.Mvc.Environment;
-using PX.EntityModel;
-using PX.EntityModel.Resources;
 
 namespace PX.Business.Mvc.Attributes
 {
     public class PxAuthorizeAttribute : AuthorizeAttribute
     {
+        /// <summary>
+        /// Permission array
+        /// </summary>
         public PermissionEnums[] Permissions { get; set; }
 
+        /// <summary>
+        /// On authorizing
+        /// </summary>
+        /// <param name="authorizationContext">the authorize context</param>
         public override void OnAuthorization(AuthorizationContext authorizationContext)
         {
+            var localizedResourceServices = HostContainer.GetInstance<ILocalizedResourceServices>();
             base.OnAuthorization(authorizationContext);
 
             var urlHelper = new UrlHelper(authorizationContext.RequestContext);
 
             if (authorizationContext.Result is HttpUnauthorizedResult)
             {
-                authorizationContext.Controller.TempData["ErrorMessage"] = SystemResources.UnauthorizedAccessMessage;
+                authorizationContext.Controller.TempData["ErrorMessage"] = localizedResourceServices.T("AdminModule:::GroupPermissions:::You don't have permission to access this featured. Please log in");
                 //If its an unauthorized/timed out ajax request go to top window and redirect to logon.
                 if (authorizationContext.HttpContext.Request.IsAjaxRequest())
                 {
@@ -44,6 +50,11 @@ namespace PX.Business.Mvc.Attributes
             }
         }
 
+        /// <summary>
+        /// Authorize
+        /// </summary>
+        /// <param name="httpContext">the current context</param>
+        /// <returns></returns>
         protected override bool AuthorizeCore(HttpContextBase httpContext)
         {
             if (httpContext == null)
@@ -55,23 +66,20 @@ namespace PX.Business.Mvc.Attributes
                 return false;
             }
 
-            var currentUser = User.CurrentUser;
-            if (currentUser == null)
+            var userServices = HostContainer.GetInstance<IUserServices>();
+            var currentUser = userServices.GetUser(httpContext.User.Identity.Name);
+            if(currentUser == null)
             {
-                var userServices = DependencyFactory.GetInstance<IUserServices>();
-                currentUser = userServices.GetUser(httpContext.User.Identity.Name);
-                if (currentUser != null)
-                {
-                    currentUser.LastLogin = DateTime.Now;
-                    userServices.Update(currentUser);
-                    User.CurrentUser = currentUser;
-                }
-                else
-                {
-                    FormsAuthentication.SignOut();
-                    return false;
-                }
+                FormsAuthentication.SignOut();
+                return false;
             }
+            if (WorkContext.WorkContext.CurrentUser == null)
+            {
+                currentUser.LastLogin = DateTime.Now;
+                userServices.Update(currentUser);
+                WorkContext.WorkContext.CurrentUser = currentUser;
+            }
+
             if (Permissions == null || !Permissions.Any())
             {
                 return true;

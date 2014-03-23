@@ -10,6 +10,13 @@
     <link rel="stylesheet" href="/Content/BackEnd/css/jquery.gritter.css" />
     <link rel="stylesheet" href="/Content/BackEnd/css/select2.css" />
     <link rel="stylesheet" href="/Content/BackEnd/css/bootstrap-editable.css" />
+    <style type="text/css">
+        #map-canvas
+        {
+            width: 100%;
+            height: 300px;
+        }
+    </style>
 }
 
 <div class="page-header">
@@ -42,7 +49,7 @@
                         <div class="col-xs-12 col-sm-3 center">
                             <div>
                                 <span class="profile-picture">
-                                    <img id="avatar" class="editable img-responsive" alt="Alex's Avatar" src="@PX.EntityModel.User.CurrentUser.AvatarPath" />
+                                    <img id="avatar" class="editable img-responsive" alt="Alex's Avatar" src="@CurrentUser.AvatarPath" />
                                 </span>
                                 <div class="space-4"></div>
 
@@ -58,7 +65,6 @@
 
                             <div class="hr hr16 dotted"></div>
                         </div>
-
                         <div class="col-xs-12 col-sm-9">
 
                             <div class="profile-user-info profile-user-info-striped">
@@ -67,6 +73,20 @@
 
                                     <div class="profile-info-value">
                                         <span>@CurrentUser.Email</span>
+                                    </div>
+                                </div>
+                                <div class="profile-info-row">
+                                    <div class="profile-info-name">First Name </div>
+
+                                    <div class="profile-info-value">
+                                        <span class="editable editable-text" data-name="FirstName" oldValue="@CurrentUser.FirstName">@CurrentUser.FirstName</span>
+                                    </div>
+                                </div>
+                                <div class="profile-info-row">
+                                    <div class="profile-info-name">Last Name </div>
+
+                                    <div class="profile-info-value">
+                                        <span class="editable editable-text" data-name="LastName">@CurrentUser.LastName</span>
                                     </div>
                                 </div>
 
@@ -111,12 +131,15 @@
                                 </div>
 
                                 <div class="profile-info-row">
-                                    <div class="profile-info-name">Location </div>
+                                    <div class="profile-info-name">Address </div>
 
                                     <div class="profile-info-value">
-                                        <i class="icon-map-marker light-orange bigger-110"></i>
-                                        <span class="editable" id="country">Netherlands</span>
-                                        <span class="editable" id="city">Amsterdam</span>
+                                        <input id="address-input" class="controls" type="text" placeholder="Enter a location" value="@CurrentUser.Address" />
+                                        <div id="address-buttons" class="controls" style="">
+                                            <input id="save-address-btn" class="btn btn-xs btn-info" type="button" value="Save" />
+                                            <input class="btn btn-xs btn-white" type="button" value="Clear" />
+                                        </div>
+                                        <div id="map-canvas"></div>
                                     </div>
                                 </div>
 
@@ -146,25 +169,35 @@
 
     <script src="/Scripts/BackEnd/jquery-ui-1.10.3.custom.min.js"></script>
     <script src="/Scripts/BackEnd/jquery.ui.touch-punch.min.js"></script>
-    <script src="/Scripts/BackEnd/jquery.gritter.min.js"></script>
-    <script src="/Scripts/BackEnd/bootbox.min.js"></script>
-    <script src="/Scripts/BackEnd/jquery.slimscroll.min.js"></script>
     <script src="/Scripts/BackEnd/bootstrap-wysiwyg.min.js"></script>
-    <script src="/Scripts/BackEnd/select2.min.js"></script>
     <script src="/Scripts/BackEnd/date-time/bootstrap-datepicker.min.js"></script>
-    <script src="/Scripts/BackEnd/fuelux/fuelux.spinner.min.js"></script>
     <script src="/Scripts/BackEnd/x-editable/bootstrap-editable.min.js"></script>
     <script src="/Scripts/BackEnd/x-editable/ace-editable.min.js"></script>
     <script src="/Scripts/BackEnd/jquery.maskedinput.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places"></script>
+    <script src="/Scripts/Shared/googleMapApi.js"></script>
     <script type="text/javascript">
+        
         jQuery(function ($) {
+            $("#save-address-btn").click(function() {
+                var url = '@Url.Action("UpdateUserData", new { Pk = CurrentUser.Id })';
+                var data = { Name : 'Address', Value: $("#address-input").val()};
+                $.ajax({
+                    type: 'POST',
+                    url: url,     
+                    data: data,
+                    success: function (response) {
+                        ShowMessage(response);
+                    }
+                });
+            });
 
             //editables on first profile page
             $.fn.editable.defaults.mode = 'inline';
             $.fn.editableform.loading = "<div class='editableform-loading'><i class='light-blue icon-2x icon-spinner icon-spin'></i></div>";
             $.fn.editableform.buttons = '<button type="submit" class="btn btn-info editable-submit"><i class="icon-ok icon-white"></i></button>' +
                 '<button type="button" class="btn editable-cancel"><i class="icon-remove"></i></button>';
-
+            
             //editables 
             $('.editable-text').editable({
                 type: 'text',
@@ -174,7 +207,8 @@
                     type: 'post',
                     dataType: 'json'
                 },
-                success: function(response) {
+                success: function (response) {
+                    ShowMessage(response);
                     if(!response.Success)
                         return response.Message;
                 }
@@ -189,10 +223,10 @@
                     type: 'post',
                     dataType: 'json'
                 },
-                success: function (response, newValue) {
-                    if(!response.Success) {
+                success: function (response) {
+                    ShowMessage(response);
+                    if(!response.Success)
                         return response.Message;
-                    }
                 }
             });
             
@@ -210,38 +244,23 @@
                     type: 'post',
                     dataType: 'json'
                 },
-                success: function (response, newValue) {
-                    if(!response.Success) {
+                success: function (response) {
+                    ShowMessage(response);
+                    if(!response.Success)
                         return response.Message;
-                    }
                 }
             });
-
-            ////var $range = document.createElement("INPUT");
-            ////$range.type = 'range';
-            //$('#login').editable({
-            //    type: 'slider',//$range.type == 'range' ? 'range' : 'slider',
-            //    name: 'login',
-            //    slider: {
-            //        min: 1, max: 50, width: 100
-            //    },
-            //    success: function (response, newValue) {
-            //        if (parseInt(newValue) == 1)
-            //            $(this).html(newValue + " hour ago");
-            //        else $(this).html(newValue + " hours ago");
-            //    }
-            //});
-
-
-
+            
             // *** editable avatar *** //
             try {//ie8 throws some harmless exception, so let's catch it
 
                 //it seems that editable plugin calls appendChild, and as Image doesn't have it, it causes errors on IE at unpredicted points
                 //so let's have a fake appendChild for it!
-                if (/msie\s*(8|7|6)/.test(navigator.userAgent.toLowerCase())) Image.prototype.appendChild = function (el) { }
+                if (/msie\s*(8|7|6)/.test(navigator.userAgent.toLowerCase()))
+                    Image.prototype.appendChild = function() {
+                    };
 
-                var last_gritter;
+                var lastGritter;
                 $('#avatar').editable({
                     type: 'image',
                     name: 'avatar',
@@ -261,17 +280,17 @@
                         name: 'avatar',//put the field name here as well, will be used inside the custom plugin
                         max_size: @(SValue<int>("MaxSizeUploaded")),
                         on_error: function(code) { //on_error function will be called when the selected file has a problem
-                            if (last_gritter) $.gritter.remove(last_gritter);
+                            if (lastGritter) $.gritter.remove(lastGritter);
                             if (code == 1) { //file format error
-                                last_gritter = $.gritter.add({
+                                lastGritter = $.gritter.add({
                                     title: 'File is not an image!',
                                     text: 'Please choose a jpg|gif|png image!',
                                     class_name: 'gritter-error gritter-center'
                                 });
                             } else if (code == 2) { //file size rror
-                                last_gritter = $.gritter.add({
+                                lastGritter = $.gritter.add({
                                     title: 'File too big!',
-                                    text: 'Image size should not exceed 100Kb!',
+                                    text: 'Image size should not exceed' +  @(SValue<int>("MaxSizeUploaded") / (1024 * 1024)) + ' MB!',
                                     class_name: 'gritter-error gritter-center'
                                 });
                             } else { //other error
@@ -282,13 +301,6 @@
                         }
                     },
                     url: function(params) {
-                        // ***UPDATE AVATAR HERE*** //
-                        //You can replace the contents of this function with examples/profile-avatar-update.js for actual upload
-
-                        //This is similar to the file-upload.html example
-                        //Replace the code inside profile page where it says ***UPDATE AVATAR HERE*** with the code below
-
-
                         //please modify submit_url accordingly
                         var submitUrl = '@Url.Action("UploadAvatar")';
                         var deferred;
@@ -299,26 +311,26 @@
                         //so we return just here to prevent problems
                         var value = $('#avatar').next().find('input[type=hidden]:eq(0)').val();
                         if (!value || value.length == 0) {
-                            deferred = new $.Deferred
+                            deferred = new $.Deferred;
                             deferred.resolve();
                             return deferred.promise();
                         }
 
-                        var $form = $('#avatar').next().find('.editableform:eq(0)')
-                        var file_input = $form.find('input[type=file]:eq(0)');
+                        var $form = $('#avatar').next().find('.editableform:eq(0)');
+                        var fileInput = $form.find('input[type=file]:eq(0)');
 
                         //user iframe for older browsers that don't support file upload via FormData & Ajax
                         if (!("FormData" in window)) {
-                            deferred = new $.Deferred
+                            deferred = new $.Deferred;
 
-                            var iframe_id = 'temporary-iframe-' + (new Date()).getTime() + '-' + (parseInt(Math.random() * 1000));
-                            $form.after('<iframe id="' + iframe_id + '" name="' + iframe_id + '" frameborder="0" width="0" height="0" src="about:blank" style="position:absolute;z-index:-1;"></iframe>');
-                            $form.append('<input type="hidden" name="temporary-iframe-id" value="' + iframe_id + '" />');
+                            var iframeId = 'temporary-iframe-' + (new Date()).getTime() + '-' + (parseInt(Math.random() * 1000));
+                            $form.after('<iframe id="' + iframeId + '" name="' + iframeId + '" frameborder="0" width="0" height="0" src="about:blank" style="position:absolute;z-index:-1;"></iframe>');
+                            $form.append('<input type="hidden" name="temporary-iframe-id" value="' + iframeId + '" />');
                             $form.next().data('deferrer', deferred); //save the deferred object to the iframe
                             $form.attr({
                                 'method': 'POST',
                                 'enctype': 'multipart/form-data',
-                                'target': iframe_id,
+                                'target': iframeId,
                                 'action': submitUrl
                             });
 
@@ -326,7 +338,7 @@
 
                             //if we don't receive the response after 60 seconds, declare it as failed!
                             setTimeout(function() {
-                                var iframe = document.getElementById(iframe_id);
+                                var iframe = document.getElementById(iframeId);
                                 if (iframe != null) {
                                     iframe.src = "about:blank";
                                     $(iframe).remove();
@@ -335,10 +347,10 @@
                                 }
                             }, 60000);
                         } else {
-                            var fd = null;
+                            var fd;
                             try {
                                 fd = new FormData($form.get(0));
-                            } catch(e) {
+                            } catch(ex) {
                                 //IE10 throws "SCRIPT5: Access is denied" exception,
                                 //so we need to add the key/value pairs one by one
                                 fd = new FormData();
@@ -352,10 +364,10 @@
                             }
 
                             //if file has been drag&dropped , append it to FormData
-                            if (file_input.data('ace_input_method') == 'drop') {
-                                var files = file_input.data('ace_input_files');
+                            if (fileInput.data('ace_input_method') == 'drop') {
+                                var files = fileInput.data('ace_input_files');
                                 if (files && files.length > 0) {
-                                    fd.append(file_input.attr('name'), files[0]);
+                                    fd.append(fileInput.attr('name'), files[0]);
                                 }
                             }
 
@@ -371,20 +383,17 @@
                                     return req;
                                 },
                                 beforeSend: function() {
-                                    //bar.css('width', '0%').parent().attr('data-percent', '0%');
                                 },
                                 success: function() {
-                                    //bar.css('width', '100%').parent().attr('data-percent', '100%');
                                 }
                             });
                         }
 
-
                         deferred.done(function(response) {
                             if (response.Success) {
                                 $('#avatar').get(0).src = response.Data;
-                            } else alert(response.Message);
-                        }).fail(function(res) {
+                            }
+                        }).fail(function(response) {
                             alert("Failure");
                         });
 
@@ -393,6 +402,7 @@
                     },
 
                     success: function(response, newValue) {
+                        ShowMessage(response);
                     }
                 });
                 } catch (e) { }

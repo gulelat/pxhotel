@@ -2,15 +2,18 @@
 using Newtonsoft.Json;
 using PX.Business.Models.Languages;
 using PX.Business.Mvc.Attributes;
+using PX.Business.Mvc.Controllers;
+using PX.Business.Mvc.Enums;
 using PX.Business.Services.Languages;
 using PX.Core.Framework.Enums;
 using PX.Core.Framework.Mvc.Attributes;
+using PX.Core.Framework.Mvc.Models;
 using PX.Core.Framework.Mvc.Models.JqGrid;
 
 namespace PX.Web.Areas.Admin.Controllers
 {
     [PxAuthorize(Permissions = new[] { PermissionEnums.ManageContent })]
-    public class LanguagesController : Controller
+    public class LanguagesController : PxController
     {
         private readonly ILanguageServices _languageServices;
         public LanguagesController(ILanguageServices languageServices)
@@ -33,7 +36,16 @@ namespace PX.Web.Areas.Admin.Controllers
         [HandleJsonException]
         public JsonResult Manage(LanguageModel model, GridManagingModel manageModel)
         {
-            return Json(_languageServices.ManageLanguage(manageModel.Operation, model));
+            if (ModelState.IsValid || manageModel.Operation == GridOperationEnums.Del)
+            {
+                return Json(_languageServices.ManageLanguage(manageModel.Operation, model));
+            }
+
+            return Json(new ResponseModel
+            {
+                Success = false,
+                Message = GetFirstValidationResults(ModelState).Message
+            });
         }
     }
 }

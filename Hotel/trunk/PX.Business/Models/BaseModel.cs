@@ -4,6 +4,14 @@ namespace PX.Business.Models
 {
     public class BaseModel
     {
+        public BaseModel()
+        {
+            RecordActive = true;
+            RecordOrder = 0;
+        }
+
+        #region Public Properties
+
         public int RecordOrder { get; set; }
 
         public bool RecordActive { get; set; }
@@ -21,5 +29,7 @@ namespace PX.Business.Models
             get { return RecordActive ? "Yes" : "No"; }
             set { RecordActive = value.Equals("Yes"); }
         }
+
+        #endregion
     }
 }

@@ -1,16 +1,22 @@
 ﻿using System.Reflection;
 using System.Web;
+using System.Web.Hosting;
 using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using PX.Business.Mvc.Environments;
+using PX.Business.Mvc.ViewEngines.Razor;
+using PX.Business.Services.CurlyBrackets;
+using PX.Business.Services.CurlyBrackets.CurlyBracketResolver;
 using PX.Business.Services.Languages;
 using PX.Business.Services.Localizes;
 using PX.Business.Services.Menus;
+using PX.Business.Services.PageTemplates;
+using PX.Business.Services.Pages;
 using PX.Business.Services.Settings;
 using PX.Business.Services.UserGroups;
 using PX.Business.Services.Users;
-using PX.Core.Framework.Mvc.Environment;
 using SimpleInjector;
 using SimpleInjector.Integration.Web.Mvc;
 
@@ -36,6 +42,9 @@ namespace PX.Web
 
             //Initialize some part of core
             InitializeProcess();
+
+            //ViewEngines.Engines.Add(new ViewEngine());
+            HostingEnvironment.RegisterVirtualPathProvider(new MyVirtualPathProvider());
         }
 
         #region Initialize Process
@@ -43,27 +52,36 @@ namespace PX.Web
         public void InitializeProcess()
         {
             //Load localize resources
-            LocalizeResourcesInitialize();
+            LocalizedResourcesInitialize();
 
             //Initialize menu permissions
             MenuPermissionsInitialize();
         }
 
-        public void LocalizeResourcesInitialize()
+        /// <summary>
+        /// Initialize localized resources
+        /// </summary>
+        public void LocalizedResourcesInitialize()
         {
-            var localizeServices = DependencyFactory.GetInstance<ILocalizedResourceServices>();
+            var localizeServices = HostContainer.GetInstance<ILocalizedResourceServices>();
             localizeServices.RefreshDictionary();
         }
 
+        /// <summary>
+        /// Initialize menu permissions
+        /// </summary>
         public void MenuPermissionsInitialize()
         {
-            var menuServices = DependencyFactory.GetInstance<IMenuServices>();
+            var menuServices = HostContainer.GetInstance<IMenuServices>();
             menuServices.InitializeMenuPermissions();
         }
         
         #endregion
 
         #region Simple Injector Initialize
+        /// <summary>
+        /// Simple injector initialize
+        /// </summary>
         public static void SimpleInjectorInitialize()
         {
             // Did you know the container can diagnose your configuration? Go to: https://bit.ly/YE8OJj.
@@ -73,23 +91,31 @@ namespace PX.Web
 
             container.RegisterMvcControllers(Assembly.GetExecutingAssembly());
 
+            // Set the service locator here
+            HostContainer.SetContainer(container);
+
             container.Verify();
 
             DependencyResolver.SetResolver(new SimpleInjectorDependencyResolver(container));
 
-            // Set the service locator here
-            DependencyFactory.SetContainer(container);
 
         }
 
+        /// <summary>
+        /// Initialize all required interface
+        /// </summary>
+        /// <param name="container"></param>
         private static void SimpleInjectorInitializeContainer(Container container)
         {
             container.Register<ILocalizedResourceServices, LocalizedResourceServices>(Lifestyle.Singleton);
-            container.Register<ILanguageServices, LanguageServices>(Lifestyle.Singleton);
             container.Register<IMenuServices, MenuServices>(Lifestyle.Singleton);
             container.Register<IUserServices, UserServices>(Lifestyle.Singleton);
+            container.Register<ILanguageServices, LanguageServices>(Lifestyle.Singleton);
             container.Register<ISettingServices, SettingServices>(Lifestyle.Singleton);
             container.Register<IUserGroupServices, UserGroupServices>(Lifestyle.Singleton);
+            container.Register<IPageServices, PageServices>(Lifestyle.Singleton);
+            container.Register<IPageTemplateServices, PageTemplateServices>(Lifestyle.Singleton);
+            container.Register<ICurlyBracketServices, CurlyBracketServices>(Lifestyle.Singleton);
         }
 
         #endregion

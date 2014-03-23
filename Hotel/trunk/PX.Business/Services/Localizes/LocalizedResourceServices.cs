@@ -5,7 +5,8 @@ using System.Threading;
 using System.Web;
 using AutoMapper;
 using PX.Business.Models.LocalizedResources;
-using PX.Business.Models.Localizes;
+using PX.Business.Mvc.Environments;
+using PX.Business.Mvc.WorkContext;
 using PX.Core.Framework.Enums;
 using PX.Core.Framework.Mvc.Helpers;
 using PX.Core.Framework.Mvc.Models;
@@ -17,6 +18,7 @@ namespace PX.Business.Services.Localizes
 {
     public class LocalizedResourceServices : ILocalizedResourceServices
     {
+        private const string LocalizedSerperator = ":::";
         private const string LocalizedResourceDictionary = "LocalizedResourceDictionary";
 
         #region Base
@@ -60,7 +62,7 @@ namespace PX.Business.Services.Localizes
             {
                 Id = u.Id,
                 TextKey = u.TextKey,
-                Language = u.LanguageId,
+                LanguageId = u.LanguageId,
                 DefaultValue = u.DefaultValue,
                 TranslatedValue = u.TranslatedValue,
                 RecordActive = u.RecordActive,
@@ -82,6 +84,7 @@ namespace PX.Business.Services.Localizes
         /// <returns></returns>
         public ResponseModel ManageLocalizedResource(GridOperationEnums operation, LocalizedResourceModel model)
         {
+            ResponseModel response;
             Mapper.CreateMap<LocalizedResourceModel, LocalizedResource>();
             LocalizedResource localizedResource;
             switch (operation)
@@ -90,41 +93,76 @@ namespace PX.Business.Services.Localizes
                     localizedResource = GetById(model.Id);
                     localizedResource.TranslatedValue = model.TranslatedValue;
                     localizedResource.RecordActive = model.RecordActive;
-                    return Update(localizedResource);
+
+                    response = Update(localizedResource);
+                    return response.SetMessage(response.Success ?
+                        T("AdminModule:::LocalizedResources:::Update localized resource successfully")
+                        : T("AdminModule:::LocalizedResources:::Update localized resource failure"));
+
                 case GridOperationEnums.Add:
                     localizedResource = Mapper.Map<LocalizedResourceModel, LocalizedResource>(model);
-                    return Insert(localizedResource);
+                    localizedResource.DefaultValue = model.TranslatedValue;
+                    response = Insert(localizedResource);
+                    return response.SetMessage(response.Success ?
+                        T("AdminModule:::LocalizedResources:::Insert localized resource successfully")
+                        : T("AdminModule:::LocalizedResources:::Insert localized resource failure"));
+
                 case GridOperationEnums.Del:
-                    return Delete(model.Id);
+                    response = Delete(model.Id);
+                    return response.SetMessage(response.Success ?
+                        T("AdminModule:::LocalizedResources:::Delete localized resource successfully")
+                        : T("AdminModule:::LocalizedResources:::Delete localized resource failure"));
             }
             return new ResponseModel
             {
                 Success = false,
-                Message = "Object not founded"
+                Message = T("AdminModule:::LocalizedResources:::Localized resource not founded")
             };
         }
 
         #region Get localize resources
 
+        /// <summary>
+        /// Get text by key
+        /// </summary>
+        /// <param name="textKey"></param>
+        /// <returns></returns>
         public string T(string textKey)
         {
             return GetLocalizedResource(textKey, textKey);
         }
 
+        /// <summary>
+        /// Get text by key
+        /// </summary>
+        /// <param name="textKey"></param>
+        /// <param name="defaultValue"></param>
+        /// <returns></returns>
+        public string T(string textKey, string defaultValue)
+        {
+            return GetLocalizedResource(textKey, defaultValue);
+        }
+
         public string GetLocalizedResource(string textKey, string defaultValue = null, params object[] parameters)
         {
             if (string.IsNullOrEmpty(textKey))
-                throw new ArgumentNullException("textKey", "textKey cannot be null");
-            var langKey = Thread.CurrentThread.CurrentCulture.Name;
+                throw new ArgumentNullException("textKey", "text key cannot be null");
+            var langKey = WorkContext.CurrentCuture;
             var key = DictionaryHelper.BuildKey(langKey, textKey);
             var dictionary = HttpContext.Current.Application[LocalizedResourceDictionary] as List<LocalizeDictionaryItem>;
-            if (dictionary == null || !dictionary.Any(l => l.Key.Equals(key)))
+            if (dictionary == null || !dictionary.Any(l => l.Key.Equals(key) && l.Language.Equals(langKey)))
             {
                 return GetDefaultValue(langKey, textKey, defaultValue, parameters);
             }
             var localizeResource = dictionary.FirstOrDefault(d => d.Key.Equals(key));
             if (localizeResource != null)
+            {
+                if (parameters != null && parameters.Any())
+                {
+                    return string.Format(localizeResource.Value, parameters);
+                }
                 return localizeResource.Value;
+            }
 
             return string.Empty;
         }
@@ -143,29 +181,40 @@ namespace PX.Business.Services.Localizes
 
             if (localizeResource != null)
             {
-                return localizeResource.TranslatedValue;
+                return string.Format(localizeResource.TranslatedValue, parameters);
             }
 
-            UpdateDictionaryToDb(textKey, defaultValue);
-
-            return defaultValue;
+            return UpdateDictionaryToDb(textKey, defaultValue, parameters);
         }
 
-        private void UpdateDictionaryToDb(string textKey, string defaultValue = null)
+        /// <summary>
+        /// Update new value to database
+        /// </summary>
+        /// <param name="textKey"></param>
+        /// <param name="defaultValue"></param>
+        /// <param name="parameters"> </param>
+        private string UpdateDictionaryToDb(string textKey, string defaultValue = "", params object[] parameters)
         {
-            var languages = LanguageRepository.GetAll().Select(l => l.Id).ToList();
+            var values = defaultValue.Split(new[] { LocalizedSerperator }, StringSplitOptions.RemoveEmptyEntries).Last();
+            var existedResourceIds = GetAll().Where(l => l.TextKey.Equals(textKey)).Select(l => l.LanguageId);
+            var languages = LanguageRepository.Fetch(l => !existedResourceIds.Contains(l.Id)).Select(l => l.Id).ToList();
             foreach (var language in languages)
             {
                 var localizeResource = new LocalizedResource
                 {
                     TextKey = textKey,
-                    DefaultValue = defaultValue,
-                    TranslatedValue = defaultValue,
+                    DefaultValue = values,
+                    TranslatedValue = values,
                     LanguageId = language
                 };
                 Insert(localizeResource);
             }
             RefreshDictionary();
+            if (parameters != null && parameters.Any())
+            {
+                return string.Format(values, parameters);
+            }
+            return values;
         }
 
         /// <summary>
@@ -177,14 +226,15 @@ namespace PX.Business.Services.Localizes
             {
                 TextKey = l.TextKey,
                 DefaultValue = l.DefaultValue,
-                Language = l.LanguageId,
+                LanguageId = l.LanguageId,
                 TranslatedValue = l.TranslatedValue
             }).ToList();
             HttpContext.Current.Application[LocalizedResourceDictionary] =
                 data.Select(
                     l => new LocalizeDictionaryItem
                     {
-                        Key = DictionaryHelper.BuildKey(l.Language, l.TextKey),
+                        Language = l.LanguageId,
+                        Key = DictionaryHelper.BuildKey(l.LanguageId, l.TextKey),
                         Value = l.TranslatedValue
                     }).ToList();
         }

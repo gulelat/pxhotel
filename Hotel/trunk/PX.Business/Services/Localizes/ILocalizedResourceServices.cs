@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using PX.Business.Models.Localizes;
+using PX.Business.Models.LocalizedResources;
 using PX.Core.Framework.Enums;
 using PX.Core.Framework.Mvc.Models;
 using PX.Core.Framework.Mvc.Models.JqGrid;
@@ -39,5 +39,7 @@ namespace PX.Business.Services.Localizes
         void RefreshDictionary();
 
         string T(string textKey);
+
+        string T(string textKey, string defaultValue);
     }
 }

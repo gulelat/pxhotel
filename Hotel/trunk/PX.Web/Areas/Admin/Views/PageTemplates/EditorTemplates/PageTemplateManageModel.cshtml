@@ -1,0 +1,51 @@
+﻿@using PX.Core.Framework.Enums
+@model PX.Business.Models.PageTemplates.PageTemplateManageModel
+
+<div class="form-group">
+    @MText(Tags.Label, "AdminModule:::PageTemplates:::Forms:::Name", "Name", new { @class = "col-sm-2 control-label no-padding-right", @for = "Name" })
+    <div class="col-sm-10">
+        @Html.TextBoxFor(m => m.Name, new { @class = "col-xs-10 col-sm-6", placeholder = T("AdminModule:::PageTemplates:::Form:::Name Placeholder", "Please input template name") })
+        @Html.ValidationMessageFor(m => m.Name)
+    </div>
+</div>
+<div class="space-4"></div>
+<div class="form-group">
+    @MText(Tags.Label, "AdminModule:::PageTemplates:::Forms:::Content", "Content", new { @class = "col-sm-2 control-label no-padding-right", @for = "Content" })
+    <div class="col-sm-10">
+        <div class="btn-group">
+            <button class="btn btn-xs dropdown-toggle" data-toggle="dropdown">
+                @MText(Tags.Text, "AdminModule:::PageTemplates:::Forms:::AddCurlyBracket", "Add curly bracket")
+                <span class="caret"></span>
+            </button>
+            <ul id="curlyBracketList" class="dropdown-menu">
+            </ul>
+        </div>
+        @Html.TextAreaFor(m => m.Content, new { @class = "col-xs-10 col-sm-9", id = "template-content" })
+        @Html.ValidationMessageFor(m => m.Content)
+    </div>
+</div>
+<div class="space-4"></div>
+<div class="form-group">
+    @MText(Tags.Label, "AdminModule:::PageTemplates:::Forms:::Parent Template Dropdown", "Parent", new { @class = "col-sm-2 control-label no-padding-right", @for = "ParentId" })
+    <div class="col-sm-10">
+        @Html.DropDownListFor(m => m.ParentId, Model.Parents, new { @class = "form-control col-xs-10 col-sm-6" })
+        @Html.ValidationMessageFor(m => m.ParentId)
+    </div>
+</div>
+<div class="space-4"></div>
+<div class="clearfix form-actions">
+    <div class="col-md-offset-3 col-md-9">
+        <button class="btn btn-primary" type="submit" value="@SubmitTypeEnums.Save">
+            <i class="icon-ok bigger-110"></i>
+            Save
+        </button>
+        <button class="btn btn-info" type="submit" value="@SubmitTypeEnums.SaveAndContinueEdit" name="Submit">
+            <i class="icon-ok bigger-110"></i>
+            Save and Continue Edit
+        </button>
+        <button class="btn" onclick="location.href= window.location.href;" type="reset">
+            <i class="icon-undo bigger-110"></i>
+            Reset
+        </button>
+    </div>
+</div>

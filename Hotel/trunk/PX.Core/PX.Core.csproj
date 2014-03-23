@@ -62,9 +62,9 @@
     <Compile Include="Configurations\Constants\DefaultConstants.cs" />
     <Compile Include="Configurations\Constants\SettingKeyConstants.cs" />
     <Compile Include="Framework\Enums\GridEnums.cs" />
-    <Compile Include="Framework\Enums\PermissionEnums.cs" />
+    <Compile Include="Framework\Enums\PageEnums.cs" />
     <Compile Include="Framework\Enums\ResponseStatusEnums.cs" />
-    <Compile Include="Framework\Enums\StatusEnums.cs" />
+    <Compile Include="Framework\Enums\SubmitEnums.cs" />
     <Compile Include="Framework\Enums\UserEnums.cs" />
     <Compile Include="Framework\Mvc\Attributes\TableAttribute.cs" />
     <Compile Include="Framework\Mvc\Attributes\HandleJsonExceptionAttribute.cs" />
@@ -80,7 +80,7 @@
     <Compile Include="Framework\Mvc\Models\JqGrid\JqGrid.cs" />
     <Compile Include="Framework\Mvc\Models\JqGrid\WhereClauseGenerator.cs" />
     <Compile Include="Framework\Mvc\Models\ResponseModel.cs" />
-    <Compile Include="Framework\Mvc\Environment\DependencyFactory.cs" />
+    <Compile Include="Framework\Mvc\Models\ValidationResultModel.cs" />
     <Compile Include="Logging\ILogger.cs" />
     <Compile Include="Logging\Logger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

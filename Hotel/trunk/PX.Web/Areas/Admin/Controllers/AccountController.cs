@@ -4,14 +4,16 @@ using System.Web.Security;
 using PX.Business.Models.Users;
 using PX.Business.Models.Users.Logins;
 using PX.Business.Mvc.Attributes;
+using PX.Business.Mvc.Controllers;
+using PX.Business.Mvc.WorkContext;
 using PX.Business.Services.Users;
+using PX.Core.Configurations.Constants;
 using PX.Core.Framework.Mvc.Models;
 using PX.Core.Framework.Mvc.Models.Editable;
-using PX.EntityModel;
 
 namespace PX.Web.Areas.Admin.Controllers
 {
-    public class AccountController : Controller
+    public class AccountController : PxController
     {
         private readonly IUserServices _userServices;
         public AccountController(IUserServices userServices)
@@ -42,7 +44,22 @@ namespace PX.Web.Areas.Admin.Controllers
         [HttpPost]
         public JsonResult LoginForm(LoginModel model)
         {
-            return Json(_userServices.Login(model));
+            if (ModelState.IsValid)
+            {
+                var response = _userServices.Login(model);
+                if(response.Success)
+                {
+                    TempData[DefaultConstants.SuccessMessage] =
+                        LocalizedResourceServices.T("AdminModule:::Users:::Login successfully1");
+                }
+                return Json(response);
+            }
+
+            return Json(new ResponseModel
+            {
+                Success = false,
+                Message = GetFirstValidationResults(ModelState).Message
+            });
         }
         #endregion
 
@@ -51,13 +68,23 @@ namespace PX.Web.Areas.Admin.Controllers
         [ChildActionOnly]
         public ActionResult ForgotPasswordForm()
         {
-            return PartialView("Login/_ForgotPassword");
+            var model = new ForgotPasswordModel();
+            return PartialView("Login/_ForgotPassword", model);
         }
 
         [HttpPost]
-        public JsonResult ForgotPasswordForm(User model)
+        public JsonResult ForgotPasswordForm(ForgotPasswordModel model)
         {
-            return Json("");
+            if (ModelState.IsValid)
+            {
+                return Json("");
+            }
+
+            return Json(new ResponseModel
+            {
+                Success = false,
+                Message = GetFirstValidationResults(ModelState).Message
+            });
         }
 
         #endregion
@@ -66,13 +93,23 @@ namespace PX.Web.Areas.Admin.Controllers
         [ChildActionOnly]
         public ActionResult RegisterForm()
         {
-            return PartialView("Login/_Register");
+            var model = new RegisterModel();
+            return PartialView("Login/_Register", model);
         }
 
         [HttpPost]
-        public JsonResult RegisterForm(User model)
+        public JsonResult RegisterForm(RegisterModel model)
         {
+            if (ModelState.IsValid)
+            {
             return Json("");
+            }
+
+            return Json(new ResponseModel
+            {
+                Success = false,
+                Message = GetFirstValidationResults(ModelState).Message
+            });
         }
 
         #endregion
@@ -91,15 +128,14 @@ namespace PX.Web.Areas.Admin.Controllers
         [PxAuthorize]
         public ActionResult MyProfile()
         {
-            var model = _userServices.GetById(EntityModel.User.CurrentUser.Id);
+            var model = _userServices.GetUser(HttpContext.User.Identity.Name);
             return View(model);
         }
 
         [HttpPost]
         public JsonResult UploadAvatar(HttpPostedFileBase avatar)
         {
-            var response = _userServices.UploadAvatar(EntityModel.User.CurrentUser.Id, avatar);
-            return Json(response);
+            return Json(_userServices.UploadAvatar(WorkContext.CurrentUser.Id, avatar));
         }
         #endregion
 
@@ -114,8 +150,16 @@ namespace PX.Web.Areas.Admin.Controllers
         [HttpPost]
         public JsonResult UpdateUserData(XEditableModel model)
         {
-            var response = _userServices.UpdateUserData(model);
-            return Json(response);
+            if (ModelState.IsValid)
+            {
+                return Json(_userServices.UpdateUserData(model));
+            }
+
+            return Json(new ResponseModel
+            {
+                Success = false,
+                Message = GetFirstValidationResults(ModelState).Message
+            });
         }
 
         [ChildActionOnly]
@@ -123,7 +167,7 @@ namespace PX.Web.Areas.Admin.Controllers
         {
             var model = new ChangePasswordModel
                 {
-                    UserId = EntityModel.User.CurrentUser.Id
+                    UserId = WorkContext.CurrentUser.Id
                 };
             return PartialView("_ChangePassword", model);
         }
@@ -131,10 +175,16 @@ namespace PX.Web.Areas.Admin.Controllers
         [HttpPost]
         public JsonResult ChangePassword(ChangePasswordModel model)
         {
+            if (ModelState.IsValid)
+            {
+                return Json(_userServices.ChangePassword(model));
+            }
+
             return Json(new ResponseModel
-                {
-                    Success = true
-                });
+            {
+                Success = false,
+                Message = GetFirstValidationResults(ModelState).Message
+            });
         }
     }
 }

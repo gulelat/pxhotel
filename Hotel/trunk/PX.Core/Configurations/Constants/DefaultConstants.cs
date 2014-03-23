@@ -4,6 +4,8 @@ namespace PX.Core.Configurations.Constants
 {
     public class DefaultConstants
     {
+        public const string CurlyBracketRenderBody = "{RenderBody}";
+
         public const string DefaultAdmin = "administrator";
 
         public const string NoAvatar = "noavatar.png";
@@ -17,9 +19,10 @@ namespace PX.Core.Configurations.Constants
         public const string TempFolder = "~/Images/temp/";
         public const string UploadFolder = "~/Images/upload/";
 
-        public const string CdlgCurrentController = "CDLGCurrentController";
-        public const string TempErrorMessage = "ErrorMessage";
-        public const string TempStatusMessage = "StatusMessage";
+        public const string PxHotelCurrentController = "PxHotelCurrentController";
+        public const string ErrorMessage = "ErrorMessage";
+        public const string SuccessMessage = "SuccessMessage";
+        public const string WarningMessage = "WarningMessage";
 
         public const int ThumbnailWidth = 370;
 

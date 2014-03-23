@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using PX.Business.Models.Settings;
+using PX.Business.Models.Settings.SettingTypes;
 using PX.Core.Framework.Enums;
 using PX.Core.Framework.Mvc.Models;
 using PX.Core.Framework.Mvc.Models.JqGrid;
@@ -27,5 +28,7 @@ namespace PX.Business.Services.Settings
         T GetSetting<T>(string key);
 
         T GetSetting<T>(string key, T defaultValue);
+
+        object LoadSetting<T>(object[] parameterArray = null);
     }
 }

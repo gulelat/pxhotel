@@ -80,6 +80,21 @@ namespace PX.Core.Ultilities
             }
         }
 
+        public static int? ToNullableInt(this object value)
+        {
+            if (value == null || value == DBNull.Value)
+                return null;
+
+            try
+            {
+                return Convert.ToInt32(value);
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
         public static long ToLong(this object value, long defaultValue)
         {
             if (value == null || value == DBNull.Value)

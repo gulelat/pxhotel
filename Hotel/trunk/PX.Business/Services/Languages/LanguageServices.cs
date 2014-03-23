@@ -1,6 +1,8 @@
 ﻿using System.Linq;
 using AutoMapper;
 using PX.Business.Models.Languages;
+using PX.Business.Mvc.Environments;
+using PX.Business.Services.Localizes;
 using PX.Core.Framework.Enums;
 using PX.Core.Framework.Mvc.Models;
 using PX.Core.Framework.Mvc.Models.JqGrid;
@@ -11,6 +13,12 @@ namespace PX.Business.Services.Languages
 {
     public class LanguageServices : ILanguageServices
     {
+        private readonly ILocalizedResourceServices _localizedResourceServices;
+        public LanguageServices()
+        {
+            _localizedResourceServices = HostContainer.GetInstance<ILocalizedResourceServices>();
+        }
+
         #region Base
         public IQueryable<Language> GetAll()
         {
@@ -27,14 +35,6 @@ namespace PX.Business.Services.Languages
         public ResponseModel Update(Language language)
         {
             return LanguageRepository.Update(language);
-        }
-        public ResponseModel HierarchyUpdate(Language language)
-        {
-            return LanguageRepository.HierarchyUpdate(language);
-        }
-        public ResponseModel HierarchyInsert(Language language)
-        {
-            return LanguageRepository.HierarchyInsert(language);
         }
         public ResponseModel Delete(Language language)
         {
@@ -80,6 +80,7 @@ namespace PX.Business.Services.Languages
         /// <returns></returns>
         public ResponseModel ManageLanguage(GridOperationEnums operation, LanguageModel model)
         {
+            ResponseModel response;
             Mapper.CreateMap<LanguageModel, Language>();
             Language language;
             switch (operation)
@@ -90,17 +91,28 @@ namespace PX.Business.Services.Languages
                     language.ShortName = model.ShortName;
                     language.RecordActive = model.RecordActive;
                     language.RecordOrder = model.RecordOrder;
-                    return Update(language);
+                    response = Update(language);
+                    return response.SetMessage(response.Success ?
+                        _localizedResourceServices.T("AdminModule:::Languages:::Update language successfully")
+                        : _localizedResourceServices.T("AdminModule:::Languages:::Update language failure"));
+
                 case GridOperationEnums.Add:
                     language = Mapper.Map<LanguageModel, Language>(model);
-                    return Insert(language);
+                    response = Insert(language);
+                    return response.SetMessage(response.Success ?
+                        _localizedResourceServices.T("AdminModule:::Languages:::Create language successfully")
+                        : _localizedResourceServices.T("AdminModule:::Languages:::Create language failure"));
+
                 case GridOperationEnums.Del:
-                    return Delete(model.Id);
+                    response = Delete(model.Id);
+                    return response.SetMessage(response.Success ?
+                        _localizedResourceServices.T("AdminModule:::Languages:::Delete language successfully")
+                        : _localizedResourceServices.T("AdminModule:::Languages:::Delete language failure"));
             }
             return new ResponseModel
             {
                 Success = false,
-                Message = "Object not founded"
+                Message = _localizedResourceServices.T("AdminModule:::Languages:::Object not founded")
             };
         }
 

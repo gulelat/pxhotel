@@ -2,24 +2,26 @@
 var gridSelector = gridSelector || "";
 var lastSel = lastSel || 0;
 var pagerSelector = pagerSelector || "";
+var editFormPlusData = editFormPlusData || {};
 $(function () {
     //Register default ondblClickRow
+    //This is used for inline editing success post event
     $(gridSelector).jqGrid('setGridParam', {
         ondblClickRow: function (rowId) {
+            //Only 1 row edit at a time
             if (rowId && rowId !== lastSel) {
                 jQuery(gridSelector).restoreRow(lastSel);
                 lastSel = rowId;
             }
+            //Double click will open inline editing 
             jQuery(gridSelector).jqGrid("editRow", rowId, {
                 keys: true,
+                extraparam: editFormPlusData,
+                //Success event catching
                 successfunc: function (response) {
                     var res = jQuery.parseJSON(response.responseText);
-                    if (res.Success) {
-                        return true;
-                    } else {
-                        alert(res.Message);
-                        return false;
-                    }
+                    ShowMessage(res);
+                    return res.Success;
                 }
             });
         }
@@ -44,18 +46,23 @@ $(function () {
             //edit record form
             closeAfterEdit: true,
             recreateForm: true,
+            viewPagerButtons: false,
             beforeShowForm: function (e) {
                 var form = $(e[0]);
                 form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />');
                 styleEditForm(form);
             },
+            onclickSubmit: function (params, postData) {
+                postData = $.extend({}, postData, editFormPlusData);
+                return postData;
+            },
             afterSubmit: function (response) {
                 var res = jQuery.parseJSON(response.responseText);
                 if (res.Success) {
-                    return [true, '', res.Message];
+                    return [true, res.Message];
                 }
                 else {
-                    return [false, '', res.Message];
+                    return [false, res.Message];
                 }
             }
         },
@@ -64,18 +71,30 @@ $(function () {
             closeAfterAdd: true,
             recreateForm: true,
             viewPagerButtons: false,
+            beforeInitData: function () {
+                jQuery(gridSelector).restoreRow(lastSel);
+                $(gridSelector).resetSelection();
+                if ($.isFunction(window["initCreateData"])) {
+                    window["initCreateData"]();
+                }
+            },
             beforeShowForm: function (e) {
                 var form = $(e[0]);
                 form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />');
                 styleEditForm(form);
             },
+            onclickSubmit: function (params, postData) {
+                postData = $.extend({}, postData, editFormPlusData);
+                postData = $.extend({}, postData, { id: 0 });
+                return postData;
+            },
             afterSubmit: function (response) {
                 var res = jQuery.parseJSON(response.responseText);
                 if (res.Success) {
-                    return [true, '', res.Message];
+                    return [true, res.Message];
                 }
                 else {
-                    return [false, '', res.Message];
+                    return [false, res.Message];
                 }
             }
         },
@@ -90,6 +109,10 @@ $(function () {
                 styleDeleteForm(form);
 
                 form.data('styled', true);
+            },
+            onclickSubmit: function (params, postData) {
+                postData = $.extend({}, postData, editFormPlusData);
+                return postData;
             },
             afterSubmit: function (response) {
                 var res = jQuery.parseJSON(response.responseText);

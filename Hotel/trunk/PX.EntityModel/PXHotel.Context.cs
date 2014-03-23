@@ -35,13 +35,14 @@ namespace PX.EntityModel
         public DbSet<NewsCategory> NewsCategories { get; set; }
         public DbSet<NewsNewsCategory> NewsNewsCategories { get; set; }
         public DbSet<Page> Pages { get; set; }
+        public DbSet<PageTemplate> PageTemplates { get; set; }
         public DbSet<Resource> Resources { get; set; }
         public DbSet<Room> Rooms { get; set; }
         public DbSet<RoomType> RoomTypes { get; set; }
         public DbSet<SettingType> SettingTypes { get; set; }
         public DbSet<SiteSetting> SiteSettings { get; set; }
-        public DbSet<Status> Status { get; set; }
         public DbSet<UserGroup> UserGroups { get; set; }
+        public DbSet<UserInfo> UserInfoes { get; set; }
         public DbSet<User> Users { get; set; }
     }
 }

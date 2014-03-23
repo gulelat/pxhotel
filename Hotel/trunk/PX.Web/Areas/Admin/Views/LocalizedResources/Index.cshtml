@@ -36,6 +36,7 @@
     <script type="text/javascript">
         var gridSelector = "#grid-table";
         var pagerSelector = "#grid-pager";
+        var editFormPlusData = { LanguageId : '@Model.Id' };
         $(function () {
             $(gridSelector).jqGrid({
                 datatype: "json",
@@ -46,13 +47,12 @@
                 ondblClickRow: function (rowId) {
                     jQuery(gridSelector).editRow(rowId, true);
                 },
-                colNames: ['Id', 'Language', 'Localized Resource' , 'Text Key', 'Value', 'Created', 'CreatedBy', 'Updated', 'UpdatedBy'],
+                colNames: ['Id', 'Language', 'Text Key', 'Value', 'Created', 'CreatedBy', 'Updated', 'UpdatedBy'],
                 colModel: [
                     { name: 'Id', index: 'Id', width: 100, key: true },
-                    { name: 'Language', index: 'Language', width: 150, editable: false },
-                    { name: 'TextKey', index: 'TextKey', width: 150, editable: false },
-                    { name: 'TranslatedValue', index: 'TranslatedValue', width: 250, editable: true },
-                    { name: 'Active', index: 'Active', width: 100, editable: true, edittype: "checkbox", align: "center", editoptions: { value: "Yes:No", defaultValue: 'Yes' }, unformat: aceSwitch },
+                    { name: 'LanguageId', index: 'LanguageId', width: 150, editable: false },
+                    { name: 'TextKey', index: 'TextKey', width: 150, editable: true },
+                    { name: 'TranslatedValue', index: 'TranslatedValue', edittype: "textarea", width: 250, editable: true },
                     { name: 'Created', index: 'Created', formatter: "date", width: 100, editable: false, sorttype: "datetime", unformat: pickDate },
                     { name: 'CreatedBy', index: 'CreatedBy', width: 150, editable: false, editoptions: { size: "20", maxlength: "30" } },
                     { name: 'Updated', index: 'Updated', formatter: "date", width: 90, editable: false, sorttype: "datetime", unformat: pickDate },

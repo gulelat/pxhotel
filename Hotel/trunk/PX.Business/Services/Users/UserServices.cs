@@ -1,17 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
-using PX.Business.Models.UserGroups;
-using PX.Business.Models.UserModels;
 using PX.Business.Models.Users;
 using PX.Business.Models.Users.Logins;
+using PX.Business.Mvc.Enums;
+using PX.Business.Mvc.Environments;
+using PX.Business.Mvc.WorkContext;
 using PX.Business.Services.Localizes;
-using PX.Core.Configurations;
 using PX.Core.Framework.Enums;
 using PX.Core.Framework.Mvc.Models;
 using PX.Core.Framework.Mvc.Models.Editable;
@@ -22,7 +21,6 @@ using AutoMapper;
 using PX.EntityModel.Repositories;
 using PX.EntityModel.Repositories.RepositoryBase.Extensions;
 using Configurations = PX.Core.Configurations.Configurations;
-using UserGroup = PX.EntityModel.UserGroup;
 
 namespace PX.Business.Services.Users
 {
@@ -30,9 +28,9 @@ namespace PX.Business.Services.Users
     {
         private readonly ILocalizedResourceServices _localizedResourceServices;
 
-        public UserServices(ILocalizedResourceServices localizedResourceServices)
+        public UserServices()
         {
-            _localizedResourceServices = localizedResourceServices;
+            _localizedResourceServices = HostContainer.GetInstance<ILocalizedResourceServices>();
         }
 
         #region Base
@@ -95,7 +93,7 @@ namespace PX.Business.Services.Users
                 LastLogin = u.LastLogin,
                 Phone = u.Phone,
                 IdentityNumber = u.IdentityNumber,
-                StatusId = u.StatusId,
+                Status = u.Status,
                 UserGroupId = u.UserGroupId,
                 UserGroupName = u.UserGroup.Name,
                 RecordActive = u.RecordActive,
@@ -121,6 +119,7 @@ namespace PX.Business.Services.Users
         /// <returns></returns>
         public ResponseModel ManageUser(GridOperationEnums operation, UserModel model)
         {
+            ResponseModel response;
             Mapper.CreateMap<UserModel, User>();
             User user;
             switch (operation)
@@ -132,34 +131,49 @@ namespace PX.Business.Services.Users
                     user.Email = model.Email;
                     user.Password = model.Password;
                     user.Phone = model.Phone;
-
                     // Convert post data from jqGrid post
                     user.UserGroupId = int.Parse(model.UserGroupName);
-
-                    user.StatusId = model.StatusId;
+                    user.Status = model.Status;
                     user.IdentityNumber = model.IdentityNumber;
                     user.RecordActive = model.RecordActive;
                     user.RecordOrder = 0;
-                    return Update(user);
+                    response = Update(user);
+                    return response.SetMessage(response.Success ?
+                        _localizedResourceServices.T("AdminModule:::Users:::Update user successfully")
+                        : _localizedResourceServices.T("AdminModule:::Users:::Update user failure"));
+
                 case GridOperationEnums.Add:
                     user = Mapper.Map<UserModel, User>(model);
                     // Convert post data from jqGrid post
                     user.UserGroupId = int.Parse(model.UserGroupName);
                     user.RecordOrder = 0;
-                    return Insert(user);
+                    response = Insert(user);
+                    return response.SetMessage(response.Success ?
+                        _localizedResourceServices.T("AdminModule:::Users:::Insert user successfully")
+                        : _localizedResourceServices.T("AdminModule:::Users:::Insert user failure"));
+
                 case GridOperationEnums.Del:
-                    return Delete(model.Id);
+                    response = Delete(model.Id);
+                    return response.SetMessage(response.Success ?
+                        _localizedResourceServices.T("AdminModule:::Users:::Delete user successfully")
+                        : _localizedResourceServices.T("AdminModule:::Users:::Delete user failure"));
             }
             return new ResponseModel
             {
                 Success = false,
-                Message = "Object not founded"
+                Message = _localizedResourceServices.T("AdminModule:::Users:::User not founded")
             };
         }
 
         #endregion
 
         #region Login/ Register / Forgot Password
+
+        /// <summary>
+        /// Login method
+        /// </summary>
+        /// <param name="model">the login model</param>
+        /// <returns></returns>
         public ResponseModel Login(LoginModel model)
         {
             var user = GetUser(model.Email);
@@ -185,7 +199,7 @@ namespace PX.Business.Services.Users
                     }
 
                     FormsAuthentication.SetAuthCookie(Convert.ToString(user.Email), true);
-                    User.CurrentUser = user;
+                    WorkContext.CurrentUser = user;
 
                     user.LastLogin = DateTime.Now;
                     Update(user);
@@ -193,7 +207,7 @@ namespace PX.Business.Services.Users
                     return new ResponseModel
                         {
                             Success = true,
-                            Message = "Login Success.",
+                            Message = _localizedResourceServices.T("AdminModule:::Users:::Login succesfully"),
                             Data = urlHelper.Action("LoginSuccess", "Account")
                         };
                 }
@@ -201,12 +215,19 @@ namespace PX.Business.Services.Users
             return new ResponseModel
                 {
                     Success = false,
-                    Message = "Invalid email or password. Please try again."
+                    Message = _localizedResourceServices.T("AdminModule:::Users:::Invalid email or password. Please try again.")
                 };
         }
+
         #endregion
 
         #region User Profile
+        /// <summary>
+        /// Upload user avatar
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="avatar"></param>
+        /// <returns></returns>
         public ResponseModel UploadAvatar(int userId, HttpPostedFileBase avatar)
         {
             var user = GetById(userId);
@@ -215,7 +236,7 @@ namespace PX.Business.Services.Users
                 return new ResponseModel
                     {
                         Success = false,
-                        Message = _localizedResourceServices.T("User not founded")
+                        Message = _localizedResourceServices.T("AdminModule:::Users:::User not founded")
                     };
             }
             var avatarUploadFolder = Configurations.AvatarFolder;
@@ -225,16 +246,29 @@ namespace PX.Business.Services.Users
             var returnPath = string.Format("{0}{1}", avatarUploadFolder, fileName);
             user.AvatarFileName = fileName;
             var response = Update(user);
+
+            //Refresh current user data
+            if (user.Id == WorkContext.CurrentUser.Id)
+            {
+                WorkContext.CurrentUser = user;
+            }
+
             if(response.Success)
             {
                 avatar.SaveAs(path);
-                response.Message = _localizedResourceServices.T("Upload Successfully.");
                 response.Data = returnPath;
             }
-            return response;
+            return response.SetMessage(response.Success ?
+                _localizedResourceServices.T("AdminModule:::Users:::Upload avatar successfully")
+                : _localizedResourceServices.T("AdminModule:::Users:::Upload avatar failure"));
         }
         #endregion
 
+        /// <summary>
+        /// Update user data
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         public ResponseModel UpdateUserData(XEditableModel model)
         {
             var user = GetById(model.Pk);
@@ -247,14 +281,39 @@ namespace PX.Business.Services.Users
                 }
                 user.SetProperty(model.Name, value);
                 var response = Update(user);
-                if (user.Id == User.CurrentUser.Id && response.Success)
-                    User.CurrentUser = user;
-                return response;
+                if (user.Id == WorkContext.CurrentUser.Id && response.Success)
+                    WorkContext.CurrentUser = user;
+                return response.SetMessage(response.Success ?
+                    _localizedResourceServices.T("AdminModule:::Users:::Update user data successfully")
+                    : _localizedResourceServices.T("AdminModule:::Users:::Update user data failure"));
             }
             return new ResponseModel
                 {
                     Success = false,
-                    Message = _localizedResourceServices.T("User not founded")
+                    Message = _localizedResourceServices.T("AdminModule:::Users:::User not founded")
+                };
+        }
+
+        /// <summary>
+        /// Change user password
+        /// </summary>
+        /// <param name="model">the change password model</param>
+        /// <returns></returns>
+        public ResponseModel ChangePassword(ChangePasswordModel model)
+        {
+            var user = GetById(model.UserId);
+            if(user != null)
+            {
+                user.Password = model.Password;
+                var response = Update(user);
+                return response.SetMessage(response.Success ?
+                    _localizedResourceServices.T("AdminModule:::Users:::Change password successfully")
+                    : _localizedResourceServices.T("AdminModule:::Users:::Change password failure"));
+            }
+            return new ResponseModel
+                {
+                    Success = false,
+                    Message = _localizedResourceServices.T("AdminModule:::Users:::User not founded")
                 };
         }
     }

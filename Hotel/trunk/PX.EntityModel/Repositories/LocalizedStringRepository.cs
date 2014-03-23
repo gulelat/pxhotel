@@ -6,6 +6,12 @@ namespace PX.EntityModel.Repositories
 {
     public class LocalizedResourceRepository : Repository<LocalizedResource>
     {
+        /// <summary>
+        /// Get localized resource by key and language
+        /// </summary>
+        /// <param name="languageKey">the language</param>
+        /// <param name="textKey">the text</param>
+        /// <returns></returns>
         public static LocalizedResource Get(string languageKey, string textKey)
         {
             return FetchFirst(l => l.TextKey.Equals(textKey) && l.LanguageId.Equals(languageKey));

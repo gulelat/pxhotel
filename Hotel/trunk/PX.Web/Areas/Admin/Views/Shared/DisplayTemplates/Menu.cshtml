@@ -1,12 +1,12 @@
-﻿@using PX.Business.Services.Menus
-@using PX.Core.Framework.Mvc.Environment
+﻿@using PX.Business.Mvc.Environments
+@using PX.Business.Services.Menus
 @model PX.EntityModel.Menu
 @{
     var hierarchy = (string)ViewBag.Hierarchy;
     var isSelected = hierarchy.Equals(Model.Hierarchy);
     var isOpen = hierarchy.Contains(Model.Hierarchy);
 
-    var menusServices = DependencyFactory.GetInstance<IMenuServices>();
+    var menusServices = HostContainer.GetInstance<IMenuServices>();
     var childMenus = menusServices.GetMenus(Model.Id);
 
     string cClass = string.Empty;

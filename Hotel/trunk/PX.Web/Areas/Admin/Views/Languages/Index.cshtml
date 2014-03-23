@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewBag.Header = "Languages";
     ViewBag.Title = "Language Management";
     ViewBag.Description = "Language Management Page";
@@ -59,7 +58,7 @@
                         search: false,
                         align: "center",
                         formatter: function (cellvalue, options, rowObject) {
-                            return "<a href='@Url.Action("Index", "LocalizedResources")?language=" + options.rowId + "'><div class='ui-pg-div ui-inline-edit' onmouseout='jQuery(this).removeClass('ui-state-hover')' onmouseover='jQuery(this).addClass('ui-state-hover');' title='' data-original-title='Edit Localization Resource'><span class='ui-icon ui-icon-pencil'></span></div></a>";
+                            return "<a href='@Url.Action("Index", "LocalizedResources")?language=" + options.rowId + "'><div class='ui-pg-div ui-inline-edit' title='' data-original-title='Edit Localization Resource'><span class='ui-icon ui-icon-pencil'></span></div></a>";
                         }
                     },
                 ],

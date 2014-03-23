@@ -35,6 +35,8 @@ namespace PX.Business.Services.Users
 
         ResponseModel Login(LoginModel model);
 
+        ResponseModel ChangePassword(ChangePasswordModel model);
+
         ResponseModel UploadAvatar(int userId, HttpPostedFileBase avatar);
 
         ResponseModel UpdateUserData(XEditableModel model);

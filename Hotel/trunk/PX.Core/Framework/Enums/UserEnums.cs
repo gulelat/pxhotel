@@ -2,19 +2,11 @@
 {
     public class UserEnums
     {
-        public enum UserTypesEnums
-        {
-            Admin = 1,
-            Moderator = 2,
-            Customer = 3
-        }
-
-
         public enum UserStatusEnums
         {
-            Active = StatusEnums.UserActive,
-            Inactive = StatusEnums.UserInactive,
-            Locked = StatusEnums.UserLocked
+            Active = 1,
+            Inactive = 2,
+            Locked = 3
         }
     }
 }

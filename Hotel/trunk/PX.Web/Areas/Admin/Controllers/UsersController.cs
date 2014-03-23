@@ -2,16 +2,19 @@
 using Newtonsoft.Json;
 using PX.Business.Models.Users;
 using PX.Business.Mvc.Attributes;
+using PX.Business.Mvc.Controllers;
+using PX.Business.Mvc.Enums;
 using PX.Business.Services.UserGroups;
 using PX.Business.Services.Users;
 using PX.Core.Framework.Enums;
 using PX.Core.Framework.Mvc.Attributes;
+using PX.Core.Framework.Mvc.Models;
 using PX.Core.Framework.Mvc.Models.JqGrid;
 
 namespace PX.Web.Areas.Admin.Controllers
 {
     [PxAuthorize(Permissions = new [] { PermissionEnums.ManageUser })]
-    public class UsersController : Controller
+    public class UsersController : PxController
     {
         private readonly IUserServices _userServices;
         private readonly IUserGroupServices _userGroupServices;
@@ -35,10 +38,11 @@ namespace PX.Web.Areas.Admin.Controllers
         }
 
         #region Ajax Methods
-        public JsonResult GetRoles()
+        public JsonResult GetUserGroups()
         {
-            return Json(_userGroupServices.GetRoles(), JsonRequestBehavior.AllowGet);
+            return Json(_userGroupServices.GetUserGroups(), JsonRequestBehavior.AllowGet);
         }
+
         public JsonResult GetStatus()
         {
             return Json(_userServices.GetStatus(), JsonRequestBehavior.AllowGet);
@@ -49,7 +53,16 @@ namespace PX.Web.Areas.Admin.Controllers
         [HandleJsonException]
         public JsonResult Manage(UserModel model, GridManagingModel manageModel)
         {
-            return Json(_userServices.ManageUser(manageModel.Operation, model));
+            if (ModelState.IsValid || manageModel.Operation == GridOperationEnums.Del)
+            {
+                return Json(_userServices.ManageUser(manageModel.Operation, model));                
+            }
+
+            return Json(new ResponseModel
+                {
+                    Success = false,
+                    Message = GetFirstValidationResults(ModelState).Message
+                });
         }
         #endregion
 

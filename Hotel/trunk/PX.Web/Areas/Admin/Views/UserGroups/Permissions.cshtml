@@ -49,13 +49,7 @@
 {
     <script type="text/javascript">
         function OnSuccess(response) {
-            if (response.Success) {
-                $.gritter.add({
-                    title: 'Message',
-                    text: 'Save Permission Successfully.',
-                    class_name: 'gritter-info gritter-center'
-                });
-            }
+            ShowMessage(response);
         }
     </script>
 }

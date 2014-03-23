@@ -53,7 +53,7 @@
                         search: false,
                         align: "center",
                         formatter: function (cellvalue, options, rowObject) {
-                            return "<a href='@Url.Action("Permissions")/" + options.rowId + "'><div class='ui-pg-div ui-inline-edit' onmouseout='jQuery(this).removeClass('ui-state-hover')' onmouseover='jQuery(this).addClass('ui-state-hover');' title='' data-original-title='Edit permissions'><span class='ui-icon icon-lock'></span></div></a>";
+                            return "<a href='@Url.Action("Permissions")/" + options.rowId + "'><div class='ui-pg-div ui-inline-edit' title='' data-original-title='Edit Permissions'><span class='ui-icon icon-lock'></span></div></a>";
                         }
                     },
                     { name: 'Id', index: 'Id', width: 60, key: true, sorttype: "int" },
