@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using PX.Core.Framework.Mvc.Models;
 using PX.EntityModel.Repositories.RepositoryBase.Extensions;
+using PX.EntityModel.Repositories.RepositoryBase.Models;
 
 namespace PX.EntityModel.Repositories.RepositoryBase
 {
@@ -72,6 +73,7 @@ namespace PX.EntityModel.Repositories.RepositoryBase
             try
             {
                 DataContext.SaveChanges();
+                response.Data = entity;
                 response.Success = true;
             }
             catch (DbEntityValidationException e)
@@ -91,6 +93,7 @@ namespace PX.EntityModel.Repositories.RepositoryBase
         {
             entity.SetProperty("Created", DateTime.Now);
             entity.SetProperty("CreatedBy", HttpContext.Current.User.Identity.Name);
+            entity.SetProperty("RecordActive", true);
 
             var response = new ResponseModel();
             try
@@ -98,6 +101,7 @@ namespace PX.EntityModel.Repositories.RepositoryBase
                 var dbSet = DataContext.Set<T>();
                 dbSet.Add(entity);
                 DataContext.SaveChanges();
+                response.Data = entity;
                 response.Success = true;
             }
             catch (DbEntityValidationException e)
@@ -204,10 +208,15 @@ namespace PX.EntityModel.Repositories.RepositoryBase
         private const char IdSeparator = '.';
         private const string ParentIdPropertyName = "ParentId";
         private const string HierarchyPropertyName = "Hierarchy";
-        private const string OrderPropertyName = "RecordOrder";
 
+        /// <summary>
+        /// Insert entity with hierarchy support
+        /// </summary>
+        /// <param name="entity">the input entity</param>
+        /// <returns></returns>
         public static ResponseModel HierarchyInsert(T entity)
         {
+            entity.SetProperty(HierarchyPropertyName, string.Empty);
             var response = Insert(entity);
             if (response.Success)
             {
@@ -229,6 +238,11 @@ namespace PX.EntityModel.Repositories.RepositoryBase
             return response;
         }
 
+        /// <summary>
+        /// Update entity with hierarchy support 
+        /// </summary>
+        /// <param name="entity">the input entity</param>
+        /// <returns></returns>
         public static ResponseModel HierarchyUpdate(T entity)
         {
             var entry = DataContext.Entry(entity);
@@ -240,7 +254,7 @@ namespace PX.EntityModel.Repositories.RepositoryBase
                 var parent = GetById(parentId);
 
                 var currentPrefix = entity.GetHierarchy();
-                var hierarchy = parent == null ? entity.GetAncestorValueForRoot() : entity.CalculateAncestorValue(parent);
+                var hierarchy = parent == null ? entity.GetHierarchyValueForRoot() : entity.CalculateHierarchyValue(parent);
 
                 var query = string.Format("UPDATE " + tableName +
                                           " SET {2} = '{1}' + RIGHT({2}, LEN({2}) - LEN('{0}')) " +
@@ -271,30 +285,37 @@ namespace PX.EntityModel.Repositories.RepositoryBase
             return GetAll().Where(string.Format("{0} LIKE '{1}%'", HierarchyPropertyName, prefix));
         }
 
-        public static List<SelectListItem> BuildSelectList(List<T> data, string levelPrefix, string textFieldName)
+        /// <summary>
+        /// Build select list from data
+        /// </summary>
+        /// <param name="data">the input data must be serializable</param>
+        /// <param name="levelPrefix">the prefix level</param>
+        /// <param name="needReorder"> </param>
+        /// <returns></returns>
+        public static List<SelectListItem> BuildSelectList(List<HierarchyModel> data, string levelPrefix, bool needReorder = true)
         {
-            //This will appear when call this 2 times in 1 action
-            //Todo: call 2nd time cache hierarchy from item.SetProperty
-            var dic = data.ToDictionary(i => i.GetId(), i => (int)i.GetPropertyValue(OrderPropertyName));
-            foreach (var item in data)
+            if(needReorder)
             {
-                var hierarchy = item.GetHierarchy();
-                var hierarchyIds = hierarchy.Substring(1, hierarchy.Length - 2).Split(IdSeparator).Select(int.Parse).ToList();
-                var order = string.Empty;
-                foreach (var id in hierarchyIds)
+                var dic = data.ToDictionary(i => i.GetId(), i => i.RecordOrder);
+                foreach (var item in data)
                 {
-                    order += string.Format("{0}{1}", IdSeparator, dic.FirstOrDefault(d => d.Key == id).Value.ToString(DefaultFormat));
+                    var hierarchy = item.Hierarchy;
+                    var hierarchyIds = hierarchy.Substring(1, hierarchy.Length - 2).Split(IdSeparator).Select(int.Parse).ToList();
+                    var order = string.Empty;
+                    foreach (var id in hierarchyIds)
+                    {
+                        order += string.Format("{0}{1}", IdSeparator, dic.FirstOrDefault(d => d.Key == id).Value.ToString(DefaultFormat));
+                    }
+                    item.Hierarchy = order;
                 }
-                item.SetProperty(HierarchyPropertyName, order);
+                data = data.AsQueryable().OrderBy(d => d.Hierarchy).ToList();
             }
-            data = data.AsQueryable().OrderBy(HierarchyPropertyName).ToList();
 
             var selectList = new List<SelectListItem>();
-            foreach (var menu in data)
+            foreach (var item in data)
             {
                 var prefix = string.Empty;
-                var hierarchy = menu.GetHierarchy();
-                var a = menu.GetId();
+                var hierarchy = item.Hierarchy;
                 var count = hierarchy.Count(c => c.Equals(IdSeparator));
                 for (var i = 0; i < count - 1; i++)
                 {
@@ -302,8 +323,8 @@ namespace PX.EntityModel.Repositories.RepositoryBase
                 }
                 selectList.Add(new SelectListItem
                 {
-                    Text = string.Format("{0}{1}", prefix, menu.GetPropertyValue(textFieldName)),
-                    Value = a.ToString(CultureInfo.InvariantCulture)
+                    Text = string.Format("{0}{1}", prefix, item.Name),
+                    Value = item.Id.ToString(DefaultFormat)
                 });
             }
             return selectList;

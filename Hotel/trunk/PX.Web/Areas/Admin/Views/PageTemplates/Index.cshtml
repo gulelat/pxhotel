@@ -17,6 +17,13 @@
     </h1>
 </div>
 <div class="row">
+    @ShowStatusMessage()
+    <div class="col-xs-12">
+        <a href="@Url.Action("Create", "PageTemplates")" class="btn btn-yellow btn-minier">
+            <i class="icon-plus align-top bigger-125"></i>
+            Create New Template
+        </a>
+    </div>
     <div class="col-xs-12">
         <!-- PAGE CONTENT BEGINS -->
 
@@ -63,10 +70,10 @@
                         },
                         editoptions: {
                             dataUrl: '@Url.Action("GetParents")',
-                        buildSelect: function (response) {
-                            return buildDropdown(response);
+                            buildSelect: function (response) {
+                                return buildDropdown(response);
+                            }
                         }
-                    }
                     },
                     { name: 'Created', index: 'Created', formatter: "date", width: 100, editable: false, sorttype: "datetime", unformat: pickDate },
                     { name: 'CreatedBy', index: 'CreatedBy', width: 150, editable: false, editoptions: { size: "20", maxlength: "30" } },
@@ -81,9 +88,9 @@
                 editurl: '@Url.Action("Manage")',
 
                 //Before select row change data Url base on page id
-                    beforeSelectRow: function (rowId) {
-                        var tmpId = $(gridSelector).getRowData(rowId)['Id'];
-                        $(gridSelector).setColProp('ParentName', { editoptions: { dataUrl: '@Url.Action("GetParents")/' + tmpId } });
+                beforeSelectRow: function (rowId) {
+                    var tmpId = $(gridSelector).getRowData(rowId)['Id'];
+                    $(gridSelector).setColProp('ParentName', { editoptions: { dataUrl: '@Url.Action("GetParents")/' + tmpId } });
                     return true;
                 },
                 //Default Value

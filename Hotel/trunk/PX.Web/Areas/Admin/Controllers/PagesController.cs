@@ -24,18 +24,19 @@ namespace PX.Web.Areas.Admin.Controllers
             _pageTemplateServices = pageTemplateServices;
         }
 
+        #region Listing Page
         public ActionResult Index()
         {
             return View();
         }
+
+        #region Ajax Methods
 
         [HttpGet]
         public string _AjaxBinding(JqSearchIn si)
         {
             return JsonConvert.SerializeObject(_pageServices.SearchPages(si));
         }
-
-        #region Ajax Methods
 
         public JsonResult GetPageTemplates(int? id)
         {
@@ -51,7 +52,6 @@ namespace PX.Web.Areas.Admin.Controllers
         {
             return Json(_pageServices.GetStatus(), JsonRequestBehavior.AllowGet);
         }
-        #endregion
 
         [HttpPost]
         [HandleJsonException]
@@ -67,6 +67,47 @@ namespace PX.Web.Areas.Admin.Controllers
                 Success = false,
                 Message = GetFirstValidationResults(ModelState).Message
             });
+        }
+        #endregion
+        
+        #endregion
+
+        #region Create
+
+        public ActionResult Create()
+        {
+            var model = _pageServices.GetPageManageModel();
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult Create(PageManageModel model, SubmitTypeEnums submit)
+        {
+            if (ModelState.IsValid)
+            {
+                var response = _pageServices.SavePageManageModel(model);
+                if (response.Success)
+                {
+                    var template = (PageManageModel)response.Data;
+                    SetSuccessMessage(response.Message);
+                    switch (submit)
+                    {
+                        case SubmitTypeEnums.Save:
+                            return RedirectToAction("Index");
+                        default:
+                            return RedirectToAction("Edit", new { id = template.Id });
+                    }
+                }
+                SetErrorMessage(response.Message);
+            }
+            model.Parents = _pageTemplateServices.GetPossibleParents();
+            return View(model);
+        }
+        #endregion
+
+        public ActionResult Edit(int id)
+        {
+            return View();
         }
     }
 }

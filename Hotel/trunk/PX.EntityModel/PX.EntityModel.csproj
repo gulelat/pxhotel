@@ -110,6 +110,7 @@
     <Compile Include="Repositories\LanguageRepository.cs" />
     <Compile Include="Repositories\LocalizedStringRepository.cs" />
     <Compile Include="Repositories\RepositoryBase\Extensions\ObjectExtensions.cs" />
+    <Compile Include="Repositories\RepositoryBase\Models\HierarchyModel.cs" />
     <Compile Include="Repositories\SiteSettingRepository.cs" />
     <Compile Include="Repositories\RepositoryBase\Extensions\EntityExtensions.cs" />
     <Compile Include="Repositories\RepositoryBase\Repository.cs" />

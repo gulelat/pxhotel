@@ -71,6 +71,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\CurlyBrackets\CurlyBracketModel.cs" />
+    <Compile Include="Models\Pages\PageManageModel.cs" />
+    <Compile Include="Mvc\Enums\PageEnums.cs" />
     <Compile Include="Services\CurlyBrackets\CurlyBracketResolver\ICurlyBracketResolver.cs" />
     <Compile Include="Models\Languages\LanguageModel.cs" />
     <Compile Include="Models\LocalizedResources\LocalizeDictionaryItem.cs" />

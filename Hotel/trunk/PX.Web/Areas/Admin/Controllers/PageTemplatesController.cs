@@ -9,6 +9,7 @@ using PX.Core.Framework.Enums;
 using PX.Core.Framework.Mvc.Attributes;
 using PX.Core.Framework.Mvc.Models;
 using PX.Core.Framework.Mvc.Models.JqGrid;
+using PX.EntityModel;
 
 namespace PX.Web.Areas.Admin.Controllers
 {
@@ -21,10 +22,13 @@ namespace PX.Web.Areas.Admin.Controllers
             _pageTemplateServices = pageTemplateServices;
         }
 
+        #region Listing Page
         public ActionResult Index()
         {
             return View();
         }
+
+        #region Ajax Methods
 
         [HttpGet]
         public string _AjaxBinding(JqSearchIn si)
@@ -32,12 +36,10 @@ namespace PX.Web.Areas.Admin.Controllers
             return JsonConvert.SerializeObject(_pageTemplateServices.SearchPageTemplates(si));
         }
 
-        #region Ajax Methods
         public JsonResult GetParents(int? id)
         {
             return Json(_pageTemplateServices.GetPossibleParents(id), JsonRequestBehavior.AllowGet);
         }
-        #endregion
 
         [HttpPost]
         [HandleJsonException]
@@ -54,10 +56,48 @@ namespace PX.Web.Areas.Admin.Controllers
                 Message = GetFirstValidationResults(ModelState).Message
             });
         }
+        #endregion
+        
+        #endregion
 
+        #region Create
+        public ActionResult Create()
+        {
+            var template = _pageTemplateServices.GetTemplateManageModel();
+            return View(template);
+        }
+
+        [HttpPost]
+        [ValidateInput(false)]
+        public ActionResult Create(PageTemplateManageModel model, SubmitTypeEnums submit)
+        {
+            if (ModelState.IsValid)
+            {
+                var response = _pageTemplateServices.SaveTemplates(model);
+                if (response.Success)
+                {
+                    var template = (PageTemplate)response.Data;
+                    SetSuccessMessage(response.Message);
+                    switch (submit)
+                    {
+                        case SubmitTypeEnums.Save:
+                            return RedirectToAction("Index");
+                        default:
+                            return RedirectToAction("Edit", new { id = template.Id });
+                    }
+                }
+                SetErrorMessage(response.Message);
+            }
+            model.Parents = _pageTemplateServices.GetPossibleParents();
+            return View(model);
+        }
+
+        #endregion
+
+        #region Edit
         public ActionResult Edit(int id)
         {
-            var template = _pageTemplateServices.GetTemplate(id);
+            var template = _pageTemplateServices.GetTemplateManageModel(id);
             if (!template.Id.HasValue)
             {
                 return RedirectToAction("Index");
@@ -66,6 +106,7 @@ namespace PX.Web.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [ValidateInput(false)]
         public ActionResult Edit(PageTemplateManageModel model, SubmitTypeEnums submit)
         {
             if (ModelState.IsValid)
@@ -77,7 +118,7 @@ namespace PX.Web.Areas.Admin.Controllers
                     switch (submit)
                     {
                         case SubmitTypeEnums.Save:
-                            return RedirectToAction("Edit", new { id = model.Id });
+                            return RedirectToAction("Index");
                         default:
                             return RedirectToAction("Edit", new { id = model.Id });
                     }
@@ -87,5 +128,7 @@ namespace PX.Web.Areas.Admin.Controllers
             model.Parents = _pageTemplateServices.GetPossibleParents(model.Id);
             return View(model);
         }
+
+        #endregion
     }
 }

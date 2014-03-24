@@ -9,6 +9,7 @@ using PX.Business.Mvc.Enums;
 using PX.Business.Mvc.Environments;
 using PX.Business.Mvc.WorkContext;
 using PX.Business.Services.Localizes;
+using PX.Core.Configurations.Constants;
 using PX.Core.Framework.Enums;
 using PX.Core.Framework.Mvc.Models;
 using PX.Core.Framework.Mvc.Models.JqGrid;
@@ -16,6 +17,8 @@ using PX.Core.Ultilities;
 using PX.EntityModel;
 using AutoMapper;
 using PX.EntityModel.Repositories;
+using PX.EntityModel.Repositories.RepositoryBase.Extensions;
+using PX.EntityModel.Repositories.RepositoryBase.Models;
 
 namespace PX.Business.Services.Menus
 {
@@ -130,10 +133,9 @@ namespace PX.Business.Services.Menus
                 case GridOperationEnums.Add:
                     menu = Mapper.Map<MenuModel, Menu>(model);
                     menu.ParentId = model.ParentName.ToNullableInt();
-                    menu.Hierarchy = string.Empty;
                     response = HierarchyInsert(menu);
                     UpdateMenuPermission(menu);
-                    return response.SetMessage(response.Success ? 
+                    return response.SetMessage(response.Success ?
                         _localizedResourceServices.T("AdminModule:::Menus:::Create menu successfully")
                         : _localizedResourceServices.T("AdminModule:::Menus:::Create menu failure"));
 
@@ -224,10 +226,17 @@ namespace PX.Business.Services.Menus
             var menus = GetAll();
             if (id.HasValue)
             {
-                var key = string.Format(".{0}.", id.Value.ToString("D5"));
+                var key = id.Value.GetHierarchyValueForRoot();
                 menus = menus.Where(m => !m.Hierarchy.Contains(key));
             }
-            return MenuRepository.BuildSelectList(menus.ToList(), "--", "Name");
+            var data = menus.Select(m => new HierarchyModel
+                {
+                    Id = m.Id,
+                    Name = m.Name,
+                    Hierarchy = m.Hierarchy,
+                    RecordOrder = m.RecordOrder
+                }).ToList();
+            return MenuRepository.BuildSelectList(data, DefaultConstants.HierarchyLevelPrefix);
         }
 
 

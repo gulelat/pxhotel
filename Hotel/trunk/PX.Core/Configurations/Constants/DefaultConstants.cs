@@ -4,6 +4,9 @@ namespace PX.Core.Configurations.Constants
 {
     public class DefaultConstants
     {
+        //Hierarchy
+        public const string HierarchyLevelPrefix = "---";
+
         public const string CurlyBracketRenderBody = "{RenderBody}";
 
         public const string DefaultAdmin = "administrator";

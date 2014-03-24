@@ -6,12 +6,15 @@ using AutoMapper;
 using PX.Business.Models.PageTemplates;
 using PX.Business.Mvc.Environments;
 using PX.Business.Services.Localizes;
+using PX.Core.Configurations.Constants;
 using PX.Core.Framework.Enums;
 using PX.Core.Framework.Mvc.Models;
 using PX.Core.Framework.Mvc.Models.JqGrid;
 using PX.Core.Ultilities;
 using PX.EntityModel;
 using PX.EntityModel.Repositories;
+using PX.EntityModel.Repositories.RepositoryBase.Extensions;
+using PX.EntityModel.Repositories.RepositoryBase.Models;
 
 namespace PX.Business.Services.PageTemplates
 {
@@ -85,6 +88,8 @@ namespace PX.Business.Services.PageTemplates
             return si.Search(pageTemplates);
         }
 
+        #region Manage Page Template
+
         /// <summary>
         /// Manage Site Setting
         /// </summary>
@@ -112,7 +117,6 @@ namespace PX.Business.Services.PageTemplates
                     pageTemplate = Mapper.Map<PageTemplateModel, PageTemplate>(model);
                     pageTemplate.ParentId = model.ParentName.ToNullableInt();
                     pageTemplate.Content = string.Empty;
-                    pageTemplate.Hierarchy = string.Empty;
                     response = HierarchyInsert(pageTemplate);
                     return response.SetMessage(response.Success ?
                         _localizedResourceServices.T("AdminModule:::PageTemplates:::Insert page template successfully")
@@ -132,6 +136,61 @@ namespace PX.Business.Services.PageTemplates
         }
 
         /// <summary>
+        /// Get page template manage model for edit/create
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public PageTemplateManageModel GetTemplateManageModel(int? id = null)
+        {
+            var template = GetById(id);
+            if (template != null)
+            {
+                return new PageTemplateManageModel
+                {
+                    Id = template.Id,
+                    Name = template.Name,
+                    Content = template.Content,
+                    ParentId = template.ParentId,
+                    Parents = GetPossibleParents(template.Id)
+                };
+            }
+            return new PageTemplateManageModel
+            {
+                Parents = GetPossibleParents()
+            };
+        }
+
+        /// <summary>
+        /// Save page template
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public ResponseModel SaveTemplates(PageTemplateManageModel model)
+        {
+            ResponseModel response;
+            var pageTemplate = GetById(model.Id);
+            if (pageTemplate != null)
+            {
+                pageTemplate.Name = model.Name;
+                pageTemplate.ParentId = model.ParentId;
+                pageTemplate.Content = model.Content;
+
+                response = HierarchyUpdate(pageTemplate);
+                return response.SetMessage(response.Success ?
+                    _localizedResourceServices.T("AdminModule:::PageTemplates:::Update page template successfully")
+                    : _localizedResourceServices.T("AdminModule:::PageTemplates:::Update page template failure"));
+            }
+            Mapper.CreateMap<PageTemplateManageModel, PageTemplate>();
+            pageTemplate = Mapper.Map<PageTemplateManageModel, PageTemplate>(model);
+            response = HierarchyInsert(pageTemplate);
+            return response.SetMessage(response.Success ?
+                _localizedResourceServices.T("AdminModule:::PageTemplates:::Create page template successfully")
+                : _localizedResourceServices.T("AdminModule:::PageTemplates:::Create page template failure"));
+        }
+        
+        #endregion
+
+        /// <summary>
         /// Get possible parent menu
         /// </summary>
         /// <param name="id">the current menu id</param>
@@ -141,10 +200,18 @@ namespace PX.Business.Services.PageTemplates
             var pageTemplates = GetAll();
             if (id.HasValue)
             {
-                var key = string.Format(".{0}.", id.Value.ToString("D5"));
+                var key = id.Value.GetHierarchyValueForRoot();
                 pageTemplates = pageTemplates.Where(m => !m.Hierarchy.Contains(key));
             }
-            return PageTemplateRepository.BuildSelectList(pageTemplates.ToList(), "--", "Name");
+
+            var data = pageTemplates.ToList().Select(p => new HierarchyModel
+            {
+                Id = p.Id,
+                Name = p.Name,
+                Hierarchy = p.Hierarchy,
+                RecordOrder = p.RecordOrder
+            }).OrderBy(p => p.Hierarchy).ToList();
+            return PageTemplateRepository.BuildSelectList(data, DefaultConstants.HierarchyLevelPrefix, false);
         }
 
         /// <summary>
@@ -161,67 +228,14 @@ namespace PX.Business.Services.PageTemplates
         /// Gets the user groups.
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<SelectListItem> GetPageTemplateSelectList()
+        public IEnumerable<SelectListItem> GetPageTemplateSelectList(int? id = null)
         {
             return GetAll().ToList().Select(r => new SelectListItem
             {
                 Text = r.Name,
-                Value = r.Id.ToString(CultureInfo.InvariantCulture)
+                Value = r.Id.ToString(CultureInfo.InvariantCulture),
+                Selected = r.Id == id
             });
-        }
-
-
-        /// <summary>
-        /// Get page template manage model for edit/create
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        public PageTemplateManageModel GetTemplate(int? id)
-        {
-            var template = GetById(id);
-            if(template != null)
-            {
-                return new PageTemplateManageModel
-                    {
-                        Id = template.Id,
-                        Name = template.Name,
-                        Content = template.Content,
-                        ParentId = template.ParentId,
-                        Parents = GetPossibleParents(template.Id)
-                    };
-            }
-            return new PageTemplateManageModel
-                {
-                    Parents = GetPossibleParents(null)
-                };
-        }
-
-        /// <summary>
-        /// Save page template
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
-        public ResponseModel SaveTemplates(PageTemplateManageModel model)
-        {
-            ResponseModel response;
-            var pageTemplate = GetById(model.Id);
-            if (pageTemplate != null)
-            {   
-                pageTemplate.Name = model.Name;
-                pageTemplate.ParentId = model.ParentId;
-                pageTemplate.Content = model.Content;
-
-                response = HierarchyUpdate(pageTemplate);
-                return response.SetMessage(response.Success ?
-                    _localizedResourceServices.T("AdminModule:::PageTemplates:::Update page template successfully")
-                    : _localizedResourceServices.T("AdminModule:::PageTemplates:::Update page template failure"));
-            }
-            Mapper.CreateMap<PageTemplateManageModel, PageTemplate>();
-            pageTemplate = Mapper.Map<PageTemplateManageModel, PageTemplate>(model);
-            response = HierarchyInsert(pageTemplate);
-            return response.SetMessage(response.Success ?
-                _localizedResourceServices.T("AdminModule:::PageTemplates:::Update page template successfully")
-                : _localizedResourceServices.T("AdminModule:::PageTemplates:::Update page template failure"));
         }
     }
 }
