@@ -28,12 +28,16 @@ namespace PX.Business.Services.Pages
 
         JqGridSearchOut SearchPages(JqSearchIn si);
 
-        IEnumerable<SelectListItem> GetPossibleParents(int? id);
+        IEnumerable<SelectListItem> GetPossibleParents(int? id = null);
 
         IEnumerable<SelectListItem> GetStatus();
 
         List<Page> GetPages(int? parentId = null);
 
         PageRenderModel RenderContent(string url);
+
+        PageManageModel GetPageManageModel(int? id = null);
+
+        ResponseModel SavePageManageModel(PageManageModel model);
     }
 }

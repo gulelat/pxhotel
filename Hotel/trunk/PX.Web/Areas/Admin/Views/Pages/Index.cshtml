@@ -1,4 +1,5 @@
-﻿@using PX.Core.Framework.Enums
+﻿@using PX.Business.Mvc.Enums
+@using PX.Core.Framework.Enums
 @{
     ViewBag.Header = "Page";
     ViewBag.Title = "Page Management";
@@ -18,6 +19,13 @@
     </h1>
 </div>
 <div class="row">
+    @ShowStatusMessage()
+    <div class="col-xs-12">
+        <a href="@Url.Action("Create", "Pages")" class="btn btn-yellow btn-minier">
+            <i class="icon-plus align-top bigger-125"></i>
+            Create New Page
+        </a>
+    </div>
     <div class="col-xs-12">
         <!-- PAGE CONTENT BEGINS -->
 

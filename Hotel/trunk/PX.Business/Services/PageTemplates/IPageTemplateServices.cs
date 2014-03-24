@@ -30,9 +30,9 @@ namespace PX.Business.Services.PageTemplates
 
         List<PageTemplate> GetPageTemplates(int? parentId = null);
 
-        IEnumerable<SelectListItem> GetPageTemplateSelectList();
+        IEnumerable<SelectListItem> GetPageTemplateSelectList(int? id = null);
 
-        PageTemplateManageModel GetTemplate(int? id);
+        PageTemplateManageModel GetTemplateManageModel(int? id = null);
 
         ResponseModel SaveTemplates(PageTemplateManageModel model);
     }

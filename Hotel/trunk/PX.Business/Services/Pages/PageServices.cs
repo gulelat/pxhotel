@@ -4,10 +4,11 @@ using System.Linq;
 using System.Web.Mvc;
 using AutoMapper;
 using PX.Business.Models.Pages;
+using PX.Business.Mvc.Enums;
 using PX.Business.Mvc.Environments;
 using PX.Business.Services.CurlyBrackets;
-using PX.Business.Services.CurlyBrackets.CurlyBracketResolver;
 using PX.Business.Services.Localizes;
+using PX.Business.Services.PageTemplates;
 using PX.Core.Configurations.Constants;
 using PX.Core.Framework.Enums;
 using PX.Core.Framework.Mvc.Models;
@@ -15,6 +16,8 @@ using PX.Core.Framework.Mvc.Models.JqGrid;
 using PX.Core.Ultilities;
 using PX.EntityModel;
 using PX.EntityModel.Repositories;
+using PX.EntityModel.Repositories.RepositoryBase.Extensions;
+using PX.EntityModel.Repositories.RepositoryBase.Models;
 using RazorEngine.Templating;
 
 namespace PX.Business.Services.Pages
@@ -23,10 +26,12 @@ namespace PX.Business.Services.Pages
     {
         private readonly ILocalizedResourceServices _localizedResourceServices;
         private readonly ICurlyBracketServices _curlyBracketServices;
+        private readonly IPageTemplateServices _pageTemplateServices;
         public PageServices()
         {
             _localizedResourceServices = HostContainer.GetInstance<ILocalizedResourceServices>();
             _curlyBracketServices = HostContainer.GetInstance<ICurlyBracketServices>();
+            _pageTemplateServices = HostContainer.GetInstance<IPageTemplateServices>();
         }
 
         #region Base
@@ -78,30 +83,7 @@ namespace PX.Business.Services.Pages
             return GetAll().FirstOrDefault(p => p.FriendlyUrl.Equals(friendlyUrl, StringComparison.InvariantCultureIgnoreCase));
         }
 
-        /// <summary>
-        /// search the Pages.
-        /// </summary>
-        /// <returns></returns>
-        public JqGridSearchOut SearchPages(JqSearchIn si)
-        {
-            var pages = GetAll().Select(u => new PageModel
-            {
-                Id = u.Id,
-                PageTemplateId = u.PageTemplateId,
-                Title = u.Title,
-                PageTemplateName = u.PageTemplate.Name,
-                FriendlyUrl = u.FriendlyUrl,
-                Status = u.Status,
-                RecordActive = u.RecordActive,
-                RecordOrder = u.RecordOrder,
-                Created = u.Created,
-                CreatedBy = u.CreatedBy,
-                Updated = u.Updated,
-                UpdatedBy = u.UpdatedBy
-            });
-
-            return si.Search(pages);
-        }
+        #region Manage Page
 
         /// <summary>
         /// Manage Site Setting
@@ -136,7 +118,6 @@ namespace PX.Business.Services.Pages
                     page = Mapper.Map<PageModel, Page>(model);
                     page.Content = string.Empty;
                     page.Caption = string.Empty;
-                    page.Hierarchy = string.Empty;
 
                     // Convert post data from jqGrid post
                     page.PageTemplateId = model.PageTemplateName.ToNullableInt();
@@ -161,19 +142,132 @@ namespace PX.Business.Services.Pages
         }
 
         /// <summary>
+        /// Get page manage model by id
+        /// </summary>
+        /// <param name="id">the page id</param>
+        /// <returns></returns>
+        public PageManageModel GetPageManageModel(int? id = null)
+        {
+            var page = GetById(id);
+            if (page != null)
+            {
+                return new PageManageModel
+                    {
+                        Id = page.Id,
+                        Content = page.Content,
+                        Title = page.Title,
+                        FriendlyUrl = page.FriendlyUrl,
+                        Caption = page.Caption,
+                        Status = page.Status,
+                        ParentId = page.ParentId,
+                        Parents = GetPossibleParents(page.Id),
+                        PageTemplateId = page.PageTemplateId,
+                        PageTemplates = _pageTemplateServices.GetPageTemplateSelectList(page.PageTemplateId),
+                        Positions = EnumUtilities.GetAllItemsFromEnum<PageEnums.PositionEnums>(),
+                        RecordOrder = page.RecordOrder,
+                        RecordActive = page.RecordActive
+                    };
+            }
+            return new PageManageModel
+            {
+                Parents = GetPossibleParents(),
+                PageTemplates = _pageTemplateServices.GetPageTemplateSelectList(),
+                Positions = EnumUtilities.GetAllItemsFromEnum<PageEnums.PositionEnums>()
+            };
+        }
+
+        /// <summary>
+        /// Save page manage model
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public ResponseModel SavePageManageModel(PageManageModel model)
+        {
+            ResponseModel response;
+            var page = GetById(model.Id);
+            if (page != null)
+            {
+                page.Title = model.Title;
+                page.ParentId = model.ParentId;
+                page.Content = model.Content;
+                if (string.IsNullOrWhiteSpace(model.FriendlyUrl))
+                {
+                    page.FriendlyUrl = model.Title.ToUrlString();
+                }
+                else
+                {
+                    page.FriendlyUrl = model.FriendlyUrl.ToUrlString();
+                }
+
+                response = HierarchyUpdate(page);
+                return response.SetMessage(response.Success ?
+                    _localizedResourceServices.T("AdminModule:::Pages:::Update page successfully")
+                    : _localizedResourceServices.T("AdminModule:::Pages:::Update page failure"));
+            }
+            Mapper.CreateMap<PageManageModel, Page>();
+            page = Mapper.Map<PageManageModel, Page>(model);
+            if (string.IsNullOrWhiteSpace(model.FriendlyUrl))
+            {
+                page.FriendlyUrl = model.Title.ToUrlString();
+            }
+            else
+            {
+                page.FriendlyUrl = model.FriendlyUrl.ToUrlString();
+            }
+            response = HierarchyInsert(page);
+            return response.SetMessage(response.Success ?
+                _localizedResourceServices.T("AdminModule:::Pages:::Create page successfully")
+                : _localizedResourceServices.T("AdminModule:::Pages:::Create page failure"));
+        }
+
+        #endregion
+
+        /// <summary>
+        /// search the Pages.
+        /// </summary>
+        /// <returns></returns>
+        public JqGridSearchOut SearchPages(JqSearchIn si)
+        {
+            var pages = GetAll().Select(u => new PageModel
+            {
+                Id = u.Id,
+                PageTemplateId = u.PageTemplateId,
+                Title = u.Title,
+                PageTemplateName = u.PageTemplate.Name,
+                FriendlyUrl = u.FriendlyUrl,
+                Status = u.Status,
+                RecordActive = u.RecordActive,
+                RecordOrder = u.RecordOrder,
+                Created = u.Created,
+                CreatedBy = u.CreatedBy,
+                Updated = u.Updated,
+                UpdatedBy = u.UpdatedBy
+            });
+
+            return si.Search(pages);
+        }
+
+        /// <summary>
         /// Get possible parent menu
         /// </summary>
         /// <param name="id">the current menu id</param>
         /// <returns></returns>
-        public IEnumerable<SelectListItem> GetPossibleParents(int? id)
+        public IEnumerable<SelectListItem> GetPossibleParents(int? id = null)
         {
             var pages = GetAll();
             if (id.HasValue)
             {
-                var key = string.Format(".{0}.", id.Value.ToString("D5"));
+                var key = id.Value.GetHierarchyValueForRoot();
                 pages = pages.Where(m => !m.Hierarchy.Contains(key));
             }
-            return PageRepository.BuildSelectList(pages.ToList(), "--", "Title");
+            var data = pages.Select(p => new HierarchyModel
+            {
+                Id = p.Id,
+                Name = p.Title,
+                Hierarchy = p.Hierarchy,
+                RecordOrder = p.RecordOrder
+            }).ToList();
+            return PageRepository.BuildSelectList(data, DefaultConstants.HierarchyLevelPrefix);
         }
 
         /// <summary>

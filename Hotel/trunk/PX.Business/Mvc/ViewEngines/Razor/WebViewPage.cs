@@ -47,7 +47,7 @@ namespace PX.Business.Mvc.ViewEngines.Razor
         /// <returns></returns>
         public string T(string key, string defaultValue)
         {
-            return _localizedResourceServices.T(key);
+            return _localizedResourceServices.T(key, defaultValue);
         }
 
         /// <summary>

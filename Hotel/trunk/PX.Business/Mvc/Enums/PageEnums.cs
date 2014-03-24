@@ -1,4 +1,4 @@
-﻿namespace PX.Core.Framework.Enums
+﻿namespace PX.Business.Mvc.Enums
 {
     public class PageEnums
     {
@@ -6,6 +6,12 @@
         {
             Online = 1,
             Draft = 2
+        }
+
+        public enum PositionEnums
+        {
+            Before = 1,
+            After = 2
         }
     }
 }

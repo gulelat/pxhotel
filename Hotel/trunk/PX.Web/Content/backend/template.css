@@ -35,6 +35,12 @@ textarea.input-validation-error
 {
 }
 
+/*Buttons*/
+.btn-group > .btn.btn-xs > .caret {
+    border-width: 4px;
+    margin-top: 0px;
+}
+
 
 /*Google map*/
 .controls

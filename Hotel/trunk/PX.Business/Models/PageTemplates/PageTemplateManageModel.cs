@@ -14,8 +14,6 @@ namespace PX.Business.Models.PageTemplates
         public PageTemplateManageModel()
         {
             Content = DefaultConstants.CurlyBracketRenderBody;
-            var services = HostContainer.GetInstance<IPageTemplateServices>();
-            Parents = services.GetPossibleParents();
         }
 
         #region Public Properties

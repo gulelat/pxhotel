@@ -14,7 +14,7 @@ namespace PX.EntityModel.Repositories.RepositoryBase.Extensions
         public static string IdPropertyName = "Id";
         public static string ParentIdPropertyName = "ParentId";
         public static string HierarchyPropertyName = "Hierarchy";
-        public static string DefaultFormat = "D5";
+        public static string DefaultDigitFormat = "D5";
 
         #region Properties Methods
         
@@ -122,9 +122,9 @@ namespace PX.EntityModel.Repositories.RepositoryBase.Extensions
         /// <param name="item">the item</param>
         /// <param name="parent">the parent item</param>
         /// <returns></returns>
-        public static string CalculateAncestorValue<T>(this T item, T parent)
+        public static string CalculateHierarchyValue<T>(this T item, T parent)
         {
-            return string.Concat(parent.GetHierarchy(), item.GetId().ToString(DefaultFormat), IdSeparator);
+            return string.Concat(parent.GetHierarchy(), item.GetId().ToString(DefaultDigitFormat), IdSeparator);
         }
         
         /// <summary>
@@ -133,9 +133,19 @@ namespace PX.EntityModel.Repositories.RepositoryBase.Extensions
         /// <typeparam name="T">the entity type</typeparam>
         /// <param name="item">the item</param>
         /// <returns></returns>
-        public static string GetAncestorValueForRoot<T>(this T item)
+        public static string GetHierarchyValueForRoot<T>(this T item)
         {
-            return string.Concat(IdSeparator, item.GetId().ToString(DefaultFormat), IdSeparator);
+            return string.Concat(IdSeparator, item.GetId().ToString(DefaultDigitFormat), IdSeparator);
+        }
+
+        /// <summary>
+        /// Get hierarchy item of entity with id
+        /// </summary>
+        /// <param name="item">the item id</param>
+        /// <returns></returns>
+        public static string GetHierarchyValueForRoot(this int item)
+        {
+            return string.Concat(IdSeparator, item.ToString(DefaultDigitFormat), IdSeparator);
         }
     }
 }

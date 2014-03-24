@@ -1,10 +1,11 @@
 ﻿@using PX.Core.Framework.Enums
 @model PX.Business.Models.PageTemplates.PageTemplateManageModel
 
+@Html.HiddenFor(m => m.Id)
 <div class="form-group">
     @MText(Tags.Label, "AdminModule:::PageTemplates:::Forms:::Name", "Name", new { @class = "col-sm-2 control-label no-padding-right", @for = "Name" })
     <div class="col-sm-10">
-        @Html.TextBoxFor(m => m.Name, new { @class = "col-xs-10 col-sm-6", placeholder = T("AdminModule:::PageTemplates:::Form:::Name Placeholder", "Please input template name") })
+        @Html.TextBoxFor(m => m.Name, new { @class = "col-xs-10 col-sm-6", placeholder = T("AdminModule:::PageTemplates:::Form:::Name place holder", "Please input template name") })
         @Html.ValidationMessageFor(m => m.Name)
     </div>
 </div>
@@ -28,14 +29,17 @@
 <div class="form-group">
     @MText(Tags.Label, "AdminModule:::PageTemplates:::Forms:::Parent Template Dropdown", "Parent", new { @class = "col-sm-2 control-label no-padding-right", @for = "ParentId" })
     <div class="col-sm-10">
-        @Html.DropDownListFor(m => m.ParentId, Model.Parents, new { @class = "form-control col-xs-10 col-sm-6" })
+        @Html.DropDownListFor(m => m.ParentId, Model.Parents, "..Select parent template..", new { @class = "form-control col-xs-10 col-sm-6" })
         @Html.ValidationMessageFor(m => m.ParentId)
     </div>
 </div>
 <div class="space-4"></div>
 <div class="clearfix form-actions">
     <div class="col-md-offset-3 col-md-9">
-        <button class="btn btn-primary" type="submit" value="@SubmitTypeEnums.Save">
+        <button class="btn btn-link" type="button" onclick="history.back(1);">
+            Back To List
+        </button>
+        <button class="btn btn-primary" type="submit" value="@SubmitTypeEnums.Save" name="Submit">
             <i class="icon-ok bigger-110"></i>
             Save
         </button>
