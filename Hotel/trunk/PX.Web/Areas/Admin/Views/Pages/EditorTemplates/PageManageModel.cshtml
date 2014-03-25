@@ -1,31 +1,60 @@
 ﻿@using PX.Core.Framework.Enums
 @model PX.Business.Models.Pages.PageManageModel
-
 @Html.HiddenFor(m => m.Id)
 <div class="form-group">
-    @MText(Tags.Label, "AdminModule:::Pages:::Forms:::Title", "Title", new { @class = "col-sm-2 control-label no-padding-right", @for = "Title" })
     <div class="col-sm-4">
+        @MText(Tags.Label, "AdminModule:::Pages:::Forms:::Title", "Title", new { @class = "col-sm-12 no-padding-right", @for = "Title" })
+        <div class="space-4"></div>
         @Html.TextBoxFor(m => m.Title, new { @class = "col-sm-12", placeholder = T("AdminModule:::Pages:::Form:::Title place holder", "Please input page title") })
         @Html.ValidationMessageFor(m => m.Title)
     </div>
-    @MText(Tags.Label, "AdminModule:::Pages:::Forms:::FriendlyUrl", "Friendly Url", new { @class = "col-sm-2 control-label no-padding-right", @for = "FriendlyUrl" })
     <div class="col-sm-4">
+        @MText(Tags.Label, "AdminModule:::Pages:::Forms:::FriendlyUrl", "Friendly Url", new { @class = "col-sm-12 no-padding-right", @for = "FriendlyUrl" })
+        <div class="space-4"></div>
         @Html.TextBoxFor(m => m.FriendlyUrl, new { @class = "col-sm-12" })
         @Html.ValidationMessageFor(m => m.FriendlyUrl)
     </div>
+    <div class="col-sm-3">
+        @MText(Tags.Label, "AdminModule:::Pages:::Forms:::Status", "Status", new { @class = "col-sm-4 no-padding-right", @for = "FriendlyUrl" })
+        <div class="space-4"></div>
+        @Html.DropDownListFor(m => m.Status, Model.StatusList, new { @class = "col-sm-12" })
+        @Html.ValidationMessageFor(m => m.Status)
+    </div>
 </div>
+<div class="space-4"></div>
 <div class="form-group">
-    @MText(Tags.Label, "AdminModule:::Pages:::Forms:::Caption", "Caption", new { @class = "col-sm-2 control-label no-padding-right", @for = "Caption" })
+    @MText(Tags.Label, "AdminModule:::Pages:::Forms:::Parent Page Dropdown", "Parent", new { @class = "col-sm-1 no-padding-right", @for = "ParentId" })
     <div class="col-sm-10">
+        @Html.DropDownListFor(m => m.ParentId, Model.Parents, "..Select parent page..", new { @class = "form-control col-xs-10 col-sm-4", id = "selectParents" })
+        @Html.ValidationMessageFor(m => m.ParentId)
+    </div>
+</div>
+<div class="space-4"></div>
+<div class="form-group">
+    @MText(Tags.Label, "AdminModule:::Pages:::Forms:::Position", "Position", new { @class = "col-sm-1 no-padding-right", @for = "Title" })
+    <div class="col-sm-5">
+        @Html.DropDownListFor(m => m.Position, Model.Positions, new { @class = "col-sm-12" })
+        @Html.ValidationMessageFor(m => m.Position)
+    </div>
+    <div class="col-sm-5">
+        @Html.DropDownListFor(m => m.RelativePageOrder, Model.RelativePages, new { @class = "col-sm-12", id = "selectRelativePages" })
+        @Html.ValidationMessageFor(m => m.RelativePageOrder)
+    </div>
+</div>
+<div class="space-4"></div>
+<div class="form-group">
+    <div class="col-sm-11">
+        @MText(Tags.Label, "AdminModule:::Pages:::Forms:::Caption", "Caption", new { @class = "col-sm-5 no-padding-right", @for = "Caption" })
+        <div class="space-4"></div>
         @Html.TextAreaFor(m => m.Caption, new { @class = "col-sm-12", placeholder = T("AdminModule:::Pages:::Form:::Caption place holder", "Please input page caption") })
         @Html.ValidationMessageFor(m => m.Caption)
     </div>
 </div>
 <div class="space-4"></div>
 <div class="form-group">
-    @MText(Tags.Label, "AdminModule:::Pages:::Forms:::Content", "Content", new { @class = "col-sm-2 control-label no-padding-right", @for = "Content" })
-    <div class="col-sm-10">
-        <div class="btn-group">
+    <div class="col-sm-11">
+        @MText(Tags.Label, "AdminModule:::Pages:::Forms:::Content", "Content", new { @class = "col-sm-1 no-padding-right", @for = "Content" })
+        <div class="btn-group col-sm-11">
             <button class="btn btn-xs dropdown-toggle" data-toggle="dropdown">
                 @MText(Tags.Text, "AdminModule:::Pages:::Forms:::AddCurlyBracket", "Add curly bracket")
                 <span class="caret"></span>
@@ -33,16 +62,17 @@
             <ul id="curlyBracketList" class="dropdown-menu">
             </ul>
         </div>
-        @Html.TextAreaFor(m => m.Content, new { @class = "col-sm-12" })
+        <div class="space-4" style="clear: both"></div>
+        @Html.TextAreaFor(m => m.Content, new { @class = "col-sm-12", id = "pageContent" })
         @Html.ValidationMessageFor(m => m.Content)
     </div>
 </div>
 <div class="space-4"></div>
 <div class="form-group">
-    @MText(Tags.Label, "AdminModule:::Pages:::Forms:::Parent Page Dropdown", "Parent", new { @class = "col-sm-2 control-label no-padding-right", @for = "ParentId" })
+    @MText(Tags.Label, "AdminModule:::Pages:::Forms:::Template", "Template", new { @class = "col-sm-1 no-padding-right", @for = "PageTemplateId" })
     <div class="col-sm-10">
-        @Html.DropDownListFor(m => m.ParentId, Model.Parents, "..Select parent page..", new { @class = "form-control col-xs-10 col-sm-4" })
-        @Html.ValidationMessageFor(m => m.ParentId)
+        @Html.DropDownListFor(m => m.PageTemplateId, Model.PageTemplates, "..Select template..", new { @class = "form-control col-xs-10 col-sm-4" })
+        @Html.ValidationMessageFor(m => m.PageTemplateId)
     </div>
 </div>
 <div class="space-4"></div>
@@ -65,3 +95,47 @@
         </button>
     </div>
 </div>
+<script type="text/javascript" src="@Url.Content("~/Scripts/ckeditor/ckeditor.js")">
+</script>
+<script>
+    CKEDITOR.replace('pageContent', {
+        filebrowserBrowseUrl: '/Admin/FileManager/Browser/1',
+        filebrowserImageBrowseUrl: '/Admin/FileManager/Browser/2',
+        filebrowserUploadUrl: '/Admin/FileManager/Upload/1',
+        filebrowserImageUploadUrl: '/Admin/FileManager/Upload/2'
+    });
+    $(function () {
+        var getCurlyBracketListUrl = "@Url.Action("GetCurlyBracketList", "CurlyBracket")";
+        $.ajax({
+            type: "POST",
+            url: getCurlyBracketListUrl,
+            async: false,
+            success: function (data) {
+                $.map(data, function (item) {
+                    $("#curlyBracketList")
+                        .append("<li><a href='javascript:void(0)' onclick='printCurlybracket(\""
+                            + item.CurlyBracket + "\")'>" +
+                            item.Name + "</a></li>");
+                });
+            }
+        });
+
+        $("#selectParents").change(function() {
+            var parent = $(this).val();
+            var id = '@Model.Id';
+            var data = { id: id, parentId: parent };
+            var url = "@Url.Action("GetRelativePages")";
+            var selectRelativePages = $("#selectRelativePages");
+            $.post(url, data, function (response) {
+                selectRelativePages.empty();
+                $.each(response, function (index, item) {
+                    selectRelativePages.append($('<option></option>')
+                        .val(item.Value).html(item.Text));
+                });
+            });
+        });
+    });
+    function printCurlybracket(curlyBracket) {
+        CKEDITOR.instances.pageContent.insertText(curlyBracket);
+    }
+</script>

@@ -20,7 +20,7 @@ namespace PX.Core.Configurations.Constants
 
         public const string DefaultUserFolder = "/Images/uploads/Avatars/";
         public const string TempFolder = "~/Images/temp/";
-        public const string UploadFolder = "~/Images/upload/";
+        public const string UploadFolder = "~/Images/uploads/";
 
         public const string PxHotelCurrentController = "PxHotelCurrentController";
         public const string ErrorMessage = "ErrorMessage";

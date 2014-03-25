@@ -62,14 +62,35 @@ namespace PX.EntityModel.Repositories.RepositoryBase
             return DataContext.Set<T>().Find(id);
         }
 
+        public static ResponseModel ExcuteSql(string sql)
+        {
+            var response = new ResponseModel();
+            try
+            {
+                DataContext.Database.ExecuteSqlCommand(sql);
+                DataContext.SaveChanges();
+            }
+            catch (DbEntityValidationException e)
+            {
+                response.Success = false;
+                response.Message = BuildEntityValidationError(e);
+            }
+            catch (Exception exception)
+            {
+                response.Success = false;
+                response.Message = exception.Message;
+            }
+            return response;
+        }
+
         public static ResponseModel Update(T entity)
         {
+            var response = new ResponseModel();
             entity.SetProperty("Updated", DateTime.Now);
             if (entity.GetPropertyValue("UpdatedBy") == null)
             {
                 entity.SetProperty("UpdatedBy", HttpContext.Current.User.Identity.Name);
             }
-            var response = new ResponseModel();
             try
             {
                 DataContext.SaveChanges();
