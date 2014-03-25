@@ -9,9 +9,7 @@
 
     @Html.Partial("_Head.Styles")
     @RenderSection("styles", false)
-
     @Html.Partial("_Head.Scripts")
-    @RenderSection("scripts", false)
 </head>
 
 <body>
@@ -22,4 +20,5 @@
         </div>
     </div>
 </body>
+@RenderSection("scripts", false)
 </html>

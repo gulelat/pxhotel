@@ -10,6 +10,8 @@ using PX.Core.Framework.Enums;
 using PX.Core.Framework.Mvc.Attributes;
 using PX.Core.Framework.Mvc.Models;
 using PX.Core.Framework.Mvc.Models.JqGrid;
+using PX.Core.Ultilities;
+using PX.EntityModel;
 
 namespace PX.Web.Areas.Admin.Controllers
 {
@@ -69,7 +71,7 @@ namespace PX.Web.Areas.Admin.Controllers
             });
         }
         #endregion
-        
+
         #endregion
 
         #region Create
@@ -81,6 +83,7 @@ namespace PX.Web.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [ValidateInput(false)]
         public ActionResult Create(PageManageModel model, SubmitTypeEnums submit)
         {
             if (ModelState.IsValid)
@@ -88,7 +91,7 @@ namespace PX.Web.Areas.Admin.Controllers
                 var response = _pageServices.SavePageManageModel(model);
                 if (response.Success)
                 {
-                    var template = (PageManageModel)response.Data;
+                    var template = (Page)response.Data;
                     SetSuccessMessage(response.Message);
                     switch (submit)
                     {
@@ -101,13 +104,52 @@ namespace PX.Web.Areas.Admin.Controllers
                 SetErrorMessage(response.Message);
             }
             model.Parents = _pageTemplateServices.GetPossibleParents();
+            model.Positions = EnumUtilities.GetAllItemsFromEnum<PageEnums.PositionEnums>();
+            model.RelativePages = _pageServices.GetRelativePages(model.Id, model.ParentId);
+            model.StatusList = _pageServices.GetStatus();
+            model.PageTemplates = _pageTemplateServices.GetPageTemplateSelectList(model.PageTemplateId);
             return View(model);
         }
         #endregion
 
         public ActionResult Edit(int id)
         {
-            return View();
+            var model = _pageServices.GetPageManageModel(id);
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateInput(false)]
+        public ActionResult Edit(PageManageModel model, SubmitTypeEnums submit)
+        {
+            if (ModelState.IsValid)
+            {
+                var response = _pageServices.SavePageManageModel(model);
+                if (response.Success)
+                {
+                    var template = (Page)response.Data;
+                    SetSuccessMessage(response.Message);
+                    switch (submit)
+                    {
+                        case SubmitTypeEnums.Save:
+                            return RedirectToAction("Index");
+                        default:
+                            return RedirectToAction("Edit", new { id = template.Id });
+                    }
+                }
+                SetErrorMessage(response.Message);
+            }
+            model.Parents = _pageTemplateServices.GetPossibleParents();
+            model.Positions = EnumUtilities.GetAllItemsFromEnum<PageEnums.PositionEnums>();
+            model.RelativePages = _pageServices.GetRelativePages(model.Id, model.ParentId);
+            model.StatusList = _pageServices.GetStatus();
+            model.PageTemplates = _pageTemplateServices.GetPageTemplateSelectList(model.PageTemplateId);
+            return View(model);
+        }
+
+        public JsonResult GetRelativePages(int? id, int? parentId)
+        {
+            return Json(_pageServices.GetRelativePages(id, parentId));
         }
     }
 }

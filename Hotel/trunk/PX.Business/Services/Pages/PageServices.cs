@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Objects.SqlClient;
 using System.Linq;
 using System.Web.Mvc;
 using AutoMapper;
@@ -159,20 +160,26 @@ namespace PX.Business.Services.Pages
                         FriendlyUrl = page.FriendlyUrl,
                         Caption = page.Caption,
                         Status = page.Status,
+                        StatusList = GetStatus(),
                         ParentId = page.ParentId,
                         Parents = GetPossibleParents(page.Id),
                         PageTemplateId = page.PageTemplateId,
                         PageTemplates = _pageTemplateServices.GetPageTemplateSelectList(page.PageTemplateId),
+                        Position = (int)PageEnums.PositionEnums.After,
                         Positions = EnumUtilities.GetAllItemsFromEnum<PageEnums.PositionEnums>(),
+                        RelativePageOrder = page.RecordOrder,
+                        RelativePages = GetRelativePages(page.Id, page.ParentId),
                         RecordOrder = page.RecordOrder,
                         RecordActive = page.RecordActive
                     };
             }
             return new PageManageModel
             {
+                StatusList = GetStatus(),
                 Parents = GetPossibleParents(),
                 PageTemplates = _pageTemplateServices.GetPageTemplateSelectList(),
-                Positions = EnumUtilities.GetAllItemsFromEnum<PageEnums.PositionEnums>()
+                Positions = EnumUtilities.GetAllItemsFromEnum<PageEnums.PositionEnums>(),
+                RelativePages = GetRelativePages(),
             };
         }
 
@@ -183,13 +190,30 @@ namespace PX.Business.Services.Pages
         /// <returns></returns>
         public ResponseModel SavePageManageModel(PageManageModel model)
         {
+            Page relativePage;
             ResponseModel response;
             var page = GetById(model.Id);
+
+            #region Edit Page
             if (page != null)
             {
                 page.Title = model.Title;
-                page.ParentId = model.ParentId;
-                page.Content = model.Content;
+                page.PageTemplateId = model.PageTemplateId;
+
+                page.Status = model.Status;
+                //Set content & caption base on status
+                if (model.Status == (int)PageEnums.PageStatusEnums.Draft)
+                {
+                    page.ContentWorking = model.Content;
+                    page.CaptionWorking = model.Caption;
+                }
+                else
+                {
+                    page.Content = model.Content;
+                    page.Caption = model.Caption;
+                }
+
+                //Parse friendly url
                 if (string.IsNullOrWhiteSpace(model.FriendlyUrl))
                 {
                     page.FriendlyUrl = model.Title.ToUrlString();
@@ -199,13 +223,57 @@ namespace PX.Business.Services.Pages
                     page.FriendlyUrl = model.FriendlyUrl.ToUrlString();
                 }
 
-                response = HierarchyUpdate(page);
+                //Get page record order
+                relativePage = GetById(model.RelativePageOrder);
+                if (relativePage != null)
+                {
+                    if(model.Position == (int)PageEnums.PositionEnums.Before)
+                    {
+                        page.RecordOrder = relativePage.RecordOrder;
+                        var query =
+                            string.Format(
+                                "Update Pages set RecordOrder = RecordOrder + 1 Where {0} And RecordOrder >= {1}",
+                                relativePage.ParentId.HasValue ? string.Format(" ParentId = {0}", relativePage.ParentId) : "ParentId Is NULL", relativePage.RecordOrder);
+                        PageRepository.ExcuteSql(query);
+                    }
+                    else
+                    {
+                        page.RecordOrder = relativePage.RecordOrder;
+                        var query =
+                            string.Format(
+                                "Update Pages set RecordOrder = RecordOrder - 1 Where {0} And RecordOrder <= {1}",
+                                relativePage.ParentId.HasValue ? string.Format(" ParentId = {0}", relativePage.ParentId) : "ParentId Is NULL", relativePage.RecordOrder);
+                        PageRepository.ExcuteSql(query);
+                    }
+                }
+
+                if (page.ParentId != model.ParentId)
+                {
+                    page.ParentId = model.ParentId;
+                    response = HierarchyUpdate(page);
+                }
+                else
+                {
+                    response = Update(page);
+                }
                 return response.SetMessage(response.Success ?
                     _localizedResourceServices.T("AdminModule:::Pages:::Update page successfully")
                     : _localizedResourceServices.T("AdminModule:::Pages:::Update page failure"));
             }
-            Mapper.CreateMap<PageManageModel, Page>();
-            page = Mapper.Map<PageManageModel, Page>(model);
+            #endregion
+
+            page = new Page
+                {
+                    Title = model.Title,
+                    Status = model.Status,
+                    Content = model.Content,
+                    Caption = model.Caption,
+                    ParentId = model.ParentId,
+                    RecordOrder = 0,
+                    PageTemplateId = model.PageTemplateId
+                };
+
+            //Parse friendly url
             if (string.IsNullOrWhiteSpace(model.FriendlyUrl))
             {
                 page.FriendlyUrl = model.Title.ToUrlString();
@@ -214,6 +282,26 @@ namespace PX.Business.Services.Pages
             {
                 page.FriendlyUrl = model.FriendlyUrl.ToUrlString();
             }
+
+            //Set content & caption base on status
+            if (model.Status == (int)PageEnums.PageStatusEnums.Draft)
+            {
+                page.ContentWorking = model.Content;
+                page.CaptionWorking = model.Caption;
+            }
+
+            //Get page record order
+            relativePage = GetById(model.RelativePageOrder);
+            if (relativePage != null)
+            {
+                page.RecordOrder = relativePage.RecordOrder;
+                var query =
+                    string.Format(
+                        "Update Pages set RecordOrder = RecordOrder + 1 Where ParentId = {0} And RecordOrder >= {1}'",
+                        relativePage.ParentId, relativePage.RecordOrder);
+                PageRepository.ExcuteSql(query);
+            }
+
             response = HierarchyInsert(page);
             return response.SetMessage(response.Success ?
                 _localizedResourceServices.T("AdminModule:::Pages:::Create page successfully")
@@ -282,11 +370,29 @@ namespace PX.Business.Services.Pages
         /// <summary>
         /// Get page by parent id
         /// </summary>
+        /// <param name="pageId"> </param>
+        /// <param name="parentId">the parent id</param>
+        /// <returns></returns>
+        public IEnumerable<SelectListItem> GetRelativePages(int? pageId = null, int? parentId = null)
+        {
+            var x = GetAll().ToList();
+            return GetAll().Where(p => (!pageId.HasValue || p.Id != pageId) && (!parentId.HasValue || p.ParentId == parentId))
+                .OrderBy(p => p.RecordOrder)
+                .Select(p => new SelectListItem
+                    {
+                        Text = p.Title,
+                        Value = SqlFunctions.StringConvert((double)p.Id).Trim()
+                    });
+        }
+
+        /// <summary>
+        /// Get page by parent id
+        /// </summary>
         /// <param name="parentId">the parent id</param>
         /// <returns></returns>
         public List<Page> GetPages(int? parentId = null)
         {
-            return GetAll().Where(m => parentId.HasValue ? m.ParentId == parentId : !m.ParentId.HasValue).OrderBy(m => m.RecordOrder).ToList();
+            return GetAll().Where(p => !parentId.HasValue || p.ParentId == parentId).OrderBy(p => p.RecordOrder).ToList();
         }
 
         public PageRenderModel RenderContent(string url)

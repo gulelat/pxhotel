@@ -9,11 +9,7 @@
     <!-- page specific plugin styles -->
     @RenderSection("styles", false)
     @Html.Partial("_Head.Styles")
-
     @Html.Partial("_Head.Scripts")
-    <!-- inline scripts related to this page -->
-    @RenderSection("scripts", false)
-    <script src="/Scripts/Shared/admin.js"></script>
 </head>
 
 <body>
@@ -159,4 +155,8 @@
         </div>
     </div>
 </body>
+
+    <script src="/Scripts/Shared/admin.js"></script>
+    <!-- inline scripts related to this page -->
+    @RenderSection("scripts", false)
 </html>

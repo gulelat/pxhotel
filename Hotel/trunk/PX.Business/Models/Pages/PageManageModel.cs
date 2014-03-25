@@ -34,11 +34,13 @@ namespace PX.Business.Models.Pages
 
         public int Status { get; set; }
 
-        public PageEnums.PositionEnums Position { get; set; }
+        public IEnumerable<SelectListItem> StatusList { get; set; }
+
+        public int Position { get; set; }
 
         public IEnumerable<SelectListItem> Positions { get; set; }
 
-        public int RelativeOrder { get; set; }
+        public int? RelativePageOrder { get; set; }
 
         public IEnumerable<SelectListItem> RelativePages { get; set; } 
 

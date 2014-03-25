@@ -1,5 +1,6 @@
-﻿@{
+﻿@model PX.Business.Models.Pages.PageRenderModel
+@{
     Layout = "~/Views/Shared/_CleanLayout.cshtml";
 }
 
-@Model.Content
+@Html.Raw(Model.Content)

@@ -39,5 +39,7 @@ namespace PX.Business.Services.Pages
         PageManageModel GetPageManageModel(int? id = null);
 
         ResponseModel SavePageManageModel(PageManageModel model);
+
+        IEnumerable<SelectListItem> GetRelativePages(int? pageId = null, int? parentId = null);
     }
 }
