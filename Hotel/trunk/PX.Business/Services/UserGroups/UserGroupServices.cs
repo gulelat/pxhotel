@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Web.Mvc;
 using PX.Business.Models.UserGroups;
 using PX.Business.Mvc.Enums;
@@ -29,6 +30,10 @@ namespace PX.Business.Services.UserGroups
         public IQueryable<UserGroup> GetAll()
         {
             return UserGroupRepository.GetAll();
+        }
+        public IQueryable<UserGroup> Fetch(Expression<Func<UserGroup, bool>> expression)
+        {
+            return UserGroupRepository.Fetch(expression);
         }
         public UserGroup GetById(object id)
         {

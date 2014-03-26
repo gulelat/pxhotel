@@ -12,9 +12,13 @@ using PX.Business.Services.CurlyBrackets.CurlyBracketResolver;
 using PX.Business.Services.Languages;
 using PX.Business.Services.Localizes;
 using PX.Business.Services.Menus;
+using PX.Business.Services.News;
+using PX.Business.Services.NewsCategories;
 using PX.Business.Services.PageTemplates;
 using PX.Business.Services.Pages;
+using PX.Business.Services.SettingTypes;
 using PX.Business.Services.Settings;
+using PX.Business.Services.Testimonials;
 using PX.Business.Services.UserGroups;
 using PX.Business.Services.Users;
 using SimpleInjector;
@@ -116,6 +120,10 @@ namespace PX.Web
             container.Register<IPageServices, PageServices>(Lifestyle.Singleton);
             container.Register<IPageTemplateServices, PageTemplateServices>(Lifestyle.Singleton);
             container.Register<ICurlyBracketServices, CurlyBracketServices>(Lifestyle.Singleton);
+            container.Register<ITestimonialServices, TestimonialServices>(Lifestyle.Singleton);
+            container.Register<ISettingTypeServices, SettingTypeServices>(Lifestyle.Singleton);
+            container.Register<INewsServices, NewsServices>(Lifestyle.Singleton);
+            container.Register<INewsCategoryServices, NewsCategorieservices>(Lifestyle.Singleton);
         }
 
         #endregion

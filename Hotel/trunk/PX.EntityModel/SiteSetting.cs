@@ -24,5 +24,7 @@ namespace PX.EntityModel
         public string CreatedBy { get; set; }
         public Nullable<System.DateTime> Updated { get; set; }
         public string UpdatedBy { get; set; }
+    
+        public virtual SettingType SettingType { get; set; }
     }
 }

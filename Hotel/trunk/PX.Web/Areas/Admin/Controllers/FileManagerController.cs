@@ -2,6 +2,7 @@
 using System.IO;
 using System.Web;
 using System.Web.Mvc;
+using PX.Business.Models.FileManagers;
 using PX.Core.Configurations;
 using PX.Core.Configurations.Constants;
 
@@ -57,5 +58,33 @@ namespace PX.Web.Areas.Admin.Controllers
             return Content(vOutput);
         }
 
+
+        [HttpPost]
+        public JsonResult CropImage(ImageCropModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                model.CropImage();
+                if (model.CropStatus)
+                {
+                    return Json(new { success = true, filename = model.FileName});
+                }
+            }
+            return Json(new { success = false, filename = "" });
+        }
+
+
+        [HttpPost]
+        public ActionResult FileUpload(string qqfile)
+        {
+            var fileUploadViewModel = new FileUploadViewModel(qqfile);
+            fileUploadViewModel.Upload();
+
+            if (fileUploadViewModel.UploadStatus)
+            {
+                return Json(new { success = true, path = fileUploadViewModel.FullPath, filename = fileUploadViewModel.FileName }, "application/json");
+            }
+            return Json(new { success = false }, "application/json");
+        }
     }
 }

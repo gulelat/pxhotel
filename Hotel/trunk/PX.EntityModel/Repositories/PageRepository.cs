@@ -2,7 +2,7 @@
 
 namespace PX.EntityModel.Repositories
 {
-    public class PageRepository : Repository<Page>
+    public class PageRepository : HierarchyRepository<Page>
     {
     }
 }

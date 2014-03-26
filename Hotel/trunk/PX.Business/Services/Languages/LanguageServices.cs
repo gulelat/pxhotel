@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using System.Linq.Expressions;
 using AutoMapper;
 using PX.Business.Models.Languages;
 using PX.Business.Mvc.Environments;
@@ -23,6 +25,10 @@ namespace PX.Business.Services.Languages
         public IQueryable<Language> GetAll()
         {
             return LanguageRepository.GetAll();
+        }
+        public IQueryable<Language> Fetch(Expression<Func<Language, bool>> expression)
+        {
+            return LanguageRepository.Fetch(expression);
         }
         public Language GetById(object id)
         {

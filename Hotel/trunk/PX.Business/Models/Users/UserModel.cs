@@ -58,7 +58,7 @@ namespace PX.Business.Models.Users
         {
             var userServices = HostContainer.GetInstance<IUserServices>();
             var localizedResourceServices = HostContainer.GetInstance<ILocalizedResourceServices>();
-            if (userServices.GetAll().Any(u => u.Email.Equals(Email) && u.Id != Id))
+            if (userServices.IsEmailExisted(Id, Email))
             {
                 yield return new ValidationResult(localizedResourceServices.T("AdminModule:::Users:::ValidationMessage:::Email is existed."));
             }

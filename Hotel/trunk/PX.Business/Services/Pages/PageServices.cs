@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Objects.SqlClient;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Web.Mvc;
 using AutoMapper;
 using PX.Business.Models.Pages;
@@ -39,6 +40,10 @@ namespace PX.Business.Services.Pages
         public IQueryable<Page> GetAll()
         {
             return PageRepository.GetAll();
+        }
+        public IQueryable<Page> Fetch(Expression<Func<Page, bool>> expression)
+        {
+            return PageRepository.Fetch(expression);
         }
         public Page GetById(object id)
         {
@@ -375,8 +380,7 @@ namespace PX.Business.Services.Pages
         /// <returns></returns>
         public IEnumerable<SelectListItem> GetRelativePages(int? pageId = null, int? parentId = null)
         {
-            var x = GetAll().ToList();
-            return GetAll().Where(p => (!pageId.HasValue || p.Id != pageId) && (!parentId.HasValue || p.ParentId == parentId))
+            return Fetch(p => (!pageId.HasValue || p.Id != pageId) && (!parentId.HasValue || p.ParentId == parentId))
                 .OrderBy(p => p.RecordOrder)
                 .Select(p => new SelectListItem
                     {
@@ -392,9 +396,14 @@ namespace PX.Business.Services.Pages
         /// <returns></returns>
         public List<Page> GetPages(int? parentId = null)
         {
-            return GetAll().Where(p => !parentId.HasValue || p.ParentId == parentId).OrderBy(p => p.RecordOrder).ToList();
+            return Fetch(p => !parentId.HasValue || p.ParentId == parentId).OrderBy(p => p.RecordOrder).ToList();
         }
 
+        /// <summary>
+        /// Render page content by friendly url
+        /// </summary>
+        /// <param name="url"></param>
+        /// <returns></returns>
         public PageRenderModel RenderContent(string url)
         {
             var page = GetPage(url);
@@ -438,6 +447,28 @@ namespace PX.Business.Services.Pages
                     };
             }
             return null;
+        }
+
+        /// <summary>
+        /// Check if title is existed
+        /// </summary>
+        /// <param name="pageId">the page id</param>
+        /// <param name="title">the page title</param>
+        /// <returns></returns>
+        public bool IsTitleExisted(int? pageId, string title)
+        {
+            return Fetch(u => u.Title.Equals(title) && u.Id != pageId).Any();
+        }
+
+        /// <summary>
+        /// Check if friendly url is existed
+        /// </summary>
+        /// <param name="pageId">the page id</param>
+        /// <param name="friendlyUrl">the friendly url</param>
+        /// <returns></returns>
+        public bool IsFriendlyUrlExisted(int? pageId, string friendlyUrl)
+        {
+            return Fetch(u => u.FriendlyUrl.Equals(friendlyUrl) && u.Id != pageId).Any();
         }
     }
 }

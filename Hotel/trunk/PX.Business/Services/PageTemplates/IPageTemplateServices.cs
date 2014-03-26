@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Web.Mvc;
 using PX.Business.Models.PageTemplates;
 using PX.Core.Framework.Enums;
@@ -14,6 +16,7 @@ namespace PX.Business.Services.PageTemplates
         #region Base
 
         IQueryable<PageTemplate> GetAll();
+        IQueryable<PageTemplate> Fetch(Expression<Func<PageTemplate, bool>> expression);
         PageTemplate GetById(object id);
         ResponseModel Insert(PageTemplate pageTemplate);
         ResponseModel Update(PageTemplate pageTemplate);
@@ -35,5 +38,7 @@ namespace PX.Business.Services.PageTemplates
         PageTemplateManageModel GetTemplateManageModel(int? id = null);
 
         ResponseModel SaveTemplates(PageTemplateManageModel model);
+
+        bool IsPageTemplateTitleExisted(int? pageTemplateId, string title);
     }
 }

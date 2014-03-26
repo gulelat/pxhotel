@@ -1,0 +1,207 @@
+﻿@using PX.Core.Framework.Mvc.Helpers
+@model PX.Business.Models.FileManagers.ImageCropModel
+@using (Ajax.BeginForm("CropImage", "FileManager", "", new AjaxOptions()
+    {
+        OnSuccess = "CropSuccess"
+    }, new { id = "CropForm" }))
+{
+    
+    @Html.HiddenFor(m => m.X, new { id = "X" })
+    @Html.HiddenFor(m => m.Y, new { id = "Y" })
+    @Html.HiddenFor(m => m.Width, new { id = "Width" })
+    @Html.HiddenFor(m => m.Height, new { id = "Height" })
+    @Html.HiddenFor(m => m.Folder)
+    @Html.HiddenFor(m => m.FileName, new { id = "FileName" })
+    <div id="dialog" title="Crop Image" style="display: none;">
+        <img src="#" id="target" alt="Crop Image" />
+        <div id="preview-pane">
+            <div class="preview-container">
+                <img src="" id="preview-image" />
+            </div>
+        </div>
+        <div class="clear">
+        </div>
+    </div>
+}
+<div class="error-message" style="display: none">
+</div>
+<div class="success-message" style="display: none">
+</div>
+<div class="float-left m30">
+    <div class="center">
+        <div class="thumbnail-content">
+            @Html.Image(Url.Content(Model.ImageUrl), "Upload Image", new { id = "upload-image" })
+        </div>
+        <input type="button" value="Upload" class="button" id="uploadFile" />
+    </div>
+    <div class="clear">
+    </div>
+    <div class="avatar-upload m10t">
+        <div id="file-uploader">
+        </div>
+    </div>
+    <div class="clear h10">
+    </div>
+</div>
+@Scripts.Render("~/bundles/jqueryimage")
+<style type="text/css">
+    .qq-upload-button {
+        display: none !important;
+    }
+    .thumbnail-content
+    {
+        width: 300px;
+        border: solid 1px #424242;
+        border-radius: 5px;
+        margin-bottom: 4px;
+    }
+
+    .thumbnail-content img
+    {
+        width: 300px;
+        height: @(300/Model.Ratio)px;
+    }
+
+    .jcrop-holder #preview-pane
+    {
+        display: block;
+        position: absolute;
+        z-index: 2000;
+        top: 10px;
+        right: -280px;
+        padding: 6px;
+        border: 1px rgba(0,0,0,.4) solid;
+        background-color: white;
+        -webkit-border-radius: 6px;
+        -moz-border-radius: 6px;
+        border-radius: 6px;
+        -webkit-box-shadow: 1px 1px 5px 2px rgba(0, 0, 0, 0.2);
+        -moz-box-shadow: 1px 1px 5px 2px rgba(0, 0, 0, 0.2);
+        box-shadow: 1px 1px 5px 2px rgba(0, 0, 0, 0.2);
+    }
+    #preview-pane .preview-container
+    {
+        width: @(200)px;
+        height: @(200 / Model.Ratio)px;
+        overflow: hidden;
+    }
+</style>
+<script type="text/javascript">
+    $("#uploadFile").click(function () {
+        $("input[type=file]").click();
+    });
+
+    function CropSuccess(data) {
+        if (data.success) {
+            if(data.statusmessage != "") {
+                $(".success-message").show();
+                $('.success-message').fadeOut(3000);
+                $(".success-message").html(data.statusmessage);
+            }
+            else {
+                $(".error-message").show();
+                $('.error-message').fadeOut(3000);
+                $(".error-message").html(data.errormessage);
+            }
+            $("#ImageCropFileName").val(data.filename);
+            var folder = "@Url.Content(Model.TempFolder)";
+            $("#upload-image").attr("src", folder + data.filename);
+            $("#TempFiles").val(function(i,val) { 
+                return val + (!val ? '' : ' ') +  data.filename;
+            });
+        }
+    }
+    
+    $(function() 
+    {
+    });
+
+    $(function () {
+        var jcropApi,
+            boundx,
+            boundy,
+
+            // Grab some information about the preview pane
+            $preview = $('#preview-pane'),
+            $pcnt = $('#preview-pane .preview-container'),
+            $pimg = $('#preview-image'),
+
+            xsize = $pcnt.width(),
+            ysize = $pcnt.height(),
+            width, height; 
+        
+        function updatePreview(c)
+        {
+            if (parseInt(c.w) > 0)
+            {
+                var rx = xsize / c.w;
+                var ry = ysize / c.h;
+
+                $pimg.css({
+                    width: Math.round(rx * width) + 'px',
+                    height: Math.round(ry * height) + 'px',
+                    marginLeft: '-' + Math.round(rx * c.x) + 'px',
+                    marginTop: '-' + Math.round(ry * c.y) + 'px'
+                });
+                $('#X').val(c.x);
+                $('#Y').val(c.y);
+                $('#Width').val(c.w);
+                $('#Height').val(c.h);
+            }
+        };
+
+
+        var uploader = new qq.FileUploader({
+            element: document.getElementById("file-uploader"),
+            action: '@Url.Action("FileUpload", "FileManager")',
+            multiple: false,
+            allowedExtensions: ['jpg', 'jpeg', 'png', 'gif'],
+            sizeLimit: 4000000,
+            minSizeLimit: 0,
+            params: {},
+            onComplete: function (id, fileName, responseJson) {
+                if (responseJson.success) {
+                    $("#FileName").val(responseJson.filename);
+                    $pimg.attr("src", responseJson.path);
+                    $("#TempFiles").val(function(i,val) { 
+                        return val + (!val ? '' : ' ') + responseJson.filename;
+                    });
+                    var img = $('<img src="'+responseJson.path+'"/>').load(function() {
+                        width = this.width;
+                        height = this.height;
+                    });
+
+                    $('#target').Jcrop({
+                        onChange: updatePreview,
+                        onSelect: updatePreview,
+                        minSize: [100, 100 * ysize / xsize],
+                        boxWidth: 650, boxHeight: 500,
+                        aspectRatio: @Model.Ratio
+                        }, function () {
+                            // Use the API to get the real image size
+                            var bounds = this.getBounds();
+                            boundx = bounds[0];
+                            boundy = bounds[1];
+                            // Store the API in the jcrop_api variable
+                            jcropApi = this;
+
+                            // Move the preview into the jcrop container for css positioning
+                            $preview.appendTo(jcropApi.ui.holder);
+                        });
+                    $("#dialog").dialog({
+                        width: 950,
+                        height: 650,
+                        modal: true,
+                        buttons: {
+                            "Crop": function () {
+                                $('#CropForm').submit();
+                                $(this).dialog("close");
+                            }
+                        }
+                    });
+                    jcropApi.setImage(responseJson.path);
+                }
+            }
+        });
+    });
+</script>

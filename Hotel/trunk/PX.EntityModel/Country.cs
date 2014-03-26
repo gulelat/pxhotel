@@ -14,11 +14,6 @@ namespace PX.EntityModel
     
     public partial class Country
     {
-        public Country()
-        {
-            this.Resources = new HashSet<Resource>();
-        }
-    
         public int Id { get; set; }
         public string Name { get; set; }
         public int RecordOrder { get; set; }
@@ -27,7 +22,5 @@ namespace PX.EntityModel
         public string CreatedBy { get; set; }
         public Nullable<System.DateTime> Updated { get; set; }
         public string UpdatedBy { get; set; }
-    
-        public virtual ICollection<Resource> Resources { get; set; }
     }
 }

@@ -17,21 +17,12 @@
           <EntitySet Name="NewsNewsCategories" EntityType="PXHotelModel.Store.NewsNewsCategories" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Pages" EntityType="PXHotelModel.Store.Pages" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="PageTemplates" EntityType="PXHotelModel.Store.PageTemplates" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Resources" EntityType="PXHotelModel.Store.Resources" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Rooms" EntityType="PXHotelModel.Store.Rooms" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="RoomTypes" EntityType="PXHotelModel.Store.RoomTypes" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="SettingTypes" EntityType="PXHotelModel.Store.SettingTypes" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="SiteSettings" EntityType="PXHotelModel.Store.SiteSettings" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Testimonial" EntityType="PXHotelModel.Store.Testimonial" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="UserGroups" EntityType="PXHotelModel.Store.UserGroups" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="UserInfo" EntityType="PXHotelModel.Store.UserInfo" store:Type="Tables" store:Schema="dbo" store:Name="UserInfo">
-            <DefiningQuery>SELECT 
-      [UserInfo].[UserId] AS [UserId], 
-      [UserInfo].[Address] AS [Address], 
-      [UserInfo].[Website] AS [Website], 
-      [UserInfo].[Facebook] AS [Facebook], 
-      [UserInfo].[Twitter] AS [Twitter]
-      FROM [dbo].[UserInfo] AS [UserInfo]</DefiningQuery>
-          </EntitySet>
           <EntitySet Name="Users" EntityType="PXHotelModel.Store.Users" store:Type="Tables" Schema="dbo" />
           <AssociationSet Name="FK_GroupPermissions_UserGroups" Association="PXHotelModel.Store.FK_GroupPermissions_UserGroups">
             <End Role="UserGroups" EntitySet="UserGroups" />
@@ -44,6 +35,10 @@
           <AssociationSet Name="FK_Menu_Menu" Association="PXHotelModel.Store.FK_Menu_Menu">
             <End Role="Menus" EntitySet="Menus" />
             <End Role="Menus1" EntitySet="Menus" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NewsCategories_NewsCategories" Association="PXHotelModel.Store.FK_NewsCategories_NewsCategories">
+            <End Role="NewsCategories" EntitySet="NewsCategories" />
+            <End Role="NewsCategories1" EntitySet="NewsCategories" />
           </AssociationSet>
           <AssociationSet Name="FK_NewsNewsCategory_News" Association="PXHotelModel.Store.FK_NewsNewsCategory_News">
             <End Role="News" EntitySet="News" />
@@ -65,13 +60,13 @@
             <End Role="PageTemplates" EntitySet="PageTemplates" />
             <End Role="PageTemplates1" EntitySet="PageTemplates" />
           </AssociationSet>
-          <AssociationSet Name="FK_Resources_Countries" Association="PXHotelModel.Store.FK_Resources_Countries">
-            <End Role="Countries" EntitySet="Countries" />
-            <End Role="Resources" EntitySet="Resources" />
-          </AssociationSet>
           <AssociationSet Name="FK_Room_Room" Association="PXHotelModel.Store.FK_Room_Room">
             <End Role="RoomTypes" EntitySet="RoomTypes" />
             <End Role="Rooms" EntitySet="Rooms" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SiteSettings_SettingTypes" Association="PXHotelModel.Store.FK_SiteSettings_SettingTypes">
+            <End Role="SettingTypes" EntitySet="SettingTypes" />
+            <End Role="SiteSettings" EntitySet="SiteSettings" />
           </AssociationSet>
           <AssociationSet Name="FK_User_Role" Association="PXHotelModel.Store.FK_User_Role">
             <End Role="UserGroups" EntitySet="UserGroups" />
@@ -197,6 +192,8 @@
           <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="512" />
           <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="ParentId" Type="int" />
+          <Property Name="Hierarchy" Type="nvarchar(max)" Nullable="false" />
           <Property Name="RecordOrder" Type="int" Nullable="false" />
           <Property Name="RecordActive" Type="bit" Nullable="false" />
           <Property Name="Created" Type="datetime" Nullable="false" />
@@ -250,22 +247,6 @@
           <Property Name="Updated" Type="datetime" />
           <Property Name="UpdatedBy" Type="nvarchar" MaxLength="512" />
         </EntityType>
-        <EntityType Name="Resources">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
-          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="512" />
-          <Property Name="DefaultValue" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="Value" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="CountryId" Type="int" Nullable="false" />
-          <Property Name="RecordOrder" Type="int" Nullable="false" />
-          <Property Name="RecordActive" Type="bit" Nullable="false" />
-          <Property Name="Created" Type="datetime" Nullable="false" />
-          <Property Name="CreatedBy" Type="nvarchar" Nullable="false" MaxLength="512" />
-          <Property Name="Updated" Type="datetime" />
-          <Property Name="UpdatedBy" Type="nvarchar" MaxLength="512" />
-        </EntityType>
         <EntityType Name="Rooms">
           <Key>
             <PropertyRef Name="Id" />
@@ -303,7 +284,7 @@
           </Key>
           <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="512" />
-          <Property Name="RecordOder" Type="int" Nullable="false" />
+          <Property Name="RecordOrder" Type="int" Nullable="false" />
           <Property Name="RecordActive" Type="bit" Nullable="false" />
           <Property Name="Created" Type="datetime" Nullable="false" />
           <Property Name="CreatedBy" Type="nvarchar" Nullable="false" MaxLength="512" />
@@ -325,6 +306,20 @@
           <Property Name="Updated" Type="datetime" />
           <Property Name="UpdatedBy" Type="nvarchar" MaxLength="512" />
         </EntityType>
+        <EntityType Name="Testimonial">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Author" Type="nvarchar" Nullable="false" MaxLength="512" />
+          <Property Name="Content" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="RecordOrder" Type="int" Nullable="false" />
+          <Property Name="RecordActive" Type="bit" Nullable="false" />
+          <Property Name="Created" Type="datetime" Nullable="false" />
+          <Property Name="CreatedBy" Type="nvarchar" Nullable="false" MaxLength="512" />
+          <Property Name="Updated" Type="datetime" />
+          <Property Name="UpdatedBy" Type="nvarchar" MaxLength="512" />
+        </EntityType>
         <EntityType Name="UserGroups">
           <Key>
             <PropertyRef Name="Id" />
@@ -338,19 +333,6 @@
           <Property Name="CreatedBy" Type="nvarchar" Nullable="false" MaxLength="512" />
           <Property Name="Updated" Type="datetime" />
           <Property Name="UpdatedBy" Type="nvarchar" MaxLength="512" />
-        </EntityType>
-        <!--Errors Found During Generation:
-      warning 6002: The table/view 'PXHotel.dbo.UserInfo' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
-      -->
-        <EntityType Name="UserInfo">
-          <Key>
-            <PropertyRef Name="UserId" />
-          </Key>
-          <Property Name="UserId" Type="int" Nullable="false" />
-          <Property Name="Address" Type="nvarchar" MaxLength="1024" />
-          <Property Name="Website" Type="nvarchar" MaxLength="512" />
-          <Property Name="Facebook" Type="nvarchar" MaxLength="512" />
-          <Property Name="Twitter" Type="nvarchar" MaxLength="512" />
         </EntityType>
         <EntityType Name="Users">
           <Key>
@@ -409,6 +391,18 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Menus1">
+              <PropertyRef Name="ParentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NewsCategories_NewsCategories">
+          <End Role="NewsCategories" Type="PXHotelModel.Store.NewsCategories" Multiplicity="0..1" />
+          <End Role="NewsCategories1" Type="PXHotelModel.Store.NewsCategories" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NewsCategories">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="NewsCategories1">
               <PropertyRef Name="ParentId" />
             </Dependent>
           </ReferentialConstraint>
@@ -473,18 +467,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Resources_Countries">
-          <End Role="Countries" Type="PXHotelModel.Store.Countries" Multiplicity="1" />
-          <End Role="Resources" Type="PXHotelModel.Store.Resources" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Countries">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Resources">
-              <PropertyRef Name="CountryId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Room_Room">
           <End Role="RoomTypes" Type="PXHotelModel.Store.RoomTypes" Multiplicity="1" />
           <End Role="Rooms" Type="PXHotelModel.Store.Rooms" Multiplicity="*" />
@@ -494,6 +476,18 @@
             </Principal>
             <Dependent Role="Rooms">
               <PropertyRef Name="RoomTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SiteSettings_SettingTypes">
+          <End Role="SettingTypes" Type="PXHotelModel.Store.SettingTypes" Multiplicity="0..1" />
+          <End Role="SiteSettings" Type="PXHotelModel.Store.SiteSettings" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SettingTypes">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SiteSettings">
+              <PropertyRef Name="SettingTypeId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -525,18 +519,13 @@
           <EntitySet Name="NewsNewsCategories" EntityType="PXHotelModel.NewsNewsCategory" />
           <EntitySet Name="Pages" EntityType="PXHotelModel.Page" />
           <EntitySet Name="PageTemplates" EntityType="PXHotelModel.PageTemplate" />
-          <EntitySet Name="Resources" EntityType="PXHotelModel.Resource" />
           <EntitySet Name="Rooms" EntityType="PXHotelModel.Room" />
           <EntitySet Name="RoomTypes" EntityType="PXHotelModel.RoomType" />
           <EntitySet Name="SettingTypes" EntityType="PXHotelModel.SettingType" />
           <EntitySet Name="SiteSettings" EntityType="PXHotelModel.SiteSetting" />
+          <EntitySet Name="Testimonials" EntityType="PXHotelModel.Testimonial" />
           <EntitySet Name="UserGroups" EntityType="PXHotelModel.UserGroup" />
-          <EntitySet Name="UserInfoes" EntityType="PXHotelModel.UserInfo" />
           <EntitySet Name="Users" EntityType="PXHotelModel.User" />
-          <AssociationSet Name="FK_Resources_Countries" Association="PXHotelModel.FK_Resources_Countries">
-            <End Role="Country" EntitySet="Countries" />
-            <End Role="Resource" EntitySet="Resources" />
-          </AssociationSet>
           <AssociationSet Name="FK_GroupPermissions_UserGroups" Association="PXHotelModel.FK_GroupPermissions_UserGroups">
             <End Role="UserGroup" EntitySet="UserGroups" />
             <End Role="GroupPermission" EntitySet="GroupPermissions" />
@@ -552,6 +541,10 @@
           <AssociationSet Name="FK_NewsNewsCategory_News" Association="PXHotelModel.FK_NewsNewsCategory_News">
             <End Role="News" EntitySet="News" />
             <End Role="NewsNewsCategory" EntitySet="NewsNewsCategories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NewsCategories_NewsCategories" Association="PXHotelModel.FK_NewsCategories_NewsCategories">
+            <End Role="NewsCategory" EntitySet="NewsCategories" />
+            <End Role="NewsCategory1" EntitySet="NewsCategories" />
           </AssociationSet>
           <AssociationSet Name="FK_NewsNewsCategory_NewsCategory" Association="PXHotelModel.FK_NewsNewsCategory_NewsCategory">
             <End Role="NewsCategory" EntitySet="NewsCategories" />
@@ -572,6 +565,10 @@
           <AssociationSet Name="FK_Room_Room" Association="PXHotelModel.FK_Room_Room">
             <End Role="RoomType" EntitySet="RoomTypes" />
             <End Role="Room" EntitySet="Rooms" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SiteSettings_SettingTypes" Association="PXHotelModel.FK_SiteSettings_SettingTypes">
+            <End Role="SettingType" EntitySet="SettingTypes" />
+            <End Role="SiteSetting" EntitySet="SiteSettings" />
           </AssociationSet>
           <AssociationSet Name="FK_User_Role" Association="PXHotelModel.FK_User_Role">
             <End Role="UserGroup" EntitySet="UserGroups" />
@@ -612,7 +609,6 @@
           <Property Type="String" Name="CreatedBy" Nullable="false" MaxLength="512" FixedLength="false" Unicode="true" />
           <Property Type="DateTime" Name="Updated" Precision="3" />
           <Property Type="String" Name="UpdatedBy" MaxLength="512" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Resources" Relationship="PXHotelModel.FK_Resources_Countries" FromRole="Country" ToRole="Resource" />
         </EntityType>
         <EntityType Name="GroupPermission">
           <Key>
@@ -704,12 +700,16 @@
           <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="String" Name="Name" Nullable="false" MaxLength="512" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="Description" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="ParentId" />
+          <Property Type="String" Name="Hierarchy" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Type="Int32" Name="RecordOrder" Nullable="false" />
           <Property Type="Boolean" Name="RecordActive" Nullable="false" />
           <Property Type="DateTime" Name="Created" Nullable="false" Precision="3" />
           <Property Type="String" Name="CreatedBy" Nullable="false" MaxLength="512" FixedLength="false" Unicode="true" />
           <Property Type="DateTime" Name="Updated" Precision="3" />
           <Property Type="String" Name="UpdatedBy" MaxLength="512" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="NewsCategories1" Relationship="PXHotelModel.FK_NewsCategories_NewsCategories" FromRole="NewsCategory" ToRole="NewsCategory1" />
+          <NavigationProperty Name="NewsCategory1" Relationship="PXHotelModel.FK_NewsCategories_NewsCategories" FromRole="NewsCategory1" ToRole="NewsCategory" />
           <NavigationProperty Name="NewsNewsCategories" Relationship="PXHotelModel.FK_NewsNewsCategory_NewsCategory" FromRole="NewsCategory" ToRole="NewsNewsCategory" />
         </EntityType>
         <EntityType Name="NewsNewsCategory">
@@ -766,23 +766,6 @@
           <NavigationProperty Name="PageTemplates1" Relationship="PXHotelModel.FK_PageTemplates_PageTemplates" FromRole="PageTemplate" ToRole="PageTemplate1" />
           <NavigationProperty Name="PageTemplate1" Relationship="PXHotelModel.FK_PageTemplates_PageTemplates" FromRole="PageTemplate1" ToRole="PageTemplate" />
         </EntityType>
-        <EntityType Name="Resource">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" />
-          <Property Type="String" Name="Name" Nullable="false" MaxLength="512" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="DefaultValue" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Value" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Type="Int32" Name="CountryId" Nullable="false" />
-          <Property Type="Int32" Name="RecordOrder" Nullable="false" />
-          <Property Type="Boolean" Name="RecordActive" Nullable="false" />
-          <Property Type="DateTime" Name="Created" Nullable="false" Precision="3" />
-          <Property Type="String" Name="CreatedBy" Nullable="false" MaxLength="512" FixedLength="false" Unicode="true" />
-          <Property Type="DateTime" Name="Updated" Precision="3" />
-          <Property Type="String" Name="UpdatedBy" MaxLength="512" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Country" Relationship="PXHotelModel.FK_Resources_Countries" FromRole="Resource" ToRole="Country" />
-        </EntityType>
         <EntityType Name="Room">
           <Key>
             <PropertyRef Name="Id" />
@@ -822,12 +805,13 @@
           </Key>
           <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="String" Name="Name" Nullable="false" MaxLength="512" FixedLength="false" Unicode="true" />
-          <Property Type="Int32" Name="RecordOder" Nullable="false" />
+          <Property Type="Int32" Name="RecordOrder" Nullable="false" />
           <Property Type="Boolean" Name="RecordActive" Nullable="false" />
           <Property Type="DateTime" Name="Created" Nullable="false" Precision="3" />
           <Property Type="String" Name="CreatedBy" Nullable="false" MaxLength="512" FixedLength="false" Unicode="true" />
           <Property Type="DateTime" Name="Updated" Precision="3" />
           <Property Type="String" Name="UpdatedBy" MaxLength="512" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="SiteSettings" Relationship="PXHotelModel.FK_SiteSettings_SettingTypes" FromRole="SettingType" ToRole="SiteSetting" />
         </EntityType>
         <EntityType Name="SiteSetting">
           <Key>
@@ -837,6 +821,21 @@
           <Property Type="String" Name="Name" Nullable="false" MaxLength="512" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="Value" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Type="Int32" Name="SettingTypeId" />
+          <Property Type="Int32" Name="RecordOrder" Nullable="false" />
+          <Property Type="Boolean" Name="RecordActive" Nullable="false" />
+          <Property Type="DateTime" Name="Created" Nullable="false" Precision="3" />
+          <Property Type="String" Name="CreatedBy" Nullable="false" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Type="DateTime" Name="Updated" Precision="3" />
+          <Property Type="String" Name="UpdatedBy" MaxLength="512" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="SettingType" Relationship="PXHotelModel.FK_SiteSettings_SettingTypes" FromRole="SiteSetting" ToRole="SettingType" />
+        </EntityType>
+        <EntityType Name="Testimonial">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" />
+          <Property Type="String" Name="Author" Nullable="false" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Content" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Type="Int32" Name="RecordOrder" Nullable="false" />
           <Property Type="Boolean" Name="RecordActive" Nullable="false" />
           <Property Type="DateTime" Name="Created" Nullable="false" Precision="3" />
@@ -859,16 +858,6 @@
           <Property Type="String" Name="UpdatedBy" MaxLength="512" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="GroupPermissions" Relationship="PXHotelModel.FK_GroupPermissions_UserGroups" FromRole="UserGroup" ToRole="GroupPermission" />
           <NavigationProperty Name="Users" Relationship="PXHotelModel.FK_User_Role" FromRole="UserGroup" ToRole="User" />
-        </EntityType>
-        <EntityType Name="UserInfo">
-          <Key>
-            <PropertyRef Name="UserId" />
-          </Key>
-          <Property Type="Int32" Name="UserId" Nullable="false" />
-          <Property Type="String" Name="Address" MaxLength="1024" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Website" MaxLength="512" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Facebook" MaxLength="512" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Twitter" MaxLength="512" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -896,18 +885,6 @@
           <Property Type="String" Name="UpdatedBy" MaxLength="512" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="UserGroup" Relationship="PXHotelModel.FK_User_Role" FromRole="User" ToRole="UserGroup" />
         </EntityType>
-        <Association Name="FK_Resources_Countries">
-          <End Type="PXHotelModel.Country" Role="Country" Multiplicity="1" />
-          <End Type="PXHotelModel.Resource" Role="Resource" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Country">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Resource">
-              <PropertyRef Name="CountryId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_GroupPermissions_UserGroups">
           <End Type="PXHotelModel.UserGroup" Role="UserGroup" Multiplicity="1" />
           <End Type="PXHotelModel.GroupPermission" Role="GroupPermission" Multiplicity="*" />
@@ -953,6 +930,18 @@
             </Principal>
             <Dependent Role="NewsNewsCategory">
               <PropertyRef Name="NewsId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NewsCategories_NewsCategories">
+          <End Type="PXHotelModel.NewsCategory" Role="NewsCategory" Multiplicity="0..1" />
+          <End Type="PXHotelModel.NewsCategory" Role="NewsCategory1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NewsCategory">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="NewsCategory1">
+              <PropertyRef Name="ParentId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1013,6 +1002,18 @@
             </Principal>
             <Dependent Role="Room">
               <PropertyRef Name="RoomTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SiteSettings_SettingTypes">
+          <End Type="PXHotelModel.SettingType" Role="SettingType" Multiplicity="0..1" />
+          <End Type="PXHotelModel.SiteSetting" Role="SiteSetting" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SettingType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SiteSetting">
+              <PropertyRef Name="SettingTypeId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1162,6 +1163,8 @@
                 <ScalarProperty Name="Created" ColumnName="Created" />
                 <ScalarProperty Name="RecordActive" ColumnName="RecordActive" />
                 <ScalarProperty Name="RecordOrder" ColumnName="RecordOrder" />
+                <ScalarProperty Name="Hierarchy" ColumnName="Hierarchy" />
+                <ScalarProperty Name="ParentId" ColumnName="ParentId" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
@@ -1217,23 +1220,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Resources">
-            <EntityTypeMapping TypeName="PXHotelModel.Resource">
-              <MappingFragment StoreEntitySet="Resources">
-                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
-                <ScalarProperty Name="Updated" ColumnName="Updated" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="Created" ColumnName="Created" />
-                <ScalarProperty Name="RecordActive" ColumnName="RecordActive" />
-                <ScalarProperty Name="RecordOrder" ColumnName="RecordOrder" />
-                <ScalarProperty Name="CountryId" ColumnName="CountryId" />
-                <ScalarProperty Name="Value" ColumnName="Value" />
-                <ScalarProperty Name="DefaultValue" ColumnName="DefaultValue" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Rooms">
             <EntityTypeMapping TypeName="PXHotelModel.Room">
               <MappingFragment StoreEntitySet="Rooms">
@@ -1275,7 +1261,7 @@
                 <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
                 <ScalarProperty Name="Created" ColumnName="Created" />
                 <ScalarProperty Name="RecordActive" ColumnName="RecordActive" />
-                <ScalarProperty Name="RecordOder" ColumnName="RecordOder" />
+                <ScalarProperty Name="RecordOrder" ColumnName="RecordOrder" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
@@ -1297,6 +1283,21 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Testimonials">
+            <EntityTypeMapping TypeName="PXHotelModel.Testimonial">
+              <MappingFragment StoreEntitySet="Testimonial">
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="Updated" ColumnName="Updated" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+                <ScalarProperty Name="RecordActive" ColumnName="RecordActive" />
+                <ScalarProperty Name="RecordOrder" ColumnName="RecordOrder" />
+                <ScalarProperty Name="Content" ColumnName="Content" />
+                <ScalarProperty Name="Author" ColumnName="Author" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="UserGroups">
             <EntityTypeMapping TypeName="PXHotelModel.UserGroup">
               <MappingFragment StoreEntitySet="UserGroups">
@@ -1309,17 +1310,6 @@
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="UserInfoes">
-            <EntityTypeMapping TypeName="PXHotelModel.UserInfo">
-              <MappingFragment StoreEntitySet="UserInfo">
-                <ScalarProperty Name="Twitter" ColumnName="Twitter" />
-                <ScalarProperty Name="Facebook" ColumnName="Facebook" />
-                <ScalarProperty Name="Website" ColumnName="Website" />
-                <ScalarProperty Name="Address" ColumnName="Address" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

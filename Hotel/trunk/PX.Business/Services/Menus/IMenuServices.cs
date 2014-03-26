@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Web.Mvc;
 using PX.Business.Models.Menus;
 using PX.Core.Framework.Enums;
@@ -19,6 +21,7 @@ namespace PX.Business.Services.Menus
         #region Base
 
         IQueryable<Menu> GetAll();
+        IQueryable<Menu> Fetch(Expression<Func<Menu, bool>> expression);
         Menu GetById(object id);
         ResponseModel Insert(Menu menu);
         ResponseModel Update(Menu menu);

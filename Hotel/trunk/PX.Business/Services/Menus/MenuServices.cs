@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
 using System.Web.Mvc;
 using PX.Business.Models.Menus;
@@ -34,6 +35,10 @@ namespace PX.Business.Services.Menus
         public IQueryable<Menu> GetAll()
         {
             return MenuRepository.GetAll();
+        }
+        public IQueryable<Menu> Fetch(Expression<Func<Menu, bool>> expression)
+        {
+            return MenuRepository.Fetch(expression);
         }
         public Menu GetById(object id)
         {
@@ -154,6 +159,9 @@ namespace PX.Business.Services.Menus
 
         #region Menu Permissions
 
+        /// <summary>
+        /// Initialize the menu permissions when application start
+        /// </summary>
         public void InitializeMenuPermissions()
         {
             var menus = GetAll().ToList();
@@ -163,6 +171,10 @@ namespace PX.Business.Services.Menus
             }
         }
 
+        /// <summary>
+        /// Update permissions for menu
+        /// </summary>
+        /// <param name="menu"></param>
         private void UpdateMenuPermission(Menu menu)
         {
             var permissions = new List<PermissionEnums>();
@@ -248,7 +260,7 @@ namespace PX.Business.Services.Menus
         public List<Menu> GetMenus(int? parentId = null)
         {
             var permissions = WorkContext.CurrentUser.UserGroup.GroupPermissions.Where(p => p.HasPermission).Select(p => p.PermissionId);
-            var memus = GetAll().Where(m => m.Visible && parentId.HasValue ? m.ParentId == parentId : !m.ParentId.HasValue).ToList();
+            var memus = Fetch(m => m.Visible && parentId.HasValue ? m.ParentId == parentId : !m.ParentId.HasValue).ToList();
 
             return memus.Where(m => string.IsNullOrEmpty(m.Permissions) || m.Permissions.Split(',').Select(int.Parse).Intersect(permissions).Count() == m.Permissions.Split(',').Count()).OrderBy(m => m.RecordOrder).ToList();
         }
@@ -266,25 +278,26 @@ namespace PX.Business.Services.Menus
             if (menu != null)
             {
                 return new BreadCrumbModel
-                {
-                    BreadCrumbs =
-                        GetAll().Where(m => menu.Hierarchy.Contains(m.Hierarchy) && menu.Id != m.Id).OrderBy(m => m.Hierarchy).Select(m => new BreadCrumbItem
-                        {
-                            Name = m.Name,
-                            Url = m.Url,
-                            Action = m.Action,
-                            Controller = m.Controller,
-                            MenuIcon = m.MenuIcon
-                        }).ToList(),
-                    CurrentBreadCrumbItem = new BreadCrumbItem
                     {
-                        Name = menu.Name,
-                        Url = menu.Url,
-                        Action = menu.Action,
-                        Controller = menu.Controller,
-                        MenuIcon = menu.MenuIcon
-                    }
-                };
+                        BreadCrumbs =
+                            Fetch(m => menu.Hierarchy.Contains(m.Hierarchy) && menu.Id != m.Id).OrderBy(m => m.Hierarchy)
+                                .Select(m => new BreadCrumbItem
+                                    {
+                                        Name = m.Name,
+                                        Url = m.Url,
+                                        Action = m.Action,
+                                        Controller = m.Controller,
+                                        MenuIcon = m.MenuIcon
+                                    }).ToList(),
+                        CurrentBreadCrumbItem = new BreadCrumbItem
+                            {
+                                Name = menu.Name,
+                                Url = menu.Url,
+                                Action = menu.Action,
+                                Controller = menu.Controller,
+                                MenuIcon = menu.MenuIcon
+                            }
+                    };
             }
             return new BreadCrumbModel();
         }

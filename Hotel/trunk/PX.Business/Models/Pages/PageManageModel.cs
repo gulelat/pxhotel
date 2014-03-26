@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Web.Mvc;
-using PX.Business.Mvc.Enums;
 using PX.Business.Mvc.Environments;
 using PX.Business.Services.Localizes;
 using PX.Business.Services.Pages;
+using PX.Core.Ultilities;
 
 namespace PX.Business.Models.Pages
 {
@@ -53,12 +52,13 @@ namespace PX.Business.Models.Pages
         {
             var pageServices = HostContainer.GetInstance<IPageServices>();
             var localizedResourceServices = HostContainer.GetInstance<ILocalizedResourceServices>();
-            if (pageServices.GetAll().Any(u => u.Title.Equals(Title) && u.Id != Id))
+            if (pageServices.IsTitleExisted(Id, Title))
             {
                 yield return new ValidationResult(localizedResourceServices.T("AdminModule:::Pages:::ValidationMessage:::Title is existed."), new[]{ "Title"});
             }
 
-            if (pageServices.GetAll().Any(u => u.FriendlyUrl.Equals(FriendlyUrl) && u.Id != Id))
+            FriendlyUrl = string.IsNullOrWhiteSpace(FriendlyUrl) ? Title.ToUrlString() : FriendlyUrl.ToUrlString();
+            if (pageServices.IsFriendlyUrlExisted(Id, FriendlyUrl))
             {
                 yield return new ValidationResult(localizedResourceServices.T("AdminModule:::Pages:::ValidationMessage:::Friendly Url is existed."), new[] { "FriendlyUrl" });
             }

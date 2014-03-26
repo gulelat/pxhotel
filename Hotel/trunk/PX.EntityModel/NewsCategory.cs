@@ -16,12 +16,15 @@ namespace PX.EntityModel
     {
         public NewsCategory()
         {
+            this.NewsCategories1 = new HashSet<NewsCategory>();
             this.NewsNewsCategories = new HashSet<NewsNewsCategory>();
         }
     
         public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
+        public Nullable<int> ParentId { get; set; }
+        public string Hierarchy { get; set; }
         public int RecordOrder { get; set; }
         public bool RecordActive { get; set; }
         public System.DateTime Created { get; set; }
@@ -29,6 +32,8 @@ namespace PX.EntityModel
         public Nullable<System.DateTime> Updated { get; set; }
         public string UpdatedBy { get; set; }
     
+        public virtual ICollection<NewsCategory> NewsCategories1 { get; set; }
+        public virtual NewsCategory NewsCategory1 { get; set; }
         public virtual ICollection<NewsNewsCategory> NewsNewsCategories { get; set; }
     }
 }
