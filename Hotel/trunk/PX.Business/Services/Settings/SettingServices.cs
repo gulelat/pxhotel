@@ -2,6 +2,7 @@
 using System.Data;
 using System.Data.Objects;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
 using AutoMapper;
 using PX.Business.Models.Settings;
@@ -29,6 +30,10 @@ namespace PX.Business.Services.Settings
         public IQueryable<SiteSetting> GetAll()
         {
             return SiteSettingRepository.GetAll();
+        }
+        public IQueryable<SiteSetting> Fetch(Expression<Func<SiteSetting, bool>> expression)
+        {
+            return SiteSettingRepository.Fetch(expression);
         }
         public SiteSetting GetById(object id)
         {
@@ -67,6 +72,7 @@ namespace PX.Business.Services.Settings
                 Id = u.Id,
                 Name = u.Name,
                 Value = u.Value,
+                SettingTypeName = u.SettingType.Name,
                 RecordActive = u.RecordActive,
                 RecordOrder = u.RecordOrder,
                 Created = u.Created,
@@ -86,6 +92,7 @@ namespace PX.Business.Services.Settings
         /// <returns></returns>
         public ResponseModel ManageSiteSetting(GridOperationEnums operation, SiteSettingModel model)
         {
+            int settingTypeId;
             ResponseModel response;
             Mapper.CreateMap<SiteSettingModel, SiteSetting>();
             SiteSetting siteSetting;
@@ -98,6 +105,15 @@ namespace PX.Business.Services.Settings
                     siteSetting.RecordActive = model.RecordActive;
                     siteSetting.RecordOrder = model.RecordOrder;
 
+                    if (int.TryParse(model.SettingTypeName, out settingTypeId))
+                    {
+                        siteSetting.SettingTypeId = settingTypeId;
+                    }
+                    else
+                    {
+                        siteSetting.SettingTypeId = null;
+                    }
+
                     response = Update(siteSetting);
                     return response.SetMessage(response.Success ?
                         _localizedResourceServices.T("AdminModule:::Settings:::Update setting successfully")
@@ -105,6 +121,15 @@ namespace PX.Business.Services.Settings
 
                 case GridOperationEnums.Add:
                     siteSetting = Mapper.Map<SiteSettingModel, SiteSetting>(model);
+                    if (int.TryParse(model.SettingTypeName, out settingTypeId))
+                    {
+                        siteSetting.SettingTypeId = settingTypeId;
+                    }
+                    else
+                    {
+                        siteSetting.SettingTypeId = null;
+                    }
+
                     response = Insert(siteSetting);
                     return response.SetMessage(response.Success ?
                         _localizedResourceServices.T("AdminModule:::Settings:::Insert setting successfully")

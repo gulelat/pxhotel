@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Web.Mvc;
 using AutoMapper;
 using PX.Business.Models.PageTemplates;
@@ -30,6 +32,10 @@ namespace PX.Business.Services.PageTemplates
         public IQueryable<PageTemplate> GetAll()
         {
             return PageTemplateRepository.GetAll();
+        }
+        public IQueryable<PageTemplate> Fetch(Expression<Func<PageTemplate, bool>> expression)
+        {
+            return PageTemplateRepository.Fetch(expression);
         }
         public PageTemplate GetById(object id)
         {
@@ -236,6 +242,17 @@ namespace PX.Business.Services.PageTemplates
                 Value = r.Id.ToString(CultureInfo.InvariantCulture),
                 Selected = r.Id == id
             });
+        }
+
+        /// <summary>
+        /// Check if template title is existed
+        /// </summary>
+        /// <param name="pageTemplateId">the template id</param>
+        /// <param name="title">the title</param>
+        /// <returns></returns>
+        public bool IsPageTemplateTitleExisted(int? pageTemplateId, string title)
+        {
+            return Fetch(t => t.Id != pageTemplateId && !t.Name.Equals(title)).Any();
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading;
 using System.Web;
 using AutoMapper;
@@ -25,6 +26,10 @@ namespace PX.Business.Services.Localizes
         public IQueryable<LocalizedResource> GetAll()
         {
             return LocalizedResourceRepository.GetAll();
+        }
+        public IQueryable<LocalizedResource> Fetch(Expression<Func<LocalizedResource, bool>> expression)
+        {
+            return LocalizedResourceRepository.Fetch(expression);
         }
         public LocalizedResource GetById(object id)
         {
@@ -58,7 +63,7 @@ namespace PX.Business.Services.Localizes
         /// <returns></returns>
         public JqGridSearchOut SearchLocalizedResources(JqSearchIn si, string language)
         {
-            var localizedResources = GetAll().Where(l => l.LanguageId.Equals(language)).Select(u => new LocalizedResourceModel
+            var localizedResources = Fetch(l => l.LanguageId.Equals(language)).Select(u => new LocalizedResourceModel
             {
                 Id = u.Id,
                 TextKey = u.TextKey,
@@ -196,7 +201,7 @@ namespace PX.Business.Services.Localizes
         private string UpdateDictionaryToDb(string textKey, string defaultValue = "", params object[] parameters)
         {
             var values = defaultValue.Split(new[] { LocalizedSerperator }, StringSplitOptions.RemoveEmptyEntries).Last();
-            var existedResourceIds = GetAll().Where(l => l.TextKey.Equals(textKey)).Select(l => l.LanguageId);
+            var existedResourceIds = Fetch(l => l.TextKey.Equals(textKey)).Select(l => l.LanguageId);
             var languages = LanguageRepository.Fetch(l => !existedResourceIds.Contains(l.Id)).Select(l => l.Id).ToList();
             foreach (var language in languages)
             {

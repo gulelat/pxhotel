@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
@@ -37,6 +38,10 @@ namespace PX.Business.Services.Users
         public IQueryable<User> GetAll()
         {
             return UserRepository.GetAll();
+        }
+        public IQueryable<User> Fetch(Expression<Func<User, bool>> expression)
+        {
+            return UserRepository.Fetch(expression);
         }
         public User GetById(object id)
         {
@@ -315,6 +320,17 @@ namespace PX.Business.Services.Users
                     Success = false,
                     Message = _localizedResourceServices.T("AdminModule:::Users:::User not founded")
                 };
+        }
+
+        /// <summary>
+        /// Check if user is existed
+        /// </summary>
+        /// <param name="userId">the user id</param>
+        /// <param name="email"></param>
+        /// <returns></returns>
+        public bool IsEmailExisted(int? userId, string email)
+        {
+            return Fetch(u => u.Email.Equals(email) && u.Id != userId).Any();
         }
     }
 }

@@ -58,45 +58,45 @@ namespace PX.Core.Ultilities
         //    catch { }
         //}
 
-        //public static string CropImage(string folder, string filename, double x, double y, double width, double height, bool toThumbnail, int thumbnailWidth)
-        //{
-        //    var tmpFolder = HttpContext.Current.Server.MapPath(Configurations.Configurations.TempFolder);
-        //    var cropRect = new Rectangle(Convert.ToInt32(x), Convert.ToInt32(y), Convert.ToInt32(width), Convert.ToInt32(height));
-        //    Bitmap image;
-        //    var tmpPath = Path.Combine(tmpFolder, filename);
-        //    using (image = Image.FromFile(tmpPath) as Bitmap)
-        //    {
-        //        var img = CropImage(image, cropRect);
+        public static string CropImage(string folder, string filename, double x, double y, double width, double height, bool toThumbnail, int thumbnailWidth)
+        {
+            var tmpFolder = HttpContext.Current.Server.MapPath(Configurations.Configurations.TempFolder);
+            var cropRect = new Rectangle(Convert.ToInt32(x), Convert.ToInt32(y), Convert.ToInt32(width), Convert.ToInt32(height));
+            Bitmap image;
+            var tmpPath = Path.Combine(tmpFolder, filename);
+            using (image = Image.FromFile(tmpPath) as Bitmap)
+            {
+                var img = CropImage(image, cropRect);
 
-        //        if (toThumbnail)
-        //        {
-        //            if (width > thumbnailWidth)
-        //            {
-        //                height = (height * thumbnailWidth) / width;
-        //                img = img.GetThumbnailImage(thumbnailWidth, Convert.ToInt32(height), () => false, IntPtr.Zero);
-        //            }
-        //        }
+                if (toThumbnail)
+                {
+                    if (width > thumbnailWidth)
+                    {
+                        height = (height * thumbnailWidth) / width;
+                        img = img.GetThumbnailImage(thumbnailWidth, Convert.ToInt32(height), () => false, IntPtr.Zero);
+                    }
+                }
 
-        //        filename = GetRightNameToSave(folder, filename);
-        //        filename = GetRightNameToSave(tmpFolder, filename);
+                filename = GetRightNameToSave(folder, filename);
+                filename = GetRightNameToSave(tmpFolder, filename);
 
-        //        var extension = Path.GetExtension(filename);
-        //        switch (extension)
-        //        {
-        //            case ".png":
-        //                img.Save(tmpFolder + filename, ImageFormat.Png);
-        //                break;
-        //            case ".gif":
-        //                img.Save(tmpFolder + filename, ImageFormat.Gif);
-        //                break;
-        //            default:
-        //                img.Save(tmpFolder + filename, ImageFormat.Jpeg);
-        //                break;
-        //        }
-        //        img.Dispose();
-        //    }
-        //    return filename;
-        //}
+                var extension = Path.GetExtension(filename);
+                switch (extension)
+                {
+                    case ".png":
+                        img.Save(tmpFolder + filename, ImageFormat.Png);
+                        break;
+                    case ".gif":
+                        img.Save(tmpFolder + filename, ImageFormat.Gif);
+                        break;
+                    default:
+                        img.Save(tmpFolder + filename, ImageFormat.Jpeg);
+                        break;
+                }
+                img.Dispose();
+            }
+            return filename;
+        }
 
         public static string GetRightNameToSave(string path, string fileName)
         {

@@ -2,7 +2,7 @@
 
 namespace PX.EntityModel.Repositories
 {
-    public class MenuRepository : Repository<Menu>
+    public class MenuRepository : HierarchyRepository<Menu>
     {
     }
 }

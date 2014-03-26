@@ -70,9 +70,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\NewsCategories\NewsCategoryModel.cs" />
+    <Compile Include="Models\News\NewsModel.cs" />
+    <Compile Include="Models\SettingTypes\SettingTypeModel.cs" />
+    <Compile Include="Models\FileManagers\FileUploadViewModel.cs" />
+    <Compile Include="Models\FileManagers\ImageCropModel.cs" />
+    <Compile Include="Models\Testimonials\TestimonialModel.cs" />
     <Compile Include="Models\CurlyBrackets\CurlyBracketModel.cs" />
     <Compile Include="Models\Pages\PageManageModel.cs" />
     <Compile Include="Mvc\Enums\PageEnums.cs" />
+    <Compile Include="Services\NewsCategories\INewsCategoryServices.cs" />
+    <Compile Include="Services\NewsCategories\NewsCategoryServices.cs" />
+    <Compile Include="Services\News\INewsServices.cs" />
+    <Compile Include="Services\News\NewsServices.cs" />
+    <Compile Include="Services\SettingTypes\ISettingTypeServices.cs" />
+    <Compile Include="Services\SettingTypes\SettingTypeServices.cs" />
+    <Compile Include="Services\Testimonials\ITestimonialServices.cs" />
+    <Compile Include="Services\Testimonials\TestimonialServices.cs" />
     <Compile Include="Services\CurlyBrackets\CurlyBracketResolver\ICurlyBracketResolver.cs" />
     <Compile Include="Models\Languages\LanguageModel.cs" />
     <Compile Include="Models\LocalizedResources\LocalizeDictionaryItem.cs" />

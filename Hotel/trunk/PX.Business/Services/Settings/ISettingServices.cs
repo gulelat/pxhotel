@@ -1,6 +1,7 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using System.Linq.Expressions;
 using PX.Business.Models.Settings;
-using PX.Business.Models.Settings.SettingTypes;
 using PX.Core.Framework.Enums;
 using PX.Core.Framework.Mvc.Models;
 using PX.Core.Framework.Mvc.Models.JqGrid;
@@ -13,6 +14,7 @@ namespace PX.Business.Services.Settings
         #region Base
 
         IQueryable<SiteSetting> GetAll();
+        IQueryable<SiteSetting> Fetch(Expression<Func<SiteSetting, bool>> expression);
         SiteSetting GetById(object id);
         ResponseModel Insert(SiteSetting siteSetting);
         ResponseModel Update(SiteSetting siteSetting);

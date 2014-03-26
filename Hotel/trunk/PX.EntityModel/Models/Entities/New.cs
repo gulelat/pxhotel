@@ -3,13 +3,13 @@ using PX.Core.Framework.Mvc.Attributes;
 
 namespace PX.EntityModel
 {
-    [MetadataType(typeof(NewMetaData))]
+    [MetadataType(typeof(NewsMetaData))]
     [Table(Name = "News")]
-    public partial class New
+    public partial class News
     {
     }
 
-    public class NewMetaData
+    public class NewsMetaData
     {
     }
 }

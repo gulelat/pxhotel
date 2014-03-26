@@ -5,35 +5,35 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="646df66615ab4512a9a66205577ab7c5" Name="Diagram1" ZoomLevel="46">
-        <EntityTypeShape EntityType="PXHotelModel.BookingRequest" Width="1.5" PointX="0.15163582570461362" PointY="0.20172336706971905" />
-        <EntityTypeShape EntityType="PXHotelModel.Country" Width="1.5" PointX="3.1418975028870153" PointY="19.195457258818418" />
-        <EntityTypeShape EntityType="PXHotelModel.GroupPermission" Width="1.5" PointX="3.7276361620648" PointY="5.222709240961219" />
-        <EntityTypeShape EntityType="PXHotelModel.Language" Width="1.5" PointX="11.608419114541459" PointY="17.466131978419671" />
-        <EntityTypeShape EntityType="PXHotelModel.LocalizedResource" Width="1.5" PointX="7.6393191086311454" PointY="30.513874202274661" />
-        <EntityTypeShape EntityType="PXHotelModel.Menu" Width="1.5" PointX="9.3144753991227951" PointY="14.64884615626598" />
-        <EntityTypeShape EntityType="PXHotelModel.News" Width="1.5" PointX="0.062712863116857059" PointY="3.77844257828707" />
-        <EntityTypeShape EntityType="PXHotelModel.NewsCategory" Width="1.5" PointX="2.8898464492009239" PointY="8.71019868958285" />
-        <EntityTypeShape EntityType="PXHotelModel.NewsNewsCategory" Width="1.5" PointX="10.609622300886374" PointY="28.844345746955064" />
-        <EntityTypeShape EntityType="PXHotelModel.Page" Width="1.5" PointX="1.2229991728547027" PointY="1.1931434428287406" />
-        <EntityTypeShape EntityType="PXHotelModel.PageTemplate" Width="1.5" PointX="2.0428063785856621" PointY="14.861004538303709" />
-        <EntityTypeShape EntityType="PXHotelModel.Resource" Width="1.5" PointX="3.88007161015648" PointY="10.0169609086667" />
-        <EntityTypeShape EntityType="PXHotelModel.Room" Width="1.5" PointX="8.6925644691533233" PointY="22.996651645282586" />
-        <EntityTypeShape EntityType="PXHotelModel.RoomType" Width="1.5" PointX="6.4238512713573179" PointY="21.4269644121765" />
-        <EntityTypeShape EntityType="PXHotelModel.SettingType" Width="1.5" PointX="8.7867323573616964" PointY="15.327549539193301" />
-        <EntityTypeShape EntityType="PXHotelModel.SiteSetting" Width="1.5" PointX="10.357877996916827" PointY="23.201302375272522" />
-        <EntityTypeShape EntityType="PXHotelModel.UserGroup" Width="1.5" PointX="5.7691418592674388" PointY="3.020617382144843" />
-        <EntityTypeShape EntityType="PXHotelModel.UserInfo" Width="1.5" PointX="2.241825281754986" PointY="17.751927190344748" />
-        <EntityTypeShape EntityType="PXHotelModel.User" Width="1.5" PointX="9.67341863441906" PointY="4.2260693182358837" />
-        <AssociationConnector Association="PXHotelModel.FK_Resources_Countries" />
+        <EntityTypeShape EntityType="PXHotelModel.BookingRequest" Width="1.5" PointX="8.144373098455544" PointY="23.05723860443441" />
+        <EntityTypeShape EntityType="PXHotelModel.Country" Width="1.5" PointX="0.98121587791536735" PointY="24.265085142229257" />
+        <EntityTypeShape EntityType="PXHotelModel.GroupPermission" Width="1.5" PointX="2.7542090447406324" PointY="17.598414548485732" />
+        <EntityTypeShape EntityType="PXHotelModel.Language" Width="1.5" PointX="11.873710887447796" PointY="0.96521022960786251" />
+        <EntityTypeShape EntityType="PXHotelModel.LocalizedResource" Width="1.5" PointX="11.618155946777275" PointY="15.509282596180812" />
+        <EntityTypeShape EntityType="PXHotelModel.Menu" Width="1.5" PointX="2.8888496844511713" PointY="6.831410142980241" />
+        <EntityTypeShape EntityType="PXHotelModel.News" Width="1.5" PointX="1.7984807909459251" PointY="15.33303887365993" />
+        <EntityTypeShape EntityType="PXHotelModel.NewsCategory" Width="1.5" PointX="8.1655073464687487" PointY="26.953842980300003" />
+        <EntityTypeShape EntityType="PXHotelModel.NewsNewsCategory" Width="1.5" PointX="3.1420311607150504" PointY="0.88922999840659556" />
+        <EntityTypeShape EntityType="PXHotelModel.Page" Width="1.5" PointX="5.0409540911395823" PointY="1.4127287424228754" />
+        <EntityTypeShape EntityType="PXHotelModel.PageTemplate" Width="1.5" PointX="9.7725275986699991" PointY="7.6527057772747735" />
+        <EntityTypeShape EntityType="PXHotelModel.Room" Width="1.5" PointX="2.7673751259070705" PointY="27.499759552767387" />
+        <EntityTypeShape EntityType="PXHotelModel.RoomType" Width="1.5" PointX="10.013454374863512" PointY="29.220138921039243" />
+        <EntityTypeShape EntityType="PXHotelModel.SettingType" Width="1.5" PointX="10.680713183563535" PointY="23.727700140200415" />
+        <EntityTypeShape EntityType="PXHotelModel.SiteSetting" Width="1.5" PointX="4.4178146870889767" PointY="14.715969301162273" />
+        <EntityTypeShape EntityType="PXHotelModel.Testimonial" Width="1.5" PointX="8.7174589842173553" PointY="22.912565331399705" />
+        <EntityTypeShape EntityType="PXHotelModel.UserGroup" Width="1.5" PointX="6.8853263384128578" PointY="11.53413598776522" />
+        <EntityTypeShape EntityType="PXHotelModel.User" Width="1.5" PointX="3.0483922935316308" PointY="5.3997131015172757" />
         <AssociationConnector Association="PXHotelModel.FK_GroupPermissions_UserGroups" />
         <AssociationConnector Association="PXHotelModel.FK_LocalizedResources_Languages" />
         <AssociationConnector Association="PXHotelModel.FK_Menu_Menu" />
         <AssociationConnector Association="PXHotelModel.FK_NewsNewsCategory_News" />
+        <AssociationConnector Association="PXHotelModel.FK_NewsCategories_NewsCategories" />
         <AssociationConnector Association="PXHotelModel.FK_NewsNewsCategory_NewsCategory" />
         <AssociationConnector Association="PXHotelModel.FK_Pages_Pages" />
         <AssociationConnector Association="PXHotelModel.FK_Pages_PageTemplates" />
         <AssociationConnector Association="PXHotelModel.FK_PageTemplates_PageTemplates" />
         <AssociationConnector Association="PXHotelModel.FK_Room_Room" />
+        <AssociationConnector Association="PXHotelModel.FK_SiteSettings_SettingTypes" />
         <AssociationConnector Association="PXHotelModel.FK_User_Role" />
       </Diagram>
     </edmx:Diagrams>

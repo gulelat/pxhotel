@@ -91,14 +91,14 @@ namespace PX.Web.Areas.Admin.Controllers
                 var response = _pageServices.SavePageManageModel(model);
                 if (response.Success)
                 {
-                    var template = (Page)response.Data;
+                    var templateId = (int)response.Data;
                     SetSuccessMessage(response.Message);
                     switch (submit)
                     {
                         case SubmitTypeEnums.Save:
                             return RedirectToAction("Index");
                         default:
-                            return RedirectToAction("Edit", new { id = template.Id });
+                            return RedirectToAction("Edit", new { id = templateId });
                     }
                 }
                 SetErrorMessage(response.Message);
@@ -127,14 +127,14 @@ namespace PX.Web.Areas.Admin.Controllers
                 var response = _pageServices.SavePageManageModel(model);
                 if (response.Success)
                 {
-                    var template = (Page)response.Data;
+                    var templateId = (int)response.Data;
                     SetSuccessMessage(response.Message);
                     switch (submit)
                     {
                         case SubmitTypeEnums.Save:
                             return RedirectToAction("Index");
                         default:
-                            return RedirectToAction("Edit", new { id = template.Id });
+                            return RedirectToAction("Edit", new { id = templateId });
                     }
                 }
                 SetErrorMessage(response.Message);

@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using System.Linq.Expressions;
 using PX.Business.Models.Languages;
 using PX.Core.Framework.Enums;
 using PX.Core.Framework.Mvc.Models;
@@ -12,6 +14,7 @@ namespace PX.Business.Services.Languages
         #region Base
 
         IQueryable<Language> GetAll();
+        IQueryable<Language> Fetch(Expression<Func<Language, bool>> expression);
         Language GetById(object id);
         ResponseModel Insert(Language language);
         ResponseModel Update(Language language);

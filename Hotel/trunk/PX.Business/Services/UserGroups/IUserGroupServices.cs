@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Web.Mvc;
 using PX.Business.Models.UserGroups;
 using PX.Core.Framework.Enums;
@@ -14,6 +16,7 @@ namespace PX.Business.Services.UserGroups
         #region Base
 
         IQueryable<UserGroup> GetAll();
+        IQueryable<UserGroup> Fetch(Expression<Func<UserGroup, bool>> expression);
         UserGroup GetById(object id);
         ResponseModel Insert(UserGroup userGroup);
         ResponseModel Update(UserGroup userGroup);

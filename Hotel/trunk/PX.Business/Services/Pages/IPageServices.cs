@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Web.Mvc;
 using PX.Business.Models.Pages;
 using PX.Core.Framework.Enums;
@@ -14,6 +16,7 @@ namespace PX.Business.Services.Pages
         #region Base
 
         IQueryable<Page> GetAll();
+        IQueryable<Page> Fetch(Expression<Func<Page, bool>> expression);
         Page GetById(object id);
         ResponseModel Insert(Page page);
         ResponseModel Update(Page page);
@@ -41,5 +44,9 @@ namespace PX.Business.Services.Pages
         ResponseModel SavePageManageModel(PageManageModel model);
 
         IEnumerable<SelectListItem> GetRelativePages(int? pageId = null, int? parentId = null);
+
+        bool IsTitleExisted(int? pageId, string title);
+
+        bool IsFriendlyUrlExisted(int? pageId, string friendlyUrl);
     }
 }

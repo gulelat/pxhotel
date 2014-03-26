@@ -11,5 +11,9 @@ namespace PX.Business.Models.Settings
 
         [Required]
         public string Value { get; set; }
+
+        public string SettingTypeName { get; set; }
+
+        public int SettingTypeId { get; set; }
     }
 }
