@@ -51,12 +51,12 @@ function ShowMessage(response, center) {
 
 //Show success message
 function ShowSuccessMessage(message, center) {
-    var centerClass = "";
+    var centerClass = "gritter-center ";
     if (center == null || center)
-        centerClass = "gritter-center ";
+        centerClass = "";
         
     $.gritter.add({
-        time: 2000,
+        time: 50000,
         title: 'Message',
         text: message,
         class_name: centerClass + 'gritter-info'

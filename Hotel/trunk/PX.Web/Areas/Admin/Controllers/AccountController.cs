@@ -49,8 +49,7 @@ namespace PX.Web.Areas.Admin.Controllers
                 var response = _userServices.Login(model);
                 if(response.Success)
                 {
-                    TempData[DefaultConstants.SuccessMessage] =
-                        LocalizedResourceServices.T("AdminModule:::Users:::Login successfully1");
+                    SetSuccessMessage(LocalizedResourceServices.T("AdminModule:::Users:::Login successfully"));
                 }
                 return Json(response);
             }
@@ -128,7 +127,7 @@ namespace PX.Web.Areas.Admin.Controllers
         [PxAuthorize]
         public ActionResult MyProfile()
         {
-            var model = _userServices.GetUser(HttpContext.User.Identity.Name);
+            var model = _userServices.GetActiveUser(HttpContext.User.Identity.Name);
             return View(model);
         }
 

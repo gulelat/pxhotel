@@ -67,7 +67,7 @@ namespace PX.Business.Mvc.Attributes
             }
 
             var userServices = HostContainer.GetInstance<IUserServices>();
-            var currentUser = userServices.GetUser(httpContext.User.Identity.Name);
+            var currentUser = userServices.GetActiveUser(httpContext.User.Identity.Name);
             if(currentUser == null)
             {
                 FormsAuthentication.SignOut();
