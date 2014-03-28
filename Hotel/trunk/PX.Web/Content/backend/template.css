@@ -35,6 +35,23 @@ textarea.input-validation-error
 {
 }
 
+/* Code Mirror*/
+.CodeMirror-scroll {
+    top: 45px;
+}
+
+/* Message */
+#gritter-notice-wrapper {
+    
+}
+
+
+/* Grid */
+.grid-action {
+    float: left;
+    margin-left: 10px;
+}
+
 /*Buttons*/
 .btn-group > .btn.btn-xs > .caret {
     border-width: 4px;

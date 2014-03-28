@@ -118,7 +118,7 @@
                                     <div class="profile-info-name">Birthday </div>
 
                                     <div class="profile-info-value">
-                                        <span class="editable date" data-name="BirthDay">@(CurrentUser.BirthDay.ToShortDateString())</span>
+                                        <span class="editable date" data-name="BirthDay">@(CurrentUser.BirthDay.HasValue ? CurrentUser.BirthDay.ToShortDateString() : DateTime.Now.ToShortDateString())</span>
                                     </div>
                                 </div>
 

@@ -32,6 +32,8 @@ namespace PX.Business.Services.Users
 
         User GetUser(string email);
 
+        User GetActiveUser(string email);
+
         JqGridSearchOut SearchUsers(JqSearchIn si);
 
         IEnumerable<SelectListItem> GetStatus();

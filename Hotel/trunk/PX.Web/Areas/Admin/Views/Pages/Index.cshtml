@@ -59,9 +59,12 @@
                 colNames: ['', 'Id', 'Title', 'Friendly Url', 'Page Template', 'Parent Page', 'Status', 'Order', 'Active', 'Created', 'CreatedBy', 'Updated', 'UpdatedBy'],
                 colModel: [
                     {
-                        name: 'preview', width: 50, sortable: false, search: false, align: "center",
+                        name: 'preview', width: 60, sortable: false, search: false, align: "center",
                         formatter: function (cellvalue, options, rowObject) {
-                            return "<a href='@Url.Action("Edit")/" + options.rowId + "'><div class='ui-pg-div ui-inline-edit' title='' data-original-title='Edit Page'><span class='icon-edit'></span></div></a>";
+                            var url = rowObject["FriendlyUrl"];
+                            var editIcon = "<a class='grid-action' href='@Url.Action("Edit")/" + options.rowId + "'><div class='ui-pg-div ui-inline-edit' title='' data-original-title='Edit Page'><span class='icon-edit'></span></div></a>";
+                            var previewIcon = "<a class='grid-action' href='/" + url + "'><div class='ui-pg-div ui-inline-edit' title='' data-original-title='View Page'><span class='icon-eye-open'></span></div></a>";
+                            return editIcon + previewIcon;
                         }
                     },
                     { name: 'Id', index: 'Id', width: 60, key: true, sorttype: "int" },
@@ -115,7 +118,6 @@
                 rowNum: 10,
                 rowList: [10, 20, 30],
                 shrinkToFit: false,
-                multiselect: true,
                 editurl: '@Url.Action("Manage")',
                 
                 //Before select row change data Url base on page id

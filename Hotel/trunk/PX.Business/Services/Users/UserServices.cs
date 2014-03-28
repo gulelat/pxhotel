@@ -65,9 +65,24 @@ namespace PX.Business.Services.Users
         }
         #endregion
 
+        /// <summary>
+        /// Get user
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns></returns>
         public User GetUser(string email)
         {
             return GetAll().FirstOrDefault(u => u.Email.Equals(email));
+        }
+
+        /// <summary>
+        /// Get active user by email
+        /// </summary>
+        /// <param name="email">user email</param>
+        /// <returns></returns>
+        public User GetActiveUser(string email)
+        {
+            return GetAll().FirstOrDefault(u => u.Email.Equals(email) && u.Status == (int)UserEnums.UserStatusEnums.Active);
         }
 
         /// <summary>

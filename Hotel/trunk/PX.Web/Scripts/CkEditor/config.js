@@ -12,5 +12,6 @@ CKEDITOR.editorConfig = function (config) {
     //config.filebrowserImageBrowseUrl = '/Admin/FileManager/Upload/1';
     //config.filebrowserImageUploadUrl = '/Admin/FileManager/Upload';
     //config.filebrowserWindowWidth = 800;
-    //config.filebrowserWindowHeight = 500;
+    //config.filebrowserWindowHeight = 500; 
+    config.contentsCss = '/Content/FrontEnd/css/styles.css';
 };
