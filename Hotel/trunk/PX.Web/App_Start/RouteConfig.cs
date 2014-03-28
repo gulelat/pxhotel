@@ -16,42 +16,42 @@ namespace PX.Web
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
-            //routes.MapRoute(
-            //    "DefaultLocalized",
-            //    "{language}-{culture}/{controller}/{action}/{id}",
-            //    new
-            //    {
-            //        id = UrlParameter.Optional,
-            //        languageKey = "en",
-            //        culture = "US"
-            //    },
-            //    new[] { NameSpaces });
+            routes.MapRoute(
+                "DefaultLocalized",
+                "{language}_{culture}/{controller}/{action}/{id}",
+                new
+                {
+                    id = UrlParameter.Optional,
+                    languageKey = "en",
+                    culture = "US"
+                },
+                new[] { NameSpaces });
 
-            //routes.MapRoute(
-            //    "DefaultLocalizedWithFriendlyUrl",
-            //    "{language}-{culture}/",
-            //    new
-            //    {
-            //        controller = "Home",
-            //        action = "Index",
-            //        url = UrlParameter.Optional,
-            //        languageKey = "en",
-            //        culture = "US"
-            //    },
-            //    new[] { NameSpaces });
+            routes.MapRoute(
+                "DefaultLocalizedWithFriendlyUrl",
+                "{language}_{culture}/",
+                new
+                {
+                    controller = "Home",
+                    action = "Index",
+                    url = UrlParameter.Optional,
+                    languageKey = "en",
+                    culture = "US"
+                },
+                new[] { NameSpaces });
 
-            //routes.MapRoute(
-            //    "EmptyLocalized",
-            //    "{language}-{culture}/{*url}",
-            //    new
-            //    {
-            //        controller = "Pages",
-            //        action = "Index",
-            //        url = UrlParameter.Optional,
-            //        languageKey = "en",
-            //        culture = "US"
-            //    },
-            //    new[] { NameSpaces });
+            routes.MapRoute(
+                "EmptyLocalized",
+                "{language}_{culture}/{*url}",
+                new
+                {
+                    controller = "Pages",
+                    action = "Index",
+                    url = UrlParameter.Optional,
+                    languageKey = "en",
+                    culture = "US"
+                },
+                new[] { NameSpaces });
 
             //Default route
             routes.MapRoute(
@@ -70,9 +70,9 @@ namespace PX.Web
                 "",
                 new
                 {
-                    controller = "Home",
+                    controller = "Pages",
                     action = "Index",
-                    url = UrlParameter.Optional
+                    url = ""
                 },
                 new[] { NameSpaces });
 
