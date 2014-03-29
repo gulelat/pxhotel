@@ -185,11 +185,12 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\AccountController.cs" />
+    <Compile Include="Areas\Admin\Controllers\TemplatesController.cs" />
     <Compile Include="Areas\Admin\Controllers\NewsCategoriesController.cs" />
     <Compile Include="Areas\Admin\Controllers\NewsController.cs" />
     <Compile Include="Areas\Admin\Controllers\SettingTypesController.cs" />
     <Compile Include="Areas\Admin\Controllers\TestimonialsController.cs" />
-    <Compile Include="Areas\Admin\Controllers\CurlyBracketController.cs" />
+    <Compile Include="Areas\Admin\Controllers\CurlyBracketsController.cs" />
     <Compile Include="Areas\Admin\Controllers\FileManagerController.cs" />
     <Compile Include="Areas\Admin\Controllers\PageTemplatesController.cs" />
     <Compile Include="Areas\Admin\Controllers\PagesController.cs" />
@@ -997,6 +998,11 @@
     <Content Include="Content\FrontEnd\fonts\fontviet1-webfont.eot" />
     <Content Include="Content\FrontEnd\fonts\fontviet1-webfont.ttf" />
     <Content Include="Content\FrontEnd\fonts\fontviet1-webfont.woff" />
+    <Content Include="Areas\Admin\Views\Templates\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Templates\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Templates\EditorTemplates\TemplateManageModel.cshtml" />
+    <Content Include="Areas\Admin\Views\Templates\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\CurlyBrackets\Index.cshtml" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <None Include="Scripts\jquery-1.8.3.intellisense.js" />
     <Content Include="Scripts\CodeMirror\addon\comment\comment.js" />

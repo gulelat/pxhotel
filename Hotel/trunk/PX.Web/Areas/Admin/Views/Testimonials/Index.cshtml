@@ -44,12 +44,12 @@
                 ondblClickRow: function (rowId) {
                     jQuery(gridSelector).editRow(rowId, true);
                 },
-                colNames: ['Id', 'Author', 'Content', 'Order', 'Active', 'Created', 'CreatedBy', 'Updated', 'UpdatedBy'],
+                colNames: ['Id', 'Author', 'Content', 'Author Description', 'Active', 'Created', 'CreatedBy', 'Updated', 'UpdatedBy'],
                 colModel: [
                     { name: 'Id', index: 'Id', width: 60, key: true, sorttype: "int" },
                     { name: 'Author', index: 'Author', width: 150, editable: true, editrules: { required: true } },
                     { name: 'Content', index: 'Content', edittype: "textarea", width: 350, editable: true },
-                    { name: 'RecordOrder', index: 'RecordOrder', width: 50, sorttype: "int", align:"center", editable: true, editrules: { required: true } },
+                    { name: 'AuthorDescription', index: 'AuthorDescription', width: 150, editable: true },
                     { name: 'Active', index: 'Active', width: 100, editable: true, edittype: "checkbox",  align:"center", editoptions: { value: "Yes:No", defaultValue: 'Yes' }, unformat: aceSwitch },
                     { name: 'Created', index: 'Created', formatter: "date", width: 100, editable: false, sorttype: "datetime", unformat: pickDate },
                     { name: 'CreatedBy', index: 'CreatedBy', width: 150, editable: false, editoptions: { size: "20", maxlength: "30" } },

@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web.Mvc;
 using PX.Business.Mvc.Environments;
+using PX.Business.Services.CurlyBrackets;
 using PX.Business.Services.Localizes;
 using PX.Business.Services.PageTemplates;
 using PX.Core.Configurations.Constants;
@@ -37,15 +38,17 @@ namespace PX.Business.Models.PageTemplates
         public IEnumerable<ValidationResult> Validate(ValidationContext context)
         {
             var pageTemplateServices = HostContainer.GetInstance<IPageTemplateServices>();
+            var curlyBracketServices = HostContainer.GetInstance<ICurlyBracketServices>();
             var localizedResourceServices = HostContainer.GetInstance<ILocalizedResourceServices>();
-            if (pageTemplateServices.GetAll().Any(u => u.Name.Equals(Name) && u.Id != Id))
+            if (pageTemplateServices.IsPageTemplateNameExisted(Id, Name))
             {
                 yield return new ValidationResult(localizedResourceServices.T("AdminModule:::PageTemplates:::ValidationMessage:::Name is existed."), new[]{ "Name"});
             }
 
-            if (!Content.Contains(DefaultConstants.CurlyBracketRenderBody))
+            //Check if content is valid
+            if (curlyBracketServices.IsPageTemplateValid(Content))
             {
-                yield return new ValidationResult(localizedResourceServices.T("AdminModule:::PageTemplates:::ValidationMessage:::Missing {RenderBody} Curly Bracket."), new[] { "Content" });
+                yield return new ValidationResult(localizedResourceServices.T("AdminModule:::PageTemplates:::ValidationMessage:::Template Content is not valid, please check {RenderBody} curly bracket."), new[] { "Content" });
             }
         }
         #endregion

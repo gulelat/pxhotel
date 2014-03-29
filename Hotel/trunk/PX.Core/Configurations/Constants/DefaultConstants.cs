@@ -9,7 +9,7 @@ namespace PX.Core.Configurations.Constants
 
         public const string CurlyBracketRenderBody = "{RenderBody}";
 
-        public const string DefaultAdmin = "administrator";
+        public const string DefaultSystemAccount = "system";
 
         public const string NoAvatar = "noavatar.png";
         public const string AvatarFolder = "/Images/uploads/Avatars/";

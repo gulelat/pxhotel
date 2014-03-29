@@ -16,6 +16,8 @@ namespace PX.EntityModel
     {
         public int Id { get; set; }
         public string Author { get; set; }
+        public string AuthorDescription { get; set; }
+        public string AuthorImageUrl { get; set; }
         public string Content { get; set; }
         public int RecordOrder { get; set; }
         public bool RecordActive { get; set; }

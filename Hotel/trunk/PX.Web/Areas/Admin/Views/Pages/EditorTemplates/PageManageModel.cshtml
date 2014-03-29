@@ -57,7 +57,7 @@
         <div class="btn-group col-sm-11">
             <button class="btn btn-xs dropdown-toggle" data-toggle="dropdown">
                 @MText(Tags.Text, "AdminModule:::Pages:::Forms:::AddCurlyBracket", "Add curly bracket")
-                <span class="caret"></span>
+                <span class="icon-angle-down icon-on-right bigger-110"></span>
             </button>
             <ul id="curlyBracketList" class="dropdown-menu">
             </ul>
@@ -105,7 +105,7 @@
         filebrowserImageUploadUrl: '/Admin/FileManager/Upload/2'
     });
     $(function () {
-        var getCurlyBracketListUrl = "@Url.Action("GetCurlyBracketList", "CurlyBracket")";
+        var getCurlyBracketListUrl = "@Url.Action("GetCurlyBracketList", "CurlyBrackets")";
         $.ajax({
             type: "POST",
             url: getCurlyBracketListUrl,

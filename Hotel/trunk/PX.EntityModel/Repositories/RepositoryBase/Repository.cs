@@ -6,6 +6,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Web;
 using System.Web.Mvc;
+using PX.Core.Configurations.Constants;
 using PX.Core.Framework.Mvc.Models;
 using PX.EntityModel.Repositories.RepositoryBase.Extensions;
 using PX.EntityModel.Repositories.RepositoryBase.Models;
@@ -89,7 +90,9 @@ namespace PX.EntityModel.Repositories.RepositoryBase
             entity.SetProperty("Updated", DateTime.Now);
             if (entity.GetPropertyValue("UpdatedBy") == null)
             {
-                entity.SetProperty("UpdatedBy", HttpContext.Current.User.Identity.Name);
+                entity.SetProperty("UpdatedBy", HttpContext.Current.User == null
+                                                    ? DefaultConstants.DefaultSystemAccount
+                                                    : HttpContext.Current.User.Identity.Name);
             }
             try
             {
@@ -113,7 +116,9 @@ namespace PX.EntityModel.Repositories.RepositoryBase
         public static ResponseModel Insert(T entity)
         {
             entity.SetProperty("Created", DateTime.Now);
-            entity.SetProperty("CreatedBy", HttpContext.Current.User.Identity.Name);
+            entity.SetProperty("CreatedBy", HttpContext.Current.User == null
+                                                ? DefaultConstants.DefaultSystemAccount
+                                                : HttpContext.Current.User.Identity.Name);
             entity.SetProperty("RecordActive", true);
 
             var response = new ResponseModel();

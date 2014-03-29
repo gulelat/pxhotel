@@ -37,8 +37,8 @@ namespace PX.Business.Services.PageTemplates
 
         PageTemplateManageModel GetTemplateManageModel(int? id = null);
 
-        ResponseModel SaveTemplates(PageTemplateManageModel model);
+        ResponseModel SavePageTemplate(PageTemplateManageModel model);
 
-        bool IsPageTemplateTitleExisted(int? pageTemplateId, string title);
+        bool IsPageTemplateNameExisted(int? pageTemplateId, string name);
     }
 }

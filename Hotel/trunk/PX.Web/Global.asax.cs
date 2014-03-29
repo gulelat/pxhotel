@@ -18,9 +18,11 @@ using PX.Business.Services.PageTemplates;
 using PX.Business.Services.Pages;
 using PX.Business.Services.SettingTypes;
 using PX.Business.Services.Settings;
+using PX.Business.Services.Templates;
 using PX.Business.Services.Testimonials;
 using PX.Business.Services.UserGroups;
 using PX.Business.Services.Users;
+using PX.Core.Logging;
 using SimpleInjector;
 using SimpleInjector.Integration.Web.Mvc;
 
@@ -48,7 +50,7 @@ namespace PX.Web
             InitializeProcess();
 
             //ViewEngines.Engines.Add(new ViewEngine());
-            HostingEnvironment.RegisterVirtualPathProvider(new MyVirtualPathProvider());
+            //HostingEnvironment.RegisterVirtualPathProvider(new MyVirtualPathProvider());
         }
 
         #region Initialize Process
@@ -60,6 +62,9 @@ namespace PX.Web
 
             //Initialize menu permissions
             MenuPermissionsInitialize();
+
+            //Initialize default template for curly bracket
+            TemplatesInitialize();
         }
 
         /// <summary>
@@ -78,6 +83,12 @@ namespace PX.Web
         {
             var menuServices = HostContainer.GetInstance<IMenuServices>();
             menuServices.InitializeMenuPermissions();
+        }
+
+        public void TemplatesInitialize()
+        {
+            var templateServices = HostContainer.GetInstance<ITemplateServices>();
+            templateServices.InitializeTemplates();
         }
         
         #endregion
@@ -124,6 +135,8 @@ namespace PX.Web
             container.Register<ISettingTypeServices, SettingTypeServices>(Lifestyle.Singleton);
             container.Register<INewsServices, NewsServices>(Lifestyle.Singleton);
             container.Register<INewsCategoryServices, NewsCategorieservices>(Lifestyle.Singleton);
+            container.Register<ITemplateServices, TemplateServices>(Lifestyle.Singleton);
+            container.Register<ILogger>(() => new Logger(typeof (string)));
         }
 
         #endregion

@@ -1,7 +1,13 @@
-﻿namespace PX.Business.Services.CurlyBrackets.CurlyBracketResolver
+﻿using System.Web.Mvc;
+
+namespace PX.Business.Services.CurlyBrackets.CurlyBracketResolver
 {
     public interface ICurlyBracketResolver
     {
-        string Render(string curlyBracket);
+        string DefaultTemplate();
+
+        void Initialize();
+
+        string Render(string[] parameters);
     }
 }

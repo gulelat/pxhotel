@@ -90,6 +90,7 @@
     <Compile Include="Ultilities\ImageUtilities.cs" />
     <Compile Include="Ultilities\MailUltilities.cs" />
     <Compile Include="Ultilities\PasswordUtilities.cs" />
+    <Compile Include="Ultilities\ReflectionUtilities.cs" />
     <Compile Include="Ultilities\StringUtilities.cs" />
     <Compile Include="Ultilities\UrlUtilities.cs" />
   </ItemGroup>

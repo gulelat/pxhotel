@@ -28,20 +28,20 @@ namespace PX.Web
                 new[] { NameSpaces });
 
             routes.MapRoute(
-                "DefaultLocalizedWithFriendlyUrl",
+                "EmptyLocalized",
                 "{language}_{culture}/",
                 new
                 {
-                    controller = "Home",
+                    controller = "Pages",
                     action = "Index",
-                    url = UrlParameter.Optional,
+                    url = string.Empty,
                     languageKey = "en",
                     culture = "US"
                 },
                 new[] { NameSpaces });
 
             routes.MapRoute(
-                "EmptyLocalized",
+                "DefaultLocalizedWithFriendlyUrl",
                 "{language}_{culture}/{*url}",
                 new
                 {
@@ -72,7 +72,7 @@ namespace PX.Web
                 {
                     controller = "Pages",
                     action = "Index",
-                    url = ""
+                    url = string.Empty
                 },
                 new[] { NameSpaces });
 

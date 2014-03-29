@@ -34,7 +34,7 @@ namespace PX.Business.Services.Menus
 
         JqGridSearchOut SearchMenus(JqSearchIn si);
 
-        IEnumerable<SelectListItem> GetPossibleParents(int? id);
+        IEnumerable<SelectListItem> GetPossibleParents(int? id = null);
 
         List<Menu> GetMenus(int? parentId = null);
 

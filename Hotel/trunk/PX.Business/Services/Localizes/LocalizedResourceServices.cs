@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Threading;
-using System.Web;
 using AutoMapper;
 using PX.Business.Models.LocalizedResources;
-using PX.Business.Mvc.Environments;
 using PX.Business.Mvc.WorkContext;
 using PX.Core.Framework.Enums;
 using PX.Core.Framework.Mvc.Helpers;
@@ -20,7 +16,6 @@ namespace PX.Business.Services.Localizes
     public class LocalizedResourceServices : ILocalizedResourceServices
     {
         private const string LocalizedSerperator = ":::";
-        private const string LocalizedResourceDictionary = "LocalizedResourceDictionary";
 
         #region Base
         public IQueryable<LocalizedResource> GetAll()
@@ -154,7 +149,7 @@ namespace PX.Business.Services.Localizes
                 throw new ArgumentNullException("textKey", "text key cannot be null");
             var langKey = WorkContext.CurrentCuture;
             var key = DictionaryHelper.BuildKey(langKey, textKey);
-            var dictionary = HttpContext.Current.Application[LocalizedResourceDictionary] as List<LocalizeDictionaryItem>;
+            var dictionary = WorkContext.LocalizedResourceDictionary;
             if (dictionary == null || !dictionary.Any(l => l.Key.Equals(key) && l.Language.Equals(langKey)))
             {
                 return GetDefaultValue(langKey, textKey, defaultValue, parameters);
@@ -234,7 +229,7 @@ namespace PX.Business.Services.Localizes
                 LanguageId = l.LanguageId,
                 TranslatedValue = l.TranslatedValue
             }).ToList();
-            HttpContext.Current.Application[LocalizedResourceDictionary] =
+            WorkContext.LocalizedResourceDictionary =
                 data.Select(
                     l => new LocalizeDictionaryItem
                     {

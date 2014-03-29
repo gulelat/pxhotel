@@ -348,17 +348,20 @@ namespace PX.Business.Services.Pages
         public IEnumerable<SelectListItem> GetPossibleParents(int? id = null)
         {
             var pages = GetAll();
-            if (id.HasValue)
+            int? parentId = null;
+            var page = GetById(id);
+            if (page != null)
             {
-                var key = id.Value.GetHierarchyValueForRoot();
-                pages = pages.Where(m => !m.Hierarchy.Contains(key));
+                parentId = page.ParentId;
+                pages = PageRepository.GetPossibleParents(page);
             }
-            var data = pages.Select(p => new HierarchyModel
+            var data = pages.Select(m => new HierarchyModel
             {
-                Id = p.Id,
-                Name = p.Title,
-                Hierarchy = p.Hierarchy,
-                RecordOrder = p.RecordOrder
+                Id = m.Id,
+                Name = m.Title,
+                Hierarchy = m.Hierarchy,
+                RecordOrder = m.RecordOrder,
+                Selected = parentId.HasValue && parentId.Value == m.Id
             }).ToList();
             return PageRepository.BuildSelectList(data, DefaultConstants.HierarchyLevelPrefix);
         }

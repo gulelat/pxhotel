@@ -148,17 +148,20 @@ namespace PX.Business.Services.NewsCategories
         public IEnumerable<SelectListItem> GetPossibleParents(int? id = null)
         {
             var newsCategories = GetAll();
-            if (id.HasValue)
+            int? parentId = null;
+            var category = GetById(id);
+            if (category != null)
             {
-                var key = id.Value.GetHierarchyValueForRoot();
-                newsCategories = newsCategories.Where(m => !m.Hierarchy.Contains(key));
+                parentId = category.ParentId;
+                newsCategories = NewsCategoryRepository.GetPossibleParents(category);
             }
-            var data = newsCategories.Select(p => new HierarchyModel
+            var data = newsCategories.Select(m => new HierarchyModel
             {
-                Id = p.Id,
-                Name = p.Name,
-                Hierarchy = p.Hierarchy,
-                RecordOrder = p.RecordOrder
+                Id = m.Id,
+                Name = m.Name,
+                Hierarchy = m.Hierarchy,
+                RecordOrder = m.RecordOrder,
+                Selected = parentId.HasValue && parentId.Value == m.Id
             }).ToList();
             return NewsCategoryRepository.BuildSelectList(data, DefaultConstants.HierarchyLevelPrefix);
         }

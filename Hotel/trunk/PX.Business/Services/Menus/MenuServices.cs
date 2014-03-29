@@ -233,20 +233,23 @@ namespace PX.Business.Services.Menus
         /// </summary>
         /// <param name="id">the current menu id</param>
         /// <returns></returns>
-        public IEnumerable<SelectListItem> GetPossibleParents(int? id)
+        public IEnumerable<SelectListItem> GetPossibleParents(int? id = null)
         {
             var menus = GetAll();
-            if (id.HasValue)
+            int? parentId = null;
+            var menu = GetById(id);
+            if (menu != null)
             {
-                var key = id.Value.GetHierarchyValueForRoot();
-                menus = menus.Where(m => !m.Hierarchy.Contains(key));
+                parentId = menu.ParentId;
+                menus = MenuRepository.GetPossibleParents(menu);
             }
             var data = menus.Select(m => new HierarchyModel
                 {
                     Id = m.Id,
                     Name = m.Name,
                     Hierarchy = m.Hierarchy,
-                    RecordOrder = m.RecordOrder
+                    RecordOrder = m.RecordOrder,
+                    Selected = parentId.HasValue && parentId.Value == m.Id
                 }).ToList();
             return MenuRepository.BuildSelectList(data, DefaultConstants.HierarchyLevelPrefix);
         }

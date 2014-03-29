@@ -6,5 +6,6 @@
         public string Name { get; set; }
         public string Hierarchy { get; set; }
         public int RecordOrder { get; set; }
+        public bool Selected { get; set; }
     }
 }

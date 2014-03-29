@@ -70,21 +70,30 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\Templates\TemplateManageModel.cs" />
+    <Compile Include="Models\Templates\TemplateModel.cs" />
     <Compile Include="Models\NewsCategories\NewsCategoryModel.cs" />
     <Compile Include="Models\News\NewsModel.cs" />
     <Compile Include="Models\SettingTypes\SettingTypeModel.cs" />
     <Compile Include="Models\FileManagers\FileUploadViewModel.cs" />
     <Compile Include="Models\FileManagers\ImageCropModel.cs" />
+    <Compile Include="Models\Testimonials\CurlyBrackets\TestimonialCurlyBracket.cs" />
     <Compile Include="Models\Testimonials\TestimonialModel.cs" />
     <Compile Include="Models\CurlyBrackets\CurlyBracketModel.cs" />
     <Compile Include="Models\Pages\PageManageModel.cs" />
     <Compile Include="Mvc\Enums\PageEnums.cs" />
+    <Compile Include="Services\CurlyBrackets\CurlyBracketResolver\CurlyBracketRenderer.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Services\Templates\ITemplateServices.cs" />
+    <Compile Include="Services\Templates\TemplateServices.cs" />
     <Compile Include="Services\NewsCategories\INewsCategoryServices.cs" />
     <Compile Include="Services\NewsCategories\NewsCategoryServices.cs" />
     <Compile Include="Services\News\INewsServices.cs" />
     <Compile Include="Services\News\NewsServices.cs" />
     <Compile Include="Services\SettingTypes\ISettingTypeServices.cs" />
     <Compile Include="Services\SettingTypes\SettingTypeServices.cs" />
+    <Compile Include="Services\Testimonials\CurlyBracketResolvers\TestimonialResolver.cs" />
     <Compile Include="Services\Testimonials\ITestimonialServices.cs" />
     <Compile Include="Services\Testimonials\TestimonialServices.cs" />
     <Compile Include="Services\CurlyBrackets\CurlyBracketResolver\ICurlyBracketResolver.cs" />
@@ -121,13 +130,12 @@
     <Compile Include="Mvc\ViewEngines\Razor\HtmlStringWriter.cs" />
     <Compile Include="Mvc\WorkContext\WorkContext.cs" />
     <Compile Include="Mvc\Environments\HostContainer.cs" />
-    <Compile Include="Mvc\Heplers\CommonHelpers.cs" />
     <Compile Include="Mvc\ViewEngines\Razor\ViewEngine.cs" />
     <Compile Include="Mvc\ViewEngines\Razor\WebViewPage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\CurlyBrackets\CurlyBracketServices.cs" />
     <Compile Include="Services\CurlyBrackets\ICurlyBracketServices.cs" />
-    <Compile Include="Services\Pages\CurlyBracketResolver\PageCurlyBracketResolver.cs" />
+    <Compile Include="Services\Pages\CurlyBracketResolvers\PageCurlyBracketResolver.cs" />
     <Compile Include="Services\PageTemplates\IPageTemplateServices.cs" />
     <Compile Include="Services\PageTemplates\PageTemplateServices.cs" />
     <Compile Include="Services\Pages\IPageServices.cs" />
