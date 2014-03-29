@@ -2,7 +2,7 @@
 
 namespace PX.Core.Logging
 {
-    interface ILogger
+    public interface ILogger
     {
         //Info log
         void Info(string message);

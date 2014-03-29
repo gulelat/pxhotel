@@ -72,6 +72,9 @@
                     { name: 'FriendlyUrl', index: 'FriendlyUrl', width: 150, editable: true, editrules: { required: true } },
                     {
                         name: 'PageTemplateName', index: 'PageTemplateName', width: 180, editable: true, edittype: "select",
+                        formatter: function (cellvalue, options, rowObject) {
+                            return cellvalue ? cellvalue.replace(/^-+/, '') : "";
+                        },
                         editoptions: {
                             dataUrl: '@Url.Action("GetPageTemplates")',
                             buildSelect: function (response) {
@@ -81,6 +84,9 @@
                     },
                     {
                         name: 'ParentName', index: 'ParentName', width: 180, editable: true, edittype: "select",
+                        formatter: function (cellvalue, options, rowObject) {
+                            return cellvalue ? cellvalue.replace(/^-+/, '') : "";
+                        },
                         editoptions: {
                             dataUrl: '@Url.Action("GetParents")',
                             buildSelect: function (response) {

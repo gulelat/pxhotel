@@ -1,4 +1,7 @@
-﻿using System.Web;
+﻿using System.Collections.Generic;
+using System.Web;
+using PX.Business.Models.CurlyBrackets;
+using PX.Business.Models.LocalizedResources;
 using PX.EntityModel;
 
 namespace PX.Business.Mvc.WorkContext
@@ -22,5 +25,21 @@ namespace PX.Business.Mvc.WorkContext
             get { return (User)HttpContext.Current.Session["CurrentUser"]; }
             set { HttpContext.Current.Session["CurrentUser"] = value; }
         }
+
+        /// <summary>
+        /// Get all current curly brackets of application
+        /// </summary>
+        public static IEnumerable<CurlyBracketModel> CurlyBrackets
+        {
+            get { return (IEnumerable<CurlyBracketModel>)HttpContext.Current.Application["ApplicationCurlyBrackets"]; }
+            set { HttpContext.Current.Application["ApplicationCurlyBrackets"] = value; }
+        }
+
+        public static IEnumerable<LocalizeDictionaryItem> LocalizedResourceDictionary
+        {
+            get { return (IEnumerable<LocalizeDictionaryItem>)HttpContext.Current.Application["LocalizedResourceDictionary"]; }
+            set { HttpContext.Current.Application["LocalizedResourceDictionary"] = value; }
+        }
+
     }
 }

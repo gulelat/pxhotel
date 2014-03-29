@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization.Formatters.Binary;
 using PX.Core.Framework.Mvc.Attributes;
+using PX.Core.Ultilities;
 
 namespace PX.EntityModel.Repositories.RepositoryBase.Extensions
 {
@@ -16,42 +17,21 @@ namespace PX.EntityModel.Repositories.RepositoryBase.Extensions
         public static string HierarchyPropertyName = "Hierarchy";
         public static string DefaultDigitFormat = "D5";
 
-        #region Properties Methods
-        
-        #endregion
-
         /// <summary>
-        /// Get list of type implement the interface
+        /// Get table name from entity
         /// </summary>
-        /// <param name="type">the interface type</param>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="entity"></param>
         /// <returns></returns>
-        public static List<Type> GetAllClassImplementInteface(Type type)
-        {
-            return AppDomain.CurrentDomain.GetAssemblies()
-                .SelectMany(s => s.GetTypes())
-                .Where(x => type.IsAssignableFrom(x) && !x.IsInterface && !x.IsAbstract).ToList();
-        }
-
-        #region Table Methods
-
         public static string GetTableName<T>(this T entity)
         {
             var type = typeof(T);
-            var at = GetAttribute<TableAttribute>(type);
+            var at = ReflectionUtilities.GetAttribute<TableAttribute>(type);
             return at.Name;
         }
 
-        public static T GetAttribute<T>(MemberInfo memberInfo) where T : class
-        {
-            var customAttributes = memberInfo.GetCustomAttributes(typeof(T), false);
-            var attribute = customAttributes.First(a => a is T) as T;
-            return attribute;
-        }
-
-        #endregion
-
         #region Hierarchy Methods
-        
+
         #endregion
 
         /// <summary>
@@ -126,7 +106,7 @@ namespace PX.EntityModel.Repositories.RepositoryBase.Extensions
         {
             return string.Concat(parent.GetHierarchy(), item.GetId().ToString(DefaultDigitFormat), IdSeparator);
         }
-        
+
         /// <summary>
         /// Get hierarchy item of entity
         /// </summary>

@@ -7,7 +7,7 @@ using PX.EntityModel.Repositories.RepositoryBase.Models;
 
 namespace PX.EntityModel.Repositories.RepositoryBase
 {
-    public class HierarchyRepository<T> : Repository<T> where T: class
+    public class HierarchyRepository<T> : Repository<T> where T : class
     {
         #region Private Properties
 
@@ -85,17 +85,27 @@ namespace PX.EntityModel.Repositories.RepositoryBase
             return response;
         }
 
-        public IQueryable<T> GetHierarchyTree(T entity)
+        /// <summary>
+        /// Get possible parents
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        public static IQueryable<T> GetPossibleParents(T entity)
         {
             if (entity == null)
             {
                 return null;
             }
             var prefix = entity.GetHierarchy();
-            return GetAll().Where(string.Format("{0} LIKE '{1}%'", HierarchyPropertyName, prefix));
+            return GetAll().Where(string.Format("!{0}.Contains(\"{1}\")", HierarchyPropertyName, prefix));
         }
 
-        public IQueryable<T> GetAncestors(T entity)
+        /// <summary>
+        /// Get all child items of parent
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        public static IQueryable<T> GetHierarcies(T entity)
         {
             if (entity == null)
             {
@@ -144,7 +154,8 @@ namespace PX.EntityModel.Repositories.RepositoryBase
                 selectList.Add(new SelectListItem
                 {
                     Text = string.Format("{0}{1}", prefix, item.Name),
-                    Value = item.Id.ToString(DefaultFormat)
+                    Value = item.Id.ToString(DefaultFormat),
+                    Selected = item.Selected
                 });
             }
             return selectList;

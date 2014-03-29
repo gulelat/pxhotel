@@ -11,5 +11,9 @@ namespace PX.Business.Models.Testimonials
 
         [Required]
         public string Content { get; set; }
+
+        public string AuthorDescription { get; set; }
+
+        public string AuthorImageUrl { get; set; }
     }
 }

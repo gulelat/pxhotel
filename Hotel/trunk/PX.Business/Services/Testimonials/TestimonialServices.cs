@@ -66,6 +66,8 @@ namespace PX.Business.Services.Testimonials
                 Id = u.Id,
                 Author = u.Author,
                 Content = u.Content,
+                AuthorDescription = u.AuthorDescription,
+                AuthorImageUrl = u.AuthorImageUrl,
                 RecordActive = u.RecordActive,
                 RecordOrder = u.RecordOrder,
                 Created = u.Created,
@@ -98,6 +100,7 @@ namespace PX.Business.Services.Testimonials
                     testimonial = TestimonialRepository.GetById(model.Id);
                     testimonial.Author = model.Author;
                     testimonial.Content = model.Content;
+                    testimonial.AuthorDescription = model.AuthorDescription;
                     testimonial.RecordOrder = model.RecordOrder;
                     testimonial.RecordActive = model.RecordActive;
                     response = Update(testimonial);
@@ -134,7 +137,11 @@ namespace PX.Business.Services.Testimonials
         /// <returns></returns>
         public List<TestimonialModel> GetRandom(int count)
         {
-            return null;
+            return GetAll().Take(count).Select(t => new TestimonialModel
+                {
+                    Author = t.Author,
+                    Content = t.Content
+                }).ToList();
         }
     }
 }

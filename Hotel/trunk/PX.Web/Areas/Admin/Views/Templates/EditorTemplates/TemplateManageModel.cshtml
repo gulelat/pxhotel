@@ -1,0 +1,106 @@
+﻿@using PX.Core.Framework.Enums
+@model PX.Business.Models.Templates.TemplateManageModel
+
+@Html.HiddenFor(m => m.Id)
+@Html.HiddenFor(m => m.DataType)
+<div class="form-group">
+    @MText(Tags.Label, "AdminModule:::Templates:::Forms:::Name", "Name", new { @class = "col-sm-2 control-label no-padding-right", @for = "Name" })
+    <div class="col-sm-10">
+        @Html.TextBoxFor(m => m.Name, new { @class = "col-xs-10 col-sm-6", placeholder = T("AdminModule:::Templates:::Form:::Name place holder", "Please input template name") })
+        @Html.ValidationMessageFor(m => m.Name)
+    </div>
+</div>
+<div class="space-4"></div>
+<div class="form-group">
+    @MText(Tags.Label, "AdminModule:::Templates:::Forms:::Content", "Content", new { @class = "col-sm-2 control-label no-padding-right", @for = "Content" })
+    <div class="col-sm-10">
+        <div class="btn-group">
+            <button class="btn btn-xs dropdown-toggle" data-toggle="dropdown">
+                @MText(Tags.Text, "AdminModule:::Templates:::Forms:::AddCurlyBracket", "Add curly bracket")
+                <span class="icon-angle-down icon-on-right bigger-110"></span>
+            </button>
+            <ul id="curlyBracketList" class="dropdown-menu">
+            </ul>
+        </div>
+        @Html.TextAreaFor(m => m.Content, new { @class = "col-xs-10 col-sm-9", id = "template-content" })
+        @Html.ValidationMessageFor(m => m.Content)
+    </div>
+</div>
+<div class="space-4"></div>
+<div class="clearfix form-actions">
+    <div class="col-md-offset-3 col-md-9">
+        <button class="btn btn-link" type="button" onclick="history.back(1);">
+            Back To List
+        </button>
+        <button class="btn btn-primary" type="submit" value="@SubmitTypeEnums.Save" name="Submit">
+            <i class="icon-ok bigger-110"></i>
+            Save
+        </button>
+        <button class="btn btn-info" type="submit" value="@SubmitTypeEnums.SaveAndContinueEdit" name="Submit">
+            <i class="icon-ok bigger-110"></i>
+            Save and Continue Edit
+        </button>
+        <button class="btn" onclick="location.href= window.location.href;" type="reset">
+            <i class="icon-undo bigger-110"></i>
+            Reset
+        </button>
+    </div>
+</div>
+
+@* Code Mirror *@
+<script src="/Scripts/CodeMirror/codemirror.js"></script>
+<script src="/Scripts/CodeMirror/addon/hint/show-hint.js"></script>
+<script src="/Scripts/CodeMirror/addon/hint/xml-hint.js"></script>
+<script src="/Scripts/CodeMirror/addon/hint/html-hint.js"></script>
+<script src="/Scripts/CodeMirror/addon/hint/javascript-hint.js"></script>
+<script src="/Scripts/CodeMirror/addon/hint/css-hint.js"></script>
+<script src="/Scripts/CodeMirror/addon/display/fullscreen.js"></script>
+<script src="/Scripts/CodeMirror/mode/xml/xml.js"></script>
+<script src="/Scripts/CodeMirror/mode/javascript/javascript.js"></script>
+<script src="/Scripts/CodeMirror/mode/css/css.js"></script>
+<script src="/Scripts/CodeMirror/mode/htmlmixed/htmlmixed.js"></script>
+
+<script type="text/javascript">
+    var Createor;
+    $(function () {
+        Createor = CodeMirror.fromTextArea(document.getElementById("template-content"), {
+            lineNumbers: true,
+            mode: "text/html",
+            theme: 'pastel-on-dark',
+            extraKeys: {
+                "Ctrl-Space": "autocomplete",
+                "F11": function (cm) {
+                    if ($(".CodeMirror-scroll").css("top") == "45px") {
+                        $(".CodeMirror-scroll").css("top", "0px");
+                    }
+                    else {
+                        $(".CodeMirror-scroll").css("top", "45px");
+                    }
+                    cm.setOption("fullScreen", !cm.getOption("fullScreen"));
+                },
+                "Esc": function (cm) {
+                    $(".CodeMirror-scroll").css("top", "0px");
+                    if (cm.getOption("fullScreen")) cm.setOption("fullScreen", false);
+                }
+            },
+            value: document.documentElement.innerHTML
+        });
+        var getCurlyBracketListUrl = "@Url.Action("GetProperties", "CurlyBrackets", new { type = Model.DataType })";
+        $.ajax({
+            type: "POST",
+            url: getCurlyBracketListUrl,
+            async: false,
+            success: function (data) {
+                $.map(data, function (item) {
+                    $("#curlyBracketList")
+                        .append("<li><a href='javascript:void(0)' onclick='printCurlybracket(\""
+                            + item.Text + "\")'>" +
+                            item.Text + "</a></li>");
+                });
+            }
+        });
+    });
+    function printCurlybracket(curlyBracket) {
+        Createor.replaceRange(curlyBracket, Createor.getCursor());
+    }
+</script>

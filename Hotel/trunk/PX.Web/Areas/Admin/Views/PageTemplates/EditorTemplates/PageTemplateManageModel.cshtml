@@ -16,7 +16,7 @@
         <div class="btn-group">
             <button class="btn btn-xs dropdown-toggle" data-toggle="dropdown">
                 @MText(Tags.Text, "AdminModule:::PageTemplates:::Forms:::AddCurlyBracket", "Add curly bracket")
-                <span class="caret"></span>
+                <span class="icon-angle-down icon-on-right bigger-110"></span>
             </button>
             <ul id="curlyBracketList" class="dropdown-menu">
             </ul>
@@ -77,15 +77,22 @@
             extraKeys: {
                 "Ctrl-Space": "autocomplete",
                 "F11": function (cm) {
+                    if ($(".CodeMirror-scroll").css("top") == "45px") {
+                        $(".CodeMirror-scroll").css("top", "0px");
+                    }
+                    else {
+                        $(".CodeMirror-scroll").css("top", "45px");
+                    }
                     cm.setOption("fullScreen", !cm.getOption("fullScreen"));
                 },
                 "Esc": function (cm) {
+                    $(".CodeMirror-scroll").css("top", "0px");
                     if (cm.getOption("fullScreen")) cm.setOption("fullScreen", false);
                 }
             },
             value: document.documentElement.innerHTML
         });
-        var getCurlyBracketListUrl = "@Url.Action("GetCurlyBracketList", "CurlyBracket")";
+        var getCurlyBracketListUrl = "@Url.Action("GetCurlyBracketList", "CurlyBrackets")";
             $.ajax({
                 type: "POST",
                 url: getCurlyBracketListUrl,

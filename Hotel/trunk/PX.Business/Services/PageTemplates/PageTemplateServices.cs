@@ -15,7 +15,6 @@ using PX.Core.Framework.Mvc.Models.JqGrid;
 using PX.Core.Ultilities;
 using PX.EntityModel;
 using PX.EntityModel.Repositories;
-using PX.EntityModel.Repositories.RepositoryBase.Extensions;
 using PX.EntityModel.Repositories.RepositoryBase.Models;
 
 namespace PX.Business.Services.PageTemplates
@@ -171,7 +170,7 @@ namespace PX.Business.Services.PageTemplates
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public ResponseModel SaveTemplates(PageTemplateManageModel model)
+        public ResponseModel SavePageTemplate(PageTemplateManageModel model)
         {
             ResponseModel response;
             var pageTemplate = GetById(model.Id);
@@ -204,19 +203,21 @@ namespace PX.Business.Services.PageTemplates
         public IEnumerable<SelectListItem> GetPossibleParents(int? id = null)
         {
             var pageTemplates = GetAll();
-            if (id.HasValue)
+            int? parentId = null;
+            var template = GetById(id);
+            if (template != null)
             {
-                var key = id.Value.GetHierarchyValueForRoot();
-                pageTemplates = pageTemplates.Where(m => !m.Hierarchy.Contains(key));
+                parentId = template.ParentId;
+                pageTemplates = PageTemplateRepository.GetPossibleParents(template);
             }
-
-            var data = pageTemplates.ToList().Select(p => new HierarchyModel
+            var data = pageTemplates.Select(m => new HierarchyModel
             {
-                Id = p.Id,
-                Name = p.Name,
-                Hierarchy = p.Hierarchy,
-                RecordOrder = p.RecordOrder
-            }).OrderBy(p => p.Hierarchy).ToList();
+                Id = m.Id,
+                Name = m.Name,
+                Hierarchy = m.Hierarchy,
+                RecordOrder = m.RecordOrder,
+                Selected = parentId.HasValue && parentId.Value == m.Id
+            }).ToList();
             return PageTemplateRepository.BuildSelectList(data, DefaultConstants.HierarchyLevelPrefix, false);
         }
 
@@ -245,14 +246,14 @@ namespace PX.Business.Services.PageTemplates
         }
 
         /// <summary>
-        /// Check if template title is existed
+        /// Check if template name is existed
         /// </summary>
         /// <param name="pageTemplateId">the template id</param>
-        /// <param name="title">the title</param>
+        /// <param name="name">the template name</param>
         /// <returns></returns>
-        public bool IsPageTemplateTitleExisted(int? pageTemplateId, string title)
+        public bool IsPageTemplateNameExisted(int? pageTemplateId, string name)
         {
-            return Fetch(t => t.Id != pageTemplateId && !t.Name.Equals(title)).Any();
+            return Fetch(t => t.Id != pageTemplateId && !t.Name.Equals(name)).Any();
         }
     }
 }

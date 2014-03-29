@@ -104,6 +104,7 @@
     <Compile Include="PageTemplate.cs">
       <DependentUpon>PXHotel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Repositories\TemplateRepository.cs" />
     <Compile Include="Repositories\NewsNewsCategoryRepository.cs" />
     <Compile Include="Repositories\NewsCategoryRepository.cs" />
     <Compile Include="Repositories\NewsRepository.cs" />
@@ -150,6 +151,9 @@
       <DependentUpon>PXHotel.tt</DependentUpon>
     </Compile>
     <Compile Include="SiteSetting.cs">
+      <DependentUpon>PXHotel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Template.cs">
       <DependentUpon>PXHotel.tt</DependentUpon>
     </Compile>
     <Compile Include="Testimonial.cs">

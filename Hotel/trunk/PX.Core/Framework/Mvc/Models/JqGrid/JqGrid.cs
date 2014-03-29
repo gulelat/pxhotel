@@ -25,8 +25,6 @@ namespace PX.Core.Framework.Mvc.Models.JqGrid
 
         public JqGridSearchOut Search<T>(IQueryable<T> data)
         {
-            int totalRecords;
-
             if (string.IsNullOrEmpty(Sidx))
             {
                 var defaultOrderProperty =
@@ -50,7 +48,7 @@ namespace PX.Core.Framework.Mvc.Models.JqGrid
                 data = data.Where(wc.Clause, wc.FormatObjects);
             }
 
-            totalRecords = data.Count();
+            var totalRecords = data.Count();
             if (totalRecords <= (Page - 1) * Rows)
             {
                 Page = Page - 1;

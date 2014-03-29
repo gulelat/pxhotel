@@ -73,17 +73,17 @@ namespace PX.Web.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                var response = _pageTemplateServices.SaveTemplates(model);
+                var response = _pageTemplateServices.SavePageTemplate(model);
                 if (response.Success)
                 {
-                    var template = (PageTemplate)response.Data;
+                    var templateId = (int)response.Data;
                     SetSuccessMessage(response.Message);
                     switch (submit)
                     {
                         case SubmitTypeEnums.Save:
                             return RedirectToAction("Index");
                         default:
-                            return RedirectToAction("Edit", new { id = template.Id });
+                            return RedirectToAction("Edit", new { id = templateId });
                     }
                 }
                 SetErrorMessage(response.Message);
@@ -111,7 +111,7 @@ namespace PX.Web.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                var response = _pageTemplateServices.SaveTemplates(model);
+                var response = _pageTemplateServices.SavePageTemplate(model);
                 if (response.Success)
                 {
                     SetSuccessMessage(response.Message);
