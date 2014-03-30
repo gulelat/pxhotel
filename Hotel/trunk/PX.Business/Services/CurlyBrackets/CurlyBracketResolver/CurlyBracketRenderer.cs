@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using PX.Business.Mvc.Attributes;
 using PX.Business.Mvc.Environments;
+using PX.Business.Mvc.WorkContext;
 using PX.Core.Logging;
 using PX.Core.Ultilities;
 
@@ -84,23 +85,26 @@ namespace PX.Business.Services.CurlyBrackets.CurlyBracketResolver
                 return "{" + widgetRenderingParamsString + "}";
             }
 
-            ICurlyBracketResolver instance;
-
-            if (TryResolve(functionKey, out instance))
+            if (WorkContext.CurlyBrackets.Any(c => c.CurlyBracket.Equals(functionKey)))
             {
-                try
-                {
-                    // render the widget in html string with found resolver
-                    var widgetRenderedHtml = instance.Render(widgetRenderingParams);
+                ICurlyBracketResolver instance;
 
-                    return !string.IsNullOrEmpty(widgetRenderedHtml)
-                               ? widgetRenderedHtml
-                               : string.Empty;
-                }
-                catch (Exception ex)
+                if (TryResolve(functionKey, out instance))
                 {
-                    //TODO check why repeately resolve the same curly bracket
-                    return "{!" + widgetRenderingParamsString + "!Error(" + ex.Message + ")}";
+                    try
+                    {
+                        // render the widget in html string with found resolver
+                        var widgetRenderedHtml = instance.Render(widgetRenderingParams);
+
+                        return !string.IsNullOrEmpty(widgetRenderedHtml)
+                                   ? widgetRenderedHtml
+                                   : string.Empty;
+                    }
+                    catch (Exception ex)
+                    {
+                        //TODO check why repeately resolve the same curly bracket
+                        return "{!" + widgetRenderingParamsString + "!Error(" + ex.Message + ")}";
+                    }
                 }
             }
 

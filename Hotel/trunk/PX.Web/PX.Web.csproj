@@ -1003,6 +1003,7 @@
     <Content Include="Areas\Admin\Views\Templates\EditorTemplates\TemplateManageModel.cshtml" />
     <Content Include="Areas\Admin\Views\Templates\Index.cshtml" />
     <Content Include="Areas\Admin\Views\CurlyBrackets\Index.cshtml" />
+    <None Include="Properties\PublishProfiles\Hotel.pubxml" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <None Include="Scripts\jquery-1.8.3.intellisense.js" />
     <Content Include="Scripts\CodeMirror\addon\comment\comment.js" />
