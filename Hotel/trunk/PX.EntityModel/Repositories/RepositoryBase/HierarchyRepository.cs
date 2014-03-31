@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using PX.Core.Configurations.Constants;
 using PX.Core.Framework.Mvc.Models;
 using PX.EntityModel.Repositories.RepositoryBase.Extensions;
 using PX.EntityModel.Repositories.RepositoryBase.Models;
@@ -122,7 +123,7 @@ namespace PX.EntityModel.Repositories.RepositoryBase
         /// <param name="levelPrefix">the prefix level</param>
         /// <param name="needReorder"> </param>
         /// <returns></returns>
-        public static List<SelectListItem> BuildSelectList(List<HierarchyModel> data, string levelPrefix, bool needReorder = true)
+        public static List<SelectListItem> BuildSelectList(List<HierarchyModel> data, string levelPrefix = DefaultConstants.HierarchyLevelPrefix, bool needReorder = true)
         {
             if (needReorder)
             {

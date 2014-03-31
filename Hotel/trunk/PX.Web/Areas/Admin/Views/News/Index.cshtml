@@ -1,7 +1,7 @@
 ﻿@{
-    ViewBag.Header = "Testimonials";
-    ViewBag.Title = "Testimonial Management";
-    ViewBag.Description = "Testimonial Management Page";
+    ViewBag.Header = "News";
+    ViewBag.Title = "News Management";
+    ViewBag.Description = "News Management Page";
 }
 @section styles{
     <link rel="stylesheet" href="/Content/backend/css/jquery-ui-1.10.3.full.min.css" />
@@ -17,6 +17,13 @@
     </h1>
 </div>
 <div class="row">
+    @ShowStatusMessage()
+    <div class="col-xs-12">
+        <a href="@Url.Action("Create")" class="btn btn-yellow btn-minier">
+            <i class="icon-plus align-top bigger-125"></i>
+            Create News
+        </a>
+    </div>
     <div class="col-xs-12">
         <!-- PAGE CONTENT BEGINS -->
 
@@ -39,17 +46,48 @@
             jQuery(gridSelector).jqGrid({
                 datatype: "json",
                 url: "@Url.Action("_AjaxBinding")",
-                caption: "Testimonial Management",
+                caption: "News Management",
                 height: 370,
                 ondblClickRow: function (rowId) {
                     jQuery(gridSelector).editRow(rowId, true);
                 },
-                colNames: ['Id', 'Title', 'Order', 'Active', 'Created', 'CreatedBy', 'Updated', 'UpdatedBy'],
+                colNames: ['Id', 'Title', 'News Categories', 'Status', 'Created', 'CreatedBy', 'Updated', 'UpdatedBy'],
                 colModel: [
                     { name: 'Id', index: 'Id', width: 60, key: true, sorttype: "int" },
-                    { name: 'Content', index: 'Content', edittype: "textarea", width: 350, editable: true },
-                    { name: 'RecordOrder', index: 'RecordOrder', width: 50, sorttype: "int", align:"center", editable: true, editrules: { required: true } },
-                    { name: 'Active', index: 'Active', width: 100, editable: true, edittype: "checkbox",  align:"center", editoptions: { value: "Yes:No", defaultValue: 'Yes' }, unformat: aceSwitch },
+                    { name: 'Title', index: 'Title', width: 240, editable: true },
+                    {
+                        name: 'Categories',
+                        index: 'Categories',
+                        width: 150,
+                        editable: true,
+                        edittype: "select",
+                        formatter: function (cellvalue, options, rowObject) {
+                            return formatSelectCell(cellvalue);
+                        },
+                        editoptions: {
+                            dataUrl: '@Url.Action("GetNewsCategories", "NewsCategories")',
+                            multiple: true,
+                            size: 4,
+                            buildSelect: function (response) {
+                                return buildMultipleDropdown(response);
+                            }
+                        },
+                        editrules: { required: true }
+                    },
+                    {
+                        name: 'StatusName',
+                        index: 'StatusName',
+                        width: 150,
+                        editable: true,
+                        edittype: "select",
+                        editoptions: {
+                            dataUrl: '@Url.Action("GetStatus")',
+                            buildSelect: function (response) {
+                                return buildDropdown(response, false);
+                            }
+                        },
+                        editrules: { required: true }
+                    },
                     { name: 'Created', index: 'Created', formatter: "date", width: 100, editable: false, sorttype: "datetime", unformat: pickDate },
                     { name: 'CreatedBy', index: 'CreatedBy', width: 150, editable: false, editoptions: { size: "20", maxlength: "30" } },
                     { name: 'Updated', index: 'Updated', formatter: "date", width: 90, editable: false, sorttype: "datetime", unformat: pickDate },
@@ -58,7 +96,6 @@
                 pager: pagerSelector,
                 rowList: [10, 20, 30],
                 shrinkToFit: false,
-                multiselect: true,
                 editurl: '@Url.Action("Manage")',
 
                 //Default Value

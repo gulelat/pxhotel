@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace PX.Business.Models.Testimonials
+namespace PX.Business.Models.NewsCategories
 {
     public class NewsCategoryModel : BaseModel
     {
@@ -15,6 +15,10 @@ namespace PX.Business.Models.Testimonials
         public string Content { get; set; }
 
         public string ImageFileName { get; set; }
+
+        public int? ParentId { get; set; }
+
+        public string ParentName { get; set; }
 
     }
 }

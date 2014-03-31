@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Web.Mvc;
 using AutoMapper;
+using PX.Business.Models.NewsCategories;
 using PX.Business.Models.Testimonials;
 using PX.Business.Mvc.Environments;
 using PX.Business.Services.Localizes;
@@ -11,6 +12,7 @@ using PX.Core.Configurations.Constants;
 using PX.Core.Framework.Enums;
 using PX.Core.Framework.Mvc.Models;
 using PX.Core.Framework.Mvc.Models.JqGrid;
+using PX.Core.Ultilities;
 using PX.EntityModel;
 using PX.EntityModel.Repositories;
 using PX.EntityModel.Repositories.RepositoryBase.Extensions;
@@ -69,7 +71,7 @@ namespace PX.Business.Services.NewsCategories
         }
         #endregion
 
-        #region Manage NewsCategory
+        #region Manage News Category
 
         /// <summary>
         /// Manage Site Setting
@@ -87,6 +89,7 @@ namespace PX.Business.Services.NewsCategories
                 case GridOperationEnums.Edit:
                     newsCategory = GetById(model.Id);
                     newsCategory.Name = model.Name;
+                    newsCategory.ParentId = model.ParentName.ToNullableInt();
                     newsCategory.Description = model.Description;
                     newsCategory.RecordOrder = model.RecordOrder;
 
@@ -131,6 +134,8 @@ namespace PX.Business.Services.NewsCategories
                 Description = u.Description,
                 RecordActive = u.RecordActive,
                 RecordOrder = u.RecordOrder,
+                ParentId = u.ParentId,
+                ParentName = u.NewsCategory1.Name,
                 Created = u.Created,
                 CreatedBy = u.CreatedBy,
                 Updated = u.Updated,
@@ -163,17 +168,25 @@ namespace PX.Business.Services.NewsCategories
                 RecordOrder = m.RecordOrder,
                 Selected = parentId.HasValue && parentId.Value == m.Id
             }).ToList();
-            return NewsCategoryRepository.BuildSelectList(data, DefaultConstants.HierarchyLevelPrefix);
+            return NewsCategoryRepository.BuildSelectList(data);
         }
 
         /// <summary>
         /// Get NewsCategory by parent id
         /// </summary>
-        /// <param name="parentId">the parent id</param>
+        /// <param name="newsId"> the new id </param>
         /// <returns></returns>
-        public List<NewsCategory> GetNewsCategories(int? parentId = null)
+        public List<SelectListItem> GetNewsCategories(int? newsId)
         {
-            return Fetch(p => !parentId.HasValue || p.ParentId == parentId).OrderBy(p => p.RecordOrder).ToList();
+            var data = GetAll().Select(c => new HierarchyModel
+                {
+                    Id = c.Id,
+                    Name = c.Name,
+                    Hierarchy = c.Hierarchy,
+                    RecordOrder = c.RecordOrder,
+                    Selected = newsId.HasValue && c.NewsNewsCategories.Any(nc => nc.NewsId == newsId)
+                }).ToList();
+            return NewsCategoryRepository.BuildSelectList(data);
         }
 
         /// <summary>

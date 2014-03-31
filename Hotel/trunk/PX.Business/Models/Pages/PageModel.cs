@@ -1,4 +1,8 @@
-﻿namespace PX.Business.Models.Pages
+﻿using PX.Business.Mvc.Enums;
+using PX.Core.Framework.Enums;
+using PX.Core.Ultilities;
+
+namespace PX.Business.Models.Pages
 {
     public class PageModel : BaseModel
     {
@@ -11,6 +15,18 @@
         public string PageTemplateName { get; set; }
 
         public int Status { get; set; }
+
+        public string StatusName
+        {
+            get
+            {
+                return EnumUtilities.GetName((PageEnums.PageStatusEnums)Status);
+            }
+            set
+            {
+                Status = value.ToInt();
+            }
+        }
 
         public string FriendlyUrl { get; set; }
 

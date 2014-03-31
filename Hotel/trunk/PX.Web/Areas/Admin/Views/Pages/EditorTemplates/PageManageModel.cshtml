@@ -15,7 +15,7 @@
         @Html.ValidationMessageFor(m => m.FriendlyUrl)
     </div>
     <div class="col-sm-3">
-        @MText(Tags.Label, "AdminModule:::Pages:::Forms:::Status", "Status", new { @class = "col-sm-4 no-padding-right", @for = "FriendlyUrl" })
+        @MText(Tags.Label, "AdminModule:::Pages:::Forms:::Status", "Status", new { @class = "col-sm-4 no-padding-right", @for = "Status" })
         <div class="space-4"></div>
         @Html.DropDownListFor(m => m.Status, Model.StatusList, new { @class = "col-sm-12" })
         @Html.ValidationMessageFor(m => m.Status)
@@ -78,9 +78,9 @@
 <div class="space-4"></div>
 <div class="clearfix form-actions">
     <div class="col-md-offset-1 col-md-9">
-        <button class="btn btn-link" type="button" onclick="history.back(1);">
+        <a class="btn btn-link" href="@Url.Action("Index")">
             Back To List
-        </button>
+        </a>
         <button class="btn btn-primary" type="submit" value="@SubmitTypeEnums.Save" name="Submit">
             <i class="icon-ok bigger-110"></i>
             Save
