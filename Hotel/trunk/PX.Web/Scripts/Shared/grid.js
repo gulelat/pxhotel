@@ -152,6 +152,9 @@ $(function () {
     );
 });
 
+function formatSelectCell(value) {
+    return value ? value.replace(/^-+/, '') : "";
+}
 
 //switch element when editing inline
 function aceSwitch(cellvalue, options, cell) {
@@ -201,6 +204,7 @@ function styleSearchFilters(form) {
     form.find('.add-group').addClass('btn btn-xs btn-success');
     form.find('.delete-group').addClass('btn btn-xs btn-danger');
 }
+
 function styleSearchForm(form) {
     var dialog = form.closest('.ui-jqdialog');
     var buttons = dialog.find('.EditTable');

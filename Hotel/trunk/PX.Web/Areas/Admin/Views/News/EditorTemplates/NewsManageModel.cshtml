@@ -1,0 +1,70 @@
+﻿@using PX.Core.Framework.Enums
+@model PX.Business.Models.News.NewsManageModel
+@Html.HiddenFor(m => m.Id)
+<div class="form-group">
+    @MText(Tags.Label, "AdminModule:::News:::Forms:::Title", "Title", new { @class = "col-sm-1 no-padding-right", @for = "Title" })
+    <div class="col-sm-6">
+        @Html.TextBoxFor(m => m.Title, new { @class = "col-sm-12", placeholder = T("AdminModule:::News:::Form:::Title place holder", "Please input page title") })
+        @Html.ValidationMessageFor(m => m.Title)
+    </div>
+    @MText(Tags.Label, "AdminModule:::News:::Forms:::Status", "Status", new { @class = "col-sm-1 no-padding-right control-label", @for = "News" })
+    <div class="col-sm-3">
+        @Html.DropDownListFor(m => m.Status, Model.StatusList, new { @class = "col-sm-12" })
+        @Html.ValidationMessageFor(m => m.Status)
+    </div>
+</div>
+<div class="space-4"></div>
+<div class="form-group">
+    @MText(Tags.Label, "AdminModule:::News:::Forms:::Parent Page Dropdown", "Categories", new { @class = "col-sm-1 no-padding-right", @for = "ParentId" })
+    <div class="col-sm-10">
+        @Html.DropDownListFor(m => m.NewsCategoryIds, Model.NewsCategories, new { @class = "form-control col-xs-10 col-sm-4", id = "selectParents", multiple = "multiple" })
+        @Html.ValidationMessageFor(m => m.NewsCategoryIds)
+    </div>
+</div>
+<div class="space-4"></div>
+<div class="form-group">
+    @MText(Tags.Label, "AdminModule:::News:::Forms:::Description", "Description", new { @class = "col-sm-1 no-padding-right", @for = "Description" })
+    <div class="col-sm-10">
+        @Html.TextAreaFor(m => m.Description, new { @class = "col-sm-12", placeholder = T("AdminModule:::News:::Forms:::Description place holder", "Please input page description") })
+        @Html.ValidationMessageFor(m => m.Description)
+    </div>
+</div>
+<div class="space-4"></div>
+<div class="form-group">
+    <div class="col-sm-11">
+        @MText(Tags.Label, "AdminModule:::News:::Forms:::Content", "Content", new { @class = "col-sm-1 no-padding-right", @for = "Content" })
+        <div class="clearfix"></div>
+        @Html.TextAreaFor(m => m.Content, new { @class = "col-sm-12", id = "pageContent" })
+        @Html.ValidationMessageFor(m => m.Content)
+    </div>
+</div>
+<div class="space-4"></div>
+<div class="clearfix form-actions">
+    <div class="col-md-offset-1 col-md-9">
+        <a class="btn btn-link" href="@Url.Action("Index")">
+            Back To List
+        </a>
+        <button class="btn btn-primary" type="submit" value="@SubmitTypeEnums.Save" name="Submit">
+            <i class="icon-ok bigger-110"></i>
+            Save
+        </button>
+        <button class="btn btn-info" type="submit" value="@SubmitTypeEnums.SaveAndContinueEdit" name="Submit">
+            <i class="icon-ok bigger-110"></i>
+            Save and Continue Edit
+        </button>
+        <button class="btn" onclick="location.href= window.location.href;" type="reset">
+            <i class="icon-undo bigger-110"></i>
+            Reset
+        </button>
+    </div>
+</div>
+<script type="text/javascript" src="@Url.Content("~/Scripts/ckeditor/ckeditor.js")">
+</script>
+<script>
+    CKEDITOR.replace('pageContent', {
+        filebrowserBrowseUrl: '/Admin/FileManager/Browser/1',
+        filebrowserImageBrowseUrl: '/Admin/FileManager/Browser/2',
+        filebrowserUploadUrl: '/Admin/FileManager/Upload/1',
+        filebrowserImageUploadUrl: '/Admin/FileManager/Upload/2'
+    });
+</script>

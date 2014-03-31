@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Web.Mvc;
-using PX.Business.Models.Testimonials;
+using PX.Business.Models.NewsCategories;
 using PX.Core.Framework.Enums;
 using PX.Core.Framework.Mvc.Models;
 using PX.Core.Framework.Mvc.Models.JqGrid;
-using PX.EntityModel;
 
 namespace PX.Business.Services.NewsCategories
 {
@@ -33,6 +32,6 @@ namespace PX.Business.Services.NewsCategories
 
         IEnumerable<SelectListItem> GetPossibleParents(int? id = null);
 
-        List<NewsCategory> GetNewsCategories(int? parentId = null);
+        List<SelectListItem> GetNewsCategories(int? newsId = null);
     }
 }

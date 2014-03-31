@@ -122,6 +122,7 @@ namespace PX.Business.Services.Pages
 
                 case GridOperationEnums.Add:
                     page = Mapper.Map<PageModel, Page>(model);
+                    page.Status = model.Status;
                     page.Content = string.Empty;
                     page.Caption = string.Empty;
 
@@ -315,6 +316,8 @@ namespace PX.Business.Services.Pages
 
         #endregion
 
+        #region Search Pages
+
         /// <summary>
         /// search the Pages.
         /// </summary>
@@ -340,6 +343,8 @@ namespace PX.Business.Services.Pages
             return si.Search(pages);
         }
 
+        #endregion
+
         /// <summary>
         /// Get possible parent menu
         /// </summary>
@@ -363,7 +368,7 @@ namespace PX.Business.Services.Pages
                 RecordOrder = m.RecordOrder,
                 Selected = parentId.HasValue && parentId.Value == m.Id
             }).ToList();
-            return PageRepository.BuildSelectList(data, DefaultConstants.HierarchyLevelPrefix);
+            return PageRepository.BuildSelectList(data);
         }
 
         /// <summary>

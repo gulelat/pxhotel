@@ -112,6 +112,7 @@ namespace PX.Web.Areas.Admin.Controllers
         }
         #endregion
 
+        #region Edit
         public ActionResult Edit(int id)
         {
             var model = _pageServices.GetPageManageModel(id);
@@ -146,6 +147,8 @@ namespace PX.Web.Areas.Admin.Controllers
             model.PageTemplates = _pageTemplateServices.GetPageTemplateSelectList(model.PageTemplateId);
             return View(model);
         }
+
+        #endregion
 
         public JsonResult GetRelativePages(int? id, int? parentId)
         {

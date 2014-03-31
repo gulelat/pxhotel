@@ -73,7 +73,7 @@
                     {
                         name: 'PageTemplateName', index: 'PageTemplateName', width: 180, editable: true, edittype: "select",
                         formatter: function (cellvalue, options, rowObject) {
-                            return cellvalue ? cellvalue.replace(/^-+/, '') : "";
+                            return formatSelectCell(cellvalue);
                         },
                         editoptions: {
                             dataUrl: '@Url.Action("GetPageTemplates")',
@@ -85,7 +85,7 @@
                     {
                         name: 'ParentName', index: 'ParentName', width: 180, editable: true, edittype: "select",
                         formatter: function (cellvalue, options, rowObject) {
-                            return cellvalue ? cellvalue.replace(/^-+/, '') : "";
+                            return formatSelectCell(cellvalue);
                         },
                         editoptions: {
                             dataUrl: '@Url.Action("GetParents")',
@@ -95,17 +95,7 @@
                         }
                     },
                     {
-                        name: 'Status', index: 'Status', width: 180, editable: true, edittype: "select",
-                        formatter: function (cellvalue, options, rowObject) {
-                            switch (cellvalue) {
-                                case @((int)PageEnums.PageStatusEnums.Online):
-                                    return "Online";
-                                case @((int)PageEnums.PageStatusEnums.Draft):
-                                    return "Draft";
-                                default:
-                                    return cellvalue;
-                            }
-                        },
+                        name: 'StatusName', index: 'StatusName', width: 180, editable: true, edittype: "select",
                         editoptions: {
                             dataUrl: '@Url.Action("GetStatus")',
                             buildSelect: function (response) {

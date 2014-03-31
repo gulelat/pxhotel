@@ -68,9 +68,15 @@
                 pager: pagerSelector,
                 rowList: [10, 20, 30],
                 shrinkToFit: false,
-                multiselect: true,
                 editurl: '@Url.Action("Manage")',
 
+                //Before select row change data Url base on page id
+                beforeSelectRow: function (rowId) {
+                    var tmpId = $(gridSelector).getRowData(rowId)['Id'];
+                    $(gridSelector).setColProp('ParentName', { editoptions: { dataUrl: '@Url.Action("GetParents")/' + tmpId } });
+                    return true;
+                },
+                
                 //Default Value
                 altRows: true,
                 multiboxonly: true,

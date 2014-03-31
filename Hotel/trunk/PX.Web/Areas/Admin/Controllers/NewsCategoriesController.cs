@@ -1,5 +1,6 @@
 ﻿using System.Web.Mvc;
 using Newtonsoft.Json;
+using PX.Business.Models.NewsCategories;
 using PX.Business.Models.Testimonials;
 using PX.Business.Mvc.Attributes;
 using PX.Business.Mvc.Controllers;
@@ -36,9 +37,9 @@ namespace PX.Web.Areas.Admin.Controllers
             return Json(_newsCategorieservices.GetPossibleParents(id), JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult GetNewsCategories()
+        public JsonResult GetNewsCategories(int? id)
         {
-            return Json(_newsCategorieservices.GetNewsCategories(), JsonRequestBehavior.AllowGet);
+            return Json(_newsCategorieservices.GetNewsCategories(id), JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]

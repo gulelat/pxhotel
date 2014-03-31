@@ -156,3 +156,13 @@ textarea.input-validation-error
     right: 33%;
     top: 33%;
 }
+
+.ui-jqgrid-btable select[multiple=multiple] {
+    height: 100px;
+    min-width: 120px;
+}
+
+.ui-jqdialog-content select.FormElement[multiple=multiple] {
+    height: 100px;
+    min-width: 120px;
+}

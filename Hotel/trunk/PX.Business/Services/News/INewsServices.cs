@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using PX.Business.Models.Testimonials;
+using System.Web.Mvc;
+using PX.Business.Models.News;
 using PX.Core.Framework.Enums;
 using PX.Core.Framework.Mvc.Models;
 using PX.Core.Framework.Mvc.Models.JqGrid;
@@ -25,6 +27,14 @@ namespace PX.Business.Services.News
         ResponseModel ManageNews(GridOperationEnums operation, NewsModel model);
 
         JqGridSearchOut SearchNews(JqSearchIn si);
+
+        NewsManageModel GetNewsManageModel(int? id = null);
+
+        ResponseModel SaveNewsManageModel(NewsManageModel model);
+
+        IEnumerable<SelectListItem> GetStatus();
+
+        bool IsTitleExisted(int? newsId, string title);
 
     }
 }

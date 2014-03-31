@@ -78,20 +78,8 @@
                         },
                         editrules: { required: true }
                     }, {
-                        name: 'Status',
-                        index: 'Status',
-                        formatter: function (cellvalue, options, rowObject) {
-                            switch (cellvalue) {
-                                case @((int)UserEnums.UserStatusEnums.Active):
-                                    return "Active";
-                                case @((int)UserEnums.UserStatusEnums.Inactive):
-                                    return "Inactive";
-                                case @((int)UserEnums.UserStatusEnums.Locked):
-                                    return "Locked";
-                                default:
-                                    return cellvalue;
-                            }
-                        },
+                        name: 'StatusName',
+                        index: 'StatusName',
                         width: 150,
                         editable: true,
                         edittype: "select",

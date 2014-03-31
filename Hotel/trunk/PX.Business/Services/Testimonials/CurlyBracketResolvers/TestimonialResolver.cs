@@ -39,7 +39,7 @@ namespace PX.Business.Services.Testimonials.CurlyBracketResolvers
                 var template = new Template
                     {
                         Name = DefaultTemplate(),
-                        DataType = typeof(TestimonialCurlyBracket).Name,
+                        DataType = typeof(TestimonialCurlyBracket).FullName,
                         Content = "{Model.Author}",
                         RecordActive = true,
                         RecordOrder = 0,

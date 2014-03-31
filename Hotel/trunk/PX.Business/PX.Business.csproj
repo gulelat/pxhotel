@@ -70,6 +70,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\News\NewsManageModel.cs" />
     <Compile Include="Models\Templates\TemplateManageModel.cs" />
     <Compile Include="Models\Templates\TemplateModel.cs" />
     <Compile Include="Models\NewsCategories\NewsCategoryModel.cs" />

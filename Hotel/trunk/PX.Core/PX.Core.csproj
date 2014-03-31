@@ -61,6 +61,7 @@
     <Compile Include="Configurations\Configurations.cs" />
     <Compile Include="Configurations\Constants\DefaultConstants.cs" />
     <Compile Include="Configurations\Constants\SettingKeyConstants.cs" />
+    <Compile Include="Framework\Enums\NewsEnums.cs" />
     <Compile Include="Framework\Enums\GridEnums.cs" />
     <Compile Include="Framework\Enums\ResponseStatusEnums.cs" />
     <Compile Include="Framework\Enums\SubmitEnums.cs" />

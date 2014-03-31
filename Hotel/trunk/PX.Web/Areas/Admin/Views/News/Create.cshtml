@@ -1,9 +1,9 @@
-﻿@model PX.Business.Models.Pages.PageManageModel
+﻿@model PX.Business.Models.News.NewsManageModel
 
 @{
-    ViewBag.Header = "Page Management";
-    ViewBag.Title = "Page Create";
-    ViewBag.Description = "Create Template";
+    ViewBag.Header = "News Management";
+    ViewBag.Title = "Create News";
+    ViewBag.Description = "Create News";
 }
 
 <div class="page-header">
@@ -18,7 +18,7 @@
 <div class="row">
     <div class="col-xs-12">
         @ShowStatusMessage()
-        @using (Html.BeginForm("Create", "Pages", null, FormMethod.Post, new { @class = "form-horizontal" }))
+        @using (Html.BeginForm("Create", "News", null, FormMethod.Post, new { @class = "form-horizontal" }))
         {
             @Html.EditorForModel(Model)
         }

@@ -18,6 +18,18 @@ function buildDropdown(response, hasDefaultSelect, name) {
     return s + "</select>";
 }
 
+//Build multiple from json object
+function buildMultipleDropdown(response) {
+    var data = typeof response === "string" ?
+        $.parseJSON(response) : response;
+    var s = "<select class='form-control' multiple='multiple'>";
+    $.each(data, function (i, item) {
+        s += '<option value="' + item.Value + '"' + (item.Selected ? "selected" : "") + '>' + item.Text + '</option>';
+    });
+    return s + "</select>";
+}
+
+
 //Load spinner
 var opts = {
     lines: 13, // The number of lines to draw

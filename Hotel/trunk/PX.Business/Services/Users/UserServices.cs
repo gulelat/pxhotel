@@ -151,9 +151,10 @@ namespace PX.Business.Services.Users
                     user.Email = model.Email;
                     user.Password = model.Password;
                     user.Phone = model.Phone;
+                    user.Status = model.Status;
+
                     // Convert post data from jqGrid post
                     user.UserGroupId = int.Parse(model.UserGroupName);
-                    user.Status = model.Status;
                     user.IdentityNumber = model.IdentityNumber;
                     user.RecordActive = model.RecordActive;
                     user.RecordOrder = 0;
@@ -164,6 +165,7 @@ namespace PX.Business.Services.Users
 
                 case GridOperationEnums.Add:
                     user = Mapper.Map<UserModel, User>(model);
+                    user.Status = model.Status;
                     // Convert post data from jqGrid post
                     user.UserGroupId = int.Parse(model.UserGroupName);
                     user.RecordOrder = 0;

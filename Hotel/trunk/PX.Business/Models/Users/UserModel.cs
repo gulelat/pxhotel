@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using PX.Business.Mvc.Environments;
 using PX.Business.Services.Localizes;
 using PX.Business.Services.Users;
+using PX.Core.Framework.Enums;
+using PX.Core.Ultilities;
 
 namespace PX.Business.Models.Users
 {
@@ -43,8 +44,19 @@ namespace PX.Business.Models.Users
 
         public DateTime? LastLogin { get; set; }
 
-        [Required]
         public int Status { get; set; }
+
+        public string StatusName
+        {
+            get
+            {
+                return EnumUtilities.GetName((UserEnums.UserStatusEnums)Status);
+            }
+            set
+            {
+                Status = value.ToInt();
+            }
+        }
         #endregion
 
         public string UserGroupName { get; set; }
