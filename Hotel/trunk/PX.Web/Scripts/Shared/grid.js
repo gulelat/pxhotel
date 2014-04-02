@@ -165,6 +165,7 @@ function aceSwitch(cellvalue, options, cell) {
             .after('<span class="lbl"></span>');
     }, 0);
 }
+
 //enable datepicker
 function pickDate(cellvalue, options, cell) {
     setTimeout(function () {

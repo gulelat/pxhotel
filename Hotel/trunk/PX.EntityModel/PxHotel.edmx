@@ -19,6 +19,8 @@
           <EntitySet Name="PageTemplates" EntityType="PXHotelModel.Store.PageTemplates" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Rooms" EntityType="PXHotelModel.Store.Rooms" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="RoomTypes" EntityType="PXHotelModel.Store.RoomTypes" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="RotatingImageGroups" EntityType="PXHotelModel.Store.RotatingImageGroups" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="RotatingImages" EntityType="PXHotelModel.Store.RotatingImages" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="SettingTypes" EntityType="PXHotelModel.Store.SettingTypes" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="SiteSettings" EntityType="PXHotelModel.Store.SiteSettings" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Templates" EntityType="PXHotelModel.Store.Templates" store:Type="Tables" Schema="dbo" />
@@ -64,6 +66,10 @@
           <AssociationSet Name="FK_Room_Room" Association="PXHotelModel.Store.FK_Room_Room">
             <End Role="RoomTypes" EntitySet="RoomTypes" />
             <End Role="Rooms" EntitySet="Rooms" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RotatingImage_RotatingImageGroups" Association="PXHotelModel.Store.FK_RotatingImage_RotatingImageGroups">
+            <End Role="RotatingImageGroups" EntitySet="RotatingImageGroups" />
+            <End Role="RotatingImages" EntitySet="RotatingImages" />
           </AssociationSet>
           <AssociationSet Name="FK_SiteSettings_SettingTypes" Association="PXHotelModel.Store.FK_SiteSettings_SettingTypes">
             <End Role="SettingTypes" EntitySet="SettingTypes" />
@@ -276,6 +282,36 @@
           <Property Name="RecordActive" Type="bit" Nullable="false" />
           <Property Name="Created" Type="datetime" Nullable="false" />
           <Property Name="CreatedDate" Type="nvarchar" Nullable="false" MaxLength="512" />
+          <Property Name="Updated" Type="datetime" />
+          <Property Name="UpdatedBy" Type="nvarchar" MaxLength="512" />
+        </EntityType>
+        <EntityType Name="RotatingImageGroups">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="512" />
+          <Property Name="Settings" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="RecordOrder" Type="int" Nullable="false" />
+          <Property Name="RecordActive" Type="bit" Nullable="false" />
+          <Property Name="Created" Type="datetime" Nullable="false" />
+          <Property Name="CreatedBy" Type="nvarchar" Nullable="false" MaxLength="512" />
+          <Property Name="Updated" Type="datetime" />
+          <Property Name="UpdatedBy" Type="nvarchar" MaxLength="512" />
+        </EntityType>
+        <EntityType Name="RotatingImages">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="ImageUrl" Type="nvarchar" Nullable="false" MaxLength="1024" />
+          <Property Name="Text" Type="nvarchar(max)" />
+          <Property Name="Url" Type="nvarchar" MaxLength="512" />
+          <Property Name="GroupId" Type="int" Nullable="false" />
+          <Property Name="RecordOrder" Type="int" Nullable="false" />
+          <Property Name="RecordActive" Type="bit" Nullable="false" />
+          <Property Name="Created" Type="datetime" Nullable="false" />
+          <Property Name="CreatedBy" Type="nvarchar" Nullable="false" MaxLength="512" />
           <Property Name="Updated" Type="datetime" />
           <Property Name="UpdatedBy" Type="nvarchar" MaxLength="512" />
         </EntityType>
@@ -497,6 +533,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_RotatingImage_RotatingImageGroups">
+          <End Role="RotatingImageGroups" Type="PXHotelModel.Store.RotatingImageGroups" Multiplicity="1" />
+          <End Role="RotatingImages" Type="PXHotelModel.Store.RotatingImages" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RotatingImageGroups">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="RotatingImages">
+              <PropertyRef Name="GroupId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_SiteSettings_SettingTypes">
           <End Role="SettingTypes" Type="PXHotelModel.Store.SettingTypes" Multiplicity="0..1" />
           <End Role="SiteSettings" Type="PXHotelModel.Store.SiteSettings" Multiplicity="*" />
@@ -592,6 +640,12 @@
           <AssociationSet Name="FK_User_Role" Association="PXHotelModel.FK_User_Role">
             <End Role="UserGroup" EntitySet="UserGroups" />
             <End Role="User" EntitySet="Users" />
+          </AssociationSet>
+          <EntitySet Name="RotatingImageGroups" EntityType="PXHotelModel.RotatingImageGroup" />
+          <EntitySet Name="RotatingImages" EntityType="PXHotelModel.RotatingImage" />
+          <AssociationSet Name="FK_RotatingImage_RotatingImageGroups" Association="PXHotelModel.FK_RotatingImage_RotatingImageGroups">
+            <End Role="RotatingImageGroup" EntitySet="RotatingImageGroups" />
+            <End Role="RotatingImage" EntitySet="RotatingImages" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="BookingRequest">
@@ -1065,6 +1119,50 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="RotatingImageGroup">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Settings" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="RecordOrder" Nullable="false" />
+          <Property Type="Boolean" Name="RecordActive" Nullable="false" />
+          <Property Type="DateTime" Name="Created" Nullable="false" Precision="3" />
+          <Property Type="String" Name="CreatedBy" Nullable="false" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Type="DateTime" Name="Updated" Precision="3" />
+          <Property Type="String" Name="UpdatedBy" MaxLength="512" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="RotatingImages" Relationship="PXHotelModel.FK_RotatingImage_RotatingImageGroups" FromRole="RotatingImageGroup" ToRole="RotatingImage" />
+        </EntityType>
+        <EntityType Name="RotatingImage">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="ImageUrl" Nullable="false" MaxLength="1024" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Text" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Url" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="GroupId" Nullable="false" />
+          <Property Type="Int32" Name="RecordOrder" Nullable="false" />
+          <Property Type="Boolean" Name="RecordActive" Nullable="false" />
+          <Property Type="DateTime" Name="Created" Nullable="false" Precision="3" />
+          <Property Type="String" Name="CreatedBy" Nullable="false" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Type="DateTime" Name="Updated" Precision="3" />
+          <Property Type="String" Name="UpdatedBy" MaxLength="512" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="RotatingImageGroup" Relationship="PXHotelModel.FK_RotatingImage_RotatingImageGroups" FromRole="RotatingImage" ToRole="RotatingImageGroup" />
+        </EntityType>
+        <Association Name="FK_RotatingImage_RotatingImageGroups">
+          <End Type="PXHotelModel.RotatingImageGroup" Role="RotatingImageGroup" Multiplicity="1" />
+          <End Type="PXHotelModel.RotatingImage" Role="RotatingImage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RotatingImageGroup">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="RotatingImage">
+              <PropertyRef Name="GroupId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1389,6 +1487,38 @@
                 <ScalarProperty Name="FirstName" ColumnName="FirstName" />
                 <ScalarProperty Name="Password" ColumnName="Password" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RotatingImageGroups">
+            <EntityTypeMapping TypeName="PXHotelModel.RotatingImageGroup">
+              <MappingFragment StoreEntitySet="RotatingImageGroups">
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="Updated" ColumnName="Updated" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+                <ScalarProperty Name="RecordActive" ColumnName="RecordActive" />
+                <ScalarProperty Name="RecordOrder" ColumnName="RecordOrder" />
+                <ScalarProperty Name="Settings" ColumnName="Settings" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RotatingImages">
+            <EntityTypeMapping TypeName="PXHotelModel.RotatingImage">
+              <MappingFragment StoreEntitySet="RotatingImages">
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="Updated" ColumnName="Updated" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+                <ScalarProperty Name="RecordActive" ColumnName="RecordActive" />
+                <ScalarProperty Name="RecordOrder" ColumnName="RecordOrder" />
+                <ScalarProperty Name="GroupId" ColumnName="GroupId" />
+                <ScalarProperty Name="Url" ColumnName="Url" />
+                <ScalarProperty Name="Text" ColumnName="Text" />
+                <ScalarProperty Name="ImageUrl" ColumnName="ImageUrl" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

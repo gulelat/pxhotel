@@ -44,5 +44,7 @@ namespace PX.EntityModel
         public DbSet<Testimonial> Testimonials { get; set; }
         public DbSet<UserGroup> UserGroups { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<RotatingImageGroup> RotatingImageGroups { get; set; }
+        public DbSet<RotatingImage> RotatingImages { get; set; }
     }
 }

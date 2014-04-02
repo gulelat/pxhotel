@@ -16,6 +16,8 @@ using PX.Business.Services.News;
 using PX.Business.Services.NewsCategories;
 using PX.Business.Services.PageTemplates;
 using PX.Business.Services.Pages;
+using PX.Business.Services.RotatingImageGroups;
+using PX.Business.Services.RotatingImages;
 using PX.Business.Services.SettingTypes;
 using PX.Business.Services.Settings;
 using PX.Business.Services.Templates;
@@ -136,6 +138,8 @@ namespace PX.Web
             container.Register<INewsServices, NewsServices>(Lifestyle.Singleton);
             container.Register<INewsCategoryServices, NewsCategorieservices>(Lifestyle.Singleton);
             container.Register<ITemplateServices, TemplateServices>(Lifestyle.Singleton);
+            container.Register<IRotatingImageServices, RotatingImageServices>(Lifestyle.Singleton);
+            container.Register<IRotatingImageGroupServices, RotatingImageGroupServices>(Lifestyle.Singleton);
             container.Register<ILogger>(() => new Logger(typeof (string)));
         }
 
