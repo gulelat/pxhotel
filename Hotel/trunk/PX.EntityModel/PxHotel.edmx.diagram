@@ -36,6 +36,9 @@
         <AssociationConnector Association="PXHotelModel.FK_Room_Room" />
         <AssociationConnector Association="PXHotelModel.FK_SiteSettings_SettingTypes" />
         <AssociationConnector Association="PXHotelModel.FK_User_Role" />
+        <EntityTypeShape EntityType="PXHotelModel.RotatingImageGroup" Width="1.5" PointX="5.4077099475114183" PointY="20.813028553879366" />
+        <EntityTypeShape EntityType="PXHotelModel.RotatingImage" Width="1.5" PointX="4.6097075588115057" PointY="6.3048566162143169" />
+        <AssociationConnector Association="PXHotelModel.FK_RotatingImage_RotatingImageGroups" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -1,0 +1,156 @@
+﻿@using PX.Core.Framework.Enums
+@model PX.Business.Models.RotatingImageGroups.GroupManageSettingModel
+
+@{
+    ViewBag.Header = "Rotating Image Group Management";
+    ViewBag.Title = "Create Rotating Image Group";
+    ViewBag.Description = "Create Rotating Image Group";
+}
+
+<div class="page-header">
+    <h1>@ViewBag.Header
+        <small>
+            <i class="icon-double-angle-right"></i>
+            @ViewBag.Title
+        </small>
+    </h1>
+</div>
+
+<div class="row">
+    <div class="col-xs-12">
+        @ShowStatusMessage()
+        @using (Html.BeginForm("EditSettings", "RotatingImageGroups", null, FormMethod.Post, new { @class = "form-horizontal" }))
+        {
+            @Html.HiddenFor(m => m.Id)
+            <div class="space-4"></div>
+            <div class="form-group">
+                <div class="col-sm-12">
+                    @MText(Tags.Label, "AdminModule:::RotatingImageGroups:::Forms:::AutoPlay", "AutoPlay", new { @class = "col-sm-3 control-label", @for = "AutoPlay" })
+                    <div class="col-sm-9">
+                        @Html.TextBoxFor(m => m.GroupSettingModel.AutoPlay, new { @class = "col-sm-5" })
+                        @Html.ValidationMessageFor(m => m.GroupSettingModel.AutoPlay)
+                    </div>
+                </div>
+            </div>
+            <div class="space-4"></div>
+            <div class="form-group">
+                <div class="col-sm-12">
+                    @MText(Tags.Label, "AdminModule:::RotatingImageGroups:::Forms:::StopOnHover", "Stop On Hover", new { @class = "col-sm-3 control-label", @for = "StopOnHover" })
+                    <div class="col-sm-9">
+                        @Html.CheckBoxFor(m => m.GroupSettingModel.StopOnHover)
+                        @Html.ValidationMessageFor(m => m.GroupSettingModel.StopOnHover)
+                    </div>
+                </div>
+            </div>
+            <div class="space-4"></div>
+            <div class="form-group">
+                <div class="col-sm-12">
+                    @MText(Tags.Label, "AdminModule:::RotatingImageGroups:::Forms:::Navigation", "Navigation", new { @class = "col-sm-3 control-label", @for = "Navigation" })
+                    <div class="col-sm-9">
+                        @Html.CheckBoxFor(m => m.GroupSettingModel.Navigation)
+                        @Html.ValidationMessageFor(m => m.GroupSettingModel.Navigation)
+                    </div>
+                </div>
+            </div>
+            <div class="space-4"></div>
+            <div class="form-group">
+                <div class="col-sm-12">
+                    @MText(Tags.Label, "AdminModule:::RotatingImageGroups:::Forms:::PaginationSpeed", "Pagination Speed", new { @class = "col-sm-3 control-label", @for = "PaginationSpeed" })
+                    <div class="col-sm-9">
+                        @Html.TextBoxFor(m => m.GroupSettingModel.PaginationSpeed, new { @class = "col-sm-5" })
+                        @Html.ValidationMessageFor(m => m.GroupSettingModel.PaginationSpeed)
+                    </div>
+                </div>
+            </div>
+            <div class="space-4"></div>
+            <div class="form-group">
+                <div class="col-sm-12">
+                    @MText(Tags.Label, "AdminModule:::RotatingImageGroups:::Forms:::PaginationNumbers", "Pagination Numbers", new { @class = "col-sm-3 control-label", @for = "PaginationNumbers" })
+                    <div class="col-sm-9">
+                        @Html.CheckBoxFor(m => m.GroupSettingModel.PaginationNumbers)
+                        @Html.ValidationMessageFor(m => m.GroupSettingModel.PaginationNumbers)
+                    </div>
+                </div>
+            </div>
+            <div class="space-4"></div>
+            <div class="form-group">
+                <div class="col-sm-12">
+                    @MText(Tags.Label, "AdminModule:::RotatingImageGroups:::Forms:::LazyLoad", "Lazy Load", new { @class = "col-sm-3 control-label", @for = "PaginationNumbers" })
+                    <div class="col-sm-9">
+                        @Html.CheckBoxFor(m => m.GroupSettingModel.LazyLoad)
+                        @Html.ValidationMessageFor(m => m.GroupSettingModel.LazyLoad)
+                    </div>
+                </div>
+            </div>
+            <div class="space-4"></div>
+            <div class="form-group">
+                <div class="col-sm-12">
+                    @MText(Tags.Label, "AdminModule:::RotatingImageGroups:::Forms:::GoToFirstSpeed", "Go To First Speed", new { @class = "col-sm-3 control-label", @for = "GoToFirstSpeed" })
+                    <div class="col-sm-9">
+                        @Html.TextBoxFor(m => m.GroupSettingModel.GoToFirstSpeed, new { @class = "col-sm-5" })
+                        @Html.ValidationMessageFor(m => m.GroupSettingModel.GoToFirstSpeed)
+                    </div>
+                </div>
+            </div>
+            <div class="space-4"></div>
+            <div class="form-group">
+                <div class="col-sm-12">
+                    @MText(Tags.Label, "AdminModule:::RotatingImageGroups:::Forms:::LazyLoad", "Lazy Load", new { @class = "col-sm-3 control-label", @for = "PaginationNumbers" })
+                    <div class="col-sm-9">
+                        @Html.CheckBoxFor(m => m.GroupSettingModel.LazyLoad)
+                        @Html.ValidationMessageFor(m => m.GroupSettingModel.LazyLoad)
+                    </div>
+                </div>
+            </div>
+            <div class="space-4"></div>
+            <div class="form-group">
+                <div class="col-sm-12">
+                    @MText(Tags.Label, "AdminModule:::RotatingImageGroups:::Forms:::SingleItem", "Single Item", new { @class = "col-sm-3 control-label", @for = "SingleItem" })
+                    <div class="col-sm-9">
+                        @Html.CheckBoxFor(m => m.GroupSettingModel.SingleItem)
+                        @Html.ValidationMessageFor(m => m.GroupSettingModel.SingleItem)
+                    </div>
+                </div>
+            </div>
+            <div class="space-4"></div>
+            <div class="form-group">
+                <div class="col-sm-12">
+                    @MText(Tags.Label, "AdminModule:::RotatingImageGroups:::Forms:::AutoHeight", "Auto Height", new { @class = "col-sm-3 control-label", @for = "AutoHeight" })
+                    <div class="col-sm-9">
+                        @Html.CheckBoxFor(m => m.GroupSettingModel.AutoHeight)
+                        @Html.ValidationMessageFor(m => m.GroupSettingModel.AutoHeight)
+                    </div>
+                </div>
+            </div>
+            <div class="space-4"></div>
+            <div class="form-group">
+                <div class="col-sm-12">
+                    @MText(Tags.Label, "AdminModule:::RotatingImageGroups:::Forms:::TransitionStyle", "Transition Style", new { @class = "col-sm-3 control-label", @for = "TransitionStyle" })
+                    <div class="col-sm-9">
+                        @Html.TextBoxFor(m => m.GroupSettingModel.TransitionStyle, new { @class = "col-sm-5" })
+                        @Html.ValidationMessageFor(m => m.GroupSettingModel.TransitionStyle)
+                    </div>
+                </div>
+            </div>
+            <div class="space-4"></div>
+            <div class="clearfix form-actions">
+                <div class="col-md-offset-1 col-md-9">
+                    <a class="btn btn-link" href="@Url.Action("Index")">Back To List
+                    </a>
+                    <button class="btn btn-primary" type="submit" value="@SubmitTypeEnums.Save" name="Submit">
+                        <i class="icon-ok bigger-110"></i>
+                        Save
+                    </button>
+                    <button class="btn btn-info" type="submit" value="@SubmitTypeEnums.SaveAndContinueEdit" name="Submit">
+                        <i class="icon-ok bigger-110"></i>
+                        Save and Continue Edit
+                    </button>
+                    <button class="btn" onclick="location.href= window.location.href;" type="reset">
+                        <i class="icon-undo bigger-110"></i>
+                        Reset
+                    </button>
+                </div>
+            </div>
+        }
+    </div>
+</div>

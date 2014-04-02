@@ -104,6 +104,8 @@
     <Compile Include="PageTemplate.cs">
       <DependentUpon>PXHotel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Repositories\RotatingImageGroupRepository.cs" />
+    <Compile Include="Repositories\RotatingImageRepository.cs" />
     <Compile Include="Repositories\TemplateRepository.cs" />
     <Compile Include="Repositories\NewsNewsCategoryRepository.cs" />
     <Compile Include="Repositories\NewsCategoryRepository.cs" />
@@ -145,6 +147,12 @@
       <DependentUpon>PXHotel.tt</DependentUpon>
     </Compile>
     <Compile Include="RoomType.cs">
+      <DependentUpon>PXHotel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RotatingImage.cs">
+      <DependentUpon>PXHotel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RotatingImageGroup.cs">
       <DependentUpon>PXHotel.tt</DependentUpon>
     </Compile>
     <Compile Include="SettingType.cs">

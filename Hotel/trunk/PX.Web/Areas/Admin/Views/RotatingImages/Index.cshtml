@@ -1,7 +1,7 @@
 ﻿@{
-    ViewBag.Header = "Setting Types";
-    ViewBag.Title = "Setting Type Management";
-    ViewBag.Description = "Setting Type Management Page";
+    ViewBag.Header = "Rotating Images";
+    ViewBag.Title = "Rotating Image Management";
+    ViewBag.Description = "Rotating Image Management Page";
 }
 @section styles{
     <link rel="stylesheet" href="/Content/backend/css/jquery-ui-1.10.3.full.min.css" />
@@ -39,17 +39,41 @@
             jQuery(gridSelector).jqGrid({
                 datatype: "json",
                 url: "@Url.Action("_AjaxBinding")",
-                caption: "Setting Type Management",
+                caption: "Rotating Image Management",
                 height: 370,
                 ondblClickRow: function (rowId) {
                     jQuery(gridSelector).editRow(rowId, true);
                 },
-                colNames: ['Id', 'Name', 'Order', 'Active', 'Created', 'CreatedBy', 'Updated', 'UpdatedBy'],
+                colNames: ['', 'Id', 'Text', 'Url', 'Group', 'Order', 'Active', 'Created', 'CreatedBy', 'Updated', 'UpdatedBy'],
                 colModel: [
+                    {
+                        name: 'action',
+                        width: 50,
+                        sortable: false,
+                        search: false,
+                        align: "center",
+                        formatter: function (cellvalue, options, rowObject) {
+                            return "<a href='@Url.Action("Edit")/" + options.rowId + "'><div class='ui-pg-div ui-inline-edit' title='' data-original-title='Edit'><span class='ui-icon icon-edit'></span></div></a>";
+                        }
+                    },
                     { name: 'Id', index: 'Id', width: 60, key: true, sorttype: "int" },
-                    { name: 'Name', index: 'Name', width: 150, editable: true, editrules: { required: true } },
-                    { name: 'RecordOrder', index: 'RecordOrder', width: 50, sorttype: "int", align:"center", editable: true, editrules: { required: true } },
-                    { name: 'Active', index: 'Active', width: 100, editable: true, edittype: "checkbox",  align:"center", editoptions: { value: "Yes:No", defaultValue: 'Yes' }, unformat: aceSwitch },
+                    { name: 'Text', index: 'Text', width: 250, editable: true },
+                    { name: 'Url', index: 'Url', width: 150, editable: true, editrules: { required: true } },
+                    {
+                        name: 'GroupName',
+                        index: 'GroupName',
+                        width: 150,
+                        editable: true,
+                        edittype: "select",
+                        editoptions: {
+                            dataUrl: '@Url.Action("GetGroups", "RotatingImageGroups")',
+                            buildSelect: function (response) {
+                                return buildDropdown(response, false);
+                            }
+                        },
+                    },
+                    { name: 'RecordOrder', index: 'RecordOrder', width: 50, sorttype: "int", align: "center", editable: true, editrules: { required: true } },
+                    { name: 'Active', index: 'Active', width: 100, editable: true, edittype: "checkbox", align: "center", editoptions: { value: "Yes:No", defaultValue: 'Yes' }, unformat: aceSwitch },
                     { name: 'Created', index: 'Created', formatter: "date", width: 100, editable: false, sorttype: "datetime", unformat: pickDate },
                     { name: 'CreatedBy', index: 'CreatedBy', width: 150, editable: false, editoptions: { size: "20", maxlength: "30" } },
                     { name: 'Updated', index: 'Updated', formatter: "date", width: 90, editable: false, sorttype: "datetime", unformat: pickDate },
