@@ -15,6 +15,7 @@ namespace PX.Business.Models.News
         [Required]
         public string Title { get; set; }
 
+        [Required]
         public string Description { get; set; }
 
         [Required]
@@ -24,6 +25,7 @@ namespace PX.Business.Models.News
 
         public IEnumerable<SelectListItem> NewsCategories { get; set; }
 
+        [Required]
         public int Status { get; set; }
 
         public IEnumerable<SelectListItem> StatusList { get; set; }
