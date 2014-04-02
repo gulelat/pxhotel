@@ -56,8 +56,7 @@ namespace PX.Business.Services.CurlyBrackets.CurlyBracketResolver
                             var match = result.ToString(beginPos + 1, i - beginPos - 1);
                             try
                             {
-                                var replacement = ProcessWidgetRenderingToken(match);
-                                hasCurlyBrackets = true;
+                                var replacement = ProcessWidgetRenderingToken(match, out hasCurlyBrackets);
                                 result.Remove(beginPos, i - beginPos + 1);
                                 result.Insert(beginPos, replacement);
                                 i = beginPos + replacement.Length - 1;
@@ -73,8 +72,9 @@ namespace PX.Business.Services.CurlyBrackets.CurlyBracketResolver
             return result.ToString();
         }
 
-        public static string ProcessWidgetRenderingToken(string widgetRenderingParamsString)
+        public static string ProcessWidgetRenderingToken(string widgetRenderingParamsString, out bool hasCurlyBrackets)
         {
+            hasCurlyBrackets = false;
             // function key is the first parameter in the rendering param from {} tags
             var widgetRenderingParams = widgetRenderingParamsString.Split(new[] { "_" },
                                                                           StringSplitOptions.RemoveEmptyEntries);
@@ -95,6 +95,7 @@ namespace PX.Business.Services.CurlyBrackets.CurlyBracketResolver
                     {
                         // render the widget in html string with found resolver
                         var widgetRenderedHtml = instance.Render(widgetRenderingParams);
+                        hasCurlyBrackets = true;
 
                         return !string.IsNullOrEmpty(widgetRenderedHtml)
                                    ? widgetRenderedHtml

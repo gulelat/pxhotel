@@ -5,6 +5,7 @@ using System.Linq.Expressions;
 using System.Web.Mvc;
 using PX.Business.Models.Templates;
 using PX.Business.Mvc.Environments;
+using PX.Business.Mvc.WorkContext;
 using PX.Business.Services.CurlyBrackets;
 using PX.Business.Services.CurlyBrackets.CurlyBracketResolver;
 using PX.Business.Services.Localizes;
@@ -46,6 +47,7 @@ namespace PX.Business.Services.Templates
                 var instance = (ICurlyBracketResolver)Activator.CreateInstance(type);
                 instance.Initialize();
             }
+            WorkContext.CurlyBrackets = _curlyBracketServices.GetAllCurlyBracketsOfApplication();
         }
         #endregion
 
