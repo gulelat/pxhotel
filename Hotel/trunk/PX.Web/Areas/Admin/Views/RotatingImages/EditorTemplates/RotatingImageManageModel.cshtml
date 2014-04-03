@@ -6,6 +6,9 @@
     @MText(Tags.Label, "AdminModule:::RotatingImages:::Forms:::ImageUrl", "Image Url", new { @class = "col-sm-2 control-label no-padding-right", @for = "Text" })
     <div class="col-sm-10">
         @Html.TextBoxFor(m => m.ImageUrl, new { @class = "col-xs-8" })
+        <a class="btn btn-warning btn-xs browsefile" href="javascript:void(0)">
+            <i class="icon-film bigger-110 icon-only"></i>
+        </a>
         @Html.ValidationMessageFor(m => m.ImageUrl)
     </div>
 </div>
