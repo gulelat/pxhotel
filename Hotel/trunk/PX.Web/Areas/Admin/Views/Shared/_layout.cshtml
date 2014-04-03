@@ -35,6 +35,7 @@
 
 
     <link rel="stylesheet" href="/Content/BackEnd/template.css" />
+    <link rel="stylesheet" href="/Content/fancybox/jquery.fancybox.css" />
 
     <!-- ace settings handler -->
 
@@ -58,7 +59,7 @@
 
     <!--[if IE]>
 <script type="text/javascript">
- window.jQuery || document.write("<script src='/Scripts/BackEnd/jquery-1.10.2.min.js'>"+"<"+"/script>");
+    window.jQuery || document.write("<script src='/Scripts/BackEnd/jquery-1.10.2.min.js'>"+"<"+"/script>");
 </script>
 <![endif]-->
     <script src="/Scripts/Backend/jquery-ui-1.10.3.full.min.js"></script>
@@ -231,5 +232,16 @@
     <script src="/Scripts/jquery.validate.unobtrusive.js"></script>
     <script src="/Scripts/BackEnd/jquery.gritter.min.js"></script>
     <script src="/Scripts/Shared/admin.js"></script>
+    <script type="text/javascript" src="/Scripts/fancybox/jquery.fancybox.js"></script>
+    <script type="text/javascript">
+        var $TargetControl;
+        $(".browsefile").click(function () {
+            $TargetControl = $(this).parent().find("input");
+            $.fancybox.open({
+                href: '@Url.Action("MediaBrowser", "Media", new { area = "Admin" })',
+                              type: 'iframe', width: "95%"
+                          });
+                      });
+    </script>
 </body>
 </html>
