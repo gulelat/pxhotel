@@ -11,6 +11,7 @@ using PX.Business.Services.CurlyBrackets;
 using PX.Business.Services.CurlyBrackets.CurlyBracketResolver;
 using PX.Business.Services.Languages;
 using PX.Business.Services.Localizes;
+using PX.Business.Services.Medias;
 using PX.Business.Services.Menus;
 using PX.Business.Services.News;
 using PX.Business.Services.NewsCategories;
@@ -140,6 +141,8 @@ namespace PX.Web
             container.Register<ITemplateServices, TemplateServices>(Lifestyle.Singleton);
             container.Register<IRotatingImageServices, RotatingImageServices>(Lifestyle.Singleton);
             container.Register<IRotatingImageGroupServices, RotatingImageGroupServices>(Lifestyle.Singleton);
+            container.Register<IMediaServices, MediaServices>(Lifestyle.Singleton);
+            container.Register<IMediaFileManager, MediaFileManager>(Lifestyle.Singleton);
             container.Register<ILogger>(() => new Logger(typeof (string)));
         }
 

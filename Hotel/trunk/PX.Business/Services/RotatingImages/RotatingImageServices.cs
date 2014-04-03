@@ -5,6 +5,7 @@ using AutoMapper;
 using PX.Business.Models.RotatingImages;
 using PX.Business.Mvc.Environments;
 using PX.Business.Services.Localizes;
+using PX.Business.Services.RotatingImageGroups;
 using PX.Core.Framework.Enums;
 using PX.Core.Framework.Mvc.Models;
 using PX.Core.Framework.Mvc.Models.JqGrid;
@@ -17,9 +18,11 @@ namespace PX.Business.Services.RotatingImages
     public class RotatingImageServices : IRotatingImageServices
     {
         private readonly ILocalizedResourceServices _localizedResourceServices;
+        private readonly IRotatingImageGroupServices _rotatingImageGroupServices;
         public RotatingImageServices()
         {
             _localizedResourceServices = HostContainer.GetInstance<ILocalizedResourceServices>();
+            _rotatingImageGroupServices = HostContainer.GetInstance<IRotatingImageGroupServices>();
         }
 
         #region Base
@@ -89,7 +92,6 @@ namespace PX.Business.Services.RotatingImages
         /// <returns></returns>
         public ResponseModel ManageRotatingImage(GridOperationEnums operation, RotatingImageModel model)
         {
-            int groupId;
             ResponseModel response;
             Mapper.CreateMap<RotatingImageModel, RotatingImage>();
             RotatingImage rotatingImage;
@@ -129,5 +131,62 @@ namespace PX.Business.Services.RotatingImages
                 Message = _localizedResourceServices.T("AdminModule:::RotatingImages:::Rotating image not founded")
             };
         }
+
+        /// <summary>
+        /// Get rotating image manage model for edit/create
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public RotatingImageManageModel GetRotatingImageManageModel(int? id = null)
+        {
+            var rotatingImage = GetById(id);
+            if (rotatingImage != null)
+            {
+                return new RotatingImageManageModel
+                {
+                    Id = rotatingImage.Id,
+                    ImageUrl = rotatingImage.ImageUrl,
+                    Text = rotatingImage.Text,
+                    Url = rotatingImage.Url,
+                    GroupId = rotatingImage.GroupId,
+                    Groups = _rotatingImageGroupServices.GetRotatingImageGroups()
+                };
+            }
+            return new RotatingImageManageModel
+            {
+                Groups = _rotatingImageGroupServices.GetRotatingImageGroups()
+            };
+        }
+
+        /// <summary>
+        /// Save rotating image
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public ResponseModel SaveRotatingImage(RotatingImageManageModel model)
+        {
+            ResponseModel response;
+            var rotatingImage = GetById(model.Id);
+            if (rotatingImage != null)
+            {
+                rotatingImage.ImageUrl = model.ImageUrl;
+                rotatingImage.Text = model.Text;
+                rotatingImage.Url = model.Url;
+                rotatingImage.RecordOrder = model.RecordOrder;
+                rotatingImage.GroupId = model.GroupId;
+
+                response = Update(rotatingImage);
+                return response.SetMessage(response.Success ?
+                    _localizedResourceServices.T("AdminModule:::RotatingImages:::Update rotating image successfully")
+                    : _localizedResourceServices.T("AdminModule:::RotatingImages:::Update rotating image failure"));
+            }
+            Mapper.CreateMap<RotatingImageManageModel, RotatingImage>();
+            rotatingImage = Mapper.Map<RotatingImageManageModel, RotatingImage>(model);
+            response = Insert(rotatingImage);
+            return response.SetMessage(response.Success ?
+                _localizedResourceServices.T("AdminModule:::RotatingImages:::Create rotating image successfully")
+                : _localizedResourceServices.T("AdminModule:::RotatingImages:::Create rotating image failure"));
+        }
+        
     }
 }

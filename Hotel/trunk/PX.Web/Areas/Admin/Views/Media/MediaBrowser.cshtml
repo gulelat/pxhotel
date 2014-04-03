@@ -1,0 +1,125 @@
+﻿@{
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.Blank.cshtml";
+}
+<div class="main-content">
+    <div class="page-content">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="col-xs-6">
+                    <div id="file-browser" style="overflow: scroll">
+                    </div>
+
+                    <div id="fileUploader">
+                        <noscript>
+                            <p>
+                                Please enable JavaScript to use file uploader.
+                            </p>
+                            <!-- or put a simple form for upload here -->
+                        </noscript>
+                    </div>
+
+                    <div class="center">
+                        <input type="button" class="btn btn-primary" value="Edit" onclick="EditThis()" />
+                        <input type="button" class="btn btn-primary" value="Select" onclick="SaveThis()" />
+                    </div>
+                </div>
+                <div id="file-preview" class="col-xs-6 table-bordered">
+                    <img id="filepickerpreview" src="" class="col-xs-12" />
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section styles
+{
+    <link rel="stylesheet" href="/Content/Media/fileuploader.css" />
+    <link rel="stylesheet" href="/Content/Media/mediaBrowser.css" />
+    <link rel="stylesheet" href="/Content/fancybox/jquery.fancybox.css" />
+    <style type="text/css">
+        a
+        {
+            text-decoration: none !important;
+        }
+
+        .main-content
+        {
+            margin: 0;
+        }
+    </style>
+}
+@section scripts
+{
+    <script type="text/javascript" src="/Scripts/fancybox/jquery.fancybox.js"></script>
+    <script type="text/javascript" src="/Scripts/Media/fileuploader.js"></script>
+    <script type="text/javascript" src="/Scripts/Media/jquery.cookie.js"></script>
+    <script type="text/javascript" src="/Scripts/Media/jquery.hotkeys.js"></script>
+    <script type="text/javascript" src="/Scripts/Media/jquery.jstree.js"></script>
+    <script type="text/javascript" src="/Scripts/Media/filebrowser.js"></script>
+    <script type="text/javascript">
+        function EditThis() {
+            $.fancybox({
+                href: "@Url.Action("Index", "ImageEditor", new { area = "Admin" })?virtualPath=" + $('#file-browser').jstree('get_selected').attr('id'),
+                type: 'iframe',
+                width: '100%',
+                afterClose: function () {
+                    $('#file-browser').find('.jstree-clicked').trigger("click");
+                    var toRefreshNode = $.jstree._reference($('#file-browser'))
+                        ._get_parent($('#file-browser').jstree('get_selected'));
+                    $.jstree._reference($('#file-browser')).refresh(toRefreshNode);
+
+                    return true;
+                },
+            });
+        }
+        function SaveThis() {
+            if (typeof (parent.$TargetControl) === "function") {
+                parent.$TargetControl($('#file-browser').jstree('get_selected').attr('id'));
+            } else {
+                parent.$TargetControl.val($('#file-browser').jstree('get_selected').attr('id'));
+            }
+            parent.$.fancybox.close();
+        }
+
+        var uploader;
+
+        function createUploader() {
+            uploader = new qq.FileUploader({
+                element: document.getElementById("fileUploader"),
+                action: '@Url.Action("FileUpload")',
+                debug: true,
+                onComplete: function (id, filename, response) {
+                    if (response.success) {
+                        var fileBrowser = "#file-browser";
+                        if (response.isImage) {
+                            $("#filepickerpreview").attr("src", response.fileLocation);
+                        } else {
+                            $("#filepickerpreview").attr("src", "/Core/Media/Styles/file.png");
+                        }
+                        var currentNode = $(fileBrowser).jstree('get_selected');
+                        var type = currentNode.attr("rel");
+                        $.jstree._reference(fileBrowser).deselect_node(currentNode);
+                        if (type == "folder" || type == "home") {
+                            $.jstree._reference(fileBrowser).refresh(currentNode);
+                        } else {
+                            var parentNode = $.jstree._reference(fileBrowser)._get_parent(currentNode);
+                            $.jstree._reference(fileBrowser).refresh(parentNode);
+                        }
+                        $.jstree._reference(fileBrowser).data.ui.to_select = ['#' + response.fileLocation];
+                    } else {
+                        ShowSuccessMessage(response.message);
+                    }
+                    $(".qq-upload-fail").remove();
+                    $(".qq-upload-success").remove();
+
+                }
+            });
+            $(".qq-upload-button").addClass("btn btn-primary");
+        }
+
+        $(function () {
+            createUploader();
+        });
+    </script>
+}

@@ -1,11 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Drawing;
 using System.Drawing.Imaging;
 
-namespace PX.Core.Ultilities
+namespace PX.Core.Ultilities.Files
 {
     public class ImageUtilities
     {
@@ -119,6 +119,29 @@ namespace PX.Core.Ultilities
             var bmpCrop = bmpImage.Clone(cropArea, bmpImage.PixelFormat);
             bmpImage.Dispose();
             return bmpCrop;
+        }
+
+
+        public static Bitmap ConvertImageFromBase64(string imageDataUri)
+        {
+            var base64Data = Regex.Match(imageDataUri, @"data:image/(?<type>.+?),(?<data>.+)").Groups["data"].Value;
+            var binData = Convert.FromBase64String(base64Data);
+            using (var stream = new MemoryStream(binData))
+            {
+                var image = new Bitmap(stream);
+                return image;
+            }
+        }
+
+        public static void SaveImageFromBase64String(string url, string path, ImageFormat format)
+        {
+            var base64Data = Regex.Match(url, @"data:image/(?<type>.+?),(?<data>.+)").Groups["data"].Value;
+            var binData = Convert.FromBase64String(base64Data);
+            using (var stream = new MemoryStream(binData))
+            {
+                var image = Image.FromStream(stream);
+                image.Save(path, format);
+            }
         }
     }
 }

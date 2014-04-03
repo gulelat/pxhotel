@@ -88,7 +88,8 @@
     <Compile Include="Ultilities\ConvertUtilities.cs" />
     <Compile Include="Ultilities\DateTimeUtilities.cs" />
     <Compile Include="Ultilities\EnumUtilities.cs" />
-    <Compile Include="Ultilities\ImageUtilities.cs" />
+    <Compile Include="Ultilities\Files\FileInfoUtilities.cs" />
+    <Compile Include="Ultilities\Files\ImageUtilities.cs" />
     <Compile Include="Ultilities\MailUltilities.cs" />
     <Compile Include="Ultilities\PasswordUtilities.cs" />
     <Compile Include="Ultilities\ReflectionUtilities.cs" />

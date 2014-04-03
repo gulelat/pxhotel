@@ -70,23 +70,31 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\Medias\FileTreeModel.cs" />
     <Compile Include="Models\RotatingImageGroups\GroupManageSettingModel.cs" />
     <Compile Include="Models\RotatingImageGroups\GroupSettingModel.cs" />
     <Compile Include="Models\RotatingImageGroups\RotatingImageGroupModel.cs" />
+    <Compile Include="Models\RotatingImages\RotatingImageManageModel.cs" />
     <Compile Include="Models\RotatingImages\RotatingImageModel.cs" />
     <Compile Include="Models\News\NewsManageModel.cs" />
+    <Compile Include="Models\Settings\SettingTypes\ImageUploadSettings.cs" />
     <Compile Include="Models\Templates\TemplateManageModel.cs" />
     <Compile Include="Models\Templates\TemplateModel.cs" />
     <Compile Include="Models\NewsCategories\NewsCategoryModel.cs" />
     <Compile Include="Models\News\NewsModel.cs" />
     <Compile Include="Models\SettingTypes\SettingTypeModel.cs" />
-    <Compile Include="Models\FileManagers\FileUploadViewModel.cs" />
-    <Compile Include="Models\FileManagers\ImageCropModel.cs" />
+    <Compile Include="Models\Medias\FileUploadViewModel.cs" />
+    <Compile Include="Models\Medias\ImageCropModel.cs" />
     <Compile Include="Models\Testimonials\CurlyBrackets\TestimonialCurlyBracket.cs" />
     <Compile Include="Models\Testimonials\TestimonialModel.cs" />
     <Compile Include="Models\CurlyBrackets\CurlyBracketModel.cs" />
     <Compile Include="Models\Pages\PageManageModel.cs" />
+    <Compile Include="Mvc\Enums\MediaEnums.cs" />
     <Compile Include="Mvc\Enums\PageEnums.cs" />
+    <Compile Include="Services\Medias\MediaFileManager.cs" />
+    <Compile Include="Services\Medias\IMediaFileManager.cs" />
+    <Compile Include="Services\Medias\IMediaServices.cs" />
+    <Compile Include="Services\Medias\MediaServices.cs" />
     <Compile Include="Services\RotatingImageGroups\IRotatingImageGroupServices.cs" />
     <Compile Include="Services\RotatingImageGroups\RotatingImageGroupServices.cs" />
     <Compile Include="Services\RotatingImages\IRotatingImageServices.cs" />
