@@ -8,7 +8,6 @@ using PX.Business.Services.RotatingImageGroups;
 using PX.Core.Framework.Enums;
 using PX.Core.Framework.Mvc.Attributes;
 using PX.Core.Framework.Mvc.Models.JqGrid;
-using PX.Core.Ultilities;
 
 namespace PX.Web.Areas.Admin.Controllers
 {
@@ -16,6 +15,7 @@ namespace PX.Web.Areas.Admin.Controllers
     public class RotatingImageGroupsController : PxController
     {
         private readonly IRotatingImageGroupServices _rotatingImageGroupServices;
+
         public RotatingImageGroupsController(IRotatingImageGroupServices rotatingImageGroupServices)
         {
             _rotatingImageGroupServices = rotatingImageGroupServices;
@@ -45,6 +45,7 @@ namespace PX.Web.Areas.Admin.Controllers
         }
 
         #region Edit Settings
+
         public ActionResult EditSettings(int id)
         {
             var model = _rotatingImageGroupServices.GetGroupManageSettingModel(id);
@@ -72,6 +73,7 @@ namespace PX.Web.Areas.Admin.Controllers
             }
             return View(model);
         }
+
         #endregion
     }
 }

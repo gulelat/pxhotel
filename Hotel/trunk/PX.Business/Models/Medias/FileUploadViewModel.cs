@@ -3,8 +3,9 @@ using System.IO;
 using System.Web;
 using PX.Core.Configurations;
 using PX.Core.Ultilities;
+using PX.Core.Ultilities.Files;
 
-namespace PX.Business.Models.FileManagers
+namespace PX.Business.Models.Medias
 {
     public class FileUploadViewModel
     {

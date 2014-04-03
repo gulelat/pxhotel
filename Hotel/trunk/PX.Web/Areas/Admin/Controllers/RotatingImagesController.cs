@@ -5,6 +5,7 @@ using PX.Business.Models.Settings;
 using PX.Business.Mvc.Attributes;
 using PX.Business.Mvc.Controllers;
 using PX.Business.Mvc.Enums;
+using PX.Business.Services.RotatingImageGroups;
 using PX.Business.Services.RotatingImages;
 using PX.Business.Services.Settings;
 using PX.Core.Framework.Enums;
@@ -18,9 +19,11 @@ namespace PX.Web.Areas.Admin.Controllers
     public class RotatingImagesController : PxController
     {
         private readonly IRotatingImageServices _rotatingImageServices;
-        public RotatingImagesController(IRotatingImageServices rotatingImageServices)
+        private readonly IRotatingImageGroupServices _rotatingImageGroupServices;
+        public RotatingImagesController(IRotatingImageServices rotatingImageServices, IRotatingImageGroupServices rotatingImageGroupServices)
         {
             _rotatingImageServices = rotatingImageServices;
+            _rotatingImageGroupServices = rotatingImageGroupServices;
         }
 
         //
@@ -51,5 +54,77 @@ namespace PX.Web.Areas.Admin.Controllers
                 Message = GetFirstValidationResults(ModelState).Message
             });
         }
+
+
+        #region Create
+        public ActionResult Create()
+        {
+            var model = _rotatingImageServices.GetRotatingImageManageModel();
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateInput(false)]
+        public ActionResult Create(RotatingImageManageModel model, SubmitTypeEnums submit)
+        {
+            if (ModelState.IsValid)
+            {
+                var response = _rotatingImageServices.SaveRotatingImage(model);
+                if (response.Success)
+                {
+                    var templateId = (int)response.Data;
+                    SetSuccessMessage(response.Message);
+                    switch (submit)
+                    {
+                        case SubmitTypeEnums.Save:
+                            return RedirectToAction("Index");
+                        default:
+                            return RedirectToAction("Edit", new { id = templateId });
+                    }
+                }
+                SetErrorMessage(response.Message);
+            }
+            model.Groups = _rotatingImageGroupServices.GetRotatingImageGroups();
+            return View(model);
+        }
+
+        #endregion
+
+        #region Edit
+        public ActionResult Edit(int id)
+        {
+            var template = _rotatingImageServices.GetRotatingImageManageModel(id);
+            if (!template.Id.HasValue)
+            {
+                return RedirectToAction("Index");
+            }
+            return View(template);
+        }
+
+        [HttpPost]
+        [ValidateInput(false)]
+        public ActionResult Edit(RotatingImageManageModel model, SubmitTypeEnums submit)
+        {
+            if (ModelState.IsValid)
+            {
+                var response = _rotatingImageServices.SaveRotatingImage(model);
+                if (response.Success)
+                {
+                    SetSuccessMessage(response.Message);
+                    switch (submit)
+                    {
+                        case SubmitTypeEnums.Save:
+                            return RedirectToAction("Index");
+                        default:
+                            return RedirectToAction("Edit", new { id = model.Id });
+                    }
+                }
+                SetErrorMessage(response.Message);
+            }
+            model.Groups = _rotatingImageGroupServices.GetRotatingImageGroups();
+            return View(model);
+        }
+
+        #endregion
     }
 }

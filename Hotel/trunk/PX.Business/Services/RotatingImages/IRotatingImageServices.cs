@@ -26,5 +26,9 @@ namespace PX.Business.Services.RotatingImages
         ResponseModel ManageRotatingImage(GridOperationEnums operation, RotatingImageModel model);
 
         JqGridSearchOut SearchRotatingImages(JqSearchIn si);
+
+        RotatingImageManageModel GetRotatingImageManageModel(int? id = null);
+
+        ResponseModel SaveRotatingImage(RotatingImageManageModel model);
     }
 }
