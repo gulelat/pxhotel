@@ -1039,7 +1039,6 @@
     <Content Include="Scripts\CkEditor\skins\moono\readme.md" />
     <Content Include="Areas\Admin\Views\Media\MediaBrowser.cshtml" />
     <Content Include="Areas\Admin\Views\Testimonials\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\Shared\_ImageCrop.cshtml" />
     <Content Include="Areas\Admin\Views\SettingTypes\Index.cshtml" />
     <Content Include="Areas\Admin\Views\News\Index.cshtml" />
     <Content Include="Areas\Admin\Views\NewsCategories\Index.cshtml" />

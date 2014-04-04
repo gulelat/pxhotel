@@ -72,21 +72,6 @@ namespace PX.Web.Areas.Admin.Controllers
 
             return Content(vOutput);
         }
-
-
-        [HttpPost]
-        public JsonResult CropImage(ImageCropModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                model.CropImage();
-                if (model.CropStatus)
-                {
-                    return Json(new { success = true, filename = model.FileName });
-                }
-            }
-            return Json(new { success = false, filename = "" });
-        }
         
         #region Post
 
