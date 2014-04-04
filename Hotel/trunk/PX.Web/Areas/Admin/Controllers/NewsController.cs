@@ -1,7 +1,6 @@
 ﻿using System.Web.Mvc;
 using Newtonsoft.Json;
 using PX.Business.Models.News;
-using PX.Business.Models.Testimonials;
 using PX.Business.Mvc.Attributes;
 using PX.Business.Mvc.Controllers;
 using PX.Business.Mvc.Enums;

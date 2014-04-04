@@ -46,7 +46,6 @@ namespace PX.Business.Mvc.Attributes
                 {
                     authorizationContext.Result = new RedirectResult(urlHelper.Action("Login", "Account", new { area = "Admin", returnUrl = authorizationContext.HttpContext.Request.Path }));
                 }
-
             }
         }
 

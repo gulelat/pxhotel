@@ -72,7 +72,7 @@ namespace PX.Business.Services.News
                 Id = u.Id,
                 Title = u.Title,
                 Description = u.Description,
-                ImageFileName = u.ImageFileName,
+                ImageUrl = u.ImageUrl,
                 Content = u.Content,
                 Status = u.Status,
                 Categories = string.Join(",", u.NewsNewsCategories.Select(c => c.NewsCategory.Name)),
@@ -171,6 +171,37 @@ namespace PX.Business.Services.News
         }
 
         /// <summary>
+        /// Get news manage model by id
+        /// </summary>
+        /// <param name="id">the news id</param>
+        /// <returns></returns>
+        public NewsManageModel GetNewsManageModel(int? id = null)
+        {
+            var news = GetById(id);
+            if (news != null)
+            {
+                return new NewsManageModel
+                {
+                    Id = news.Id,
+                    Description = news.Description,
+                    Content = news.Content,
+                    ImageUrl = news.ImageUrl,
+                    Title = news.Title,
+                    Status = news.Status,
+                    StatusList = GetStatus(),
+                    NewsCategories = _newsCategoryServices.GetNewsCategories(news.Id),
+                    RecordOrder = news.RecordOrder,
+                    RecordActive = news.RecordActive
+                };
+            }
+            return new NewsManageModel
+            {
+                StatusList = GetStatus(),
+                NewsCategories = _newsCategoryServices.GetNewsCategories(),
+            };
+        }
+
+        /// <summary>
         /// Save news manage model
         /// </summary>
         /// <param name="model"></param>
@@ -188,6 +219,7 @@ namespace PX.Business.Services.News
                 news.Status = model.Status;
                 news.Description = model.Description;
                 news.Content = model.Content;
+                news.ImageUrl = model.ImageUrl;
                 var currentCategories = news.NewsNewsCategories.Select(nc => nc.Id).ToList();
                 foreach (var id in currentCategories)
                 {
@@ -223,7 +255,7 @@ namespace PX.Business.Services.News
                 Status = model.Status,
                 Description = model.Description,
                 Content = model.Content,
-                ImageFileName = string.Empty
+                ImageUrl = model.ImageUrl
             };
 
             response = Insert(news);
@@ -242,36 +274,6 @@ namespace PX.Business.Services.News
         }
 
         #endregion
-
-        /// <summary>
-        /// Get news manage model by id
-        /// </summary>
-        /// <param name="id">the news id</param>
-        /// <returns></returns>
-        public NewsManageModel GetNewsManageModel(int? id = null)
-        {
-            var news = GetById(id);
-            if (news != null)
-            {
-                return new NewsManageModel
-                {
-                    Id = news.Id,
-                    Description = news.Description,
-                    Content = news.Content,
-                    Title = news.Title,
-                    Status = news.Status,
-                    StatusList = GetStatus(),
-                    NewsCategories = _newsCategoryServices.GetNewsCategories(news.Id),
-                    RecordOrder = news.RecordOrder,
-                    RecordActive = news.RecordActive
-                };
-            }
-            return new NewsManageModel
-            {
-                StatusList = GetStatus(),
-                NewsCategories = _newsCategoryServices.GetNewsCategories(),
-            };
-        }
 
         /// <summary>
         /// Gets the News.

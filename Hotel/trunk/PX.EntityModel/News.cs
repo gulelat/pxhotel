@@ -23,7 +23,7 @@ namespace PX.EntityModel
         public string Title { get; set; }
         public string Description { get; set; }
         public string Content { get; set; }
-        public string ImageFileName { get; set; }
+        public string ImageUrl { get; set; }
         public int Status { get; set; }
         public int RecordOrder { get; set; }
         public bool RecordActive { get; set; }

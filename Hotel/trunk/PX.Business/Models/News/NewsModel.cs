@@ -16,7 +16,7 @@ namespace PX.Business.Models.News
         [Required]
         public string Content { get; set; }
 
-        public string ImageFileName { get; set; }
+        public string ImageUrl { get; set; }
 
         public int Status { get; set; }
 

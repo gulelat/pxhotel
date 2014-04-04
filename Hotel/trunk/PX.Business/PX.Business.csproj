@@ -84,7 +84,6 @@
     <Compile Include="Models\News\NewsModel.cs" />
     <Compile Include="Models\SettingTypes\SettingTypeModel.cs" />
     <Compile Include="Models\Medias\FileUploadViewModel.cs" />
-    <Compile Include="Models\Medias\ImageCropModel.cs" />
     <Compile Include="Models\Testimonials\CurlyBrackets\TestimonialCurlyBracket.cs" />
     <Compile Include="Models\Testimonials\TestimonialModel.cs" />
     <Compile Include="Models\CurlyBrackets\CurlyBracketModel.cs" />

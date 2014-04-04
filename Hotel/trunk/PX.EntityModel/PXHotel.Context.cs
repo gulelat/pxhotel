@@ -38,13 +38,13 @@ namespace PX.EntityModel
         public DbSet<PageTemplate> PageTemplates { get; set; }
         public DbSet<Room> Rooms { get; set; }
         public DbSet<RoomType> RoomTypes { get; set; }
+        public DbSet<RotatingImageGroup> RotatingImageGroups { get; set; }
+        public DbSet<RotatingImage> RotatingImages { get; set; }
         public DbSet<SettingType> SettingTypes { get; set; }
         public DbSet<SiteSetting> SiteSettings { get; set; }
         public DbSet<Template> Templates { get; set; }
         public DbSet<Testimonial> Testimonials { get; set; }
         public DbSet<UserGroup> UserGroups { get; set; }
         public DbSet<User> Users { get; set; }
-        public DbSet<RotatingImageGroup> RotatingImageGroups { get; set; }
-        public DbSet<RotatingImage> RotatingImages { get; set; }
     }
 }

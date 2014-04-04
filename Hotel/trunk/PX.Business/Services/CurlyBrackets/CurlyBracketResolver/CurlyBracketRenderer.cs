@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using PX.Business.Mvc.Attributes;
-using PX.Business.Mvc.Environments;
 using PX.Business.Mvc.WorkContext;
 using PX.Core.Logging;
 using PX.Core.Ultilities;
@@ -12,11 +12,7 @@ namespace PX.Business.Services.CurlyBrackets.CurlyBracketResolver
 {
     public class CurlyBracketRenderer
     {
-        private readonly ILogger _logger;
-        public CurlyBracketRenderer()
-        {
-            _logger = HostContainer.GetInstance<ILogger>();
-        }
+        private static readonly ILogger Logger = new Logger(MethodBase.GetCurrentMethod().DeclaringType);
 
         private const int MaxDepth = 5;
 
@@ -63,7 +59,7 @@ namespace PX.Business.Services.CurlyBrackets.CurlyBracketResolver
                             }
                             catch (Exception ex)
                             {
-                                _logger.Warn(ex);
+                                Logger.Warn(ex);
                             }
                         }
                     }

@@ -1,14 +1,11 @@
 ﻿using System.Reflection;
 using System.Web;
-using System.Web.Hosting;
 using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using PX.Business.Mvc.Environments;
-using PX.Business.Mvc.ViewEngines.Razor;
 using PX.Business.Services.CurlyBrackets;
-using PX.Business.Services.CurlyBrackets.CurlyBracketResolver;
 using PX.Business.Services.Languages;
 using PX.Business.Services.Localizes;
 using PX.Business.Services.Medias;
@@ -25,7 +22,6 @@ using PX.Business.Services.Templates;
 using PX.Business.Services.Testimonials;
 using PX.Business.Services.UserGroups;
 using PX.Business.Services.Users;
-using PX.Core.Logging;
 using SimpleInjector;
 using SimpleInjector.Integration.Web.Mvc;
 
@@ -143,7 +139,6 @@ namespace PX.Web
             container.Register<IRotatingImageGroupServices, RotatingImageGroupServices>(Lifestyle.Singleton);
             container.Register<IMediaServices, MediaServices>(Lifestyle.Singleton);
             container.Register<IMediaFileManager, MediaFileManager>(Lifestyle.Singleton);
-            container.Register<ILogger>(() => new Logger(typeof (string)));
         }
 
         #endregion
