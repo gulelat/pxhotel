@@ -98,11 +98,9 @@
 <script type="text/javascript" src="@Url.Content("~/Scripts/ckeditor/ckeditor.js")">
 </script>
 <script>
-    CKEDITOR.replace('pageContent', {
-        filebrowserBrowseUrl: '/Admin/FileManager/Browser/1',
-        filebrowserImageBrowseUrl: '/Admin/FileManager/Browser/2',
-        filebrowserUploadUrl: '/Admin/FileManager/Upload/1',
-        filebrowserImageUploadUrl: '/Admin/FileManager/Upload/2'
+    CKEDITOR.replace('pageContent',
+    {
+        height: '600px',
     });
     $(function () {
         var getCurlyBracketListUrl = "@Url.Action("GetCurlyBracketList", "CurlyBrackets")";
@@ -113,8 +111,8 @@
             success: function (data) {
                 $.map(data, function (item) {
                     $("#curlyBracketList")
-                        .append("<li><a href='javascript:void(0)' onclick='printCurlybracket(\""
-                            + item.CurlyBracket + "\")'>" +
+                        .append("<li><a href='javascript:void(0)' onclick='printCurlybracket(\"{"
+                            + item.CurlyBracket + "}\")'>" +
                             item.Name + "</a></li>");
                 });
             }

@@ -68,7 +68,7 @@ function ShowSuccessMessage(message, center) {
         centerClass = "";
         
     $.gritter.add({
-        time: 50000,
+        time: 2000,
         title: 'Message',
         text: message,
         class_name: centerClass + 'gritter-info'

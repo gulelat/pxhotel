@@ -7,11 +7,11 @@ CKEDITOR.editorConfig = function (config) {
     // Define changes to default configuration here. For example=
     // config.language = 'fr';
     // config.uiColor = '#AADC6E';
-    //config.filebrowserBrowseUrl = '/Admin/FileManager/Browser/1';
+    config.filebrowserBrowseUrl = '/Admin/Media/MediaBrowser';
     //config.filebrowserUploadUrl = '/Admin/FileManager/Browser/2';
-    //config.filebrowserImageBrowseUrl = '/Admin/FileManager/Upload/1';
+    config.filebrowserImageBrowseUrl = '/Admin/Media/MediaBrowser';
     //config.filebrowserImageUploadUrl = '/Admin/FileManager/Upload';
-    //config.filebrowserWindowWidth = 800;
-    //config.filebrowserWindowHeight = 500; 
+    config.filebrowserWindowWidth = 1200;
+    config.filebrowserWindowHeight = 640; 
     config.contentsCss = '/Content/FrontEnd/css/styles.css';
 };

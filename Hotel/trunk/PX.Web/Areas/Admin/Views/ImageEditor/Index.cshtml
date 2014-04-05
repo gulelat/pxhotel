@@ -1,4 +1,4 @@
-﻿@using PX.Web.Areas.Admin.Controllers
+﻿@using PX.Business.Mvc.Enums
 @model string
 @{
     Layout = "~/Areas/Admin/Views/Shared/_Layout.Blank.cshtml";
@@ -21,10 +21,12 @@
                 <button type="button" data-action="zoomOut" id="cmdZoomOut" class="btn imgEditInput"><i class="icon-zoom-out" title="Zoom Out"></i></button>
                 <button type="button" data-action="zoomRestore" id="cmdZoomRestore" class="btn imgEditInput" title="Restore Zoom"><i class="icon-search"></i></button>
             </div>
-            <div class="input-append">
-                <input id="zoomRatio" class="imgEditInput" />
-                <span class="add-on imgEditInput">%</span>
+            <div class="btn-group">
+                    <input id="zoomRatio" class="imgEditInput" />
+                    <span class="add-on imgEditInput">%</span>
+                </div>
             </div>
+            <div class="space-4"></div>
             <div class="btn-group">
                 <button type="submit" class="btn btn-primary imgEditInput" title="Save result" onclick="Save(); return false;"><i class="fa fa-floppy-o"></i>Save</button>
                 <button type="submit" class="btn btn-primary imgEditInput" title="Save result as a new file" onclick="initSaveAs(); return false;"><i class="fa fa-floppy-o"></i>Save As ...</button>
@@ -63,7 +65,7 @@
             <div class="modal-body">
                 @*<label>Drag the edge or corner of the image to resize, you can also enter the size in the boxes and press Apply to proceed.</label>*@
                 <div class="control-group">
-                    <div class="controls">
+                    <div>
                         <label class="checkbox">
                             <input type="checkbox" id="keepratio" />
                             Keep Ratio
@@ -72,10 +74,11 @@
                 </div>
                 <div class="control-group">
                     <label>
-                        <input type="text" id="resize-w" required class="span1" />
-                        W x
-                        <input type="text" id="resize-h" required class="span1" />
-                        H
+                        <input type="text" id="resize-w" required />
+                        Width
+                        <div class="space-4"></div>
+                        <input type="text" id="resize-h" required />
+                        Height
                     </label>
                 </div>
                 <div class="form-actions">
@@ -93,16 +96,16 @@
 
                 <div class="control-group">
                     <label class="control-label">Brightness:</label>
-                    <div class="controls">
-                        <div id="brightness-slider"></div>
-                        <input id="brightnessValue" class="pull-left" type="number" />
+                    <div class="">
+                        <span id="brightness-slider" class="ui-slider-green"></span>
+                        <input id="brightnessValue" class="pull-left width-20" type="number" />
                     </div>
                 </div>
-                <div class="control-group">
+                <div>
                     <label class="control-label">Contrast:</label>
-                    <div class="controls">
-                        <div id="contrast-slider"></div>
-                        <input id="contrastValue" class="pull-left" type="number" />
+                    <div>
+                        <span id="contrast-slider" class="ui-slider-green"></span>
+                        <input id="contrastValue" class="pull-left width-20" type="number" />
                     </div>
                 </div>
                 <div class="clearfix"></div>
@@ -120,7 +123,7 @@
                 <div class="control-group">
                     <label class="control-label">Filename:</label>
                     <div class="controls">
-                        <input id="newname" type="text" value="@System.IO.Path.GetFileName(Model)" />
+                        <input id="newname" type="text" value="@Path.GetFileName(Model)" />
                     </div>
                 </div>
                 <div class="form-actions">
@@ -137,6 +140,7 @@
     <link rel="stylesheet" href="~/Content/Media/imageEditor/imgEditor.css" />
     <link rel="stylesheet" href="~/Content/Media/imageEditor/jquery.Jcrop.css" />
     <link rel="stylesheet" href="~/Content/fancybox/jquery.fancybox.css" />
+    <link rel="stylesheet" href="~/Content/Backend/css/jquery-ui-1.10.3.custom.min.css" />
 }
 
 @section scripts
@@ -146,9 +150,9 @@
     <script type="text/javascript" src="~/Scripts/fancybox/jquery.fancybox.js"></script>
     <script type="text/javascript" src="~/Scripts/Backend/jquery-ui-1.10.3.full.min.js"></script>
     <script type="text/javascript">
-        var SaveSuccess = @ImageEditorController.SaveSuccess;
-        var SaveFail = @ImageEditorController.SaveFail;
-        var OverWriteConfirm = @ImageEditorController.OverWriteConfirm;
+        var SaveSuccess = @((int)MediaEnums.EditImageEnums.SaveSuccess);
+        var SaveFail = @((int)MediaEnums.EditImageEnums.SaveFail);
+        var OverWriteConfirm = @((int)MediaEnums.EditImageEnums.OverWriteConfirm);
         // Work around http://dev.jqueryui.com/ticket/4186
         (function () {
             var oldSetOption = $.ui.resizable.prototype._setOption;
@@ -512,6 +516,7 @@
             min: -150,
             max: 150,
             value: 0,
+            animate: true,
             slide: function (event, ui) {
                 $("#brightnessValue").val(ui.value);
                 changeBaC();
@@ -669,7 +674,7 @@
             };
         }
 
-        var functionExec = function (functionName) {
+        var functionExec = function(functionName) {
             var args = Array.prototype.slice.call(arguments).splice(1);
             var namespaces = functionName.split(".");
             var func = namespaces.pop();
@@ -678,6 +683,6 @@
                 context = context[namespaces[i]];
             }
             return context[func].apply(this, args);
-        }
+        };
     </script>
 }

@@ -12,22 +12,14 @@ namespace PX.Business.Services.Medias
         string MapPath(string virtualPath);
         string MediaDefaultPath { get; }
         DirectoryInfo DataDirectory { get; }
-        DirectoryInfo SitesDirectory { get; }
-        DirectoryInfo CurrentSiteSettingDirectory { get; }
 
-        DirectoryInfo MediaDirectory();
         /// <summary>
         /// Gets the current site media directory
         /// </summary>
         /// <returns></returns>
-        DirectoryInfo CurrentSiteMediaDirectory();
-        DirectoryInfo CurrentSiteImagesDirectory();
-        DirectoryInfo GetDirectoryForImagesUpload(string moduleName);
-        DirectoryInfo CurrentSiteFilesDirectory();
-        DirectoryInfo GetDirectoryForFilesUpload(string moduleName);
         Boolean IsImage(string filename);
-        string ToRelativePath(string mediaPath);
-        string ToMediaPath(string physicalPath);
+
+        string ToRelativePath(string physicalPath);
 
         /// <summary>
         /// Copy a directory

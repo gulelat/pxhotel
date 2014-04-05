@@ -42,87 +42,6 @@ namespace PX.Business.Services.Medias
         }
 
         /// <summary>
-        /// Get the ~/Media folder
-        /// </summary>
-        public DirectoryInfo MediaDirectory()
-        {
-            var mediaPath = MapPath(@"~/Media/");
-            if (!Directory.Exists(mediaPath))
-            {
-                Directory.CreateDirectory(mediaPath);
-            }
-            return new DirectoryInfo(mediaPath);
-        }
-
-        /// <summary>
-        /// Get folder contains Sites information
-        /// return ~/App_Data/Sites
-        /// </summary>
-        public DirectoryInfo SitesDirectory
-        {
-            get { return GetDirectory(DataDirectory, "Sites"); }
-        }
-
-        /// <summary>
-        /// Get the folder where site seting is placed
-        /// return ~/App_Data/Sites/[CurrentTenantName]/
-        /// </summary>
-        public DirectoryInfo CurrentSiteSettingDirectory
-        {
-            get
-            {
-                return GetDirectory(DataDirectory, "Sites\\");
-            }
-        }
-
-        /// <summary>
-        /// Get the folder where resources for a tenant are placed
-        /// return ~/Media/[CurrentTenantName]/
-        /// </summary>
-        public DirectoryInfo CurrentSiteMediaDirectory()
-        {
-            return GetDirectory(MediaDirectory(), "");
-        }
-
-        /// <summary>
-        /// Get the folder where images for a tenant are placed
-        /// return ~/Media/[CurrentTenantName]/Images
-        /// </summary>
-        public DirectoryInfo CurrentSiteImagesDirectory()
-        {
-            return GetDirectory(CurrentSiteMediaDirectory(), @"Images");
-        }
-
-        /// <summary>
-        /// Get the folder to put uploaded images of a module for a tenant.
-        /// </summary>
-        /// <param name="moduleName">Name of the module uploads the resource</param>
-        /// <returns>~/Media/[CurrentTenantName]/Images/[ModuleName]/</returns>
-        public DirectoryInfo GetDirectoryForImagesUpload(string moduleName)
-        {
-            return GetDirectory(CurrentSiteImagesDirectory(), moduleName);
-        }
-
-        /// <summary>
-        /// Get the folder where uploaded files for a tenant are placed
-        /// return ~/Media/[CurrentTenantName]/Files
-        /// </summary>
-        public DirectoryInfo CurrentSiteFilesDirectory()
-        {
-            return GetDirectory(CurrentSiteMediaDirectory(), @"Files");
-        }
-
-        /// <summary>
-        /// Get the folder to put uploaded files of a module for a specific tenant.
-        /// </summary>
-        /// <param name="moduleName">Name of the module uploads the resource</param>
-        /// <returns>~/Media/[CurrentTenantName]/Files/[ModuleName]/</returns>
-        public DirectoryInfo GetDirectoryForFilesUpload(string moduleName)
-        {
-            return GetDirectory(CurrentSiteFilesDirectory(), moduleName);
-        }
-
-        /// <summary>
         /// Detect if a file is image
         /// </summary>
         /// <param name="filename">File name for testing</param>
@@ -133,34 +52,7 @@ namespace PX.Business.Services.Medias
             return Regex.IsMatch(filename, imagePattern);
         }
 
-        /// <summary>
-        /// Get specific folder inside a specific folder. The folder will be created if not exists
-        /// </summary>
-        /// <param name="baseFolder"></param>
-        /// <param name="relativePath">relative path to the folder to get</param>
-        /// <returns>Folder at /App_Data/<see cref="relativePath"/></returns>
-        static DirectoryInfo GetDirectory(DirectoryInfo baseFolder, string relativePath)
-        {
-            var path = Path.Combine(baseFolder.FullName, relativePath);
-            if (!Directory.Exists(path))
-                Directory.CreateDirectory(path);
-
-            return new DirectoryInfo(path);
-        }
-
-        private string GetMediaPathOfCurrentSite()
-        {
-            return string.Format("/Media/{0}", "");
-        }
-
-        public string ToRelativePath(string mediaPath)
-        {
-            var relativePath = mediaPath.Replace(MediaDefaultPath, "");
-            relativePath = string.Format("{0}{1}", GetMediaPathOfCurrentSite(), relativePath);
-            return relativePath;
-        }
-
-        public string ToMediaPath(string physicalPath)
+        public string ToRelativePath(string physicalPath)
         {
             if (Path.IsPathRooted(physicalPath))
             {
@@ -173,7 +65,7 @@ namespace PX.Business.Services.Medias
                 }
             }
 
-            var mediaPath = physicalPath.Replace(GetMediaPathOfCurrentSite(), "");
+            var mediaPath = physicalPath.Replace(MediaDefaultPath, "");
             physicalPath = string.Format("{0}{1}", MediaDefaultPath, mediaPath);
             return physicalPath;
 
@@ -288,7 +180,7 @@ namespace PX.Business.Services.Medias
             //Loop through each subdirectory
             foreach (var d in directory.GetDirectories())
             {
-                var mediaPath = ToMediaPath(string.Format("{0}/{1}", relativePath, d.Name));
+                var mediaPath = ToRelativePath(string.Format("{0}/{1}", relativePath, d.Name));
                 var t = new FileTreeModel
                 {
                     attr = new FileTreeAttribute { Id = mediaPath, Rel = "folder" },
@@ -302,7 +194,7 @@ namespace PX.Business.Services.Medias
             //Loop through each file in master directory
             foreach (var f in directory.GetFiles())
             {
-                var mediaPath = ToMediaPath(string.Format("{0}/{1}", relativePath, f.Name));
+                var mediaPath = ToRelativePath(string.Format("{0}/{1}", relativePath, f.Name));
                 var t = new FileTreeModel
                 {
                     attr = new FileTreeAttribute { Id = mediaPath, @Class = "jstree-leaf" },
@@ -333,7 +225,7 @@ namespace PX.Business.Services.Medias
                     attr =
                         new FileTreeAttribute
                         {
-                            Id = string.Format("{0}/{1}", ToMediaPath(relativePath), d.Name),
+                            Id = string.Format("{0}/{1}", ToRelativePath(relativePath), d.Name),
                             Rel = "folder"
                         },
                     data = d.Name,
@@ -344,7 +236,7 @@ namespace PX.Business.Services.Medias
             {
                 var t = new FileTreeModel
                 {
-                    attr = new FileTreeAttribute { Id = string.Format("{0}/{1}", ToMediaPath(relativePath), f.Name), @Class = "jstree-leaf" },
+                    attr = new FileTreeAttribute { Id = string.Format("{0}/{1}", ToRelativePath(relativePath), f.Name), @Class = "jstree-leaf" },
                     data = f.Name,
                     state = "open"
                 };
@@ -524,7 +416,7 @@ namespace PX.Business.Services.Medias
                 var position = physicalPath.IndexOf(relativePath.Replace("/", "\\"), StringComparison.Ordinal);
                 if (position > 0)
                 {
-                    var folder = ToMediaPath(newPath.Substring(position).Replace("\\", "/"));
+                    var folder = ToRelativePath(newPath.Substring(position).Replace("\\", "/"));
                     newPath = Path.Combine(newPath, name);
                     Directory.Move(physicalPath, newPath);
                     path = string.Format("{0}/{1}", folder, name);

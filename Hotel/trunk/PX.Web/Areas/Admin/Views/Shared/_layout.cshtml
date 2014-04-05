@@ -237,9 +237,10 @@
         var $TargetControl;
         $(".browsefile").click(function () {
             $TargetControl = $(this).parent().find("input");
+            var imageUrl = $TargetControl.val();
             $.fancybox.open({
-                href: '@Url.Action("MediaBrowser", "Media", new { area = "Admin" })',
-                              type: 'iframe', width: "95%"
+                href: '@Url.Action("MediaBrowser", "Media", new { area = "Admin" })' + "?imageUrl=" + imageUrl,
+                              type: 'iframe', width: "95%", height: "auto"
                           });
                       });
     </script>
