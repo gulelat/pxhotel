@@ -1,1 +1,109 @@
 ﻿
+#file-browser
+{
+    overflow: auto;
+    height: 420px;
+    border-bottom: 1px solid #DDDDDD;
+}
+
+.preview-box
+{
+    height: 420px;
+    padding: 5px;
+    text-align: center;
+}
+
+    .preview-box .file-preview
+    {
+        height: 100%;
+        width: 100%;
+    }
+
+        .preview-box .file-preview .file-preview-inner
+        {
+            height: 100%;
+            width: 55%;
+            float: left;
+        }
+
+            .preview-box .file-preview .file-preview-inner img
+            {
+                max-height: 100%;
+                max-width: 100%;
+            }
+
+        .preview-box .file-preview ul#file-info
+        {
+            list-style: none;
+            text-align: left;
+            margin-left: 5%;
+            width: 40%;
+            float: left;
+        }
+
+            .preview-box .file-preview ul#file-info li
+            {
+                width: 100%;
+            }
+
+                .preview-box .file-preview ul#file-info li span.title
+                {
+                    width: 30%;
+                    float: left;
+                    font-weight: bold;
+                }
+
+                .preview-box .file-preview ul#file-info li span.info
+                {
+                    margin-left: 5%;
+                    width: 65%;
+                    float: left;
+                }
+
+ul#file-list
+{
+    margin: 0;
+    list-style: none;
+    max-height: 100%;
+    overflow: auto;
+}
+
+    ul#file-list li
+    {
+        border: 1px #fff solid;
+        position: relative;
+        width: 22%;
+        height: 150px;
+        display: inline-block;
+        margin: 1%;
+        padding: 2%;
+        float: left;
+        cursor: pointer;
+        vertical-align: middle;
+    }
+
+        ul#file-list li:hover
+        {
+            border: 1px #e0eee0 solid;
+            border-radius: 4px;
+            background: rgb(240, 255, 240); /* Fall-back for browsers that don't support rgba */
+            background: rgba(240, 255, 240, .5);
+        }
+
+        ul#file-list li img
+        {
+            overflow: hidden;
+            max-height: 85%;
+            max-width: 100%;
+        }
+
+        ul#file-list li span
+        {
+            border-radius: 0 0 4px 4px;
+            clear: both;
+            height: 15%;
+            width: 100%;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+        }

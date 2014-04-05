@@ -10,7 +10,7 @@ namespace PX.Business.Services.Medias
         private DirectoryInfo _mediaFolder;
 
         /// <summary>
-        /// Gets the Media folder of the particular tenant
+        /// Gets the Media folder
         /// </summary>
         public DirectoryInfo MediaFolder
         {
@@ -27,7 +27,7 @@ namespace PX.Business.Services.Medias
         }
 
         /// <summary>
-        /// Gets the Images folder of the particular tenant
+        /// Gets the Images folder
         /// </summary>
         public DirectoryInfo ImagesFolder
         {
@@ -42,7 +42,7 @@ namespace PX.Business.Services.Medias
         }
 
         /// <summary>
-        /// Gets the Files folder of the particular tenant
+        /// Gets the Files folder
         /// </summary>
         public DirectoryInfo FilesFolder
         {
@@ -54,47 +54,6 @@ namespace PX.Business.Services.Medias
                            ? new DirectoryInfo(folderPath)
                            : Directory.CreateDirectory(folderPath);
             }
-        }
-
-        /// <summary>
-        /// Gets the Themes folder for particular tenant
-        /// </summary>
-        public DirectoryInfo ThemesFolder
-        {
-            get
-            {
-                var folderPath = Path.Combine(MediaFolder.FullName, "Themes");
-
-                return Directory.Exists(folderPath)
-                           ? new DirectoryInfo(folderPath)
-                           : Directory.CreateDirectory(folderPath);
-            }
-        }
-
-        /// <summary>
-        /// Gets the folder where Images are stored for specified module, useful for uploading images
-        /// </summary>
-        /// <param name="moduleId">The module id</param>
-        /// <returns></returns>
-        public DirectoryInfo GetImageFolderForModule(string moduleId)
-        {
-            var folderPath = Path.Combine(ImagesFolder.FullName, moduleId);
-            return Directory.Exists(folderPath)
-                       ? new DirectoryInfo(folderPath)
-                       : Directory.CreateDirectory(folderPath);
-        }
-
-        /// <summary>
-        /// Gets the folder where Files are stored for specified module, useful for uploading files
-        /// </summary>
-        /// <param name="moduleId">The module id</param>
-        /// <returns></returns>
-        public DirectoryInfo GetFileFolderForModule(string moduleId)
-        {
-            var folderPath = Path.Combine(FilesFolder.FullName, moduleId);
-            return Directory.Exists(folderPath)
-                       ? new DirectoryInfo(folderPath)
-                       : Directory.CreateDirectory(folderPath);
         }
 
         /// <summary>

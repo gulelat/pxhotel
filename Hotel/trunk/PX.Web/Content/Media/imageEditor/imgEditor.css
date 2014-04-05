@@ -70,11 +70,6 @@
     height: 5px !important;
 }
 
-.ui-slider .ui-slider-handle {
-    width: 10px !important;
-    height: 10px !important;
-}
-
 .ui-slider .ui-slider-range {
     background-color: #0e90d2;
     background-image: -moz-linear-gradient(top, #149bdf, #0480be);
@@ -116,6 +111,7 @@
 
 #brightnessValue,#contrastValue {
     width: 40px;
+    margin-left: 5px;
 }
 
 #result-image {

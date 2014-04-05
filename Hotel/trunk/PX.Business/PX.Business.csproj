@@ -70,6 +70,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\Medias\FileInfoModel.cs" />
     <Compile Include="Models\Medias\FileTreeModel.cs" />
     <Compile Include="Models\RotatingImageGroups\GroupManageSettingModel.cs" />
     <Compile Include="Models\RotatingImageGroups\GroupSettingModel.cs" />
@@ -83,7 +84,6 @@
     <Compile Include="Models\NewsCategories\NewsCategoryModel.cs" />
     <Compile Include="Models\News\NewsModel.cs" />
     <Compile Include="Models\SettingTypes\SettingTypeModel.cs" />
-    <Compile Include="Models\Medias\FileUploadViewModel.cs" />
     <Compile Include="Models\Testimonials\CurlyBrackets\TestimonialCurlyBracket.cs" />
     <Compile Include="Models\Testimonials\TestimonialModel.cs" />
     <Compile Include="Models\CurlyBrackets\CurlyBracketModel.cs" />

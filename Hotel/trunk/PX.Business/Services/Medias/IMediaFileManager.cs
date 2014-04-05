@@ -21,25 +21,6 @@ namespace PX.Business.Services.Medias
         DirectoryInfo FilesFolder { get; }
 
         /// <summary>
-        /// Gets the Themes folder for particular tenant
-        /// </summary>
-        DirectoryInfo ThemesFolder { get; }
-
-        /// <summary>
-        /// Gets the folder where Images are stored for specified module, useful for uploading images
-        /// </summary>
-        /// <param name="moduleId">The module id</param>
-        /// <returns></returns>
-        DirectoryInfo GetImageFolderForModule(string moduleId);
-
-        /// <summary>
-        /// Gets the folder where Files are stored for specified module, useful for uploading files
-        /// </summary>
-        /// <param name="moduleId">The module id</param>
-        /// <returns></returns>
-        DirectoryInfo GetFileFolderForModule(string moduleId);
-
-        /// <summary>
         /// Gets the virtual path from physical path
         /// </summary>
         /// <param name="physicalPath">The physical path</param>

@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Web;
+using System.Web.Helpers;
 using System.Web.Mvc;
 using PX.Business.Models.Medias;
 using PX.Business.Models.Settings.SettingTypes;
@@ -25,8 +27,28 @@ namespace PX.Web.Areas.Admin.Controllers
             _settingServices = settingServices;
         }
 
-        public ActionResult MediaBrowser()
+        public ActionResult MediaBrowser(string imageUrl)
         {
+            if (!string.IsNullOrEmpty(imageUrl))
+            {
+                var folders = new List<string>();
+                var index = 0;
+                do
+                {
+                    index = imageUrl.IndexOf('/', index + 1);
+                    if (index >= 0)
+                    {
+                        folders.Add(string.Format("'{0}'", imageUrl.Substring(0, index)));
+                    }
+
+                } while (index >= 0);
+                folders.Add(string.Format("'{0}'", imageUrl));
+                ViewBag.Folders = string.Join(",", folders);
+            }
+            else
+            {
+                ViewBag.Folders = "[]";
+            }
             return View();
         }
 
@@ -72,14 +94,13 @@ namespace PX.Web.Areas.Admin.Controllers
 
             return Content(vOutput);
         }
-        
+
         #region Post
 
         [HttpPost]
         public ActionResult FileUpload(string qqfile, string dir)
         {
-            var relativePath = _mediaServices.ToRelativePath(dir);
-            var physicalPath = Server.MapPath(relativePath);
+            var physicalPath = Server.MapPath(dir);
             string returnFile;
             try
             {
@@ -144,7 +165,7 @@ namespace PX.Web.Areas.Admin.Controllers
                 }
             }
 
-            var location = string.Format("{0}/{1}", _mediaServices.ToMediaPath(relativePath), returnFile);
+            var location = string.Format("{0}/{1}", dir, returnFile);
             return Json(new { success = true, fileLocation = location, isImage }, "text/html");
         }
 
@@ -153,46 +174,76 @@ namespace PX.Web.Areas.Admin.Controllers
         {
             if (string.IsNullOrWhiteSpace(dir))
             {
-                var rootNode = new FileTreeModel { attr = new FileTreeAttribute { Id = _mediaServices.MediaDefaultPath, Rel = "home" }, state = "open", data = "Tenant" };
-                var physicalPath = _mediaServices.ToRelativePath(_mediaServices.MediaDefaultPath);
+                var rootNode = new FileTreeModel { attr = new FileTreeAttribute { Id = _mediaServices.MediaDefaultPath, Rel = "home" }, state = "open", data = "MEDIA" };
+                var physicalPath = _mediaServices.MediaDefaultPath;
                 _mediaServices.PopulateTree(physicalPath, rootNode);
                 return Json(rootNode);
             }
-            return Json(_mediaServices.PopulateChild(_mediaServices.ToRelativePath(dir)));
+            return Json(_mediaServices.PopulateChild(dir));
         }
 
         [HttpPost]
         public ActionResult MoveData(string path, string destination, bool copy)
         {
-            path = _mediaServices.ToRelativePath(path);
-            destination = _mediaServices.ToRelativePath(destination);
             return Json(new { status = (int)_mediaServices.MoveData(path, destination, copy) });
         }
 
         [HttpPost]
         public JsonResult CreateFolder(string path, string folder)
         {
-            var relativePath = string.Format("{0}/{1}", _mediaServices.ToRelativePath(path), folder);
-            return _mediaServices.CreateFolder(relativePath) ? Json(new { status = true, path = _mediaServices.ToMediaPath(relativePath) }) : Json(new { status = false });
+            var relativePath = string.Format("{0}/{1}", path, folder);
+            return _mediaServices.CreateFolder(relativePath) ? Json(new { status = true, path = relativePath }) : Json(new { status = false });
         }
 
         [HttpPost]
         public JsonResult Delete(string path)
         {
-            var relativePath = _mediaServices.ToRelativePath(path);
-            return Json(_mediaServices.DeletePath(relativePath) ? new { status = true } : new { status = false });
+            return Json(_mediaServices.DeletePath(path) ? new { status = true } : new { status = false });
         }
 
         [HttpPost]
         public JsonResult Rename(string path, string name)
         {
-            var relativePath = _mediaServices.ToRelativePath(path);
-            var physicalPath = Server.MapPath(relativePath);
+            var physicalPath = Server.MapPath(path);
             var attPath = System.IO.File.GetAttributes(physicalPath);
             var isFolder = attPath == FileAttributes.Directory;
             string resultPath;
-            var status = _mediaServices.Rename(relativePath, name, out resultPath);
-            return Json(new { status = (int)status, path = relativePath, isFolder });
+            var status = _mediaServices.Rename(path, name, out resultPath);
+            return Json(new { status = (int)status, path = resultPath, isFolder });
+        }
+
+        [HttpPost]
+        public JsonResult GetFileInfo(string path)
+        {
+            path = _mediaServices.MapPath(path);
+            // get the file attributes for file or directory
+            var attr = System.IO.File.GetAttributes(path);
+
+            //detect whether its a directory or file
+            if ((attr & FileAttributes.Directory) == FileAttributes.Directory)
+            {
+                var info = new DirectoryInfo(path);
+                var model = new FileInfoModel
+                    {
+                        FileName = info.Name,
+                        Created = info.CreationTimeUtc.ToLongDateString(),
+                        LastUpdated = info.LastWriteTimeUtc.ToLongDateString(),
+                        FileSize = string.Empty
+                    };
+                return Json(model);
+            }
+            else
+            {
+                var info = new FileInfo(path);
+                var model = new FileInfoModel
+                {
+                    FileName = info.Name,
+                    Created = info.CreationTimeUtc.ToLongDateString(),
+                    LastUpdated = info.LastWriteTimeUtc.ToLongDateString(),
+                    FileSize = string.Format("{0} Bytes", info.Length)
+                };
+                return Json(model);
+            }
         }
 
         #endregion

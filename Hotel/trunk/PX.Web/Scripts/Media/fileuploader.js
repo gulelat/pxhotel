@@ -1195,15 +1195,6 @@ qq.extend(qq.UploadHandlerXhr.prototype, {
         // build query string
         params = params || {};
         params['qqfile'] = name;
-        var currentNode = $('#file-browser').jstree('get_selected');
-        var type = currentNode.attr("rel");
-        if(type == "folder" || type == "home") {
-            params['dir'] = $('#file-browser').jstree('get_selected').attr('id');
-        }
-        else {
-            var parentNode = $.jstree._reference('#file-browser')._get_parent(currentNode);
-            params['dir'] = parentNode.attr("id");
-        }
         var queryString = qq.obj2url(params, this._options.action);
 
         xhr.open("POST", queryString, true);

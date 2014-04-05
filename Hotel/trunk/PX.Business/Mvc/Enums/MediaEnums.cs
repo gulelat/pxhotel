@@ -17,5 +17,12 @@
             Failure = 2,
             DuplicateName = 3
         }
+
+        public enum EditImageEnums
+        {
+            SaveFail = 0,
+            SaveSuccess = 1,
+            OverWriteConfirm = 2
+        }
     }
 }

@@ -100,8 +100,8 @@
                 success: function (data) {
                     $.map(data, function (item) {
                         $("#curlyBracketList")
-                            .append("<li><a href='javascript:void(0)' onclick='printCurlybracket(\""
-                                + item.CurlyBracket + "\")'>" +
+                            .append("<li><a href='javascript:void(0)' onclick='printCurlybracket(\"{"
+                                + item.CurlyBracket + "}\")'>" +
                                 item.Name + "</a></li>");
                     });
                 }
