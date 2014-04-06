@@ -69,8 +69,7 @@ namespace PX.Business.Services.Testimonials.CurlyBracketResolvers
                 templateManageModel = _templateServices.GetTemplateByName(DefaultTemplate());
             }
             var model = _testimonialServices.GetRandom(count);
-            var templateService = new TemplateService();
-            return templateService.Parse(templateManageModel.Content, model, null, null);
+            return _templateServices.RenderTemplate(templateManageModel.Content, model, templateManageModel.Name);
         }
     }
 }

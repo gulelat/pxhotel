@@ -404,7 +404,7 @@ namespace PX.Business.Services.Pages
         /// <returns></returns>
         public List<Page> GetPages(int? parentId = null)
         {
-            return Fetch(p => !parentId.HasValue || p.ParentId == parentId).OrderBy(p => p.RecordOrder).ToList();
+            return Fetch(p => parentId.HasValue ? p.ParentId == parentId : !p.ParentId.HasValue).OrderBy(p => p.RecordOrder).ToList();
         }
 
         /// <summary>

@@ -216,6 +216,19 @@
     <script src="/Scripts/BackEnd/bootstrap.min.js"></script>
     <script src="/Scripts/BackEnd/typeahead-bs2.min.js"></script>
 
+    <script type="text/javascript" src="/Scripts/fancybox/jquery.fancybox.js"></script>
+    <script type="text/javascript">
+        var $TargetControl;
+        $(".browsefile").click(function () {
+            $TargetControl = $(this).parent().find("input");
+            var imageUrl = $TargetControl.val();
+            $.fancybox.open({
+                href: '@Url.Action("MediaBrowser", "Media", new { area = "Admin" })' + "?imageUrl=" + imageUrl,
+                type: 'iframe', width: "95%", height: "auto"
+            });
+        });
+    </script>
+
     <!-- page specific plugin scripts -->
 
     @RenderSection("scripts", false)
@@ -231,18 +244,5 @@
     <script src="/Scripts/jquery.validate.js"></script>
     <script src="/Scripts/jquery.validate.unobtrusive.js"></script>
     <script src="/Scripts/BackEnd/jquery.gritter.min.js"></script>
-    <script src="/Scripts/Shared/admin.js"></script>
-    <script type="text/javascript" src="/Scripts/fancybox/jquery.fancybox.js"></script>
-    <script type="text/javascript">
-        var $TargetControl;
-        $(".browsefile").click(function () {
-            $TargetControl = $(this).parent().find("input");
-            var imageUrl = $TargetControl.val();
-            $.fancybox.open({
-                href: '@Url.Action("MediaBrowser", "Media", new { area = "Admin" })' + "?imageUrl=" + imageUrl,
-                              type: 'iframe', width: "95%", height: "auto"
-                          });
-                      });
-    </script>
 </body>
 </html>

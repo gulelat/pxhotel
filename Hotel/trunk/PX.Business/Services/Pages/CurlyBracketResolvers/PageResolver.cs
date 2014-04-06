@@ -6,7 +6,7 @@ using PX.Business.Services.CurlyBrackets.CurlyBracketResolver;
 namespace PX.Business.Services.Pages.CurlyBracketResolvers
 {
     [CurlyBracket(Name = "Page", CurlyBracket = "Page", Descrition = "Sample Curly Bracket", Type = typeof(PageRenderModel))]
-    public class PageCurlyBracketResolver : ICurlyBracketResolver
+    public class PageResolver : ICurlyBracketResolver
     {
         public void Initialize()
         {
