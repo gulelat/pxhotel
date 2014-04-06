@@ -17,6 +17,7 @@ namespace PX.EntityModel.Repositories.RepositoryBase
         private const string HierarchyPropertyName = "Hierarchy";
 
         #endregion
+
         #region Hierarchy Repository
 
         /// <summary>

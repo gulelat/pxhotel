@@ -16,6 +16,7 @@ using PX.Core.Ultilities;
 using PX.EntityModel;
 using AutoMapper;
 using PX.EntityModel.Repositories;
+using RazorEngine.Templating;
 
 namespace PX.Business.Services.Templates
 {
@@ -239,6 +240,19 @@ namespace PX.Business.Services.Templates
         public bool IsTemplateNameExisted(int? templateId, string name)
         {
             return Fetch(t => t.Id != templateId && t.Name.Equals(name)).Any();
+        }
+
+        /// <summary>
+        /// Render template using Razor engine
+        /// </summary>
+        /// <param name="template"></param>
+        /// <param name="model"></param>
+        /// <param name="cacheName"></param>
+        /// <returns></returns>
+        public string RenderTemplate(string template, dynamic model, string cacheName = "")
+        {
+            var templateService = new TemplateService();
+            return templateService.Parse(template, model, null, cacheName);
         }
     }
 }

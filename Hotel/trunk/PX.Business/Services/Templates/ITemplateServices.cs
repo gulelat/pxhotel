@@ -36,5 +36,7 @@ namespace PX.Business.Services.Templates
         TemplateManageModel GetTemplateManageModel(string type);
 
         ResponseModel SaveTemplate(TemplateManageModel model);
+
+        string RenderTemplate(string template, dynamic model, string cacheName = "");
     }
 }

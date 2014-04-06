@@ -1,4 +1,42 @@
 ﻿
+
+String.prototype.format = function () {
+    var args = arguments;
+    return this.replace(/\{\{|\}\}|\{(\d+)\}/g, function (m, n) {
+        if (m == "{{") { return "{"; }
+        if (m == "}}") { return "}"; }
+        return args[n];
+    });
+};
+
+String.prototype.endsWith = function (suffix) {
+    return (this.substr(this.length - suffix.length) === suffix);
+};
+
+String.prototype.startsWith = function (prefix) {
+    return (this.substr(0, prefix.length) === prefix);
+};
+
+if (!('contains' in String.prototype)) {
+    String.prototype.contains = function (str, startIndex) {
+        return -1 !== String.prototype.indexOf.call(this, str, startIndex);
+    };
+}
+
+var functionExec = function (functionName) {
+    var args = Array.prototype.slice.call(arguments).splice(1);
+    var namespaces = functionName.split(".");
+    var func = namespaces.pop();
+    var context = window;
+    for (var i = 0; i < namespaces.length; i++) {
+        context = context[namespaces[i]];
+    }
+    if (context[func] != null && context[func] != undefined)
+        return context[func].apply(this, args);
+    return true;
+};
+
+
 //Build dropdown from json object
 function buildDropdown(response, hasDefaultSelect, name) {
     if (name == null) {
@@ -154,4 +192,12 @@ function updatePagerIcons(table) {
 function enableTooltips(table) {
     $('.navtable .ui-pg-button').tooltip({ container: 'body' });
     $(table).find('.ui-pg-div').tooltip({ container: 'body' });
+}
+
+
+function getUrlParam(paramName) {
+    var reParam = new RegExp('(?:[\?&]|&amp;)' + paramName + '=([^&]+)', 'i');
+    var match = window.location.search.match(reParam);
+
+    return (match && match.length > 1) ? match[1] : '';
 }
