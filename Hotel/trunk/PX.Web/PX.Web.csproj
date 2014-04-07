@@ -1066,6 +1066,7 @@
     <Content Include="Areas\Admin\Views\RotatingImages\Create.cshtml" />
     <Content Include="Areas\Admin\Views\RotatingImages\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Media\ImageEditor.cshtml" />
+    <Content Include="Areas\Admin\Views\Media\_FileBrowserScripts.cshtml" />
     <None Include="Properties\PublishProfiles\Hotel.pubxml" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <None Include="Scripts\jquery-1.8.3.intellisense.js" />
@@ -1249,7 +1250,6 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\knockout-2.1.0.debug.js" />
     <Content Include="Scripts\knockout-2.1.0.js" />
-    <Content Include="Scripts\Media\filebrowser.js" />
     <Content Include="Scripts\Media\fileuploader.js" />
     <Content Include="Scripts\Media\imageEditor\jquery.Jcrop.js" />
     <Content Include="Scripts\Media\imageEditor\pixastic.js" />

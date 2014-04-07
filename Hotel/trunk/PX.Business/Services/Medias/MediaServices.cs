@@ -8,12 +8,21 @@ using System.Web;
 using System.Web.Hosting;
 using PX.Business.Models.Medias;
 using PX.Business.Mvc.Enums;
+using PX.Business.Mvc.Environments;
+using PX.Business.Services.Localizes;
+using PX.Core.Framework.Mvc.Models;
 using PX.Core.Logging;
 
 namespace PX.Business.Services.Medias
 {
     public class MediaServices : IMediaServices
     {
+        private readonly ILocalizedResourceServices _localizedResourceServices;
+        public MediaServices()
+        {
+            _localizedResourceServices = HostContainer.GetInstance<ILocalizedResourceServices>();
+        }
+
         #region File Manager
         public string MapPath(string virtualPath)
         {
@@ -254,55 +263,98 @@ namespace PX.Business.Services.Medias
             return children;
         }
 
-        public MediaEnums.MoveNodeStatusEnums MoveData(string source, string target, bool isCopy)
+        public ResponseModel MoveData(string source, string target, bool isCopy)
         {
+            var response = new ResponseModel
+                {
+                    Success = false
+                };
+            var status = MediaEnums.MoveNodeStatusEnums.Success;
             try
             {
                 var sourcePhysicalPath = HttpContext.Current.Server.MapPath(source);
                 var targetPhysicalPath = HttpContext.Current.Server.MapPath(target);
                 if (Directory.GetParent(sourcePhysicalPath).FullName.Equals(targetPhysicalPath))
-                    return MediaEnums.MoveNodeStatusEnums.MoveSameLocation;
-
-                // get the file attributes for file or directory
-                var attPath = File.GetAttributes(sourcePhysicalPath);
-                var attDestination = File.GetAttributes(targetPhysicalPath);
-
-                var fi = new FileInfo(sourcePhysicalPath);
-
-                if (attDestination != FileAttributes.Directory)
-                {
-                    return MediaEnums.MoveNodeStatusEnums.MoveNodeToFile;
-                }
-                if (target.Contains(source))
-                {
-                    return MediaEnums.MoveNodeStatusEnums.MoveParentNodeToChild;
-                }
-
-                //detect whether its a directory or file
-                if ((attPath & FileAttributes.Directory) == FileAttributes.Directory)
-                {
-                    //Move parent folder to children node
-                    var targetFolder = string.Format("{0}/{1}", targetPhysicalPath, fi.Name);
-                    MoveDirectory(sourcePhysicalPath, targetFolder, isCopy);
-                }
+                    status = MediaEnums.MoveNodeStatusEnums.MoveSameLocation;
                 else
                 {
-                    var fileName = Path.GetFileName(sourcePhysicalPath) ?? string.Empty;
-                    fileName = GetRightFileNameToSave(targetPhysicalPath, fileName);
-                    var targetFile = Path.Combine(targetPhysicalPath, fileName);
-                    if (isCopy)
+                    // get the file attributes for file or directory
+                    var attPath = File.GetAttributes(sourcePhysicalPath);
+                    var attDestination = File.GetAttributes(targetPhysicalPath);
+
+                    var fi = new FileInfo(sourcePhysicalPath);
+
+                    if (attDestination != FileAttributes.Directory)
                     {
-                        File.Copy(sourcePhysicalPath, targetFile);
+                        status = MediaEnums.MoveNodeStatusEnums.MoveNodeToFile;
                     }
-                    else File.Move(sourcePhysicalPath, targetFile);
+                    else if (target.Contains(source))
+                    {
+                        status = MediaEnums.MoveNodeStatusEnums.MoveParentNodeToChild;
+                    }
+                    else
+                    {
+                        //detect whether its a directory or file
+                        if ((attPath & FileAttributes.Directory) == FileAttributes.Directory)
+                        {
+                            //Move parent folder to children node
+                            var targetFolder = string.Format("{0}/{1}", targetPhysicalPath, fi.Name);
+                            MoveDirectory(sourcePhysicalPath, targetFolder, isCopy);
+                        }
+                        else
+                        {
+                            var fileName = Path.GetFileName(sourcePhysicalPath) ?? string.Empty;
+                            fileName = GetRightFileNameToSave(targetPhysicalPath, fileName);
+                            var targetFile = Path.Combine(targetPhysicalPath, fileName);
+                            if (isCopy)
+                            {
+                                File.Copy(sourcePhysicalPath, targetFile);
+                            }
+                            else File.Move(sourcePhysicalPath, targetFile);
+                        }
+                    }
                 }
             }
             catch (Exception exception)
             {
                 Logger.Warn(exception);
-                return MediaEnums.MoveNodeStatusEnums.Failure;
+                status = MediaEnums.MoveNodeStatusEnums.Failure;
+                response.Message = exception.Message;
             }
-            return MediaEnums.MoveNodeStatusEnums.Success;
+            switch (status)
+            {
+                case MediaEnums.MoveNodeStatusEnums.MoveParentNodeToChild:
+                    response.Message =
+                        _localizedResourceServices.T(
+                            "AdminModule:::Media:::MoveData:::Cannot move parent folder to child folder. Please try again.");
+                    break;
+                case MediaEnums.MoveNodeStatusEnums.MoveNodeToFile:
+                    response.Message =
+                        _localizedResourceServices.T(
+                            "AdminModule:::Media:::MoveData:::Cannot move item to file. Please try again.");
+                    break;
+                case MediaEnums.MoveNodeStatusEnums.MoveSameLocation:
+                    response.Message =
+                        _localizedResourceServices.T(
+                            "AdminModule:::Media:::MoveData:::Cannot move item in same location. Please try again.");
+                    break;
+                case MediaEnums.MoveNodeStatusEnums.Failure:
+                    response.Message =
+                        string.Format(
+                            _localizedResourceServices.T(
+                                "AdminModule:::Media:::MoveData:::There's an error: while create new folder. Error Message: {0}. Please try again."),
+                            response.Message);
+                    break;
+                case MediaEnums.MoveNodeStatusEnums.Success:
+                    response.Message =
+                        string.Format(
+                            _localizedResourceServices.T(
+                                "AdminModule:::Media:::MoveData:::Move data successfully."),
+                            response.Message);
+                    response.Success = true;
+                    break;
+            }
+            return response;
         }
 
         public void MoveDirectory(string source, string target, bool isCopy)
@@ -335,26 +387,41 @@ namespace PX.Business.Services.Medias
                 Directory.Delete(source, true);
         }
 
-        public bool CreateFolder(string relativePath)
+        public ResponseModel CreateFolder(string relativePath)
         {
             var physicalPath = HttpContext.Current.Server.MapPath(relativePath);
             try
             {
                 if (Directory.Exists(physicalPath))
                 {
-                    return false;
+                    return new ResponseModel
+                        {
+                            Success = false,
+                            Data = relativePath,
+                            Message = _localizedResourceServices.T("AdminModule:::Media:::CreateFolder:::Folder name has existed in the system. Please you another one.")
+                        };
                 }
                 Directory.CreateDirectory(physicalPath);
             }
             catch (Exception exception)
             {
                 Logger.Warn(exception);
-                return false;
+                return new ResponseModel
+                {
+                    Success = false,
+                    Data = relativePath,
+                    Message = string.Format(_localizedResourceServices.T("AdminModule:::Media:::CreateFolder:::There's an error: while create new folder. Error Message: {0}. Please try again."), exception.Message)
+                };
             }
-            return true;
+            return new ResponseModel
+            {
+                Success = true,
+                Data = relativePath,
+                Message = _localizedResourceServices.T("AdminModule:::Media:::CreateFolder:::Create folder successfully.")
+            };
         }
 
-        public bool DeletePath(string relativePath)
+        public ResponseModel DeletePath(string relativePath)
         {
             try
             {
@@ -371,18 +438,31 @@ namespace PX.Business.Services.Medias
                         File.Delete(fullPath);
                     }
                 }
-                return true;
+                return new ResponseModel
+                    {
+                        Success = true,
+                        Message = _localizedResourceServices.T("AdminModule:::Media:::DeleteItem:::Delete file/folder successfully.")
+                    };
             }
             catch (Exception exception)
             {
                 Logger.Warn(exception);
-                return false;
+                return new ResponseModel
+                {
+                    Success = false,
+                    Message = _localizedResourceServices.T("AdminModule:::Media:::DeleteItem:::Delete file/folder failure." + exception.Message)
+                };
             }
         }
 
-        public MediaEnums.RenameStatusEnums Rename(string relativePath, string name, out string path)
+        public ResponseModel Rename(string relativePath, string name, out string path)
         {
+            var response = new ResponseModel
+                {
+                    Success = false
+                };
             path = string.Empty;
+            var status = MediaEnums.RenameStatusEnums.Failure;
             try
             {
                 var physicalPath = HttpContext.Current.Server.MapPath(relativePath);
@@ -394,10 +474,12 @@ namespace PX.Business.Services.Medias
                 {
                     var diretoryInfo = new DirectoryInfo(physicalPath);
                     if (diretoryInfo.Name.Equals(name))
-                        return MediaEnums.RenameStatusEnums.Success;
-                    if (Directory.Exists(Path.Combine(newPath, name)))
                     {
-                        return MediaEnums.RenameStatusEnums.DuplicateName;
+                        status = MediaEnums.RenameStatusEnums.Success;
+                    }
+                    else if (Directory.Exists(Path.Combine(newPath, name)))
+                    {
+                        status = MediaEnums.RenameStatusEnums.DuplicateName;
                     }
                 }
                 else
@@ -405,29 +487,52 @@ namespace PX.Business.Services.Medias
                     var currentFileName = Path.GetFileName(physicalPath);
                     if (currentFileName != null && currentFileName.Equals(name))
                     {
-                        return MediaEnums.RenameStatusEnums.Success;
+                        status = MediaEnums.RenameStatusEnums.Success;
                     }
-                    if (File.Exists(Path.Combine(newPath, name)))
+                    else if (File.Exists(Path.Combine(newPath, name)))
                     {
-                        return MediaEnums.RenameStatusEnums.DuplicateName;
+                        status = MediaEnums.RenameStatusEnums.DuplicateName;
                     }
-                }
-
-                var position = physicalPath.IndexOf(relativePath.Replace("/", "\\"), StringComparison.Ordinal);
-                if (position > 0)
-                {
-                    var folder = ToRelativePath(newPath.Substring(position).Replace("\\", "/"));
-                    newPath = Path.Combine(newPath, name);
-                    Directory.Move(physicalPath, newPath);
-                    path = string.Format("{0}/{1}", folder, name);
-                    return MediaEnums.RenameStatusEnums.Success;
+                    else
+                    {
+                        var position = physicalPath.IndexOf(relativePath.Replace("/", "\\"), StringComparison.Ordinal);
+                        if (position > 0)
+                        {
+                            var folder = ToRelativePath(newPath.Substring(position).Replace("\\", "/"));
+                            newPath = Path.Combine(newPath, name);
+                            Directory.Move(physicalPath, newPath);
+                            path = string.Format("{0}/{1}", folder, name);
+                            status = MediaEnums.RenameStatusEnums.Success;
+                        }
+                    }
                 }
             }
             catch (Exception exception)
             {
                 Logger.Warn(exception);
+                response.Message = exception.Message;
             }
-            return MediaEnums.RenameStatusEnums.Failure;
+
+            switch (status)
+            {
+                case MediaEnums.RenameStatusEnums.DuplicateName:
+                    response.Message =
+                        _localizedResourceServices.T(
+                            "AdminModule:::Media:::RenameFolder:::The name of file/folder has already existed. Please rename and try again.");
+                    break;
+                case MediaEnums.RenameStatusEnums.Failure:
+                    response.Message =
+                        string.Format(_localizedResourceServices.T(
+                            "AdminModule:::Media:::RenameFolder:::Error while rename file/folder. Error Message: {0}. Please try again."), response.Message);
+                    break;
+                default:
+                    response.Message =
+                        _localizedResourceServices.T(
+                            "AdminModule:::Media:::RenameFolder:::Rename successfully.");
+                    response.Success = true;
+                    break;
+            }
+            return response;
         }
 
         public string GetRightFileNameToSave(string targetFolder, string file)
