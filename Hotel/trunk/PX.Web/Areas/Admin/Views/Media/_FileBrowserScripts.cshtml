@@ -386,8 +386,9 @@
             })
             .delegate(".jstree-closed>a", "click.jstree", function (event) {
                 var rel = getSelectedNode().attr("rel");
+                var id = getSelectedNode().attr("id");
                 if ((rel != 'home' && rel != 'folder')) {
-                    $(fileBrowser).jstree("close_node", this);
+                    openImage(id);
                 }
                 else {
                     $(fileBrowser).jstree("open_node", this);
