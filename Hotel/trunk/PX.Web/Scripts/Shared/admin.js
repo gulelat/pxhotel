@@ -83,10 +83,10 @@ $(function() {
 });
 
 function showLoading() {
-    $("#spinner-preview").show();
+    $("#loading-wrapper").show();
 }
 function hideLoading() {
-    $("#spinner-preview").hide();
+    $("#loading-wrapper").hide();
 }
 
 //Show message by reponse data

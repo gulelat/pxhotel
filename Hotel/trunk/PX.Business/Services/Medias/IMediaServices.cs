@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using PX.Business.Models.Medias;
 using PX.Business.Mvc.Enums;
+using PX.Core.Framework.Mvc.Models;
 
 namespace PX.Business.Services.Medias
 {
@@ -54,11 +55,11 @@ namespace PX.Business.Services.Medias
         void PopulateTree(string relativePath, FileTreeModel node);
 
         List<FileTreeModel> PopulateChild(string relativePath);
-        MediaEnums.MoveNodeStatusEnums MoveData(string source, string target, bool isCopy);
+        ResponseModel MoveData(string source, string target, bool isCopy);
         void MoveDirectory(string source, string target, bool isCopy);
-        bool CreateFolder(string relativePath);
-        bool DeletePath(string relativePath);
-        MediaEnums.RenameStatusEnums Rename(string relativePath, string name, out string path);
+        ResponseModel CreateFolder(string relativePath);
+        ResponseModel DeletePath(string relativePath);
+        ResponseModel Rename(string relativePath, string name, out string path);
         string GetRightFileNameToSave(string targetFolder, string file);
 
         #endregion

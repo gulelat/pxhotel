@@ -8,6 +8,7 @@ using PX.Business.Models.Settings.SettingTypes;
 using PX.Business.Mvc.Attributes;
 using PX.Business.Mvc.Controllers;
 using PX.Business.Mvc.Enums;
+using PX.Business.Services.Localizes;
 using PX.Business.Services.Medias;
 using PX.Business.Services.Settings;
 using PX.Core.Configurations;
@@ -19,14 +20,17 @@ namespace PX.Web.Areas.Admin.Controllers
     [PxAuthorize(Permissions = new[] { PermissionEnums.ManageContent })]
     public class MediaController : PxController
     {
+        private readonly ILocalizedResourceServices _localizedResourceServices;
         private readonly IMediaFileManager _mediaFileManager;
         private readonly IMediaServices _mediaServices;
         private readonly ISettingServices _settingServices;
-        public MediaController(IMediaServices mediaServices, ISettingServices settingServices, IMediaFileManager mediaFileManager)
+        public MediaController(IMediaServices mediaServices, ISettingServices settingServices
+            , IMediaFileManager mediaFileManager, ILocalizedResourceServices localizedResourceServices)
         {
             _mediaFileManager = mediaFileManager;
             _mediaServices = mediaServices;
             _settingServices = settingServices;
+            _localizedResourceServices = localizedResourceServices;
         }
 
         public ActionResult MediaBrowser(string imageUrl)
@@ -49,7 +53,7 @@ namespace PX.Web.Areas.Admin.Controllers
             }
             else
             {
-                ViewBag.Folders = "[]";
+                ViewBag.Folders = string.Empty;
             }
             return View();
         }
@@ -130,19 +134,19 @@ namespace PX.Web.Areas.Admin.Controllers
                     {
                         if (imageUploadSetting.MinWidth.HasValue && img.Width < imageUploadSetting.MinWidth)
                         {
-                            return Json(new { success = false, message = string.Format("Image Width is less than {0}", imageUploadSetting.MinWidth) }, "text/html");
+                            return Json(new { Success = false, Message = string.Format(_localizedResourceServices.T("AdminModule:::Media:::Upload:::Image Width is less than {0}"), imageUploadSetting.MinWidth) }, "text/html");
                         }
                         if (imageUploadSetting.MinHeight.HasValue && img.Height < imageUploadSetting.MinHeight)
                         {
-                            return Json(new { success = false, message = string.Format("Image Height is less than {0}", imageUploadSetting.MinHeight) }, "text/html");
+                            return Json(new { Success = false, Message = string.Format(_localizedResourceServices.T("AdminModule:::Media:::Upload:::Image Height is less than {0}"), imageUploadSetting.MinHeight) }, "text/html");
                         }
                         if (imageUploadSetting.MaxWidth.HasValue && img.Width > imageUploadSetting.MaxWidth)
                         {
-                            return Json(new { success = false, message = string.Format("Image Width is greater than {0}", imageUploadSetting.MaxWidth) }, "text/html");
+                            return Json(new { Success = false, Message = string.Format(_localizedResourceServices.T("AdminModule:::Media:::Upload:::Image Width is greater than {0}"), imageUploadSetting.MaxWidth) }, "text/html");
                         }
                         if (imageUploadSetting.MaxHeight.HasValue && img.Height > imageUploadSetting.MaxHeight)
                         {
-                            return Json(new { success = false, message = string.Format("Image Height is greater than {0}", imageUploadSetting.MaxHeight) }, "text/html");
+                            return Json(new { Success = false, Message = string.Format(_localizedResourceServices.T("AdminModule:::Media:::Upload:::Image Height is greater than {0}"), imageUploadSetting.MaxHeight) }, "text/html");
                         }
                     }
                     img.Save(file);
@@ -154,7 +158,7 @@ namespace PX.Web.Areas.Admin.Controllers
                 {
                     ex = ex.InnerException;
                 }
-                return Json(new { success = false, message = ex.Message }, "text/html");
+                return Json(new { Success = false, Message = ex.Message }, "text/html");
             }
 
             var isImage = false;
@@ -168,7 +172,7 @@ namespace PX.Web.Areas.Admin.Controllers
             }
 
             var location = string.Format("{0}/{1}", dir, returnFile);
-            return Json(new { success = true, fileLocation = location, isImage }, "text/html");
+            return Json(new { Success = true, Message = _localizedResourceServices.T("AdminModule:::Media:::Upload:::Upload successfully."), fileLocation = location, isImage }, "text/html");
         }
 
         [HttpPost]
@@ -187,20 +191,20 @@ namespace PX.Web.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult MoveData(string path, string destination, bool copy)
         {
-            return Json(new { status = (int)_mediaServices.MoveData(path, destination, copy) });
+            return Json(_mediaServices.MoveData(path, destination, copy));
         }
 
         [HttpPost]
         public JsonResult CreateFolder(string path, string folder)
         {
-            var relativePath = string.Format("{0}/{1}", path, folder);
-            return _mediaServices.CreateFolder(relativePath) ? Json(new { status = true, path = relativePath }) : Json(new { status = false });
+            var relativePath = Path.Combine(path, folder);
+            return Json(_mediaServices.CreateFolder(relativePath));
         }
 
         [HttpPost]
         public JsonResult Delete(string path)
         {
-            return Json(_mediaServices.DeletePath(path) ? new { status = true } : new { status = false });
+            return Json(_mediaServices.DeletePath(path));
         }
 
         [HttpPost]
@@ -210,8 +214,8 @@ namespace PX.Web.Areas.Admin.Controllers
             var attPath = System.IO.File.GetAttributes(physicalPath);
             var isFolder = attPath == FileAttributes.Directory;
             string resultPath;
-            var status = _mediaServices.Rename(path, name, out resultPath);
-            return Json(new { status = (int)status, path = resultPath, isFolder });
+            var response = _mediaServices.Rename(path, name, out resultPath);
+            return Json(new { Success = response.Success, path = resultPath, isFolder, message = response.Message });
         }
 
         [HttpPost]
