@@ -106,20 +106,20 @@ namespace PX.Business.Services.Testimonials
                     response = Update(testimonial);
                     return response.SetMessage(response.Success ?
                         _localizedResourceServices.T("AdminModule:::Testimonials:::Update testimonial successfully")
-                        : _localizedResourceServices.T("AdminModule:::Testimonials:::Update testimonial failure"));
+                        : _localizedResourceServices.T("AdminModule:::Testimonials:::Update testimonial failure. Please try again later."));
                 
                 case GridOperationEnums.Add:
                     testimonial = Mapper.Map<TestimonialModel, Testimonial>(model);
                     response = Insert(testimonial);
                     return response.SetMessage(response.Success ?
                         _localizedResourceServices.T("AdminModule:::Testimonials:::Insert testimonial successfully")
-                        : _localizedResourceServices.T("AdminModule:::Testimonials:::Insert testimonial failure"));
+                        : _localizedResourceServices.T("AdminModule:::Testimonials:::Insert testimonial failure. Please try again later."));
                 
                 case GridOperationEnums.Del:
                     response = Delete(model.Id);
                     return response.SetMessage(response.Success ?
                         _localizedResourceServices.T("AdminModule:::Testimonials:::Delete testimonial successfully")
-                        : _localizedResourceServices.T("AdminModule:::Testimonials:::Delete testimonial failure"));
+                        : _localizedResourceServices.T("AdminModule:::Testimonials:::Delete testimonial failure. Please try again later."));
             }
             return new ResponseModel
             {

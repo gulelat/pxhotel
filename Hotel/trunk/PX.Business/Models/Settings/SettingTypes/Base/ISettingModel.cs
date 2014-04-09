@@ -2,7 +2,7 @@
 {
     public interface ISettingModel<out T> where T: class
     {
-        string GetSettingName();
+        string SettingName { get; }
 
         T LoadSetting();
     }

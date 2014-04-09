@@ -116,7 +116,7 @@ namespace PX.Business.Services.RotatingImageGroups
                                                    ? _localizedResourceServices.T(
                                                        "AdminModule:::RotatingImageGroups:::Update group successfully")
                                                    : _localizedResourceServices.T(
-                                                       "AdminModule:::RotatingImageGroups:::Update group failure"));
+                                                       "AdminModule:::RotatingImageGroups:::Update group failure. Please try again later."));
 
                 case GridOperationEnums.Add:
                     rotatingImageGroup = Mapper.Map<RotatingImageGroupModel, RotatingImageGroup>(model);
@@ -128,7 +128,7 @@ namespace PX.Business.Services.RotatingImageGroups
                                                    ? _localizedResourceServices.T(
                                                        "AdminModule:::RotatingImageGroups:::Insert group successfully")
                                                    : _localizedResourceServices.T(
-                                                       "AdminModule:::RotatingImageGroups:::Insert group failure"));
+                                                       "AdminModule:::RotatingImageGroups:::Insert group failure. Please try again later."));
 
                 case GridOperationEnums.Del:
                     response = Delete(model.Id);
@@ -136,7 +136,7 @@ namespace PX.Business.Services.RotatingImageGroups
                                                    ? _localizedResourceServices.T(
                                                        "AdminModule:::RotatingImageGroups:::Delete group successfully")
                                                    : _localizedResourceServices.T(
-                                                       "AdminModule:::RotatingImageGroups:::Delete group failure"));
+                                                       "AdminModule:::RotatingImageGroups:::Delete group failure. Please try again later."));
             }
             return new ResponseModel
                 {
@@ -197,7 +197,7 @@ namespace PX.Business.Services.RotatingImageGroups
                                                ? _localizedResourceServices.T(
                                                    "AdminModule:::RotatingImageGroups:::Update group settings successfully")
                                                : _localizedResourceServices.T(
-                                                   "AdminModule:::RotatingImageGroups:::Update group settings failure"));
+                                                   "AdminModule:::RotatingImageGroups:::Update group settings failure. Please try again later."));
             }
             return new ResponseModel
             {

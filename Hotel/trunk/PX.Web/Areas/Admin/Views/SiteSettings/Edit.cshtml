@@ -1,0 +1,26 @@
+﻿@model dynamic
+
+@{
+    ViewBag.Header = "Setting Management";
+    ViewBag.Title = "Edit Setting";
+    ViewBag.Description = "Edit Setting";
+}
+
+<div class="page-header">
+    <h1>@ViewBag.Header
+        <small>
+            <i class="icon-double-angle-right"></i>
+            @ViewBag.Title
+        </small>
+    </h1>
+</div>
+
+<div class="row">
+    <div class="col-xs-12">
+        @ShowStatusMessage()
+        @using (Html.BeginForm("Edit", "Pages", null, FormMethod.Post, new { @class = "form-horizontal" }))
+        {
+            @Html.EditorFor(m => Model)
+        }
+    </div>
+</div>

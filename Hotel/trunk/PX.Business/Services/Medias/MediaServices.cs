@@ -450,7 +450,7 @@ namespace PX.Business.Services.Medias
                 return new ResponseModel
                 {
                     Success = false,
-                    Message = _localizedResourceServices.T("AdminModule:::Media:::DeleteItem:::Delete file/folder failure." + exception.Message)
+                    Message = _localizedResourceServices.T("AdminModule:::Media:::DeleteItem:::Delete file/folder failure. Please try again later.." + exception.Message)
                 };
             }
         }

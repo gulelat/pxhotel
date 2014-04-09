@@ -96,7 +96,7 @@ namespace PX.Business.Services.NewsCategories
                     response = HierarchyUpdate(newsCategory);
                     return response.SetMessage(response.Success ?
                         _localizedResourceServices.T("AdminModule:::NewsCategories:::Update news category successfully")
-                        : _localizedResourceServices.T("AdminModule:::NewsCategories:::Update news category failure"));
+                        : _localizedResourceServices.T("AdminModule:::NewsCategories:::Update news category failure. Please try again later."));
 
                 case GridOperationEnums.Add:
                     newsCategory = Mapper.Map<NewsCategoryModel, NewsCategory>(model);
@@ -104,13 +104,13 @@ namespace PX.Business.Services.NewsCategories
                     response = HierarchyInsert(newsCategory);
                     return response.SetMessage(response.Success ?
                         _localizedResourceServices.T("AdminModule:::NewsCategories:::Insert news category successfully")
-                        : _localizedResourceServices.T("AdminModule:::NewsCategories:::Insert news category failure"));
+                        : _localizedResourceServices.T("AdminModule:::NewsCategories:::Insert news category failure. Please try again later."));
 
                 case GridOperationEnums.Del:
                     response = Delete(model.Id);
                     return response.SetMessage(response.Success ?
                         _localizedResourceServices.T("AdminModule:::NewsCategories:::Delete news category successfully")
-                        : _localizedResourceServices.T("AdminModule:::NewsCategories:::Delete news category failure"));
+                        : _localizedResourceServices.T("AdminModule:::NewsCategories:::Delete news category failure. Please try again later."));
             }
             return new ResponseModel
             {

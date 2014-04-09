@@ -3,43 +3,47 @@ var gridSelector = gridSelector || "";
 var lastSel = lastSel || 0;
 var pagerSelector = pagerSelector || "";
 var editFormPlusData = editFormPlusData || {};
+var navButtonsSetup = navButtonsSetup || {};
 $(function () {
     //Register default ondblClickRow
     //This is used for inline editing success post event
     $(gridSelector).jqGrid('setGridParam', {
         ondblClickRow: function (rowId) {
-            //Only 1 row edit at a time
-            if (rowId && rowId !== lastSel) {
-                jQuery(gridSelector).restoreRow(lastSel);
-                lastSel = rowId;
-            }
-            //Double click will open inline editing 
-            jQuery(gridSelector).jqGrid("editRow", rowId, {
-                keys: true,
-                extraparam: editFormPlusData,
-                //Success event catching
-                successfunc: function (response) {
-                    var res = jQuery.parseJSON(response.responseText);
-                    ShowMessage(res);
-                    return res.Success;
+            if (typeof navButtonsSetup.enableEdit === 'undefined' ? true : navButtonsSetup.enableEdit) {
+                //Only 1 row edit at a time
+                if (rowId && rowId !== lastSel) {
+                    jQuery(gridSelector).restoreRow(lastSel);
+                    lastSel = rowId;
                 }
-            });
+                //Double click will open inline editing 
+                jQuery(gridSelector).jqGrid("editRow", rowId, {
+                    keys: true,
+                    extraparam: editFormPlusData,
+                    //Success event catching
+                    successfunc: function (response) {
+                        var res = jQuery.parseJSON(response.responseText);
+                        ShowMessage(res);
+                        return res.Success;
+                    }
+                });
+            }
         }
     });
     //navButtons
     jQuery(gridSelector).jqGrid('navGrid', pagerSelector,
         {
-            edit: true,
+            edit: typeof navButtonsSetup.enableEdit === 'undefined' ? true : navButtonsSetup.enableEdit,
             editicon: 'icon-pencil blue',
-            add: true,
+            add: typeof navButtonsSetup.enableCreate === 'undefined' ? true : navButtonsSetup.enableCreate,
+            add: navButtonsSetup.enableCreate,
             addicon: 'icon-plus-sign purple',
-            del: true,
+            del: typeof navButtonsSetup.enableDelete === 'undefined' ? true : navButtonsSetup.enableDelete,
             delicon: 'icon-trash red',
-            search: true,
+            search: typeof navButtonsSetup.enableSearch === 'undefined' ? true : navButtonsSetup.enableSearch,
             searchicon: 'icon-search orange',
-            refresh: true,
+            refresh: typeof navButtonsSetup.enableRefresh === 'undefined' ? true : navButtonsSetup.enableRefresh,
             refreshicon: 'icon-refresh green',
-            view: true,
+            view: typeof navButtonsSetup.enableView === 'undefined' ? true : navButtonsSetup.enableView,
             viewicon: 'icon-zoom-in grey'
         },
         {

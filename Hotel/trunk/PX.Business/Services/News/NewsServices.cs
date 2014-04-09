@@ -135,7 +135,7 @@ namespace PX.Business.Services.News
                     }
                     return response.SetMessage(response.Success ?
                         _localizedResourceServices.T("AdminModule:::News:::Update news successfully")
-                        : _localizedResourceServices.T("AdminModule:::News:::Update news failure"));
+                        : _localizedResourceServices.T("AdminModule:::News:::Update news failure. Please try again later."));
 
                 case GridOperationEnums.Add:
                     news = Mapper.Map<NewsModel, EntityModel.News>(model);
@@ -155,13 +155,13 @@ namespace PX.Business.Services.News
                     }
                     return response.SetMessage(response.Success ?
                         _localizedResourceServices.T("AdminModule:::News:::Insert news successfully")
-                        : _localizedResourceServices.T("AdminModule:::News:::Insert news failure"));
+                        : _localizedResourceServices.T("AdminModule:::News:::Insert news failure. Please try again later."));
 
                 case GridOperationEnums.Del:
                     response = Delete(model.Id);
                     return response.SetMessage(response.Success ?
                         _localizedResourceServices.T("AdminModule:::News:::Delete news successfully")
-                        : _localizedResourceServices.T("AdminModule:::News:::Delete news failure"));
+                        : _localizedResourceServices.T("AdminModule:::News:::Delete news failure. Please try again later."));
             }
             return new ResponseModel
             {
@@ -245,7 +245,7 @@ namespace PX.Business.Services.News
                 response = Update(news);
                 return response.SetMessage(response.Success ?
                     _localizedResourceServices.T("AdminModule:::News:::Update news successfully")
-                    : _localizedResourceServices.T("AdminModule:::News:::Update news failure"));
+                    : _localizedResourceServices.T("AdminModule:::News:::Update news failure. Please try again later."));
             }
             #endregion
 
@@ -270,7 +270,7 @@ namespace PX.Business.Services.News
             }
             return response.SetMessage(response.Success ?
                 _localizedResourceServices.T("AdminModule:::News:::Create news successfully")
-                : _localizedResourceServices.T("AdminModule:::News:::Create news failure"));
+                : _localizedResourceServices.T("AdminModule:::News:::Create news failure. Please try again later."));
         }
 
         #endregion

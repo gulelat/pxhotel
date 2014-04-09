@@ -148,7 +148,7 @@ namespace PX.Business.Services.Templates
                     response = Update(template);
                     return response.SetMessage(response.Success ?
                         _localizedResourceServices.T("AdminModule:::Templates:::Update template successfully")
-                        : _localizedResourceServices.T("AdminModule:::Templates:::Update template failure"));
+                        : _localizedResourceServices.T("AdminModule:::Templates:::Update template failure. Please try again later."));
 
                 case GridOperationEnums.Add:
                     template = Mapper.Map<TemplateModel, Template>(model);
@@ -156,13 +156,13 @@ namespace PX.Business.Services.Templates
                     response = Insert(template);
                     return response.SetMessage(response.Success ?
                         _localizedResourceServices.T("AdminModule:::Templates:::Insert template successfully")
-                        : _localizedResourceServices.T("AdminModule:::Templates:::Insert template failure"));
+                        : _localizedResourceServices.T("AdminModule:::Templates:::Insert template failure. Please try again later."));
 
                 case GridOperationEnums.Del:
                     response = Delete(model.Id);
                     return response.SetMessage(response.Success ?
                         _localizedResourceServices.T("AdminModule:::Templates:::Delete template successfully")
-                        : _localizedResourceServices.T("AdminModule:::Templates:::Delete template failure"));
+                        : _localizedResourceServices.T("AdminModule:::Templates:::Delete template failure. Please try again later."));
             }
             return new ResponseModel
             {
@@ -219,14 +219,14 @@ namespace PX.Business.Services.Templates
                 response = Update(pageTemplate);
                 return response.SetMessage(response.Success ?
                     _localizedResourceServices.T("AdminModule:::Templates:::Update template successfully")
-                    : _localizedResourceServices.T("AdminModule:::Templates:::Update template failure"));
+                    : _localizedResourceServices.T("AdminModule:::Templates:::Update template failure. Please try again later."));
             }
             Mapper.CreateMap<TemplateManageModel, Template>();
             pageTemplate = Mapper.Map<TemplateManageModel, Template>(model);
             response = Insert(pageTemplate);
             return response.SetMessage(response.Success ?
                 _localizedResourceServices.T("AdminModule:::Templates:::Create template successfully")
-                : _localizedResourceServices.T("AdminModule:::Templates:::Create template failure"));
+                : _localizedResourceServices.T("AdminModule:::Templates:::Create template failure. Please try again later."));
         }
 
         #endregion

@@ -105,20 +105,20 @@ namespace PX.Business.Services.SettingTypes
                     response = Update(settingType);
                     return response.SetMessage(response.Success ?
                         _localizedResourceServices.T("AdminModule:::SettingTypes:::Update setting type successfully")
-                        : _localizedResourceServices.T("AdminModule:::SettingTypes:::Update setting type failure"));
+                        : _localizedResourceServices.T("AdminModule:::SettingTypes:::Update setting type failure. Please try again later."));
                 
                 case GridOperationEnums.Add:
                     settingType = Mapper.Map<SettingTypeModel, SettingType>(model);
                     response = Insert(settingType);
                     return response.SetMessage(response.Success ?
                         _localizedResourceServices.T("AdminModule:::SettingTypes:::Insert setting type successfully")
-                        : _localizedResourceServices.T("AdminModule:::SettingTypes:::Insert setting type failure"));
+                        : _localizedResourceServices.T("AdminModule:::SettingTypes:::Insert setting type failure. Please try again later."));
                 
                 case GridOperationEnums.Del:
                     response = Delete(model.Id);
                     return response.SetMessage(response.Success ?
                         _localizedResourceServices.T("AdminModule:::SettingTypes:::Delete setting type successfully")
-                        : _localizedResourceServices.T("AdminModule:::SettingTypes:::Delete setting type failure"));
+                        : _localizedResourceServices.T("AdminModule:::SettingTypes:::Delete setting type failure. Please try again later."));
             }
             return new ResponseModel
             {

@@ -49,5 +49,10 @@ namespace PX.Web.Areas.Admin.Controllers
                 Message = GetFirstValidationResults(ModelState).Message
             });
         }
+
+        public ActionResult Edit(int id)
+        {
+            return View();
+        }
     }
 }

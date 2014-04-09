@@ -39,7 +39,7 @@ namespace PX.Business.Models.Pages
 
         public IEnumerable<SelectListItem> Positions { get; set; }
 
-        public int? RelativePageOrder { get; set; }
+        public int? RelativePageId { get; set; }
 
         public IEnumerable<SelectListItem> RelativePages { get; set; } 
 

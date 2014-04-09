@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Objects.SqlClient;
+using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Web.Mvc;
@@ -18,7 +19,6 @@ using PX.Core.Framework.Mvc.Models.JqGrid;
 using PX.Core.Ultilities;
 using PX.EntityModel;
 using PX.EntityModel.Repositories;
-using PX.EntityModel.Repositories.RepositoryBase.Extensions;
 using PX.EntityModel.Repositories.RepositoryBase.Models;
 using RazorEngine.Templating;
 
@@ -86,10 +86,110 @@ namespace PX.Business.Services.Pages
         /// <returns></returns>
         public Page GetPage(string friendlyUrl)
         {
+            //Get Home Page
+            if(string.IsNullOrEmpty(friendlyUrl))
+            {
+                return GetHomePage();
+            }
             return GetAll().FirstOrDefault(p => p.FriendlyUrl.Equals(friendlyUrl, StringComparison.InvariantCultureIgnoreCase));
         }
 
+        /// <summary>
+        /// Get home page
+        /// </summary>
+        /// <returns></returns>
+        public Page GetHomePage()
+        {
+            return PageRepository.FetchFirst(p => p.IsHomePage);
+        }
+
+        #region Search Pages
+
+        /// <summary>
+        /// search the Pages.
+        /// </summary>
+        /// <returns></returns>
+        public JqGridSearchOut SearchPages(JqSearchIn si)
+        {
+            var pages = GetAll().Select(p => new PageModel
+            {
+                Id = p.Id,
+                PageTemplateId = p.PageTemplateId,
+                Title = p.Title,
+                PageTemplateName = p.PageTemplate.Name,
+                ParentName = p.ParentId.HasValue ? p.Page1.Title : string.Empty,
+                FriendlyUrl = p.FriendlyUrl,
+                Status = p.Status,
+                RecordActive = p.RecordActive,
+                RecordOrder = p.RecordOrder,
+                Created = p.Created,
+                CreatedBy = p.CreatedBy,
+                Updated = p.Updated,
+                UpdatedBy = p.UpdatedBy,
+                IsHomePage = p.IsHomePage
+            });
+
+            return si.Search(pages);
+        }
+
+        #endregion
+
         #region Manage Page
+
+        /// <summary>
+        /// Change home page
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public ResponseModel ChangeHomePage(int id)
+        {
+            var response = new ResponseModel();
+            var page = GetById(id);
+            var homePage = GetHomePage();
+            if(page != null)
+            {
+                if(page.Id != homePage.Id)
+                {
+                    homePage.IsHomePage = false;
+                    page.IsHomePage = true;
+                    if(Update(homePage).Success)
+                    {
+                        response = Update(page);
+                        if (response.Success)
+                        {
+                            response.Message =
+                                string.Format(
+                                    _localizedResourceServices.T(
+                                        "AdminModule:::Pages:::Message:::Change page {0} to home page successfully."),
+                                    page.Title);
+                        }
+                        else
+                        {
+                            response.Message =
+                                string.Format(
+                                    _localizedResourceServices.T(
+                                        "AdminModule:::Pages:::Message:::Change page {0} to home page failure. Please try again later."),
+                                    page.Title);
+                        }
+                    }
+                }
+                else
+                {
+                    response.Success = true;
+                    response.Message =
+                        string.Format(
+                            _localizedResourceServices.T(
+                                "AdminModule:::Pages:::Message:::Change page {0} to home page successfully."),
+                            page.Title);
+                }
+            }
+            else
+            {
+                response.Success = false;
+                response.Message = _localizedResourceServices.T("AdminModule:::Pages:::Messages:::Page not founded");
+            }
+            return response;
+        }
 
         /// <summary>
         /// Manage Site Setting
@@ -108,8 +208,9 @@ namespace PX.Business.Services.Pages
                     page = GetById(model.Id);
                     page.Title = model.Title;
                     page.Status = model.Status;
-                    page.FriendlyUrl = model.FriendlyUrl;
-                    page.RecordOrder = model.RecordOrder;
+                    page.FriendlyUrl = string.IsNullOrWhiteSpace(model.FriendlyUrl)
+                                           ? model.Title.ToUrlString()
+                                           : model.FriendlyUrl.ToUrlString();
 
                     // Convert post data from jqGrid post
                     page.PageTemplateId = model.PageTemplateName.ToNullableInt();
@@ -117,9 +218,10 @@ namespace PX.Business.Services.Pages
 
                     response = HierarchyUpdate(page);
                     return response.SetMessage(response.Success ?
-                        _localizedResourceServices.T("AdminModule:::Pages:::Update page successfully")
-                        : _localizedResourceServices.T("AdminModule:::Pages:::Update page failure"));
+                        _localizedResourceServices.T("AdminModule:::Pages:::Messages:::Update page successfully")
+                        : _localizedResourceServices.T("AdminModule:::Pages:::Messages:::Update page failure. Please try again later.. Please try again later."));
 
+                //Redundant Create function
                 case GridOperationEnums.Add:
                     page = Mapper.Map<PageModel, Page>(model);
                     page.Status = model.Status;
@@ -132,19 +234,19 @@ namespace PX.Business.Services.Pages
 
                     response = HierarchyInsert(page);
                     return response.SetMessage(response.Success ?
-                        _localizedResourceServices.T("AdminModule:::Pages:::Insert page successfully")
-                        : _localizedResourceServices.T("AdminModule:::Pages:::Insert page failure"));
+                        _localizedResourceServices.T("AdminModule:::Pages:::Messages:::Create page successfully")
+                        : _localizedResourceServices.T("AdminModule:::Pages:::Messages:::Create page failure. Please try again later."));
 
                 case GridOperationEnums.Del:
                     response = Delete(model.Id);
                     return response.SetMessage(response.Success ?
-                        _localizedResourceServices.T("AdminModule:::Pages:::Delete page successfully")
-                        : _localizedResourceServices.T("AdminModule:::Pages:::Delete page failure"));
+                        _localizedResourceServices.T("AdminModule:::Pages:::Messages:::Delete page successfully")
+                        : _localizedResourceServices.T("AdminModule:::Pages:::Messages:::Delete page failure. Please try again later."));
             }
             return new ResponseModel
             {
                 Success = false,
-                Message = _localizedResourceServices.T("AdminModule:::Pages:::Page not founded")
+                Message = _localizedResourceServices.T("AdminModule:::Pages:::Messages:::Page not founded")
             };
         }
 
@@ -155,9 +257,13 @@ namespace PX.Business.Services.Pages
         /// <returns></returns>
         public PageManageModel GetPageManageModel(int? id = null)
         {
+            int position;
+            int relativePageId;
+            IEnumerable<SelectListItem> relativePages;
             var page = GetById(id);
             if (page != null)
             {
+                relativePages = GetRelativePages(out position, out relativePageId, page.Id, page.ParentId);
                 return new PageManageModel
                     {
                         Id = page.Id,
@@ -171,21 +277,24 @@ namespace PX.Business.Services.Pages
                         Parents = GetPossibleParents(page.Id),
                         PageTemplateId = page.PageTemplateId,
                         PageTemplates = _pageTemplateServices.GetPageTemplateSelectList(page.PageTemplateId),
-                        Position = (int)PageEnums.PositionEnums.After,
+                        Position = position,
                         Positions = EnumUtilities.GetAllItemsFromEnum<PageEnums.PositionEnums>(),
-                        RelativePageOrder = page.RecordOrder,
-                        RelativePages = GetRelativePages(page.Id, page.ParentId),
+                        RelativePageId = relativePageId,
+                        RelativePages = relativePages,
                         RecordOrder = page.RecordOrder,
                         RecordActive = page.RecordActive
                     };
             }
+            relativePages = GetRelativePages(out position, out relativePageId);
             return new PageManageModel
             {
                 StatusList = GetStatus(),
                 Parents = GetPossibleParents(),
                 PageTemplates = _pageTemplateServices.GetPageTemplateSelectList(),
                 Positions = EnumUtilities.GetAllItemsFromEnum<PageEnums.PositionEnums>(),
-                RelativePages = GetRelativePages(),
+                Position = position,
+                RelativePageId = relativePageId,
+                RelativePages = relativePages,
             };
         }
 
@@ -220,20 +329,15 @@ namespace PX.Business.Services.Pages
                 }
 
                 //Parse friendly url
-                if (string.IsNullOrWhiteSpace(model.FriendlyUrl))
-                {
-                    page.FriendlyUrl = model.Title.ToUrlString();
-                }
-                else
-                {
-                    page.FriendlyUrl = model.FriendlyUrl.ToUrlString();
-                }
+                page.FriendlyUrl = string.IsNullOrWhiteSpace(model.FriendlyUrl)
+                                       ? model.Title.ToUrlString()
+                                       : model.FriendlyUrl.ToUrlString();
 
                 //Get page record order
-                relativePage = GetById(model.RelativePageOrder);
+                relativePage = GetById(model.RelativePageId);
                 if (relativePage != null)
                 {
-                    if(model.Position == (int)PageEnums.PositionEnums.Before)
+                    if (model.Position == (int)PageEnums.PositionEnums.Before)
                     {
                         page.RecordOrder = relativePage.RecordOrder;
                         var query =
@@ -244,10 +348,10 @@ namespace PX.Business.Services.Pages
                     }
                     else
                     {
-                        page.RecordOrder = relativePage.RecordOrder;
+                        page.RecordOrder = relativePage.RecordOrder + 1;
                         var query =
                             string.Format(
-                                "Update Pages set RecordOrder = RecordOrder - 1 Where {0} And RecordOrder <= {1}",
+                                "Update Pages set RecordOrder = RecordOrder + 1 Where {0} And RecordOrder > {1}",
                                 relativePage.ParentId.HasValue ? string.Format(" ParentId = {0}", relativePage.ParentId) : "ParentId Is NULL", relativePage.RecordOrder);
                         PageRepository.ExcuteSql(query);
                     }
@@ -264,7 +368,7 @@ namespace PX.Business.Services.Pages
                 }
                 return response.SetMessage(response.Success ?
                     _localizedResourceServices.T("AdminModule:::Pages:::Update page successfully")
-                    : _localizedResourceServices.T("AdminModule:::Pages:::Update page failure"));
+                    : _localizedResourceServices.T("AdminModule:::Pages:::Update page failure. Please try again later."));
             }
             #endregion
 
@@ -276,18 +380,11 @@ namespace PX.Business.Services.Pages
                     Caption = model.Caption,
                     ParentId = model.ParentId,
                     RecordOrder = 0,
-                    PageTemplateId = model.PageTemplateId
+                    PageTemplateId = model.PageTemplateId,
+                    FriendlyUrl = string.IsNullOrWhiteSpace(model.FriendlyUrl)
+                                      ? model.Title.ToUrlString()
+                                      : model.FriendlyUrl.ToUrlString()
                 };
-
-            //Parse friendly url
-            if (string.IsNullOrWhiteSpace(model.FriendlyUrl))
-            {
-                page.FriendlyUrl = model.Title.ToUrlString();
-            }
-            else
-            {
-                page.FriendlyUrl = model.FriendlyUrl.ToUrlString();
-            }
 
             //Set content & caption base on status
             if (model.Status == (int)PageEnums.PageStatusEnums.Draft)
@@ -297,50 +394,33 @@ namespace PX.Business.Services.Pages
             }
 
             //Get page record order
-            relativePage = GetById(model.RelativePageOrder);
+            relativePage = GetById(model.RelativePageId);
             if (relativePage != null)
             {
-                page.RecordOrder = relativePage.RecordOrder;
-                var query =
-                    string.Format(
-                        "Update Pages set RecordOrder = RecordOrder + 1 Where ParentId = {0} And RecordOrder >= {1}'",
-                        relativePage.ParentId, relativePage.RecordOrder);
-                PageRepository.ExcuteSql(query);
+                if (model.Position == (int)PageEnums.PositionEnums.Before)
+                {
+                    page.RecordOrder = relativePage.RecordOrder;
+                    var query =
+                        string.Format(
+                            "Update Pages set RecordOrder = RecordOrder + 1 Where {0} And RecordOrder >= {1}",
+                            relativePage.ParentId.HasValue ? string.Format(" ParentId = {0}", relativePage.ParentId) : "ParentId Is NULL", relativePage.RecordOrder);
+                    PageRepository.ExcuteSql(query);
+                }
+                else
+                {
+                    page.RecordOrder = relativePage.RecordOrder + 1;
+                    var query =
+                        string.Format(
+                            "Update Pages set RecordOrder = RecordOrder + 1 Where {0} And RecordOrder > {1}",
+                            relativePage.ParentId.HasValue ? string.Format(" ParentId = {0}", relativePage.ParentId) : "ParentId Is NULL", relativePage.RecordOrder);
+                    PageRepository.ExcuteSql(query);
+                }
             }
 
             response = HierarchyInsert(page);
             return response.SetMessage(response.Success ?
-                _localizedResourceServices.T("AdminModule:::Pages:::Create page successfully")
-                : _localizedResourceServices.T("AdminModule:::Pages:::Create page failure"));
-        }
-
-        #endregion
-
-        #region Search Pages
-
-        /// <summary>
-        /// search the Pages.
-        /// </summary>
-        /// <returns></returns>
-        public JqGridSearchOut SearchPages(JqSearchIn si)
-        {
-            var pages = GetAll().Select(u => new PageModel
-            {
-                Id = u.Id,
-                PageTemplateId = u.PageTemplateId,
-                Title = u.Title,
-                PageTemplateName = u.PageTemplate.Name,
-                FriendlyUrl = u.FriendlyUrl,
-                Status = u.Status,
-                RecordActive = u.RecordActive,
-                RecordOrder = u.RecordOrder,
-                Created = u.Created,
-                CreatedBy = u.CreatedBy,
-                Updated = u.Updated,
-                UpdatedBy = u.UpdatedBy
-            });
-
-            return si.Search(pages);
+                _localizedResourceServices.T("AdminModule:::Pages:::Messages:::Create page successfully")
+                : _localizedResourceServices.T("AdminModule:::Pages:::Messages:::Create page failure. Please try again later."));
         }
 
         #endregion
@@ -383,18 +463,70 @@ namespace PX.Business.Services.Pages
         /// <summary>
         /// Get page by parent id
         /// </summary>
+        /// <param name="position"> </param>
+        /// <param name="relativePageId"> </param>
+        /// <param name="pageId"> </param>
+        /// <param name="parentId">the parent id</param>
+        /// <returns></returns>
+        public IEnumerable<SelectListItem> GetRelativePages(out int position, out int relativePageId, int? pageId = null, int? parentId = null)
+        {
+            position = (int)PageEnums.PositionEnums.Before;
+            relativePageId = 0;
+            var order = 0;
+            var relativePages = Fetch(p => (!pageId.HasValue || p.Id != pageId) && (parentId.HasValue ? p.ParentId == parentId : p.ParentId == null))
+                .OrderBy(p => p.RecordOrder).Select(p => new
+                    {
+                        p.Title,
+                        p.Id,
+                        p.RecordOrder
+                    }).ToList();
+            var page = GetById(pageId);
+            if (page != null)
+            {
+                order = page.RecordOrder;
+            }
+
+            //Get position for relative page list
+
+            //Flag to check if current page is the bigest order in relative page list
+            var flag = false;
+            for (var i = 0; i < relativePages.Count(); i++)
+            {
+                if (relativePages[i].RecordOrder > order)
+                {
+                    relativePageId = relativePages[i].Id;
+                    flag = true;
+                    break;
+                }
+            }
+            if (!flag && relativePages.Any())
+            {
+                position = (int)PageEnums.PositionEnums.After;
+                relativePageId = relativePages.Last().Id;
+            }
+            var selectPageId = relativePageId;
+            return relativePages.Select(p => new SelectListItem
+                  {
+                      Text = p.Title,
+                      Value = p.Id.ToString(CultureInfo.InvariantCulture),
+                      Selected = p.Id == selectPageId
+                  });
+        }
+
+        /// <summary>
+        /// Get page by parent id
+        /// </summary>
         /// <param name="pageId"> </param>
         /// <param name="parentId">the parent id</param>
         /// <returns></returns>
         public IEnumerable<SelectListItem> GetRelativePages(int? pageId = null, int? parentId = null)
         {
-            return Fetch(p => (!pageId.HasValue || p.Id != pageId) && (!parentId.HasValue || p.ParentId == parentId))
-                .OrderBy(p => p.RecordOrder)
-                .Select(p => new SelectListItem
-                    {
-                        Text = p.Title,
-                        Value = SqlFunctions.StringConvert((double)p.Id).Trim()
-                    });
+            return Fetch(p => (!pageId.HasValue || p.Id != pageId) && (parentId.HasValue ? p.ParentId == parentId : p.ParentId == null))
+                .OrderBy(p => p.RecordOrder).Select(p => new SelectListItem
+            {
+                Text = p.Title,
+                Value = SqlFunctions.StringConvert((double)p.Id).Trim()
+            });
         }
 
         /// <summary>
