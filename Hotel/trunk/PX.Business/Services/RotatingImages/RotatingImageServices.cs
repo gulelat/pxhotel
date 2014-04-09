@@ -107,7 +107,7 @@ namespace PX.Business.Services.RotatingImages
                     response = Update(rotatingImage);
                     return response.SetMessage(response.Success ?
                         _localizedResourceServices.T("AdminModule:::RotatingImages:::Update rotating image successfully")
-                        : _localizedResourceServices.T("AdminModule:::RotatingImages:::Update rotating image failure"));
+                        : _localizedResourceServices.T("AdminModule:::RotatingImages:::Update rotating image failure. Please try again later."));
 
                 case GridOperationEnums.Add:
                     rotatingImage = Mapper.Map<RotatingImageModel, RotatingImage>(model);
@@ -117,13 +117,13 @@ namespace PX.Business.Services.RotatingImages
                     response = Insert(rotatingImage);
                     return response.SetMessage(response.Success ?
                         _localizedResourceServices.T("AdminModule:::RotatingImages:::Insert rotating image successfully")
-                        : _localizedResourceServices.T("AdminModule:::RotatingImages:::Insert rotating image failure"));
+                        : _localizedResourceServices.T("AdminModule:::RotatingImages:::Insert rotating image failure. Please try again later."));
 
                 case GridOperationEnums.Del:
                     response = Delete(model.Id);
                     return response.SetMessage(response.Success ?
                         _localizedResourceServices.T("AdminModule:::RotatingImages:::Delete rotating image successfully")
-                        : _localizedResourceServices.T("AdminModule:::RotatingImages:::Delete rotating image failure"));
+                        : _localizedResourceServices.T("AdminModule:::RotatingImages:::Delete rotating image failure. Please try again later."));
             }
             return new ResponseModel
             {
@@ -178,14 +178,14 @@ namespace PX.Business.Services.RotatingImages
                 response = Update(rotatingImage);
                 return response.SetMessage(response.Success ?
                     _localizedResourceServices.T("AdminModule:::RotatingImages:::Update rotating image successfully")
-                    : _localizedResourceServices.T("AdminModule:::RotatingImages:::Update rotating image failure"));
+                    : _localizedResourceServices.T("AdminModule:::RotatingImages:::Update rotating image failure. Please try again later."));
             }
             Mapper.CreateMap<RotatingImageManageModel, RotatingImage>();
             rotatingImage = Mapper.Map<RotatingImageManageModel, RotatingImage>(model);
             response = Insert(rotatingImage);
             return response.SetMessage(response.Success ?
                 _localizedResourceServices.T("AdminModule:::RotatingImages:::Create rotating image successfully")
-                : _localizedResourceServices.T("AdminModule:::RotatingImages:::Create rotating image failure"));
+                : _localizedResourceServices.T("AdminModule:::RotatingImages:::Create rotating image failure. Please try again later."));
         }
         
     }

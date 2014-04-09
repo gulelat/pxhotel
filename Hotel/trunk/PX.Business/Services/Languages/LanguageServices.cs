@@ -100,20 +100,20 @@ namespace PX.Business.Services.Languages
                     response = Update(language);
                     return response.SetMessage(response.Success ?
                         _localizedResourceServices.T("AdminModule:::Languages:::Update language successfully")
-                        : _localizedResourceServices.T("AdminModule:::Languages:::Update language failure"));
+                        : _localizedResourceServices.T("AdminModule:::Languages:::Update language failure. Please try again later."));
 
                 case GridOperationEnums.Add:
                     language = Mapper.Map<LanguageModel, Language>(model);
                     response = Insert(language);
                     return response.SetMessage(response.Success ?
                         _localizedResourceServices.T("AdminModule:::Languages:::Create language successfully")
-                        : _localizedResourceServices.T("AdminModule:::Languages:::Create language failure"));
+                        : _localizedResourceServices.T("AdminModule:::Languages:::Create language failure. Please try again later."));
 
                 case GridOperationEnums.Del:
                     response = Delete(model.Id);
                     return response.SetMessage(response.Success ?
                         _localizedResourceServices.T("AdminModule:::Languages:::Delete language successfully")
-                        : _localizedResourceServices.T("AdminModule:::Languages:::Delete language failure"));
+                        : _localizedResourceServices.T("AdminModule:::Languages:::Delete language failure. Please try again later."));
             }
             return new ResponseModel
             {

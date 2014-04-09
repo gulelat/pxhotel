@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading;
 using System.Web;
 using System.Web.Mvc;
 using PX.Business.Models.Medias;
@@ -13,6 +14,7 @@ using PX.Business.Services.Medias;
 using PX.Business.Services.Settings;
 using PX.Core.Configurations;
 using PX.Core.Configurations.Constants;
+using PX.Core.Framework.Mvc.Models;
 using PX.Core.Ultilities.Files;
 
 namespace PX.Web.Areas.Admin.Controllers
@@ -35,26 +37,6 @@ namespace PX.Web.Areas.Admin.Controllers
 
         public ActionResult MediaBrowser(string imageUrl)
         {
-            if (!string.IsNullOrEmpty(imageUrl))
-            {
-                var folders = new List<string>();
-                var index = 0;
-                do
-                {
-                    index = imageUrl.IndexOf('/', index + 1);
-                    if (index >= 0)
-                    {
-                        folders.Add(string.Format("'{0}'", imageUrl.Substring(0, index)));
-                    }
-
-                } while (index >= 0);
-                folders.Add(string.Format("'{0}'", imageUrl));
-                ViewBag.Folders = string.Join(",", folders);
-            }
-            else
-            {
-                ViewBag.Folders = string.Empty;
-            }
             return View();
         }
 
@@ -221,34 +203,49 @@ namespace PX.Web.Areas.Admin.Controllers
         [HttpPost]
         public JsonResult GetFileInfo(string path)
         {
-            path = _mediaServices.MapPath(path);
-            // get the file attributes for file or directory
-            var attr = System.IO.File.GetAttributes(path);
-
-            //detect whether its a directory or file
-            if ((attr & FileAttributes.Directory) == FileAttributes.Directory)
+            try
             {
-                var info = new DirectoryInfo(path);
-                var model = new FileInfoModel
+                path = _mediaServices.MapPath(path);
+                // get the file attributes for file or directory
+                var attr = System.IO.File.GetAttributes(path);
+                FileInfoModel model;
+                //detect whether its a directory or file
+                if ((attr & FileAttributes.Directory) == FileAttributes.Directory)
+                {
+                    var info = new DirectoryInfo(path);
+                    model = new FileInfoModel
                     {
                         FileName = info.Name,
                         Created = info.CreationTimeUtc.ToLongDateString(),
                         LastUpdated = info.LastWriteTimeUtc.ToLongDateString(),
                         FileSize = string.Empty
                     };
-                return Json(model);
-            }
-            else
-            {
-                var info = new FileInfo(path);
-                var model = new FileInfoModel
+                }
+                else
                 {
-                    FileName = info.Name,
-                    Created = info.CreationTimeUtc.ToLongDateString(),
-                    LastUpdated = info.LastWriteTimeUtc.ToLongDateString(),
-                    FileSize = string.Format("{0} Bytes", info.Length)
-                };
-                return Json(model);
+                    var info = new FileInfo(path);
+                    model = new FileInfoModel
+                    {
+                        FileName = info.Name,
+                        Created = info.CreationTimeUtc.ToLongDateString(),
+                        LastUpdated = info.LastWriteTimeUtc.ToLongDateString(),
+                        FileSize = string.Format("{0} Bytes", info.Length),
+                    };
+                }
+                return Json(new ResponseModel
+                    {
+                        Success = true,
+                        Data = model
+                    });
+                
+            }
+            catch(Exception exception)
+            {
+                return Json(new ResponseModel
+                {
+                    Success = true,
+                    Message = exception.Message
+                });
             }
         }
 

@@ -28,6 +28,8 @@ namespace PX.Business.Models.Pages
             }
         }
 
+        public bool IsHomePage { get; set; }
+
         public string FriendlyUrl { get; set; }
 
         public int? ParentId { get; set; }

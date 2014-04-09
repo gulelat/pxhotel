@@ -7,22 +7,25 @@ namespace PX.Business.Models.Settings.SettingTypes
 {
     public class PasswordSettingResolver : SettingParser<PasswordSetting>, ISettingModel<PasswordSetting>
     {
-        public string GetSettingName()
+        public string SettingName
         {
+            get
+            {
             return "PasswordSetting";
+            }
         }
 
         public PasswordSetting LoadSetting()
         {
             var settingServices = HostContainer.GetInstance<ISettingServices>();
-            var settingString = settingServices.GetSetting<string>(GetSettingName());
+            var settingString = settingServices.GetSetting<string>(SettingName);
             if (string.IsNullOrEmpty(settingString))
             {
                 var setting = new PasswordSetting();
                 settingString = SerializeSetting(setting);
                 settingServices.Insert(new SiteSetting
                     {
-                        Name = GetSettingName(),
+                        Name = SettingName,
                         Value = settingString,
                         RecordOrder = 0,
                         RecordActive = true

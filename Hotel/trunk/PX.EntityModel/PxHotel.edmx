@@ -229,6 +229,7 @@
           <Property Name="FriendlyUrl" Type="nvarchar" Nullable="false" MaxLength="512" />
           <Property Name="PageTemplateId" Type="int" />
           <Property Name="Status" Type="int" Nullable="false" />
+          <Property Name="IsHomePage" Type="bit" Nullable="false" />
           <Property Name="Hierarchy" Type="nvarchar(max)" Nullable="false" />
           <Property Name="ParentId" Type="int" />
           <Property Name="RecordOrder" Type="int" Nullable="false" />
@@ -808,6 +809,7 @@
           <Property Type="String" Name="FriendlyUrl" Nullable="false" MaxLength="512" FixedLength="false" Unicode="true" />
           <Property Type="Int32" Name="PageTemplateId" />
           <Property Type="Int32" Name="Status" Nullable="false" />
+          <Property Type="Boolean" Name="IsHomePage" Nullable="false" />
           <Property Type="String" Name="Hierarchy" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Type="Int32" Name="ParentId" />
           <Property Type="Int32" Name="RecordOrder" Nullable="false" />
@@ -1325,6 +1327,7 @@
                 <ScalarProperty Name="RecordOrder" ColumnName="RecordOrder" />
                 <ScalarProperty Name="ParentId" ColumnName="ParentId" />
                 <ScalarProperty Name="Hierarchy" ColumnName="Hierarchy" />
+                <ScalarProperty Name="IsHomePage" ColumnName="IsHomePage" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="PageTemplateId" ColumnName="PageTemplateId" />
                 <ScalarProperty Name="FriendlyUrl" ColumnName="FriendlyUrl" />

@@ -44,8 +44,15 @@
                 ondblClickRow: function (rowId) {
                     jQuery(gridSelector).editRow(rowId, true);
                 },
-                colNames: ['Id', 'Name', 'Value', 'Type', 'Created', 'CreatedBy', 'Updated', 'UpdatedBy'],
+                colNames: ['', 'Id', 'Name', 'Value', 'Type', 'Created', 'CreatedBy', 'Updated', 'UpdatedBy'],
                 colModel: [
+                    {
+                        name: 'action', width: 40, sortable: false, search: false, align: "center",
+                        formatter: function (cellvalue, options, rowObject) {
+                            var editIcon = "<a class='grid-action' href='@Url.Action("Edit")/" + options.rowId + "'><div class='ui-pg-div ui-inline-edit' title='' data-original-title='Edit Setting'><span class='icon-edit'></span></div></a>";
+                            return editIcon;
+                        }
+                    },
                     { name: 'Id', index: 'Id', width: 60, key: true, sorttype: "int" },
                     { name: 'Name', index: 'Name', width: 150, editable: true, editrules: { required: true } },
                     { name: 'Value', index: 'Value', width: 250, editable: true },

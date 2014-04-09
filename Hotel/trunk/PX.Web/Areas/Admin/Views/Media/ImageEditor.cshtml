@@ -22,114 +22,113 @@
                 <button type="button" data-action="zoomRestore" id="cmdZoomRestore" class="btn imgEditInput" title="Restore Zoom"><i class="icon-search"></i></button>
             </div>
             <div class="btn-group">
-                    <input id="zoomRatio" class="imgEditInput" />
-                    <span class="add-on imgEditInput">%</span>
-                </div>
-            </div>
-            <div class="space-4"></div>
-            <div class="btn-group">
-                <button type="submit" class="btn btn-primary imgEditInput" title="Save result" onclick="Save(); return false;"><i class="fa fa-floppy-o"></i>Save</button>
-                <button type="submit" class="btn btn-primary imgEditInput" title="Save result as a new file" onclick="initSaveAs(); return false;"><i class="fa fa-floppy-o"></i>Save As ...</button>
-                <button type="submit" class="btn btn-danger imgEditInput" title="Revert back to the original image" onclick="Revert(); return false;"><i class="icon-refresh"></i>Revert</button>
-                <button type="submit" class="btn imgEditInput" title="Close" onclick="Close(); return false;"><i class="icon-remove"></i>Close</button>
+                <input id="zoomRatio" class="imgEditInput" />
+                <span class="add-on imgEditInput">%</span>
             </div>
         </div>
-        <div class="source-image">
-            <img id="result-image" />
+        <div class="space-4"></div>
+        <div class="btn-group">
+            <button type="submit" class="btn btn-primary imgEditInput" title="Save result" onclick="Save(); return false;"><i class="fa fa-floppy-o"></i>Save</button>
+            <button type="submit" class="btn btn-primary imgEditInput" title="Save result as a new file" onclick="initSaveAs(); return false;"><i class="fa fa-floppy-o"></i>Save As ...</button>
+            <button type="submit" class="btn btn-danger imgEditInput" title="Revert back to the original image" onclick="Revert(); return false;"><i class="icon-refresh"></i>Revert</button>
+            <button type="submit" class="btn imgEditInput" title="Close" onclick="Close(); return false;"><i class="icon-remove"></i>Close</button>
         </div>
-        <img id="original-image" src="@Model" />
-        <canvas id="output-canvas"></canvas>
     </div>
+    <div class="source-image">
+        <img id="result-image" />
+    </div>
+    <img id="original-image" src="@Model" />
+    <canvas id="output-canvas"></canvas>
+</div>
 
-    <div class="tool-box">
-        <div class="tool-box-group crop hide form-inline">
-            <div class="modal-header">
-                <h4>Crop Image</h4>
-            </div>
-            <div class="modal-body">
-                <label>Drag your mouse over the image to select the area you want to crop, press Apply when done to proceed.</label>
-                <input type="hidden" id="crop-x" />
-                <input type="hidden" id="crop-y" />
-                <input type="hidden" id="crop-w" />
-                <input type="hidden" id="crop-h" />
-                <div class="form-actions">
-                    <button type="button" class="btn btn-primary" onclick="cropItExec(); return false;">Apply</button>
-                    <button type="button" class="btn" onclick="endCrop(); return false;">Cancel</button>
-                </div>
+<div class="tool-box">
+    <div class="tool-box-group crop hide form-inline">
+        <div class="modal-header">
+            <h4>Crop Image</h4>
+        </div>
+        <div class="modal-body">
+            <label>Drag your mouse over the image to select the area you want to crop, press Apply when done to proceed.</label>
+            <input type="hidden" id="crop-x" />
+            <input type="hidden" id="crop-y" />
+            <input type="hidden" id="crop-w" />
+            <input type="hidden" id="crop-h" />
+            <div class="form-actions">
+                <button type="button" class="btn btn-primary" onclick="cropItExec(); return false;">Apply</button>
+                <button type="button" class="btn" onclick="endCrop(); return false;">Cancel</button>
             </div>
         </div>
-        <div class="tool-box-group resize hide form-inline">
-            <div class="modal-header">
-                <h4>Resize Image</h4>
-            </div>
-            <div class="modal-body">
-                @*<label>Drag the edge or corner of the image to resize, you can also enter the size in the boxes and press Apply to proceed.</label>*@
-                <div class="control-group">
-                    <div>
-                        <label class="checkbox">
-                            <input type="checkbox" id="keepratio" />
-                            Keep Ratio
-                        </label>
-                    </div>
-                </div>
-                <div class="control-group">
-                    <label>
-                        <input type="text" id="resize-w" required />
-                        Width
-                        <div class="space-4"></div>
-                        <input type="text" id="resize-h" required />
-                        Height
+    </div>
+    <div class="tool-box-group resize hide form-inline">
+        <div class="modal-header">
+            <h4>Resize Image</h4>
+        </div>
+        <div class="modal-body">
+            @*<label>Drag the edge or corner of the image to resize, you can also enter the size in the boxes and press Apply to proceed.</label>*@
+            <div class="control-group">
+                <div>
+                    <label class="checkbox">
+                        <input type="checkbox" id="keepratio" />
+                        Keep Ratio
                     </label>
                 </div>
-                <div class="form-actions">
-                    <button type="button" class="btn btn-primary" onclick="resizeItExec(); return false;">Apply</button>
-                    <button type="button" class="btn" onclick="cancelResize(); return false;">Cancel</button>
-                </div>
+            </div>
+            <div class="control-group">
+                <label>
+                    <input type="text" id="resize-w" required />
+                    Width
+                        <div class="space-4"></div>
+                    <input type="text" id="resize-h" required />
+                    Height
+                </label>
+            </div>
+            <div class="form-actions">
+                <button type="button" class="btn btn-primary" onclick="resizeItExec(); return false;">Apply</button>
+                <button type="button" class="btn" onclick="cancelResize(); return false;">Cancel</button>
             </div>
         </div>
-        <div class="tool-box-group adjustBrightness hide form-inline">
-            <div class="modal-header">
-                <h4>Adjust Brightness/Contrast</h4>
-            </div>
-            <div class="modal-body">
-                @*<label>Drag the slider below to adjust Brightnes/Contrast, press Apply to proceed</label>*@
+    </div>
+    <div class="tool-box-group adjustBrightness hide form-inline">
+        <div class="modal-header">
+            <h4>Adjust Brightness/Contrast</h4>
+        </div>
+        <div class="modal-body">
+            @*<label>Drag the slider below to adjust Brightnes/Contrast, press Apply to proceed</label>*@
 
-                <div class="control-group">
-                    <label class="control-label">Brightness:</label>
-                    <div class="">
-                        <span id="brightness-slider" class="ui-slider-green"></span>
-                        <input id="brightnessValue" class="pull-left width-20" type="number" />
-                    </div>
+            <div class="control-group">
+                <label class="control-label">Brightness:</label>
+                <div class="">
+                    <span id="brightness-slider" class="ui-slider-green"></span>
+                    <input id="brightnessValue" class="pull-left width-20" type="number" />
                 </div>
+            </div>
+            <div>
+                <label class="control-label">Contrast:</label>
                 <div>
-                    <label class="control-label">Contrast:</label>
-                    <div>
-                        <span id="contrast-slider" class="ui-slider-green"></span>
-                        <input id="contrastValue" class="pull-left width-20" type="number" />
-                    </div>
+                    <span id="contrast-slider" class="ui-slider-green"></span>
+                    <input id="contrastValue" class="pull-left width-20" type="number" />
                 </div>
-                <div class="clearfix"></div>
-                <div class="form-actions">
-                    <button type="button" class="btn btn-primary" onclick="adjustBrightness(); return false;">Apply</button>
-                    <button type="button" class="btn" onclick="cancelAdjustBrightness(); return false;">Cancel</button>
-                </div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="form-actions">
+                <button type="button" class="btn btn-primary" onclick="adjustBrightness(); return false;">Apply</button>
+                <button type="button" class="btn" onclick="cancelAdjustBrightness(); return false;">Cancel</button>
             </div>
         </div>
-        <div class="tool-box-group saveas hide form-inline">
-            <div class="modal-header">
-                <h4>Save As ...</h4>
+    </div>
+    <div class="tool-box-group saveas hide form-inline">
+        <div class="modal-header">
+            <h4>Save As ...</h4>
+        </div>
+        <div class="modal-body">
+            <div>
+                <label class="control-label">Filename:</label>
+                <div>
+                    <input id="newname" type="text" value="@Path.GetFileName(Model)" />
+                </div>
             </div>
-            <div class="modal-body">
-                <div class="control-group">
-                    <label class="control-label">Filename:</label>
-                    <div class="controls">
-                        <input id="newname" type="text" value="@Path.GetFileName(Model)" />
-                    </div>
-                </div>
-                <div class="form-actions">
-                    <button type="button" class="btn btn-primary" onclick="SaveAs(); return false;">Save</button>
-                    <button type="button" class="btn" onclick="endSave(); return false;">Cancel</button>
-                </div>
+            <div class="form-actions">
+                <button type="button" class="btn btn-primary" onclick="SaveAs(); return false;">Save</button>
+                <button type="button" class="btn" onclick="endSave(); return false;">Cancel</button>
             </div>
         </div>
     </div>
@@ -517,10 +516,10 @@
             max: 150,
             value: 0,
             animate: true,
-            slide: function (event, ui) {
-                $("#brightnessValue").val(ui.value);
-                changeBaC();
-            },
+            //slide: function (event, ui) {
+            //    $("#brightnessValue").val(ui.value);
+            //    changeBaC();
+            //},
             stop: function (event, ui) {
                 $("#brightnessValue").val(ui.value);
                 changeBaC();
@@ -533,10 +532,10 @@
             min: -10,
             max: 30,
             value: 0,
-            slide: function (event, ui) {
-                $("#contrastValue").val(ui.value);
-                changeBaC();
-            },
+            //slide: function (event, ui) {
+            //    $("#contrastValue").val(ui.value);
+            //    changeBaC();
+            //},
             stop: function (event, ui) {
                 $("#contrastValue").val(ui.value);
                 changeBaC();

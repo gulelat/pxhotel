@@ -160,8 +160,8 @@ namespace PX.Business.Services.Users
                     user.RecordOrder = 0;
                     response = Update(user);
                     return response.SetMessage(response.Success ?
-                        _localizedResourceServices.T("AdminModule:::Users:::Update user successfully")
-                        : _localizedResourceServices.T("AdminModule:::Users:::Update user failure"));
+                        _localizedResourceServices.T("AdminModule:::Users:::Messages:::Update user successfully")
+                        : _localizedResourceServices.T("AdminModule:::Users:::Messages:::Update user failure. Please try again later."));
 
                 case GridOperationEnums.Add:
                     user = Mapper.Map<UserModel, User>(model);
@@ -171,19 +171,19 @@ namespace PX.Business.Services.Users
                     user.RecordOrder = 0;
                     response = Insert(user);
                     return response.SetMessage(response.Success ?
-                        _localizedResourceServices.T("AdminModule:::Users:::Insert user successfully")
-                        : _localizedResourceServices.T("AdminModule:::Users:::Insert user failure"));
+                        _localizedResourceServices.T("AdminModule:::Users:::Messages:::Create user successfully")
+                        : _localizedResourceServices.T("AdminModule:::Users:::Messages:::Create user failure. Please try again later."));
 
                 case GridOperationEnums.Del:
                     response = Delete(model.Id);
                     return response.SetMessage(response.Success ?
-                        _localizedResourceServices.T("AdminModule:::Users:::Delete user successfully")
-                        : _localizedResourceServices.T("AdminModule:::Users:::Delete user failure"));
+                        _localizedResourceServices.T("AdminModule:::Users:::Messages:::Delete user successfully")
+                        : _localizedResourceServices.T("AdminModule:::Users:::Messages:::Delete user failure. Please try again later."));
             }
             return new ResponseModel
             {
                 Success = false,
-                Message = _localizedResourceServices.T("AdminModule:::Users:::User not founded")
+                Message = _localizedResourceServices.T("AdminModule:::Users:::Messages:::User not founded")
             };
         }
 
@@ -282,7 +282,7 @@ namespace PX.Business.Services.Users
             }
             return response.SetMessage(response.Success ?
                 _localizedResourceServices.T("AdminModule:::Users:::Upload avatar successfully")
-                : _localizedResourceServices.T("AdminModule:::Users:::Upload avatar failure"));
+                : _localizedResourceServices.T("AdminModule:::Users:::Upload avatar failure. Please try again later."));
         }
         #endregion
 
@@ -307,7 +307,7 @@ namespace PX.Business.Services.Users
                     WorkContext.CurrentUser = user;
                 return response.SetMessage(response.Success ?
                     _localizedResourceServices.T("AdminModule:::Users:::Update user data successfully")
-                    : _localizedResourceServices.T("AdminModule:::Users:::Update user data failure"));
+                    : _localizedResourceServices.T("AdminModule:::Users:::Update user data failure. Please try again later."));
             }
             return new ResponseModel
                 {
@@ -330,7 +330,7 @@ namespace PX.Business.Services.Users
                 var response = Update(user);
                 return response.SetMessage(response.Success ?
                     _localizedResourceServices.T("AdminModule:::Users:::Change password successfully")
-                    : _localizedResourceServices.T("AdminModule:::Users:::Change password failure"));
+                    : _localizedResourceServices.T("AdminModule:::Users:::Change password failure. Please try again later."));
             }
             return new ResponseModel
                 {

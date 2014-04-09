@@ -7,22 +7,25 @@ namespace PX.Business.Models.Settings.SettingTypes
 {
     public class ImageUploadSettingResolver : SettingParser<ImageUploadSetting>, ISettingModel<ImageUploadSetting>
     {
-        public string GetSettingName()
+        public string SettingName
         {
-            return "ImageUploadSetting";
+            get
+            {
+                return "ImageUploadSetting";
+            }
         }
 
         public ImageUploadSetting LoadSetting()
         {
             var settingServices = HostContainer.GetInstance<ISettingServices>();
-            var settingString = settingServices.GetSetting<string>(GetSettingName());
+            var settingString = settingServices.GetSetting<string>(SettingName);
             if (string.IsNullOrEmpty(settingString))
             {
                 var setting = new ImageUploadSetting();
                 settingString = SerializeSetting(setting);
                 settingServices.Insert(new SiteSetting
                 {
-                    Name = GetSettingName(),
+                    Name = SettingName,
                     Value = settingString,
                     RecordOrder = 0,
                     RecordActive = true

@@ -49,9 +49,9 @@ function buildDropdown(response, hasDefaultSelect, name) {
         $.parseJSON(response) : response;
     var s = "<select>";
     if (hasDefaultSelect)
-        s += '<option value="">--Select ' + name + '--</option>';
+        s += '<option>--Select ' + name + '--</option>';
     $.each(data, function (i, item) {
-        s += '<option value="' + item.Value + '"'+ (item.Selected ? "selected" : "") + '>' + item.Text + '</option>';
+        s += '<option value="' + item.Value + '" ' + (item.Selected ? "selected='selected'" : "") + '>' + item.Text + '</option>';
     });
     return s + "</select>";
 }
@@ -115,9 +115,10 @@ function ShowSuccessMessage(message, center) {
 
 //Show error message
 function ShowErrorMessage(message, center) {
-    var centerClass = "";
+    var centerClass = "gritter-center ";
     if (center == null || center)
-        centerClass = "gritter-center ";
+        centerClass = "";
+    
     $.gritter.add({
         time: 2000,
         title: 'Error',

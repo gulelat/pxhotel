@@ -4,59 +4,108 @@
 <script type="text/javascript" src="/Scripts/Media/jquery.jstree.js"></script>
 
 <script type="text/javascript">
-    var folders = [@Html.Raw(ViewBag.Folders)];
     var emptyText = "Folder is empty";
     var fileBrowser = "#file-browser";
     var oldSelectedNode;
-
+    
     function showPreviewBox(isShowed) {
         if (isShowed) {
+            $("#filepickerpreview").show();
             $(".file-preview").show();
             $('#file-list').hide();
         } else {
+            $("#filepickerpreview").hide();
             $(".file-preview").hide();
             $('#file-list').show();
         }
     }
 
+    //Get list of hierarchy folder from url
+    function getFolderLocations(url) {
+        if (url == null || url == '')
+            url = '/Media';
+        var folders = [];
+        var index = 0;
+        var lastIndex ;
+        do {
+            lastIndex = index;
+            index = url.indexOf('/', index + 1);
+            if (index >= 0) {
+                folders.push({
+                    path: url.substring(0, index),
+                    name: url.substring(lastIndex + 1, index),
+                    isFolder: url.substring(lastIndex, index).indexOf(".") == -1
+                });
+            }
+        } while (index >= 0)
+        folders.push({
+            path: url,
+            name: url.substring(lastIndex + 1, url.length),
+            isFolder: url.substring(1, url.length - 1).indexOf(".") == -1
+        });
+        return folders;
+    }
+
+    //Refresh the location bar with new url
+    function refreshLocationBar(url) {
+        var folderLocations = getFolderLocations(url);
+        var html = '';
+        for (var i = 0; i < folderLocations.length; i++) {
+            if (!folderLocations[i].isFolder || i == folderLocations.length - 1) {
+                html += "<li><a style='cursor: default' href=\"javascript:void(0)\">" + folderLocations[i].name + "</a></li>";
+            }
+            else {
+                html += "<li><a href=\"javascript:openFolder('" + folderLocations[i].path + "')\">" + folderLocations[i].name + "</a></li>";
+            }
+        }
+        $("#location-bar").html(html);
+    }
+
+    //Get selected node
     function getSelectedNode() {
         return $(fileBrowser).jstree('get_selected');
     }
 
-    function openImage(id) {
-        //alert("openImage");
+    //Open the image
+    function openFile(id) {
+        refreshLocationBar(id);
         $(fileBrowser).jstree("select_node", $(document.getElementById(id)), true);
         var selectedNode = getSelectedNode();
         var rel = $(selectedNode).attr("rel");
         var postData = { path: id };
-        switch (rel) {
-            case 'image':
-                $("#filepickerpreview").attr("src", id + "?" + new Date().getTime());
-                break;
-            case 'file':
-                $("#filepickerpreview").attr("src", "/Content/Media/file.png");
-                break;
-                //Folder select
-        }
-        $(".file-preview").show();
-        $('#file-list').html("");
         $.ajax({
             type: 'POST',
-            url: '/Admin/Media/GetFileInfo',
+            url: '@Url.Action("GetFileInfo")',
             data: postData,
             success: function (response) {
-                var items = [];
-                items.push("<li><span class='title'> File Name</span><span>" + response.FileName + "</span></li>");
-                items.push("<li><span class='title'> File Size</span><span>" + response.FileSize + "</span></li>");
-                items.push("<li><span class='title'> Created</span><span>" + response.Created + "</span></li>");
-                items.push("<li><span class='title'> Last Modified</span><span>" + response.LastUpdated + "</span></li>");
-                $("#file-info").html(items.join(''));
+                if (response.Success) {
+                    switch (rel) {
+                        case 'image':
+                            $("#filepickerpreview").attr("src", id + "?" + new Date().getTime());
+                            break;
+                        case 'file':
+                            $("#filepickerpreview").attr("src", "/Content/Media/file.png");
+                            break;
+                            //Folder select
+                    }
+                    var items = [];
+                    items.push("<li class='col-xs-12'><span class='title col-sm-12 col-md-5'> File Name</span><span class='col-sm-12 col-md-7'>" + response.Data.FileName + "</span></li>");
+                    items.push("<li class='col-xs-12'><span class='title col-sm-12 col-md-5'> File Size</span><span class='col-sm-12 col-md-7'>" + response.Data.FileSize + "</span></li>");
+                    items.push("<li class='col-xs-12'><span class='title col-sm-12 col-md-5'> Created</span><span class='col-sm-12 col-md-7'>" + response.Data.Created + "</span></li>");
+                    items.push("<li class='col-xs-12'><span class='title col-sm-12 col-md-5'> Last Modified</span><span class='col-sm-12 col-md-7'>" + response.Data.LastUpdated + "</span></li>");
+                    $("#file-info").html(items.join(''));
+                    showPreviewBox(true);
+                }
+                else {
+                    ShowErrorMessage(response.Message);
+                }
             }
         });
-        showPreviewBox(true);
     }
 
-    function openNode(id) {
+    //Open the node
+    function openFolder(id) {
+        refreshLocationBar(id);
         //alert("function open node");
         var nodeToOpen = $(document.getElementById(id));
         $(fileBrowser).jstree("select_node", nodeToOpen, true);
@@ -76,8 +125,10 @@
         }
     }
 
-    function openFolder(data) {
-        //alert("openFolder");
+    function refreshThumbnailsOfFolder(data) {
+        
+        refreshLocationBar($(data.rslt.obj).attr("id"));
+        //alert("refreshThumbnailsOfFolder");
         var items = [];
         $('>ul>li', data.rslt.obj).each(function (idx, listItem) {
             var child = $(listItem);
@@ -86,13 +137,13 @@
             var name = id.substring(id.lastIndexOf("/") + 1, id.length);
             switch (rel) {
                 case 'image':
-                    items.push("<li onclick=\"openImage('" + id + "')\"><img src='" + id + "' /><span class='label label-info'>" + name + "</span></li>");
+                    items.push("<li onclick=\"openFile('" + id + "')\"><img src='" + id + "' /><span class='label label-info'>" + name + "</span></li>");
                     break;
                 case 'file':
-                    items.push("<li onclick=\"openImage('" + id + "')\"><img src='/Content/Media/file.png'/><span class='label label-info'>" + name + "</span></li>");
+                    items.push("<li onclick=\"openFile('" + id + "')\"><img src='/Content/Media/file.png'/><span class='label label-info'>" + name + "</span></li>");
                     break;
                 case 'folder':
-                    items.push("<li onclick=\"openNode('" + id + "')\"><img src='/Content/Media/folder.png' /><span class='label label-info'>" + name + "</span></li>");
+                    items.push("<li onclick=\"openFolder('" + id + "')\"><img src='/Content/Media/folder.png' /><span class='label label-info'>" + name + "</span></li>");
                     break;
                 default:
             }
@@ -106,6 +157,8 @@
     }
 
     $(function () {
+        //var url = "/Media";
+        //getFolders(url);
         $(fileBrowser)
             .jstree({
                 // List of active plugins
@@ -219,29 +272,37 @@
             .bind('loaded.jstree', function (e, data) {
                 // invoked after jstree has loaded
                 // select item in parent textbox
-                if (folders.length != 0) {
+                var url = '';
+                var folderLocations = getFolderLocations(getUrlParam("imageUrl"));
+                
+                //Loop all the item to open the latest file
+                if (folderLocations.length > 1) {
                     $(fileBrowser).jstree("deselect_all");
-                    var lastItem = folders[folders.length - 1];
+                    var lastItem = folderLocations[folderLocations.length - 1].path;
                     var deffereds = $.Deferred(function (def) { def.resolve(); });
 
-                    for (var j = 0; j < folders.length - 1; j++) {
-                        deffereds = (function (name, deferreds) {
+                    for (var j = 0; j < folderLocations.length - 1; j++) {
+                        deffereds = (function (folder, deferreds) {
                             return deferreds.pipe(function () {
                                 return $.Deferred(function (def) {
-                                    $(fileBrowser).jstree("open_node", $(document.getElementById(name)), function () {
+                                    $(fileBrowser).jstree("open_node", $(document.getElementById(folder.path)), function () {
                                         def.resolve();
                                         var selectItem = $(document.getElementById(lastItem));
                                         if (selectItem.length > 0) {
-                                            openImage($(selectItem).attr("id"));
+                                            url = $(selectItem).attr("id");
+                                            openFile(url);
+                                            refreshLocationBar(url);
                                         }
                                     });
                                 });
                             });
-                        })(folders[j], deffereds);
+                        })(folderLocations[j], deffereds);
                     }
                 }
                 else {
-                    openNode("/Media");
+                    url = "/Media";
+                    openFolder(url);
+                    refreshLocationBar(url);
                 }
             })
             .bind("open_node.jstree", function (event, data) {
@@ -253,9 +314,9 @@
                 if (rel == 'folder' || rel == 'home') {
                 }
                 else {
-                    openImage(id);
+                    openFile(id);
                 }
-                openFolder(data);
+                refreshThumbnailsOfFolder(data);
             })
             .bind("close_node.jstree", function (event, data) {
                 //alert("close_node");
@@ -264,13 +325,11 @@
                 var rel = $(selectedNode).attr("rel");
                 var id = selectedNode.attr('id');
                 if (rel == 'folder' || rel == 'home') {
-                    openFolder(data);
+                    refreshThumbnailsOfFolder(data);
                 }
                 else {
-                    openImage(id);
+                    openFile(id);
                 }
-            })
-            .bind("click.jstree", function (e, data) {
             })
             .bind("create.jstree", function (e, data) {
                 $.post(
@@ -388,7 +447,7 @@
                 var rel = getSelectedNode().attr("rel");
                 var id = getSelectedNode().attr("id");
                 if ((rel != 'home' && rel != 'folder')) {
-                    openImage(id);
+                    openFile(id);
                 }
                 else {
                     $(fileBrowser).jstree("open_node", this);

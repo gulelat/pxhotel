@@ -107,20 +107,20 @@ namespace PX.Business.Services.UserGroups
                     response = Update(userGroup);
                     return response.SetMessage(response.Success ?
                         _localizedResourceServices.T("AdminModule:::UserGroups:::Update group successfully")
-                        : _localizedResourceServices.T("AdminModule:::UserGroups:::Update group failure"));
+                        : _localizedResourceServices.T("AdminModule:::UserGroups:::Update group failure. Please try again later."));
                 
                 case GridOperationEnums.Add:
                     userGroup = Mapper.Map<UserGroupModel, UserGroup>(model);
                     response = Insert(userGroup);
                     return response.SetMessage(response.Success ?
                         _localizedResourceServices.T("AdminModule:::UserGroups:::Insert group successfully")
-                        : _localizedResourceServices.T("AdminModule:::UserGroups:::Insert group failure"));
+                        : _localizedResourceServices.T("AdminModule:::UserGroups:::Insert group failure. Please try again later."));
                 
                 case GridOperationEnums.Del:
                     response = Delete(model.Id);
                     return response.SetMessage(response.Success ?
                         _localizedResourceServices.T("AdminModule:::UserGroups:::Delete group successfully")
-                        : _localizedResourceServices.T("AdminModule:::UserGroups:::Delete group failure"));
+                        : _localizedResourceServices.T("AdminModule:::UserGroups:::Delete group failure. Please try again later."));
             }
             return new ResponseModel
             {

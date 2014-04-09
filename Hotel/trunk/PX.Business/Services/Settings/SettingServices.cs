@@ -117,7 +117,7 @@ namespace PX.Business.Services.Settings
                     response = Update(siteSetting);
                     return response.SetMessage(response.Success ?
                         _localizedResourceServices.T("AdminModule:::Settings:::Update setting successfully")
-                        : _localizedResourceServices.T("AdminModule:::Settings:::Update setting failure"));
+                        : _localizedResourceServices.T("AdminModule:::Settings:::Update setting failure. Please try again later."));
 
                 case GridOperationEnums.Add:
                     siteSetting = Mapper.Map<SiteSettingModel, SiteSetting>(model);
@@ -133,13 +133,13 @@ namespace PX.Business.Services.Settings
                     response = Insert(siteSetting);
                     return response.SetMessage(response.Success ?
                         _localizedResourceServices.T("AdminModule:::Settings:::Insert setting successfully")
-                        : _localizedResourceServices.T("AdminModule:::Settings:::Insert setting failure"));
+                        : _localizedResourceServices.T("AdminModule:::Settings:::Insert setting failure. Please try again later."));
 
                 case GridOperationEnums.Del:
                     response = Delete(model.Id);
                     return response.SetMessage(response.Success ?
                         _localizedResourceServices.T("AdminModule:::Settings:::Delete setting successfully")
-                        : _localizedResourceServices.T("AdminModule:::Settings:::Delete setting failure"));
+                        : _localizedResourceServices.T("AdminModule:::Settings:::Delete setting failure. Please try again later."));
             }
             return new ResponseModel
             {
@@ -175,6 +175,22 @@ namespace PX.Business.Services.Settings
         /// Get setting by key
         /// </summary>
         /// <typeparam name="T"></typeparam>
+        /// <param name="id"> </param>
+        /// <returns></returns>
+        public T GetSetting<T>(int id)
+        {
+            var setting = SiteSettingRepository.GetById(id);
+            if (setting == null)
+            {
+                return default(T);
+            }
+            return setting.Value.ToType<T>();
+        }
+
+        /// <summary>
+        /// Get setting by key
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
         /// <param name="key"></param>
         /// <returns></returns>
         public T GetSetting<T>(string key)
@@ -193,7 +209,7 @@ namespace PX.Business.Services.Settings
         /// <typeparam name="T"></typeparam>
         /// <param name="parameterArray"></param>
         /// <returns></returns>
-        public object LoadSetting<T>(object[] parameterArray = null)
+        public dynamic LoadSetting<T>(object[] parameterArray = null)
         {
             var type = typeof(T);
             var methodInfo = type.GetMethod("LoadSetting");

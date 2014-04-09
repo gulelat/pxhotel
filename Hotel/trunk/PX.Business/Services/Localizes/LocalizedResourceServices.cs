@@ -97,7 +97,7 @@ namespace PX.Business.Services.Localizes
                     response = Update(localizedResource);
                     return response.SetMessage(response.Success ?
                         T("AdminModule:::LocalizedResources:::Update localized resource successfully")
-                        : T("AdminModule:::LocalizedResources:::Update localized resource failure"));
+                        : T("AdminModule:::LocalizedResources:::Update localized resource failure. Please try again later."));
 
                 case GridOperationEnums.Add:
                     localizedResource = Mapper.Map<LocalizedResourceModel, LocalizedResource>(model);
@@ -105,13 +105,13 @@ namespace PX.Business.Services.Localizes
                     response = Insert(localizedResource);
                     return response.SetMessage(response.Success ?
                         T("AdminModule:::LocalizedResources:::Insert localized resource successfully")
-                        : T("AdminModule:::LocalizedResources:::Insert localized resource failure"));
+                        : T("AdminModule:::LocalizedResources:::Insert localized resource failure. Please try again later."));
 
                 case GridOperationEnums.Del:
                     response = Delete(model.Id);
                     return response.SetMessage(response.Success ?
                         T("AdminModule:::LocalizedResources:::Delete localized resource successfully")
-                        : T("AdminModule:::LocalizedResources:::Delete localized resource failure"));
+                        : T("AdminModule:::LocalizedResources:::Delete localized resource failure. Please try again later."));
             }
             return new ResponseModel
             {

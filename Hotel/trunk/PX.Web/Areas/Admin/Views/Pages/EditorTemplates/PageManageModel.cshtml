@@ -2,57 +2,57 @@
 @model PX.Business.Models.Pages.PageManageModel
 @Html.HiddenFor(m => m.Id)
 <div class="form-group">
-    <div class="col-sm-4">
-        @MText(Tags.Label, "AdminModule:::Pages:::Forms:::Title", "Title", new { @class = "col-sm-12 no-padding-right", @for = "Title" })
+    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+        @MText(Tags.Label, "AdminModule:::Pages:::Forms:::Title", "Title", new { @class = "col-xs-12 no-padding-right", @for = "Title" })
         <div class="space-4"></div>
-        @Html.TextBoxFor(m => m.Title, new { @class = "col-sm-12", placeholder = T("AdminModule:::Pages:::Form:::Title place holder", "Please input page title") })
+        @Html.TextBoxFor(m => m.Title, new { @class = "col-xs-12", placeholder = T("AdminModule:::Pages:::Form:::Title place holder", "Please input page title") })
         @Html.ValidationMessageFor(m => m.Title)
     </div>
-    <div class="col-sm-4">
-        @MText(Tags.Label, "AdminModule:::Pages:::Forms:::FriendlyUrl", "Friendly Url", new { @class = "col-sm-12 no-padding-right", @for = "FriendlyUrl" })
+    <div class="col-xs-12 col-sm-9 col-md-4 col-lg-4">
+        @MText(Tags.Label, "AdminModule:::Pages:::Forms:::FriendlyUrl", "Friendly Url", new { @class = "col-xs-12 no-padding-right", @for = "FriendlyUrl" })
         <div class="space-4"></div>
-        @Html.TextBoxFor(m => m.FriendlyUrl, new { @class = "col-sm-12" })
+        @Html.TextBoxFor(m => m.FriendlyUrl, new { @class = "col-xs-12" })
         @Html.ValidationMessageFor(m => m.FriendlyUrl)
     </div>
-    <div class="col-sm-3">
-        @MText(Tags.Label, "AdminModule:::Pages:::Forms:::Status", "Status", new { @class = "col-sm-4 no-padding-right", @for = "Status" })
+    <div class="col-xs-12 col-sm-3 col-md-4 col-lg-4">
+        @MText(Tags.Label, "AdminModule:::Pages:::Forms:::Status", "Status", new { @class = "col-xs-12 no-padding-right", @for = "Status" })
         <div class="space-4"></div>
-        @Html.DropDownListFor(m => m.Status, Model.StatusList, new { @class = "col-sm-12" })
+        @Html.DropDownListFor(m => m.Status, Model.StatusList, new { @class = "col-xs-12" })
         @Html.ValidationMessageFor(m => m.Status)
     </div>
 </div>
 <div class="space-4"></div>
 <div class="form-group">
     @MText(Tags.Label, "AdminModule:::Pages:::Forms:::Parent Page Dropdown", "Parent", new { @class = "col-sm-1 no-padding-right", @for = "ParentId" })
-    <div class="col-sm-10">
+    <div class="col-sm-11">
         @Html.DropDownListFor(m => m.ParentId, Model.Parents, "..Select parent page..", new { @class = "form-control col-xs-10 col-sm-4", id = "selectParents" })
         @Html.ValidationMessageFor(m => m.ParentId)
     </div>
 </div>
 <div class="space-4"></div>
 <div class="form-group">
-    @MText(Tags.Label, "AdminModule:::Pages:::Forms:::Position", "Position", new { @class = "col-sm-1 no-padding-right", @for = "Title" })
-    <div class="col-sm-5">
-        @Html.DropDownListFor(m => m.Position, Model.Positions, new { @class = "col-sm-12" })
+    @MText(Tags.Label, "AdminModule:::Pages:::Forms:::Position", "Position", new { @class = "col-xs-12 col-sm-1 no-padding-right", @for = "Position" })
+    <div class="col-xs-4 col-sm-4">
+        @Html.DropDownListFor(m => m.Position, Model.Positions, new { @class = "col-xs-12" })
         @Html.ValidationMessageFor(m => m.Position)
     </div>
-    <div class="col-sm-5">
-        @Html.DropDownListFor(m => m.RelativePageOrder, Model.RelativePages, new { @class = "col-sm-12", id = "selectRelativePages" })
-        @Html.ValidationMessageFor(m => m.RelativePageOrder)
+    <div class="col-xs-8 col-sm-7">
+        @Html.DropDownListFor(m => m.RelativePageId, Model.RelativePages, new { @class = "col-xs-12", id = "selectRelativePages" })
+        @Html.ValidationMessageFor(m => m.RelativePageId)
     </div>
 </div>
 <div class="space-4"></div>
 <div class="form-group">
-    <div class="col-sm-11">
-        @MText(Tags.Label, "AdminModule:::Pages:::Forms:::Caption", "Caption", new { @class = "col-sm-5 no-padding-right", @for = "Caption" })
+    <div class="col-xs-12">
+        @MText(Tags.Label, "AdminModule:::Pages:::Forms:::Caption", "Caption", new { @class = "col-xs-12 no-padding-right", @for = "Caption" })
         <div class="space-4"></div>
-        @Html.TextAreaFor(m => m.Caption, new { @class = "col-sm-12", placeholder = T("AdminModule:::Pages:::Form:::Caption place holder", "Please input page caption") })
+        @Html.TextAreaFor(m => m.Caption, new { @class = "col-xs-12", placeholder = T("AdminModule:::Pages:::Form:::Caption place holder", "Please input page caption") })
         @Html.ValidationMessageFor(m => m.Caption)
     </div>
 </div>
 <div class="space-4"></div>
 <div class="form-group">
-    <div class="col-sm-11">
+    <div class="col-sm-12">
         @MText(Tags.Label, "AdminModule:::Pages:::Forms:::Content", "Content", new { @class = "col-sm-1 no-padding-right", @for = "Content" })
         <div class="btn-group col-sm-11">
             <button class="btn btn-xs dropdown-toggle" data-toggle="dropdown">
@@ -70,7 +70,7 @@
 <div class="space-4"></div>
 <div class="form-group">
     @MText(Tags.Label, "AdminModule:::Pages:::Forms:::Template", "Template", new { @class = "col-sm-1 no-padding-right", @for = "PageTemplateId" })
-    <div class="col-sm-10">
+    <div class="col-sm-11">
         @Html.DropDownListFor(m => m.PageTemplateId, Model.PageTemplates, "..Select template..", new { @class = "form-control col-xs-10 col-sm-4" })
         @Html.ValidationMessageFor(m => m.PageTemplateId)
     </div>
@@ -78,8 +78,7 @@
 <div class="space-4"></div>
 <div class="clearfix form-actions">
     <div class="col-md-offset-1 col-md-9">
-        <a class="btn btn-link" href="@Url.Action("Index")">
-            Back To List
+        <a class="btn btn-link" href="@Url.Action("Index")">Back To List
         </a>
         <button class="btn btn-primary" type="submit" value="@SubmitTypeEnums.Save" name="Submit">
             <i class="icon-ok bigger-110"></i>
@@ -118,7 +117,7 @@
             }
         });
 
-        $("#selectParents").change(function() {
+        $("#selectParents").change(function () {
             var parent = $(this).val();
             var id = '@Model.Id';
             var data = { id: id, parentId: parent };

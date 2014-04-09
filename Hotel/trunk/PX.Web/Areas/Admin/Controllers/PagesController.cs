@@ -42,7 +42,7 @@ namespace PX.Web.Areas.Admin.Controllers
 
         public JsonResult GetPageTemplates(int? id)
         {
-            return Json(_pageTemplateServices.GetPageTemplateSelectList(), JsonRequestBehavior.AllowGet);
+            return Json(_pageTemplateServices.GetPageTemplateSelectList(id), JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult GetParents(int? id)
@@ -53,6 +53,11 @@ namespace PX.Web.Areas.Admin.Controllers
         public JsonResult GetStatus(int? id)
         {
             return Json(_pageServices.GetStatus(), JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult ChangeHomePage(int id)
+        {
+            return Json(_pageServices.ChangeHomePage(id), JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
@@ -142,6 +147,7 @@ namespace PX.Web.Areas.Admin.Controllers
             }
             model.Parents = _pageTemplateServices.GetPossibleParents();
             model.Positions = EnumUtilities.GetAllItemsFromEnum<PageEnums.PositionEnums>();
+            //TODO: check position to use here
             model.RelativePages = _pageServices.GetRelativePages(model.Id, model.ParentId);
             model.StatusList = _pageServices.GetStatus();
             model.PageTemplates = _pageTemplateServices.GetPageTemplateSelectList(model.PageTemplateId);

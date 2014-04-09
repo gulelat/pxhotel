@@ -28,6 +28,7 @@ namespace PX.EntityModel
         public string FriendlyUrl { get; set; }
         public Nullable<int> PageTemplateId { get; set; }
         public int Status { get; set; }
+        public bool IsHomePage { get; set; }
         public string Hierarchy { get; set; }
         public Nullable<int> ParentId { get; set; }
         public int RecordOrder { get; set; }

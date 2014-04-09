@@ -27,10 +27,12 @@ namespace PX.Business.Services.Settings
 
         JqGridSearchOut SearchSiteSettings(JqSearchIn si);
 
+        T GetSetting<T>(int id);
+
         T GetSetting<T>(string key);
 
         T GetSetting<T>(string key, T defaultValue);
 
-        object LoadSetting<T>(object[] parameterArray = null);
+        dynamic LoadSetting<T>(object[] parameterArray = null);
     }
 }

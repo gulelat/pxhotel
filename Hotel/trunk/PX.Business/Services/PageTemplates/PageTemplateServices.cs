@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Objects.SqlClient;
 using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
@@ -8,6 +9,7 @@ using AutoMapper;
 using PX.Business.Models.PageTemplates;
 using PX.Business.Mvc.Environments;
 using PX.Business.Services.Localizes;
+using PX.Business.Services.Pages;
 using PX.Core.Configurations.Constants;
 using PX.Core.Framework.Enums;
 using PX.Core.Framework.Mvc.Models;
@@ -116,7 +118,7 @@ namespace PX.Business.Services.PageTemplates
                     response = HierarchyUpdate(pageTemplate);
                     return response.SetMessage(response.Success ?
                         _localizedResourceServices.T("AdminModule:::PageTemplates:::Update page template successfully")
-                        : _localizedResourceServices.T("AdminModule:::PageTemplates:::Update page template failure"));
+                        : _localizedResourceServices.T("AdminModule:::PageTemplates:::Update page template failure. Please try again later."));
 
                 case GridOperationEnums.Add:
                     pageTemplate = Mapper.Map<PageTemplateModel, PageTemplate>(model);
@@ -125,13 +127,13 @@ namespace PX.Business.Services.PageTemplates
                     response = HierarchyInsert(pageTemplate);
                     return response.SetMessage(response.Success ?
                         _localizedResourceServices.T("AdminModule:::PageTemplates:::Insert page template successfully")
-                        : _localizedResourceServices.T("AdminModule:::PageTemplates:::Insert page template failure"));
+                        : _localizedResourceServices.T("AdminModule:::PageTemplates:::Insert page template failure. Please try again later."));
 
                 case GridOperationEnums.Del:
                     response = Delete(model.Id);
                     return response.SetMessage(response.Success ?
                         _localizedResourceServices.T("AdminModule:::PageTemplates:::Delete page template successfully")
-                        : _localizedResourceServices.T("AdminModule:::PageTemplates:::Delete page template failure"));
+                        : _localizedResourceServices.T("AdminModule:::PageTemplates:::Delete page template failure. Please try again later."));
             }
             return new ResponseModel
             {
@@ -183,14 +185,14 @@ namespace PX.Business.Services.PageTemplates
                 response = HierarchyUpdate(pageTemplate);
                 return response.SetMessage(response.Success ?
                     _localizedResourceServices.T("AdminModule:::PageTemplates:::Update page template successfully")
-                    : _localizedResourceServices.T("AdminModule:::PageTemplates:::Update page template failure"));
+                    : _localizedResourceServices.T("AdminModule:::PageTemplates:::Update page template failure. Please try again later."));
             }
             Mapper.CreateMap<PageTemplateManageModel, PageTemplate>();
             pageTemplate = Mapper.Map<PageTemplateManageModel, PageTemplate>(model);
             response = HierarchyInsert(pageTemplate);
             return response.SetMessage(response.Success ?
                 _localizedResourceServices.T("AdminModule:::PageTemplates:::Create page template successfully")
-                : _localizedResourceServices.T("AdminModule:::PageTemplates:::Create page template failure"));
+                : _localizedResourceServices.T("AdminModule:::PageTemplates:::Create page template failure. Please try again later."));
         }
         
         #endregion
@@ -237,12 +239,22 @@ namespace PX.Business.Services.PageTemplates
         /// <returns></returns>
         public IEnumerable<SelectListItem> GetPageTemplateSelectList(int? id = null)
         {
-            return GetAll().ToList().Select(r => new SelectListItem
+            var pageTemplates = GetAll();
+            int? templateId = null;
+            var page = PageRepository.GetById(id);
+            if (page != null)
             {
-                Text = r.Name,
-                Value = r.Id.ToString(CultureInfo.InvariantCulture),
-                Selected = r.Id == id
-            });
+                templateId = page.PageTemplateId;
+            }
+            var data = pageTemplates.Select(m => new HierarchyModel
+            {
+                Id = m.Id,
+                Name = m.Name,
+                Hierarchy = m.Hierarchy,
+                RecordOrder = m.RecordOrder,
+                Selected = templateId.HasValue && templateId.Value == m.Id
+            }).ToList();
+            return PageTemplateRepository.BuildSelectList(data);
         }
 
         /// <summary>

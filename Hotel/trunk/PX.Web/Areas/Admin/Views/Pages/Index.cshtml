@@ -1,6 +1,4 @@
-﻿@using PX.Business.Mvc.Enums
-@using PX.Core.Framework.Enums
-@{
+﻿@{
     ViewBag.Header = "Page";
     ViewBag.Title = "Page Management";
     ViewBag.Description = "Page Management";
@@ -44,6 +42,14 @@
     <script type="text/javascript">
         var gridSelector = "#grid-table";
         var pagerSelector = "#grid-pager";
+        var navButtonsSetup = {
+                enableEdit: true,
+                enableCreate: false,
+                enableDelete: true,
+                enableSearch: true,
+                enableRefresh: true,
+                enableView: true
+        };
 
         //init some data before create box show
         function initCreateData() {
@@ -51,6 +57,22 @@
         }
         
         jQuery(function ($) {
+
+            $(document).on("click", ".change-home-page", function() {
+                var data = { id: $(this).data("id") };
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("ChangeHomePage")',
+                    data: data,
+                    success: function(response) {
+                        ShowMessage(response);
+                        if (response.Success) {
+                            $(gridSelector).trigger('reloadGrid');
+                        }
+                    }
+                });
+            });
+
             jQuery(gridSelector).jqGrid({
                 datatype: "json",
                 url: "@Url.Action("_AjaxBinding")",
@@ -59,12 +81,17 @@
                 colNames: ['', 'Id', 'Title', 'Friendly Url', 'Page Template', 'Parent Page', 'Status', 'Order', 'Active', 'Created', 'CreatedBy', 'Updated', 'UpdatedBy'],
                 colModel: [
                     {
-                        name: 'action', width: 60, sortable: false, search: false, align: "center",
+                        name: 'action', width: 90, sortable: false, search: false, align: "center",
                         formatter: function (cellvalue, options, rowObject) {
                             var url = rowObject["FriendlyUrl"];
+                            var isHomePage = rowObject["IsHomePage"];
                             var editIcon = "<a class='grid-action' href='@Url.Action("Edit")/" + options.rowId + "'><div class='ui-pg-div ui-inline-edit' title='' data-original-title='Edit Page'><span class='icon-edit'></span></div></a>";
                             var previewIcon = "<a class='grid-action' href='/" + url + "'><div class='ui-pg-div ui-inline-edit' title='' data-original-title='View Page'><span class='icon-eye-open'></span></div></a>";
-                            return editIcon + previewIcon;
+                            var homePageIcon = "<a class='grid-action change-home-page' data-id='" + options.rowId + "' href='javascript:void(0)'><div class='ui-pg-div ui-inline-edit' title='' data-original-title='Change Home Page'><span class='icon-home'></span></div></a>";
+                            if(isHomePage) {
+                                homePageIcon = '';
+                            }
+                            return editIcon + previewIcon + homePageIcon;
                         }
                     },
                     { name: 'Id', index: 'Id', width: 60, key: true, sorttype: "int" },
@@ -103,7 +130,7 @@
                             }
                         }
                     },
-                    { name: 'RecordOrder', index: 'RecordOrder', width: 50, sorttype: "int", align: "center", editable: true, editrules: { required: true } },
+                    { name: 'RecordOrder', index: 'RecordOrder', width: 50, sorttype: "int", align: "center" },
                     { name: 'Active', index: 'Active', width: 100, editable: true, edittype: "checkbox",  align:"center", editoptions: { value: "Yes:No", defaultValue: 'Yes' }, unformat: aceSwitch },
                     { name: 'Created', index: 'Created', formatter: "date", width: 100, editable: false, sorttype: "datetime", unformat: pickDate },
                     { name: 'CreatedBy', index: 'CreatedBy', width: 150, editable: false, editoptions: { size: "20", maxlength: "30" } },
@@ -121,6 +148,7 @@
                 {
                     var tmpId = $(gridSelector).getRowData(rowId)['Id'];
                     $(gridSelector).setColProp('ParentName', { editoptions: { dataUrl: '@Url.Action("GetParents")/' + tmpId } });
+                    $(gridSelector).setColProp('PageTemplateName', { editoptions: { dataUrl: '@Url.Action("GetPageTemplates")/' + tmpId } });
                     return true;
                 },
                 

@@ -133,7 +133,7 @@ namespace PX.Business.Services.Menus
                     if (hasUpdatePermission) UpdateMenuPermission(menu);
                     return response.SetMessage(response.Success ?
                         _localizedResourceServices.T("AdminModule:::Menus:::Update menu successfully")
-                        : _localizedResourceServices.T("AdminModule:::Menus:::Update menu failure"));
+                        : _localizedResourceServices.T("AdminModule:::Menus:::Update menu failure. Please try again later."));
 
                 case GridOperationEnums.Add:
                     menu = Mapper.Map<MenuModel, Menu>(model);
@@ -142,13 +142,13 @@ namespace PX.Business.Services.Menus
                     UpdateMenuPermission(menu);
                     return response.SetMessage(response.Success ?
                         _localizedResourceServices.T("AdminModule:::Menus:::Create menu successfully")
-                        : _localizedResourceServices.T("AdminModule:::Menus:::Create menu failure"));
+                        : _localizedResourceServices.T("AdminModule:::Menus:::Create menu failure. Please try again later."));
 
                 case GridOperationEnums.Del:
                     response = Delete(model.Id);
                     return response.SetMessage(response.Success ?
                         _localizedResourceServices.T("AdminModule:::Menus:::Delete menu successfully")
-                        : _localizedResourceServices.T("AdminModule:::Menus:::Delete menu failure"));
+                        : _localizedResourceServices.T("AdminModule:::Menus:::Delete menu failure. Please try again later."));
             }
             return new ResponseModel
             {

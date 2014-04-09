@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Web.Mvc;
 using PX.Business.Models.Pages;
+using PX.Business.Mvc.Enums;
 using PX.Core.Framework.Enums;
 using PX.Core.Framework.Mvc.Models;
 using PX.Core.Framework.Mvc.Models.JqGrid;
@@ -35,6 +36,8 @@ namespace PX.Business.Services.Pages
 
         IEnumerable<SelectListItem> GetStatus();
 
+        ResponseModel ChangeHomePage(int id);
+
         List<Page> GetPages(int? parentId = null);
 
         PageRenderModel RenderContent(string url);
@@ -44,6 +47,8 @@ namespace PX.Business.Services.Pages
         ResponseModel SavePageManageModel(PageManageModel model);
 
         IEnumerable<SelectListItem> GetRelativePages(int? pageId = null, int? parentId = null);
+
+        IEnumerable<SelectListItem> GetRelativePages(out int position, out int relativePageId, int? pageId = null, int? parentId = null);
 
         bool IsTitleExisted(int? pageId, string title);
 
