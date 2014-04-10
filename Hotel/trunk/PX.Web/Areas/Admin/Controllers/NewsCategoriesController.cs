@@ -4,8 +4,8 @@ using PX.Business.Models.NewsCategories;
 using PX.Business.Models.Testimonials;
 using PX.Business.Mvc.Attributes;
 using PX.Business.Mvc.Controllers;
-using PX.Business.Mvc.Enums;
 using PX.Business.Services.NewsCategories;
+using PX.Core.Framework.Enums;
 using PX.Core.Framework.Mvc.Attributes;
 using PX.Core.Framework.Mvc.Models.JqGrid;
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Specialized;
 using System.Data;
 using System.Data.Objects;
 using System.Linq;
@@ -7,7 +8,8 @@ using System.Reflection;
 using AutoMapper;
 using PX.Business.Models.Settings;
 using PX.Business.Models.Settings.SettingTypes;
-using PX.Business.Mvc.Environments;
+using PX.Business.Models.Settings.SettingTypes.Base;
+using PX.Core.Framework.Mvc.Environments;
 using PX.Business.Services.Localizes;
 using PX.Core.Framework.Enums;
 using PX.Core.Framework.Mvc.Models;
@@ -218,16 +220,69 @@ namespace PX.Business.Services.Settings
             {
                 var parameters = methodInfo.GetParameters();
                 var classInstance = Activator.CreateInstance(type, null);
-                if (parameters.Length == 0)
-                {
-                    result = methodInfo.Invoke(classInstance, null);
-                }
-                else
-                {
-                    result = methodInfo.Invoke(classInstance, parameterArray);
-                }
+                result = methodInfo.Invoke(classInstance, parameters.Length == 0 ? null : parameterArray);
             }
             return result;
+        }
+
+        public SiteSettingManageModel GetSettingManageModel(int id)
+        {
+            var setting = GetById(id);
+            if(setting != null)
+            {
+                var settingParsers = ReflectionUtilities.GetAllImplementTypesOfInterface(typeof (ISettingModel));
+                foreach (var parser in settingParsers)
+                {
+                    var instance = (ISettingModel)Activator.CreateInstance(parser);
+                    if(instance.SettingName.Equals(setting.Name))
+                    {
+                        return new SiteSettingManageModel
+                            {
+                                Setting = instance.LoadSetting(),
+                                SettingName = setting.Name
+                            };
+                    }
+                }
+                return new SiteSettingManageModel
+                    {
+                        Setting = setting,
+                        SettingName = setting.Name
+                    };
+            }
+            return null;
+        }
+
+        public ResponseModel SaveSettingManageModel(SiteSettingManageModel model, NameValueCollection data)
+        {
+            var setting = SiteSettingRepository.GetByKey(model.SettingName);
+            if (setting != null)
+            {
+                var settingParsers = ReflectionUtilities.GetAllImplementTypesOfInterface(typeof(ISettingModel));
+                ResponseModel response;
+                foreach (var parser in settingParsers)
+                {
+                    var instance = (ISettingModel)Activator.CreateInstance(parser);
+                    if (instance.SettingName.Equals(setting.Name))
+                    {
+                        setting.Value = instance.GetSettingValue(data);
+                        response = Update(setting);
+                        return response.SetMessage(response.Success ?
+                            _localizedResourceServices.T("AdminModule:::Settings:::Messages:::Update setting successfully.")
+                            : _localizedResourceServices.T("AdminModule:::Settings:::Messages:::Update setting failure. Please try again later."));
+                    }
+                }
+                setting.Value = data["Value"];
+                response = Update(setting);
+                return response.SetMessage(response.Success ?
+                    _localizedResourceServices.T("AdminModule:::Settings:::Messages:::Update setting successfully.")
+                    : _localizedResourceServices.T("AdminModule:::Settings:::Messages:::Update setting failure. Please try again later."));
+
+            }
+            return new ResponseModel
+            {
+                Success = false,
+                Message = _localizedResourceServices.T("AdminModule:::Settings:::Setting not founded")
+            };
         }
     }
 }

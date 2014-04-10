@@ -6,7 +6,7 @@ using System.Web.Mvc;
 using AutoMapper;
 using PX.Business.Models.NewsCategories;
 using PX.Business.Models.Testimonials;
-using PX.Business.Mvc.Environments;
+using PX.Core.Framework.Mvc.Environments;
 using PX.Business.Services.Localizes;
 using PX.Core.Configurations.Constants;
 using PX.Core.Framework.Enums;

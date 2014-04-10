@@ -4,7 +4,6 @@ using PX.Business.Models.RotatingImages;
 using PX.Business.Models.Settings;
 using PX.Business.Mvc.Attributes;
 using PX.Business.Mvc.Controllers;
-using PX.Business.Mvc.Enums;
 using PX.Business.Services.RotatingImageGroups;
 using PX.Business.Services.RotatingImages;
 using PX.Business.Services.Settings;

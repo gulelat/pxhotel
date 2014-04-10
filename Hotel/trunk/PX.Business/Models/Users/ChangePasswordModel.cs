@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using PX.Business.Mvc.Environments;
+using PX.Business.Mvc.Attributes;
+using PX.Core.Framework.Mvc.Environments;
 using PX.Business.Services.Localizes;
 using PX.Business.Services.Users;
 
@@ -18,6 +18,7 @@ namespace PX.Business.Models.Users
         public string OldPassword { get; set; }
 
         [Required]
+        [PasswordComplexValidation]
         public string Password { get; set; }
 
         [Required]

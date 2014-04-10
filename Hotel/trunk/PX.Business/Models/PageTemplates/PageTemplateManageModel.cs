@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web.Mvc;
-using PX.Business.Mvc.Environments;
+using PX.Core.Framework.Mvc.Environments;
 using PX.Business.Services.CurlyBrackets;
 using PX.Business.Services.Localizes;
 using PX.Business.Services.PageTemplates;

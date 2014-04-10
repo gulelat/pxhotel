@@ -3,10 +3,10 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
-using PX.Business.Mvc.Enums;
-using PX.Business.Mvc.Environments;
+using PX.Core.Framework.Mvc.Environments;
 using PX.Business.Services.Localizes;
 using PX.Business.Services.Users;
+using PX.Core.Framework.Enums;
 
 namespace PX.Business.Mvc.Attributes
 {

@@ -1,21 +1,26 @@
-﻿using PX.Business.Models.Settings.SettingTypes.Base;
-using PX.Business.Mvc.Environments;
+﻿using System;
+using System.Collections.Specialized;
+using PX.Business.Models.Settings.SettingTypes.Base;
 using PX.Business.Services.Settings;
+using PX.Core.Framework.Mvc.Environments;
+using PX.Core.Ultilities;
 using PX.EntityModel;
 
 namespace PX.Business.Models.Settings.SettingTypes
 {
-    public class PasswordSettingResolver : SettingParser<PasswordSetting>, ISettingModel<PasswordSetting>
+    public class PasswordSettingResolver : SettingParser<PasswordSetting>, ISettingModel
     {
-        public string SettingName
+        public Type SettingType
         {
-            get
-            {
-            return "PasswordSetting";
-            }
+            get { return typeof(PasswordSetting); }
         }
 
-        public PasswordSetting LoadSetting()
+        public string SettingName
+        {
+            get { return "PasswordSetting"; }
+        }
+
+        public dynamic LoadSetting()
         {
             var settingServices = HostContainer.GetInstance<ISettingServices>();
             var settingString = settingServices.GetSetting<string>(SettingName);
@@ -33,6 +38,18 @@ namespace PX.Business.Models.Settings.SettingTypes
                 return setting;
             }
             return DeserializeSetting(settingString);
+        }
+
+        public string GetSettingValue(NameValueCollection data)
+        {
+            var passwordSetting = new PasswordSetting
+                {
+                    PasswordMinLengthRequired = Convert.ToInt32(data["PasswordMinLengthRequired"]),
+                    PasswordMustHaveDigit = ConvertFormDataToBoolean(data, "PasswordMustHaveDigit"),
+                    PasswordMustHaveSymbol = ConvertFormDataToBoolean(data, "PasswordMustHaveSymbol"),
+                    PasswordMustHaveUpperAndLowerCaseLetters = ConvertFormDataToBoolean(data, "PasswordMustHaveUpperAndLowerCaseLetters"),
+                };
+            return SerializeSetting(passwordSetting);
         }
     }
 

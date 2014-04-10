@@ -3,8 +3,8 @@ using Newtonsoft.Json;
 using PX.Business.Models.SettingTypes;
 using PX.Business.Mvc.Attributes;
 using PX.Business.Mvc.Controllers;
-using PX.Business.Mvc.Enums;
 using PX.Business.Services.SettingTypes;
+using PX.Core.Framework.Enums;
 using PX.Core.Framework.Mvc.Attributes;
 using PX.Core.Framework.Mvc.Models.JqGrid;
 

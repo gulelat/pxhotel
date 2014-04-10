@@ -5,7 +5,7 @@ using PX.Business.Models.Pages.CurlyBrackets;
 using PX.Business.Models.Templates;
 using PX.Business.Models.Testimonials.CurlyBrackets;
 using PX.Business.Mvc.Attributes;
-using PX.Business.Mvc.Environments;
+using PX.Core.Framework.Mvc.Environments;
 using PX.Business.Services.CurlyBrackets.CurlyBracketResolver;
 using PX.Business.Services.Templates;
 using PX.Business.Services.Testimonials;

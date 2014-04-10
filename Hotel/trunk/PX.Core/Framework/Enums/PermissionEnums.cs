@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace PX.Business.Mvc.Enums
+namespace PX.Core.Framework.Enums
 {
     public enum PermissionEnums
     {

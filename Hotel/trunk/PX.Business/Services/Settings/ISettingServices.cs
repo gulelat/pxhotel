@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Linq.Expressions;
 using PX.Business.Models.Settings;
@@ -34,5 +35,9 @@ namespace PX.Business.Services.Settings
         T GetSetting<T>(string key, T defaultValue);
 
         dynamic LoadSetting<T>(object[] parameterArray = null);
+
+        SiteSettingManageModel GetSettingManageModel(int id);
+
+        ResponseModel SaveSettingManageModel(SiteSettingManageModel model, NameValueCollection data);
     }
 }
