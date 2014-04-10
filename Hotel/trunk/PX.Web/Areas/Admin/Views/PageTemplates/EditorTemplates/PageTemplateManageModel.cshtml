@@ -38,9 +38,8 @@
 <div class="space-4"></div>
 <div class="clearfix form-actions">
     <div class="col-md-offset-3 col-md-9">
-        <button class="btn btn-link" type="button" onclick="history.back(1);">
-            Back To List
-        </button>
+        <a class="btn btn-link" href="@Url.Action("Index")">Back To List
+        </a>
         <button class="btn btn-primary" type="submit" value="@SubmitTypeEnums.Save" name="Submit">
             <i class="icon-ok bigger-110"></i>
             Save
@@ -95,21 +94,21 @@
             value: document.documentElement.innerHTML
         });
         var getCurlyBracketListUrl = "@Url.Action("GetCurlyBracketList", "CurlyBrackets")";
-            $.ajax({
-                type: "POST",
-                url: getCurlyBracketListUrl,
-                async: false,
-                success: function (data) {
-                    $.map(data, function (item) {
-                        $("#curlyBracketList")
-                            .append("<li><a href='javascript:void(0)' onclick='printCurlybracket(\"{"
-                                + item.CurlyBracket + "}\")'>" +
-                                item.Name + "</a></li>");
-                    });
-                }
-            });
+        $.ajax({
+            type: "POST",
+            url: getCurlyBracketListUrl,
+            async: false,
+            success: function (data) {
+                $.map(data, function (item) {
+                    $("#curlyBracketList")
+                        .append("<li><a href='javascript:void(0)' onclick='printCurlybracket(\"{"
+                            + item.CurlyBracket + "}\")'>" +
+                            item.Name + "</a></li>");
+                });
+            }
         });
-        function printCurlybracket(curlyBracket) {
-            Createor.replaceRange(curlyBracket, Createor.getCursor());
-        }
+    });
+    function printCurlybracket(curlyBracket) {
+        Createor.replaceRange(curlyBracket, Createor.getCursor());
+    }
 </script>

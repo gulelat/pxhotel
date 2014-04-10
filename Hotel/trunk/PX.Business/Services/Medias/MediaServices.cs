@@ -7,9 +7,9 @@ using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Hosting;
 using PX.Business.Models.Medias;
-using PX.Business.Mvc.Enums;
-using PX.Business.Mvc.Environments;
+using PX.Core.Framework.Mvc.Environments;
 using PX.Business.Services.Localizes;
+using PX.Core.Framework.Enums;
 using PX.Core.Framework.Mvc.Models;
 using PX.Core.Logging;
 

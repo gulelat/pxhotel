@@ -1,5 +1,5 @@
-﻿@using PX.Business.Mvc.Environments
-@using PX.Business.Services.Menus
+﻿@using PX.Business.Services.Menus
+@using PX.Core.Framework.Mvc.Environments
 @model PX.EntityModel.Menu
 @{
     var hierarchy = (string)ViewBag.Hierarchy;
@@ -9,7 +9,7 @@
     var menusServices = HostContainer.GetInstance<IMenuServices>();
     var childMenus = menusServices.GetMenus(Model.Id);
 
-    string cClass = string.Empty;
+    var cClass = string.Empty;
     if (isSelected)
     {
         cClass = "active";

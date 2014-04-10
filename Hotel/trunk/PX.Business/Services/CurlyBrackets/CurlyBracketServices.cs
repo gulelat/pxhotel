@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web.Mvc;
 using PX.Business.Models.CurlyBrackets;
 using PX.Business.Mvc.Attributes;
-using PX.Business.Mvc.Environments;
+using PX.Core.Framework.Mvc.Environments;
 using PX.Business.Mvc.WorkContext;
 using PX.Business.Services.CurlyBrackets.CurlyBracketResolver;
 using PX.Business.Services.Settings;

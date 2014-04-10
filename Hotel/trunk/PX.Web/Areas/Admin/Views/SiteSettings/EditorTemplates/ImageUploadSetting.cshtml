@@ -1,0 +1,30 @@
+﻿@model PX.Business.Models.Settings.SettingTypes.ImageUploadSetting
+
+<div class="form-group">
+    @MText(Tags.Label, "AdminModule:::SiteSettings:::Forms:::MinWidth", "Min Width", new { @class = "col-xs-3 control-label no-padding-right", @for = "MinWidth" })
+    <div class="col-xs-5">
+        @Html.TextBoxFor(m => m.MinWidth, new { @class = "col-xs-12" })
+        @Html.ValidationMessageFor(m => m.MinWidth)
+    </div>
+</div>
+<div class="form-group">
+    @MText(Tags.Label, "AdminModule:::SiteSettings:::Forms:::MinHeight", "Min Height", new { @class = "col-xs-3 control-label no-padding-right", @for = "MinHeight" })
+    <div class="col-xs-5">
+        @Html.TextBoxFor(m => m.MinHeight, new { @class = "col-xs-12" })
+        @Html.ValidationMessageFor(m => m.MinHeight)
+    </div>
+</div>
+<div class="form-group">
+    @MText(Tags.Label, "AdminModule:::SiteSettings:::Forms:::MaxWidth", "Max Width", new { @class = "col-xs-3 control-label no-padding-right", @for = "MaxWidth" })
+    <div class="col-xs-5">
+        @Html.TextBoxFor(m => m.MaxWidth, new { @class = "col-xs-12" })
+        @Html.ValidationMessageFor(m => m.MaxWidth)
+    </div>
+</div>
+<div class="form-group">
+    @MText(Tags.Label, "AdminModule:::SiteSettings:::Forms:::MaxHeight", "Max Height", new { @class = "col-xs-3 control-label no-padding-right", @for = "MaxHeight" })
+    <div class="col-xs-5">
+        @Html.TextBoxFor(m => m.MaxHeight, new { @class = "col-xs-12" })
+        @Html.ValidationMessageFor(m => m.MaxHeight)
+    </div>
+</div>

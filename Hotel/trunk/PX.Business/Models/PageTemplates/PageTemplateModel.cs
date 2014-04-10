@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using PX.Business.Mvc.Environments;
 using PX.Business.Services.Localizes;
 using PX.Business.Services.PageTemplates;
+using PX.Core.Framework.Mvc.Environments;
 
 namespace PX.Business.Models.PageTemplates
 {

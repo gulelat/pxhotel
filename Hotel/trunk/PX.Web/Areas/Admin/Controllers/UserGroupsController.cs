@@ -4,7 +4,6 @@ using Newtonsoft.Json;
 using PX.Business.Models.UserGroups;
 using PX.Business.Mvc.Attributes;
 using PX.Business.Mvc.Controllers;
-using PX.Business.Mvc.Enums;
 using PX.Business.Services.UserGroups;
 using PX.Business.Services.Users;
 using PX.Core.Framework.Enums;

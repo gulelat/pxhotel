@@ -4,7 +4,6 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
-using PX.Business.Mvc.Environments;
 using PX.Business.Services.CurlyBrackets;
 using PX.Business.Services.Languages;
 using PX.Business.Services.Localizes;
@@ -22,6 +21,7 @@ using PX.Business.Services.Templates;
 using PX.Business.Services.Testimonials;
 using PX.Business.Services.UserGroups;
 using PX.Business.Services.Users;
+using PX.Core.Framework.Mvc.Environments;
 using SimpleInjector;
 using SimpleInjector.Integration.Web.Mvc;
 

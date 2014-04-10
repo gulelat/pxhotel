@@ -58,7 +58,7 @@ namespace PX.EntityModel
         {
             get
             {
-                if(LastLogin.HasValue)
+                if (LastLogin.HasValue)
                     return (DateTime.Now - LastLogin.Value).TotalHours;
                 return 0;
             }
@@ -68,9 +68,9 @@ namespace PX.EntityModel
         {
             get
             {
-                if(BirthDay.HasValue)
+                if (BirthDay.HasValue)
                 {
-                    return (int)(DateTime.Now - BirthDay.Value).TotalDays/365;
+                    return (int)(DateTime.Now - BirthDay.Value).TotalDays / 365;
                 }
                 return null;
             }

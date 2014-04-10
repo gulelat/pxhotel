@@ -1,5 +1,4 @@
-﻿using PX.Business.Mvc.Enums;
-using PX.Core.Framework.Enums;
+﻿using PX.Core.Framework.Enums;
 using PX.Core.Ultilities;
 
 namespace PX.Business.Models.Pages

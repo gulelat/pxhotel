@@ -1,4 +1,4 @@
-﻿namespace PX.Business.Mvc.Enums
+﻿namespace PX.Core.Framework.Enums
 {
     public class PageEnums
     {

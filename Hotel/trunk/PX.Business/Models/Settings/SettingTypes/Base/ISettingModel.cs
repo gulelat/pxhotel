@@ -1,9 +1,16 @@
-﻿namespace PX.Business.Models.Settings.SettingTypes.Base
+﻿using System;
+using System.Collections.Specialized;
+
+namespace PX.Business.Models.Settings.SettingTypes.Base
 {
-    public interface ISettingModel<out T> where T: class
+    public interface ISettingModel
     {
+        Type SettingType { get; }
+
         string SettingName { get; }
 
-        T LoadSetting();
+        dynamic LoadSetting();
+
+        string GetSettingValue(NameValueCollection data);
     }
 }

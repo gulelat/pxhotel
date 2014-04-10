@@ -8,12 +8,12 @@ using PX.Business.Models.Medias;
 using PX.Business.Models.Settings.SettingTypes;
 using PX.Business.Mvc.Attributes;
 using PX.Business.Mvc.Controllers;
-using PX.Business.Mvc.Enums;
 using PX.Business.Services.Localizes;
 using PX.Business.Services.Medias;
 using PX.Business.Services.Settings;
 using PX.Core.Configurations;
 using PX.Core.Configurations.Constants;
+using PX.Core.Framework.Enums;
 using PX.Core.Framework.Mvc.Models;
 using PX.Core.Ultilities.Files;
 
@@ -120,15 +120,15 @@ namespace PX.Web.Areas.Admin.Controllers
                         }
                         if (imageUploadSetting.MinHeight.HasValue && img.Height < imageUploadSetting.MinHeight)
                         {
-                            return Json(new { Success = false, Message = string.Format(_localizedResourceServices.T("AdminModule:::Media:::Upload:::Image Height is less than {0}"), imageUploadSetting.MinHeight) }, "text/html");
+                            return Json(new  { Success = false, Message = string.Format(_localizedResourceServices.T("AdminModule:::Media:::Upload:::Image Height is less than {0}"), imageUploadSetting.MinHeight) }, "text/html");
                         }
                         if (imageUploadSetting.MaxWidth.HasValue && img.Width > imageUploadSetting.MaxWidth)
                         {
-                            return Json(new { Success = false, Message = string.Format(_localizedResourceServices.T("AdminModule:::Media:::Upload:::Image Width is greater than {0}"), imageUploadSetting.MaxWidth) }, "text/html");
+                            return Json(new  { Success = false, Message = string.Format(_localizedResourceServices.T("AdminModule:::Media:::Upload:::Image Width is greater than {0}"), imageUploadSetting.MaxWidth) }, "text/html");
                         }
                         if (imageUploadSetting.MaxHeight.HasValue && img.Height > imageUploadSetting.MaxHeight)
                         {
-                            return Json(new { Success = false, Message = string.Format(_localizedResourceServices.T("AdminModule:::Media:::Upload:::Image Height is greater than {0}"), imageUploadSetting.MaxHeight) }, "text/html");
+                            return Json(new  { Success = false, Message = string.Format(_localizedResourceServices.T("AdminModule:::Media:::Upload:::Image Height is greater than {0}"), imageUploadSetting.MaxHeight) }, "text/html");
                         }
                     }
                     img.Save(file);

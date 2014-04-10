@@ -1,21 +1,26 @@
-﻿using PX.Business.Models.Settings.SettingTypes.Base;
-using PX.Business.Mvc.Environments;
+﻿using System;
+using System.Collections.Specialized;
+using PX.Business.Models.Settings.SettingTypes.Base;
 using PX.Business.Services.Settings;
+using PX.Core.Framework.Mvc.Environments;
+using PX.Core.Ultilities;
 using PX.EntityModel;
 
 namespace PX.Business.Models.Settings.SettingTypes
 {
-    public class ImageUploadSettingResolver : SettingParser<ImageUploadSetting>, ISettingModel<ImageUploadSetting>
+    public class ImageUploadSettingResolver : SettingParser<ImageUploadSetting>, ISettingModel
     {
-        public string SettingName
+        public Type SettingType
         {
-            get
-            {
-                return "ImageUploadSetting";
-            }
+            get { return typeof(ImageUploadSetting); }
         }
 
-        public ImageUploadSetting LoadSetting()
+        public string SettingName
+        {
+            get { return "ImageUploadSetting"; }
+        }
+
+        public dynamic LoadSetting()
         {
             var settingServices = HostContainer.GetInstance<ISettingServices>();
             var settingString = settingServices.GetSetting<string>(SettingName);
@@ -33,6 +38,18 @@ namespace PX.Business.Models.Settings.SettingTypes
                 return setting;
             }
             return DeserializeSetting(settingString);
+        }
+
+        public string GetSettingValue(NameValueCollection data)
+        {
+            var imageUploadSetting = new ImageUploadSetting
+            {
+                MinWidth = Convert.ToInt32(data["MinWidth"]),
+                MinHeight =  Convert.ToInt32(data["MinHeight"]),
+                MaxWidth =  Convert.ToInt32(data["MaxWidth"]),
+                MaxHeight =  Convert.ToInt32(data["MaxHeight"])
+            };
+            return SerializeSetting(imageUploadSetting);
         }
     }
 

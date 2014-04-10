@@ -7,7 +7,7 @@ using System.Linq.Expressions;
 using System.Web.Mvc;
 using AutoMapper;
 using PX.Business.Models.PageTemplates;
-using PX.Business.Mvc.Environments;
+using PX.Core.Framework.Mvc.Environments;
 using PX.Business.Services.Localizes;
 using PX.Business.Services.Pages;
 using PX.Core.Configurations.Constants;

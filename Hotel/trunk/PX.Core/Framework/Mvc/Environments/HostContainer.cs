@@ -1,6 +1,6 @@
 ﻿using SimpleInjector;
 
-namespace PX.Business.Mvc.Environments
+namespace PX.Core.Framework.Mvc.Environments
 {
     public static class HostContainer
     {

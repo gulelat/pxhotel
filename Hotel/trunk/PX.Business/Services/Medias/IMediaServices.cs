@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using PX.Business.Models.Medias;
-using PX.Business.Mvc.Enums;
 using PX.Core.Framework.Mvc.Models;
 
 namespace PX.Business.Services.Medias
