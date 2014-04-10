@@ -230,7 +230,7 @@ namespace PX.Business.Services.Users
                         {
                             Success = true,
                             Message = _localizedResourceServices.T("AdminModule:::Users:::Login succesfully"),
-                            Data = urlHelper.Action("LoginSuccess", "Account")
+                            Data = string.IsNullOrEmpty(model.ReturnUrl) ? urlHelper.Action("LoginSuccess", "Account") : model.ReturnUrl
                         };
                 }
             }

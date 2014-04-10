@@ -20,7 +20,7 @@ namespace PX.Web.Areas.Admin.Controllers
         {
             _userServices = userServices;
         }
-        
+
         #region Login
 
         public ActionResult Login()
@@ -35,9 +35,9 @@ namespace PX.Web.Areas.Admin.Controllers
         }
 
         [ChildActionOnly]
-        public ActionResult LoginForm()
+        public ActionResult LoginForm(string returnUrl)
         {
-            var model = new LoginModel();
+            var model = new LoginModel { ReturnUrl = returnUrl };
             return PartialView("Login/_Login", model);
         }
 
@@ -47,9 +47,9 @@ namespace PX.Web.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {
                 var response = _userServices.Login(model);
-                if(response.Success)
+                if (response.Success)
                 {
-                    SetSuccessMessage(LocalizedResourceServices.T("AdminModule:::Users:::Login successfully"));
+                    SetSuccessMessage(LocalizedResourceServices.T("AdminModule:::Account:::Messages:::Login successfully."));
                 }
                 return Json(response);
             }
@@ -101,7 +101,7 @@ namespace PX.Web.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-            return Json("");
+                return Json("");
             }
 
             return Json(new ResponseModel
@@ -113,14 +113,14 @@ namespace PX.Web.Areas.Admin.Controllers
 
         #endregion
 
-        #region Sign Out
+        #region Log Out
         public ActionResult LogOut()
         {
             FormsAuthentication.SignOut();
             Session.Abandon();
             return RedirectToAction("Login");
         }
-        
+
         #endregion
 
         #region My Profile

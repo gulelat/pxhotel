@@ -1,11 +1,13 @@
 ﻿@model PX.Business.Models.Users.Logins.LoginModel
 
+@ShowStatusMessage()
 @using (Ajax.BeginForm("LoginForm", new AjaxOptions
     {
         LoadingElementId = "loading-wrapper",
         OnSuccess = "OnSuccess"
     }))
 {
+    @Html.HiddenFor(m => m.ReturnUrl)
     <div id="login-box" class="login-box visible widget-box no-border">
         <div class="widget-body">
             <div class="widget-main">
