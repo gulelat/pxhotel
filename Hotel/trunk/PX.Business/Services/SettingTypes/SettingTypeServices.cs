@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Objects.SqlClient;
 using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
@@ -132,12 +133,13 @@ namespace PX.Business.Services.SettingTypes
         /// Gets the setting types.
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<SelectListItem> GetSettingTypes()
+        public IEnumerable<SelectListItem> GetSettingTypes(int? typeId)
         {
-            return GetAll().ToList().Select(r => new SelectListItem
+            return GetAll().Select(r => new SelectListItem
             {
                 Text = r.Name,
-                Value = r.Id.ToString(CultureInfo.InvariantCulture)
+                Value = SqlFunctions.StringConvert((double)r.Id).Trim(),
+                Selected = typeId.HasValue && r.Id == typeId
             });
         }
     }

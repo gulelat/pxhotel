@@ -46,5 +46,7 @@ namespace PX.EntityModel
         public DbSet<Testimonial> Testimonials { get; set; }
         public DbSet<UserGroup> UserGroups { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<PageTag> PageTags { get; set; }
+        public DbSet<Tag> Tags { get; set; }
     }
 }

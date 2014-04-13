@@ -256,45 +256,8 @@ namespace PX.Business.Services.Pages
         /// <returns></returns>
         public PageManageModel GetPageManageModel(int? id = null)
         {
-            int position;
-            int relativePageId;
-            IEnumerable<SelectListItem> relativePages;
             var page = GetById(id);
-            if (page != null)
-            {
-                relativePages = GetRelativePages(out position, out relativePageId, page.Id, page.ParentId);
-                return new PageManageModel
-                    {
-                        Id = page.Id,
-                        Content = page.Content,
-                        Title = page.Title,
-                        FriendlyUrl = page.FriendlyUrl,
-                        Caption = page.Caption,
-                        Status = page.Status,
-                        StatusList = GetStatus(),
-                        ParentId = page.ParentId,
-                        Parents = GetPossibleParents(page.Id),
-                        PageTemplateId = page.PageTemplateId,
-                        PageTemplates = _pageTemplateServices.GetPageTemplateSelectList(page.PageTemplateId),
-                        Position = position,
-                        Positions = EnumUtilities.GetAllItemsFromEnum<PageEnums.PositionEnums>(),
-                        RelativePageId = relativePageId,
-                        RelativePages = relativePages,
-                        RecordOrder = page.RecordOrder,
-                        RecordActive = page.RecordActive
-                    };
-            }
-            relativePages = GetRelativePages(out position, out relativePageId);
-            return new PageManageModel
-            {
-                StatusList = GetStatus(),
-                Parents = GetPossibleParents(),
-                PageTemplates = _pageTemplateServices.GetPageTemplateSelectList(),
-                Positions = EnumUtilities.GetAllItemsFromEnum<PageEnums.PositionEnums>(),
-                Position = position,
-                RelativePageId = relativePageId,
-                RelativePages = relativePages,
-            };
+            return page != null ? new PageManageModel(page) : new PageManageModel();
         }
 
         /// <summary>
@@ -325,6 +288,27 @@ namespace PX.Business.Services.Pages
                 {
                     page.Content = model.Content;
                     page.Caption = model.Caption;
+                }
+
+                var currentTags = page.PageTags.Select(t => t.TagId).ToList();
+                foreach (var id in currentTags)
+                {
+                    if (!model.Tags.Contains(id))
+                    {
+                        PageTagRepository.Delete(id);
+                    }
+                }
+                foreach (var tagId in model.Tags)
+                {
+                    if (currentTags.All(n => n != tagId))
+                    {
+                        var pageTag = new PageTag
+                        {
+                            PageId = page.Id,
+                            TagId = tagId
+                        };
+                        PageTagRepository.Insert(pageTag);
+                    }
                 }
 
                 //Parse friendly url
@@ -608,6 +592,27 @@ namespace PX.Business.Services.Pages
         public bool IsFriendlyUrlExisted(int? pageId, string friendlyUrl)
         {
             return Fetch(u => u.FriendlyUrl.Equals(friendlyUrl) && u.Id != pageId).Any();
+        }
+
+        /// <summary>
+        /// Get all tags of page
+        /// </summary>
+        /// <param name="pageId"></param>
+        /// <returns></returns>
+        public IEnumerable<SelectListItem> GetPageTags(int? pageId = null)
+        {
+            var pageTagIds = new List<int>();
+            var page = GetById(pageId);
+            if(page != null)
+            {
+                pageTagIds = page.PageTags.Select(t => t.TagId).ToList();
+            }
+            return TagRepository.GetAll().Select(t => new SelectListItem
+            {
+                Text = t.Name,
+                Value = SqlFunctions.StringConvert((double)t.Id),
+                Selected = pageTagIds.Contains(t.Id)
+            });
         }
     }
 }

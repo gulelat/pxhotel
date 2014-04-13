@@ -29,7 +29,7 @@ namespace PX.Business.Services.SettingTypes
 
         JqGridSearchOut SearchSettingTypes(JqSearchIn si);
         
-        IEnumerable<SelectListItem> GetSettingTypes();
+        IEnumerable<SelectListItem> GetSettingTypes(int? typeId);
 
     }
 }

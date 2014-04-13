@@ -39,18 +39,6 @@ namespace PX.Business.Models.Settings.SettingTypes
             }
             return DeserializeSetting(settingString);
         }
-
-        public string GetSettingValue(NameValueCollection data)
-        {
-            var passwordSetting = new PasswordSetting
-                {
-                    PasswordMinLengthRequired = Convert.ToInt32(data["PasswordMinLengthRequired"]),
-                    PasswordMustHaveDigit = ConvertFormDataToBoolean(data, "PasswordMustHaveDigit"),
-                    PasswordMustHaveSymbol = ConvertFormDataToBoolean(data, "PasswordMustHaveSymbol"),
-                    PasswordMustHaveUpperAndLowerCaseLetters = ConvertFormDataToBoolean(data, "PasswordMustHaveUpperAndLowerCaseLetters"),
-                };
-            return SerializeSetting(passwordSetting);
-        }
     }
 
     public class PasswordSetting

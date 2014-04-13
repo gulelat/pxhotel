@@ -68,7 +68,7 @@ namespace PX.Business.Services.RotatingImageGroups
         #region Search Methods
 
         /// <summary>
-        /// search the user groups.
+        /// search the rotating image groups.
         /// </summary>
         /// <returns></returns>
         public JqGridSearchOut SearchRotatingImageGroups(JqSearchIn si)
@@ -148,7 +148,7 @@ namespace PX.Business.Services.RotatingImageGroups
         #endregion
 
         /// <summary>
-        /// Gets the setting types.
+        /// Gets the rotating image groups.
         /// </summary>
         /// <returns></returns>
         public IEnumerable<SelectListItem> GetRotatingImageGroups()
@@ -161,7 +161,7 @@ namespace PX.Business.Services.RotatingImageGroups
         }
 
         /// <summary>
-        /// Get group setting model
+        /// Get group rotating image manage model
         /// </summary>
         /// <param name="id">the group id</param>
         /// <returns></returns>

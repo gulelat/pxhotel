@@ -276,19 +276,6 @@ namespace PX.Business.Services.News
         #endregion
 
         /// <summary>
-        /// Gets the News.
-        /// </summary>
-        /// <returns></returns>
-        public IEnumerable<SelectListItem> GetNews()
-        {
-            return GetAll().ToList().Select(r => new SelectListItem
-            {
-                Text = r.Title,
-                Value = r.Id.ToString(CultureInfo.InvariantCulture)
-            });
-        }
-
-        /// <summary>
         /// Get news status
         /// </summary>
         /// <returns></returns>

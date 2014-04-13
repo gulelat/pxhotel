@@ -30,9 +30,9 @@ namespace PX.Web.Areas.Admin.Controllers
             return JsonConvert.SerializeObject(_settingTypeServices.SearchSettingTypes(si));
         }
 
-        public JsonResult GetSettingTypes()
+        public JsonResult GetSettingTypes(int? id)
         {
-            return Json(_settingTypeServices.GetSettingTypes(), JsonRequestBehavior.AllowGet);
+            return Json(_settingTypeServices.GetSettingTypes(id), JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]

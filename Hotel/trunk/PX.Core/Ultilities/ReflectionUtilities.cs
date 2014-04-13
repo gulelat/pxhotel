@@ -19,7 +19,6 @@ namespace PX.Core.Ultilities
                 .Where(x => interfaceType.IsAssignableFrom(x) && !x.IsInterface && !x.IsAbstract);
         }
 
-
         /// <summary>
         /// Get attribute of member
         /// </summary>
@@ -31,6 +30,20 @@ namespace PX.Core.Ultilities
             var customAttributes = memberInfo.GetCustomAttributes(typeof(T), false);
             var attribute = customAttributes.First(a => a is T) as T;
             return attribute;
+        }
+
+        /// <summary>
+        /// Attempts to set a named property of an entity to an arbitrary value. The value is set if the property is found.
+        /// </summary>
+        /// <typeparam name="T">An entity deriving of type EntityObject.</typeparam>
+        /// <param name="entityToSet">The instance of the entity whose value will be set.</param>
+        /// <param name="propertyName">The name of the property to set.</param>
+        /// <param name="value">The value of the property to set.</param>
+        public static void SetProperty<T>(T entityToSet, string propertyName, object value)
+        {
+            var targetProperty = entityToSet.GetType().GetProperty(propertyName);
+            if (targetProperty != null)
+                targetProperty.SetValue(entityToSet, value, null);
         }
     }
 }

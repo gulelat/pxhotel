@@ -37,9 +37,9 @@ namespace PX.Web.Areas.Admin.Controllers
         }
 
         #region Ajax Methods
-        public JsonResult GetUserGroups()
+        public JsonResult GetUserGroups(int? id)
         {
-            return Json(_userGroupServices.GetUserGroups(), JsonRequestBehavior.AllowGet);
+            return Json(_userGroupServices.GetUserGroups(id), JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult GetStatus()

@@ -17,6 +17,7 @@ namespace PX.EntityModel
         public Page()
         {
             this.Pages1 = new HashSet<Page>();
+            this.PageTags = new HashSet<PageTag>();
         }
     
         public int Id { get; set; }
@@ -31,6 +32,11 @@ namespace PX.EntityModel
         public bool IsHomePage { get; set; }
         public string Hierarchy { get; set; }
         public Nullable<int> ParentId { get; set; }
+        public bool IncludeInSiteNavigation { get; set; }
+        public Nullable<System.DateTime> StartPublishingDate { get; set; }
+        public Nullable<System.DateTime> EndPublishingDate { get; set; }
+        public string Keywords { get; set; }
+        public string Tags { get; set; }
         public int RecordOrder { get; set; }
         public bool RecordActive { get; set; }
         public System.DateTime Created { get; set; }
@@ -41,5 +47,6 @@ namespace PX.EntityModel
         public virtual ICollection<Page> Pages1 { get; set; }
         public virtual Page Page1 { get; set; }
         public virtual PageTemplate PageTemplate { get; set; }
+        public virtual ICollection<PageTag> PageTags { get; set; }
     }
 }

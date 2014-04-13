@@ -17,6 +17,7 @@ using PX.Business.Services.RotatingImageGroups;
 using PX.Business.Services.RotatingImages;
 using PX.Business.Services.SettingTypes;
 using PX.Business.Services.Settings;
+using PX.Business.Services.Tags;
 using PX.Business.Services.Templates;
 using PX.Business.Services.Testimonials;
 using PX.Business.Services.UserGroups;
@@ -139,6 +140,7 @@ namespace PX.Web
             container.Register<IRotatingImageGroupServices, RotatingImageGroupServices>(Lifestyle.Singleton);
             container.Register<IMediaServices, MediaServices>(Lifestyle.Singleton);
             container.Register<IMediaFileManager, MediaFileManager>(Lifestyle.Singleton);
+            container.Register<ITagServices, TagServices>(Lifestyle.Singleton);
         }
 
         #endregion

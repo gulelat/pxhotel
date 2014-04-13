@@ -69,7 +69,7 @@ function buildMultipleDropdown(response) {
 
 
 //Load spinner
-var opts = {
+var spinnerOpts = {
     lines: 13, // The number of lines to draw
     length: 20, // The length of each line
     width: 10, // The line thickness
@@ -79,7 +79,7 @@ var opts = {
 
 $(function() {
     var target = document.getElementById('spinner-preview');
-    var spinner = new Spinner(opts).spin(target);
+    var spinner = new Spinner(spinnerOpts).spin(target);
 });
 
 function showLoading() {
@@ -106,7 +106,7 @@ function ShowSuccessMessage(message, center) {
         centerClass = "";
         
     $.gritter.add({
-        time: 2000,
+        time: 4000,
         title: 'Message',
         text: message,
         class_name: centerClass + 'gritter-info'
@@ -120,7 +120,7 @@ function ShowErrorMessage(message, center) {
         centerClass = "";
     
     $.gritter.add({
-        time: 2000,
+        time: 4000,
         title: 'Error',
         text: message,
         class_name: centerClass + 'gritter-error'
@@ -133,7 +133,7 @@ function ShowWarningMessage(message, center) {
     if (center == null || center)
         centerClass = "gritter-center ";
     $.gritter.add({
-        time: 2000,
+        time: 4000,
         title: 'Warning',
         text: message,
         class_name: centerClass + 'gritter-warning'

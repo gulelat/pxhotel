@@ -10588,7 +10588,7 @@ ul.attachment-list > li {
   height: 25px;
 }
 .chosen-container-multi .chosen-choices li.search-choice .search-choice-close {
-  background: none;
+  background: none !important;
 }
 .chosen-container-multi .chosen-choices li.search-choice .search-choice-close:before {
   content: "\f00d";
