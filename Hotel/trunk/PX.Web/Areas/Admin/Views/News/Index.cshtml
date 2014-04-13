@@ -42,6 +42,14 @@
     <script type="text/javascript">
         var gridSelector = "#grid-table";
         var pagerSelector = "#grid-pager";
+        var navButtonsSetup = {
+            enableEdit: true,
+            enableCreate: true,
+            enableDelete: true,
+            enableSearch: true,
+            enableRefresh: true,
+            enableView: true
+        };
         jQuery(function ($) {
             jQuery(gridSelector).jqGrid({
                 datatype: "json",

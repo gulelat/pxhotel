@@ -29,7 +29,7 @@ namespace PX.Business.Services.UserGroups
 
         JqGridSearchOut SearchUserGroups(JqSearchIn si);
         
-        IEnumerable<SelectListItem> GetUserGroups();
+        IEnumerable<SelectListItem> GetUserGroups(int? userGroupId);
 
         GroupPermissionsModel GetPermissionSettings(int id);
 

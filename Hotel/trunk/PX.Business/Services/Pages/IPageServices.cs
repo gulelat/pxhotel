@@ -49,6 +49,8 @@ namespace PX.Business.Services.Pages
 
         IEnumerable<SelectListItem> GetRelativePages(out int position, out int relativePageId, int? pageId = null, int? parentId = null);
 
+        IEnumerable<SelectListItem> GetPageTags(int? pageId = null);
+
         bool IsTitleExisted(int? pageId, string title);
 
         bool IsFriendlyUrlExisted(int? pageId, string friendlyUrl);

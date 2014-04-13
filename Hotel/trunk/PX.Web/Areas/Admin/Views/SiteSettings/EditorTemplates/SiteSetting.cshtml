@@ -1,8 +1,8 @@
 ﻿@model PX.EntityModel.SiteSetting
 
 <div class="form-group">
-    @MText(Tags.Label, "AdminModule:::SiteSettings:::Forms:::Value", "Value", new { @class = "col-xs-2 control-label no-padding-right", @for = "Value" })
-    <div class="col-xs-7">
+    @MText(Tags.Label, "AdminModule:::SiteSettings:::Forms:::Value", "Value", new { @class = "col-xs-4 control-label no-padding-right", @for = "Value" })
+    <div class="col-xs-5">
         @Html.TextBoxFor(m => m.Value, new { @class = "col-xs-12" })
         @Html.ValidationMessageFor(m => m.Value)
     </div>

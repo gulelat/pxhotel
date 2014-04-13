@@ -70,6 +70,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\Tags\TestimonialModel.cs" />
     <Compile Include="Models\Medias\FileInfoModel.cs" />
     <Compile Include="Models\Medias\FileTreeModel.cs" />
     <Compile Include="Models\Pages\CurlyBrackets\DynamicMenuCurlyBracket.cs" />
@@ -90,6 +91,8 @@
     <Compile Include="Models\Testimonials\TestimonialModel.cs" />
     <Compile Include="Models\CurlyBrackets\CurlyBracketModel.cs" />
     <Compile Include="Models\Pages\PageManageModel.cs" />
+    <Compile Include="Services\Tags\ITagServices.cs" />
+    <Compile Include="Services\Tags\TagServices.cs" />
     <Compile Include="Services\Medias\MediaFileManager.cs" />
     <Compile Include="Services\Medias\IMediaFileManager.cs" />
     <Compile Include="Services\Medias\IMediaServices.cs" />

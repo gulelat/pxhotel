@@ -87,7 +87,7 @@
                             var isHomePage = rowObject["IsHomePage"];
                             var editIcon = "<a class='grid-action' href='@Url.Action("Edit")/" + options.rowId + "'><div class='ui-pg-div ui-inline-edit' title='' data-original-title='Edit Page'><span class='icon-edit'></span></div></a>";
                             var previewIcon = "<a class='grid-action' href='/" + url + "'><div class='ui-pg-div ui-inline-edit' title='' data-original-title='View Page'><span class='icon-eye-open'></span></div></a>";
-                            var homePageIcon = "<a class='grid-action change-home-page' data-id='" + options.rowId + "' href='javascript:void(0)'><div class='ui-pg-div ui-inline-edit' title='' data-original-title='Change Home Page'><span class='icon-home'></span></div></a>";
+                            var homePageIcon = "<a class='grid-action change-home-page' data-id='" + options.rowId + "' href='javascript:void(0)'><div class='ui-pg-div ui-inline-edit' title='' data-original-title='Set As Home Page'><span class='icon-home'></span></div></a>";
                             if(isHomePage) {
                                 homePageIcon = '';
                             }

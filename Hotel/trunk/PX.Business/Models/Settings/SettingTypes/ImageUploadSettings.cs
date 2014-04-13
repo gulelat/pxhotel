@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Specialized;
 using PX.Business.Models.Settings.SettingTypes.Base;
 using PX.Business.Services.Settings;
 using PX.Core.Framework.Mvc.Environments;
-using PX.Core.Ultilities;
 using PX.EntityModel;
 
 namespace PX.Business.Models.Settings.SettingTypes
@@ -38,18 +36,6 @@ namespace PX.Business.Models.Settings.SettingTypes
                 return setting;
             }
             return DeserializeSetting(settingString);
-        }
-
-        public string GetSettingValue(NameValueCollection data)
-        {
-            var imageUploadSetting = new ImageUploadSetting
-            {
-                MinWidth = Convert.ToInt32(data["MinWidth"]),
-                MinHeight =  Convert.ToInt32(data["MinHeight"]),
-                MaxWidth =  Convert.ToInt32(data["MaxWidth"]),
-                MaxHeight =  Convert.ToInt32(data["MaxHeight"])
-            };
-            return SerializeSetting(imageUploadSetting);
         }
     }
 

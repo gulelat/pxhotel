@@ -9,6 +9,7 @@ using AutoMapper;
 using PX.Business.Models.Settings;
 using PX.Business.Models.Settings.SettingTypes;
 using PX.Business.Models.Settings.SettingTypes.Base;
+using PX.Business.Services.SettingTypes;
 using PX.Core.Framework.Mvc.Environments;
 using PX.Business.Services.Localizes;
 using PX.Core.Framework.Enums;
@@ -23,9 +24,11 @@ namespace PX.Business.Services.Settings
     public class SettingServices : ISettingServices
     {
         private readonly ILocalizedResourceServices _localizedResourceServices;
+        private readonly ISettingTypeServices _settingTypeServices;
         public SettingServices()
         {
             _localizedResourceServices = HostContainer.GetInstance<ILocalizedResourceServices>();
+            _settingTypeServices = HostContainer.GetInstance<ISettingTypeServices>();
         }
 
         #region Base
@@ -228,26 +231,26 @@ namespace PX.Business.Services.Settings
         public SiteSettingManageModel GetSettingManageModel(int id)
         {
             var setting = GetById(id);
-            if(setting != null)
+            if (setting != null)
             {
-                var settingParsers = ReflectionUtilities.GetAllImplementTypesOfInterface(typeof (ISettingModel));
+                var settingManageModel = new SiteSettingManageModel
+                    {
+                        SettingTypeId = setting.SettingTypeId,
+                        SettingTypes = _settingTypeServices.GetSettingTypes(setting.SettingTypeId),
+                        SettingName = setting.Name
+                    };
+                var settingParsers = ReflectionUtilities.GetAllImplementTypesOfInterface(typeof(ISettingModel));
                 foreach (var parser in settingParsers)
                 {
                     var instance = (ISettingModel)Activator.CreateInstance(parser);
-                    if(instance.SettingName.Equals(setting.Name))
+                    if (instance.SettingName.Equals(setting.Name))
                     {
-                        return new SiteSettingManageModel
-                            {
-                                Setting = instance.LoadSetting(),
-                                SettingName = setting.Name
-                            };
+                        settingManageModel.Setting = instance.LoadSetting();
+                        return settingManageModel;
                     }
                 }
-                return new SiteSettingManageModel
-                    {
-                        Setting = setting,
-                        SettingName = setting.Name
-                    };
+                settingManageModel.Setting = setting;
+                return settingManageModel;
             }
             return null;
         }
@@ -257,6 +260,7 @@ namespace PX.Business.Services.Settings
             var setting = SiteSettingRepository.GetByKey(model.SettingName);
             if (setting != null)
             {
+                setting.SettingTypeId = model.SettingTypeId;
                 var settingParsers = ReflectionUtilities.GetAllImplementTypesOfInterface(typeof(ISettingModel));
                 ResponseModel response;
                 foreach (var parser in settingParsers)

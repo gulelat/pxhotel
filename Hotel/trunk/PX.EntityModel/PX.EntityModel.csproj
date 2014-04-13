@@ -101,9 +101,14 @@
     <Compile Include="Page.cs">
       <DependentUpon>PXHotel.tt</DependentUpon>
     </Compile>
+    <Compile Include="PageTag.cs">
+      <DependentUpon>PXHotel.tt</DependentUpon>
+    </Compile>
     <Compile Include="PageTemplate.cs">
       <DependentUpon>PXHotel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Repositories\PageTagRepository.cs" />
+    <Compile Include="Repositories\PageRepository.cs" />
     <Compile Include="Repositories\RotatingImageGroupRepository.cs" />
     <Compile Include="Repositories\RotatingImageRepository.cs" />
     <Compile Include="Repositories\TemplateRepository.cs" />
@@ -112,7 +117,7 @@
     <Compile Include="Repositories\NewsRepository.cs" />
     <Compile Include="Repositories\SettingTypeRepository.cs" />
     <Compile Include="Repositories\TestimonialRepository.cs" />
-    <Compile Include="Repositories\PageRepository.cs" />
+    <Compile Include="Repositories\TagRepository.cs" />
     <Compile Include="Repositories\PageTemplateRepository.cs" />
     <Compile Include="Repositories\GroupPermissionRepository.cs" />
     <Compile Include="Repositories\LanguageRepository.cs" />
@@ -159,6 +164,9 @@
       <DependentUpon>PXHotel.tt</DependentUpon>
     </Compile>
     <Compile Include="SiteSetting.cs">
+      <DependentUpon>PXHotel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Tag.cs">
       <DependentUpon>PXHotel.tt</DependentUpon>
     </Compile>
     <Compile Include="Template.cs">

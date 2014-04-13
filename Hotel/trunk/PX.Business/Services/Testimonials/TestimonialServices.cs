@@ -56,7 +56,7 @@ namespace PX.Business.Services.Testimonials
         #region Search Methods
 
         /// <summary>
-        /// search the user groups.
+        /// search the testimonials.
         /// </summary>
         /// <returns></returns>
         public JqGridSearchOut SearchTestimonials(JqSearchIn si)
@@ -84,10 +84,10 @@ namespace PX.Business.Services.Testimonials
         #region Manage Methods
 
         /// <summary>
-        /// Manage user group
+        /// Manage testimonial
         /// </summary>
         /// <param name="operation">the operation</param>
-        /// <param name="model">the user group model</param>
+        /// <param name="model">the testimonial model</param>
         /// <returns></returns>
         public ResponseModel ManageTestimonial(GridOperationEnums operation, TestimonialModel model)
         {

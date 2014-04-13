@@ -68,12 +68,78 @@
     </div>
 </div>
 <div class="space-4"></div>
-<div class="form-group">
-    @MText(Tags.Label, "AdminModule:::Pages:::Forms:::Template", "Template", new { @class = "col-sm-1 no-padding-right", @for = "PageTemplateId" })
-    <div class="col-sm-11">
-        @Html.DropDownListFor(m => m.PageTemplateId, Model.PageTemplates, "..Select template..", new { @class = "form-control col-xs-10 col-sm-4" })
-        @Html.ValidationMessageFor(m => m.PageTemplateId)
+<div class="row">
+    <div class="tabbable">
+        <ul class="nav nav-tabs padding-12 tab-color-blue background-blue" id="myTab4">
+            <li class="active">
+                <a data-toggle="tab" href="#tags">Tags</a>
+            </li>
+
+            <li>
+                <a data-toggle="tab" href="#advanceSetting">Advanced Settings</a>
+            </li>
+
+            <li>
+                <a data-toggle="tab" href="#publishingDates">Publishing dates</a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div id="tags" class="tab-pane in active">
+                <div class="form-group">
+                    @MText(Tags.Label, "AdminModule:::Pages:::Forms:::Tags", "Tags", new { @class = "col-sm-1 no-padding-right control-label", @for = "PageTemplateId" })
+                    <div class="col-sm-11">
+                        @Html.DropDownListFor(m => m.Tags, Model.TagList, new { @class = "form-control chosen-select tag-input-style", multiple = "multiple" })
+                        @Html.ValidationMessageFor(m => m.Tags)
+                    </div>
+                </div>
+            </div>
+
+            <div id="advanceSetting" class="tab-pane">
+                <div class="form-group">
+                    @MText(Tags.Label, "AdminModule:::Pages:::Forms:::IncludeInSiteNavigation", "Include In Site Navigation", new { @class = "col-xs-7 col-sm-3 no-padding-right control-label", @for = "PageTemplateId" })
+                    <div class="col-xs-3 col-sm-9">
+                        @Html.CheckBoxFor(m => m.IncludeInSiteNavigation)
+                        @Html.ValidationMessageFor(m => m.IncludeInSiteNavigation)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @MText(Tags.Label, "AdminModule:::Pages:::Forms:::Template", "Template", new { @class = "col-sm-3 no-padding-right control-label", @for = "PageTemplateId" })
+                    <div class="col-sm-9">
+                        @Html.DropDownListFor(m => m.PageTemplateId, Model.PageTemplates, "..Select template..", new { @class = "form-control col-xs-10 col-sm-4" })
+                        @Html.ValidationMessageFor(m => m.PageTemplateId)
+                    </div>
+                </div>
+            </div>
+
+            <div id="publishingDates" class="tab-pane">
+                <div class="form-group">
+                    @MText(Tags.Label, "AdminModule:::Pages:::Forms:::StartPublishingDate", "Start Publishing Date", new { @class = "col-sm-2 no-padding-right control-label", @for = "PageTemplateId" })
+                    <div class="col-sm-10">
+                        <div class="input-group col-sm-4">
+                            @Html.TextBoxFor(m => m.StartPublishingDate, new { @class = "form-control col-xs-12 date-picker" })
+                            <span class="input-group-addon">
+                                <i class="icon-calendar bigger-110"></i>
+                            </span>
+                        </div>
+                        @Html.ValidationMessageFor(m => m.StartPublishingDate)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @MText(Tags.Label, "AdminModule:::Pages:::Forms:::EndPublishingDate", "End Publishing Date", new { @class = "col-sm-2 no-padding-right control-label", @for = "PageTemplateId" })
+                    <div class="col-sm-10">
+                        <div class="input-group col-sm-4">
+                            @Html.TextBoxFor(m => m.EndPublishingDate, new { @class = "form-control col-xs-12 date-picker" })
+                            <span class="input-group-addon">
+                                <i class="icon-calendar bigger-110"></i>
+                            </span>
+                        </div>
+                        @Html.ValidationMessageFor(m => m.EndPublishingDate)
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+
 </div>
 <div class="space-4"></div>
 <div class="clearfix form-actions">
@@ -94,8 +160,10 @@
         </button>
     </div>
 </div>
+<link rel="stylesheet" href="@Url.Content("~/Content/backend/css/chosen.css")" />
 <script type="text/javascript" src="@Url.Content("~/Scripts/ckeditor/ckeditor.js")">
 </script>
+<script src="@Url.Content("~/Scripts/Backend/chosen.jquery.min.js")"></script>
 <script>
     CKEDITOR.replace('pageContent',
     {
@@ -130,6 +198,16 @@
                         .val(item.Value).html(item.Text));
                 });
             });
+        });
+
+        $(".chosen-select").chosen();
+        $('.chosen-container').each(function () {
+            $(this).css('width', '100%');
+            $(this).find('input').css('height', 'auto');
+        });
+
+        $('.date-picker').datepicker({ autoclose: true }).next().on(ace.click_event, function () {
+            $(this).prev().focus();
         });
     });
     function printCurlybracket(curlyBracket) {
