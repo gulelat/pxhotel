@@ -74,5 +74,12 @@ namespace PX.Web.Areas.Admin.Controllers
         }
 
         #endregion
+
+        #region Rotating Image Gallery
+        public ActionResult Gallery(int id)
+        {
+            return View();
+        }
+        #endregion
     }
 }
