@@ -70,6 +70,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\RotatingImageGroups\GroupGalleryModel.cs" />
     <Compile Include="Models\Tags\TestimonialModel.cs" />
     <Compile Include="Models\Medias\FileInfoModel.cs" />
     <Compile Include="Models\Medias\FileTreeModel.cs" />
