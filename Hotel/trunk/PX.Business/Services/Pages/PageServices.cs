@@ -291,25 +291,28 @@ namespace PX.Business.Services.Pages
                 }
 
                 var currentTags = page.PageTags.Select(t => t.TagId).ToList();
-                foreach (var id in currentTags)
+                foreach (var id in currentTags.Where(id => !model.Tags.Contains(id)))
                 {
-                    if (!model.Tags.Contains(id))
-                    {
-                        PageTagRepository.Delete(id);
-                    }
+                    PageTagRepository.Delete(page.Id, id);
                 }
-                foreach (var tagId in model.Tags)
+                if(model.Tags != null && model.Tags.Any())
                 {
-                    if (currentTags.All(n => n != tagId))
+                    foreach (var tagId in model.Tags)
                     {
-                        var pageTag = new PageTag
+                        if (currentTags.All(n => n != tagId))
                         {
-                            PageId = page.Id,
-                            TagId = tagId
-                        };
-                        PageTagRepository.Insert(pageTag);
+                            var pageTag = new PageTag
+                            {
+                                PageId = page.Id,
+                                TagId = tagId
+                            };
+                            PageTagRepository.Insert(pageTag);
+                        }
                     }
                 }
+
+                page.StartPublishingDate = model.StartPublishingDate;
+                page.EndPublishingDate = model.EndPublishingDate;
 
                 //Parse friendly url
                 page.FriendlyUrl = string.IsNullOrWhiteSpace(model.FriendlyUrl)
@@ -610,7 +613,7 @@ namespace PX.Business.Services.Pages
             return TagRepository.GetAll().Select(t => new SelectListItem
             {
                 Text = t.Name,
-                Value = SqlFunctions.StringConvert((double)t.Id),
+                Value = SqlFunctions.StringConvert((double)t.Id).Trim(),
                 Selected = pageTagIds.Contains(t.Id)
             });
         }

@@ -88,7 +88,7 @@
                 <div class="form-group">
                     @MText(Tags.Label, "AdminModule:::Pages:::Forms:::Tags", "Tags", new { @class = "col-sm-1 no-padding-right control-label", @for = "PageTemplateId" })
                     <div class="col-sm-11">
-                        @Html.DropDownListFor(m => m.Tags, Model.TagList, new { @class = "form-control chosen-select tag-input-style", multiple = "multiple" })
+                        @Html.ListBoxFor(m => m.Tags, Model.TagList, new { @class = "form-control chosen-select tag-input-style", multiple = "multiple" })
                         @Html.ValidationMessageFor(m => m.Tags)
                     </div>
                 </div>
@@ -161,8 +161,7 @@
     </div>
 </div>
 <link rel="stylesheet" href="@Url.Content("~/Content/backend/css/chosen.css")" />
-<script type="text/javascript" src="@Url.Content("~/Scripts/ckeditor/ckeditor.js")">
-</script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/ckeditor/ckeditor.js")"></script>
 <script src="@Url.Content("~/Scripts/Backend/chosen.jquery.min.js")"></script>
 <script>
     CKEDITOR.replace('pageContent',
@@ -206,7 +205,9 @@
             $(this).find('input').css('height', 'auto');
         });
 
-        $('.date-picker').datepicker({ autoclose: true }).next().on(ace.click_event, function () {
+        $('.date-picker').datepicker({
+            autoclose: true, dateonly: true
+        }).next().on(ace.click_event, function () {
             $(this).prev().focus();
         });
     });

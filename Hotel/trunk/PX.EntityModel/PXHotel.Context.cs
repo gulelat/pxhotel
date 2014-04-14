@@ -35,6 +35,7 @@ namespace PX.EntityModel
         public DbSet<NewsCategory> NewsCategories { get; set; }
         public DbSet<NewsNewsCategory> NewsNewsCategories { get; set; }
         public DbSet<Page> Pages { get; set; }
+        public DbSet<PageTag> PageTags { get; set; }
         public DbSet<PageTemplate> PageTemplates { get; set; }
         public DbSet<Room> Rooms { get; set; }
         public DbSet<RoomType> RoomTypes { get; set; }
@@ -42,11 +43,10 @@ namespace PX.EntityModel
         public DbSet<RotatingImage> RotatingImages { get; set; }
         public DbSet<SettingType> SettingTypes { get; set; }
         public DbSet<SiteSetting> SiteSettings { get; set; }
+        public DbSet<Tag> Tags { get; set; }
         public DbSet<Template> Templates { get; set; }
         public DbSet<Testimonial> Testimonials { get; set; }
         public DbSet<UserGroup> UserGroups { get; set; }
         public DbSet<User> Users { get; set; }
-        public DbSet<PageTag> PageTags { get; set; }
-        public DbSet<Tag> Tags { get; set; }
     }
 }
