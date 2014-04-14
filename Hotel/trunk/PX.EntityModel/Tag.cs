@@ -29,5 +29,7 @@ namespace PX.EntityModel
         public string UpdatedBy { get; set; }
     
         public virtual ICollection<PageTag> PageTags { get; set; }
+        public virtual Tag Tags1 { get; set; }
+        public virtual Tag Tag1 { get; set; }
     }
 }
