@@ -1,1 +1,111 @@
-﻿
+﻿@model PX.Business.Models.RotatingImageGroups.GroupGalleryModel
+@{
+    ViewBag.Header = "Group Gallery";
+    ViewBag.Title = "Group Gallery Management";
+    ViewBag.Description = "Group Gallery Management Page";
+}
+@section styles{
+    <link rel="stylesheet" href="/Content/backend/css/colorbox.css" />
+}
+
+<div class="page-header">
+    <h1>@ViewBag.Header
+        <small>
+            <i class="icon-double-angle-right"></i>
+            @ViewBag.Title
+        </small>
+    </h1>
+</div>
+<div class="row">
+    <div class="col-xs-12">
+        <ul class="ace-thumbnails">
+            @foreach (var item in Model.GalleryItems)
+            {
+                <li>
+                    <a href="@item.ImageUrl" data-rel="colorbox">
+                        <img alt="" src="@Thumbnail(item.ImageUrl, 150, 150)" />
+                    </a>
+
+                    <div class="tools tools-top">
+                        <a href="@item.Url">
+                            <i class="icon-link"></i>
+                        </a>
+
+                        <a class="edit-icon" data-url="@item.ImageUrl" href="javascript:void(0)">
+                            <i class="icon-pencil"></i>
+                        </a>
+
+                        <a class="delete-icon" data-id="@item.Id" href="javascript:void(0)">
+                            <i class="icon-remove red"></i>
+                        </a>
+                    </div>
+                </li>
+            }
+        </ul>
+    </div>
+</div>
+@section scripts
+{
+    <script src="~/Scripts/Backend/jquery.colorbox-min.js"></script>
+    <script type="text/javascript">
+        jQuery(function ($) {
+            var colorboxParams = {
+                reposition: true,
+                scalePhotos: true,
+                scrolling: false,
+                previous: '<i class="icon-arrow-left"></i>',
+                next: '<i class="icon-arrow-right"></i>',
+                close: '&times;',
+                current: '{current} of {total}',
+                maxWidth: '100%',
+                maxHeight: '100%',
+                onOpen: function () {
+                    document.body.style.overflow = 'hidden';
+                },
+                onClosed: function () {
+                    document.body.style.overflow = 'auto';
+                },
+                onComplete: function () {
+                    $.colorbox.resize();
+                }
+            };
+
+            $('.ace-thumbnails [data-rel="colorbox"]').colorbox(colorboxParams);
+            $("#cboxLoadingGraphic").append("<i class='icon-spinner orange'></i>"); //let's add a custom loading icon
+
+            $(".edit-icon").click(function () {
+                var imageUrl = $(this).data("url");
+                var image = $(this).find("img");
+                $.fancybox({
+                    href: "@Url.Action("ImageEditor", "Media", new { area = "Admin" })?virtualPath=" + imageUrl,
+                    type: 'iframe',
+                    width: '100%',
+                    afterClose: function () {
+                        parent.$.fancybox.close();
+                        image.attr("src", image.attr("src") + "?" + new Date().getTime());
+                        return true;
+                    },
+                });
+            });
+
+            $(".delete-icon").click(function () {
+                var data = { id: $(this).data("id") };
+                var liTag = $(this).closest("li");
+                console.log(liTag);
+                if (confirm('@T("AdminModule:::RotatingImageGroups:::Messages:::ConfirmRemoveRotatingImage:::Are you sure you want to remove this image? This action cannot be undone.")')) {
+                    $.ajax({
+                        type: 'POST',
+                        url: "@Url.Action("DeleteImage", "RotatingImages")",
+                        data: data,
+                        success: function (response) {
+                            ShowMessage(response);
+                            if (response.Success) {
+                                liTag.remove();
+                            }
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+}

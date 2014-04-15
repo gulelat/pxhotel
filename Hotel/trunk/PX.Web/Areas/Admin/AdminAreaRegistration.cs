@@ -21,10 +21,15 @@ namespace PX.Web.Areas.Admin
 
         public override void RegisterArea(AreaRegistrationContext context)
         {
+            context.MapRoute("Thumbnail_Handler",
+                             "Thumbnail/{id}",
+                             new { controller = "Media", action = "Thumbnail", id = UrlParameter.Optional },
+                             new[] { NameSpaces }
+                );
             context.MapRoute("Admin_default",
                              "Admin/{controller}/{action}/{id}",
-                             new {controller = "Home", action = "Index", id = UrlParameter.Optional},
-                             new[] {NameSpaces}
+                             new { controller = "Home", action = "Index", id = UrlParameter.Optional },
+                             new[] { NameSpaces }
                 );
         }
     }

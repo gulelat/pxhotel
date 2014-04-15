@@ -201,6 +201,13 @@ namespace PX.Business.Mvc.ViewEngines.Razor
 
         #endregion
 
+        #region Image Helpers
+        public string Thumbnail(string filePath, int width, int height)
+        {
+            return Url.Action("Thumbnail", "Media", new { area = "Admin", path = filePath, w = width, h = height });
+        }
+        #endregion
+
         /// <summary>
         /// Get current logged in user
         /// </summary>

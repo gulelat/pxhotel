@@ -54,6 +54,14 @@ namespace PX.Web.Areas.Admin.Controllers
             });
         }
 
+        [HttpPost]
+        public JsonResult DeleteImage(int id)
+        {
+            return Json(_rotatingImageServices.ManageRotatingImage( GridOperationEnums.Del, new RotatingImageModel
+                {
+                    Id = id
+                }));
+        }
 
         #region Create
         public ActionResult Create()
