@@ -13,6 +13,10 @@ namespace PX.Business.Models.RotatingImageGroups
 
     public class GalleryItemModel
     {
+        public int Id { get; set; }
+
+        public string ImageUrl { get; set; }
+
         public string Url { get; set; }
 
         public int RecordOrder { get; set; }

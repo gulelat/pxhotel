@@ -114,9 +114,9 @@ namespace PX.Business.Services.RotatingImageGroups
                     response = Update(rotatingImageGroup);
                     return response.SetMessage(response.Success
                                                    ? _localizedResourceServices.T(
-                                                       "AdminModule:::RotatingImageGroups:::Update group successfully")
+                                                       "AdminModule:::RotatingImageGroups:::Messages:::Update group successfully")
                                                    : _localizedResourceServices.T(
-                                                       "AdminModule:::RotatingImageGroups:::Update group failure. Please try again later."));
+                                                       "AdminModule:::RotatingImageGroups:::Messages:::Update group failure. Please try again later."));
 
                 case GridOperationEnums.Add:
                     rotatingImageGroup = Mapper.Map<RotatingImageGroupModel, RotatingImageGroup>(model);
@@ -126,22 +126,22 @@ namespace PX.Business.Services.RotatingImageGroups
                     response = Insert(rotatingImageGroup);
                     return response.SetMessage(response.Success
                                                    ? _localizedResourceServices.T(
-                                                       "AdminModule:::RotatingImageGroups:::Insert group successfully")
+                                                       "AdminModule:::RotatingImageGroups:::Messages:::Insert group successfully")
                                                    : _localizedResourceServices.T(
-                                                       "AdminModule:::RotatingImageGroups:::Insert group failure. Please try again later."));
+                                                       "AdminModule:::RotatingImageGroups:::Messages:::Insert group failure. Please try again later."));
 
                 case GridOperationEnums.Del:
                     response = Delete(model.Id);
                     return response.SetMessage(response.Success
                                                    ? _localizedResourceServices.T(
-                                                       "AdminModule:::RotatingImageGroups:::Delete group successfully")
+                                                       "AdminModule:::RotatingImageGroups:::Messages:::Delete group successfully")
                                                    : _localizedResourceServices.T(
-                                                       "AdminModule:::RotatingImageGroups:::Delete group failure. Please try again later."));
+                                                       "AdminModule:::RotatingImageGroups:::Messages:::Delete group failure. Please try again later."));
             }
             return new ResponseModel
                 {
                     Success = false,
-                    Message = _localizedResourceServices.T("AdminModule:::RotatingImageGroups:::Group not founded")
+                    Message = _localizedResourceServices.T("AdminModule:::RotatingImageGroups:::Messages:::Rotating Image Group not founded.")
                 };
         }
 
@@ -195,15 +195,42 @@ namespace PX.Business.Services.RotatingImageGroups
 
                 return response.SetMessage(response.Success
                                                ? _localizedResourceServices.T(
-                                                   "AdminModule:::RotatingImageGroups:::Update group settings successfully")
+                                                   "AdminModule:::RotatingImageGroups:::Messages:::Update group settings successfully")
                                                : _localizedResourceServices.T(
-                                                   "AdminModule:::RotatingImageGroups:::Update group settings failure. Please try again later."));
+                                                   "AdminModule:::RotatingImageGroups:::Messages:::Update group settings failure. Please try again later."));
             }
             return new ResponseModel
             {
                 Success = false,
-                Message = _localizedResourceServices.T("AdminModule:::RotatingImageGroups:::Group not found")
+                Message = _localizedResourceServices.T("AdminModule:::RotatingImageGroups:::Messages:::Rotating Image Group not founded.")
             };
+        }
+
+        /// <summary>
+        /// Get all rotating image of gallery
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public GroupGalleryModel GetGroupGallery(int id)
+        {
+            var group = GetById(id);
+            if (group != null)
+            {
+                var images = GetById(id).RotatingImages;
+                return new GroupGalleryModel
+                    {
+                        Id = id,
+                        GroupName = group.Name,
+                        GalleryItems = images.Select(i => new GalleryItemModel
+                            {
+                                Id = i.Id,
+                                ImageUrl = i.ImageUrl,
+                                Url = i.Url,
+                                RecordOrder = i.RecordOrder
+                            }).ToList()
+                    };
+            }
+            return null;
         }
     }
 }

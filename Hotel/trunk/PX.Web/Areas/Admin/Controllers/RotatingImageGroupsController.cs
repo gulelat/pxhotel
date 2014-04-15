@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using PX.Business.Models.RotatingImageGroups;
 using PX.Business.Mvc.Attributes;
 using PX.Business.Mvc.Controllers;
+using PX.Business.Services.Localizes;
 using PX.Business.Services.RotatingImageGroups;
 using PX.Core.Framework.Enums;
 using PX.Core.Framework.Mvc.Attributes;
@@ -78,7 +79,13 @@ namespace PX.Web.Areas.Admin.Controllers
         #region Rotating Image Gallery
         public ActionResult Gallery(int id)
         {
-            return View();
+            var model = _rotatingImageGroupServices.GetGroupGallery(id);
+            if(model == null)
+            {
+                SetErrorMessage(LocalizedResourceServices.T("AdminModule:::RotatingImageGroups:::Messages:::Rotating Image Group not founded."));
+                return RedirectToAction("Index");
+            }
+            return View(model);
         }
         #endregion
     }

@@ -16,6 +16,7 @@ using PX.Core.Configurations.Constants;
 using PX.Core.Framework.Enums;
 using PX.Core.Framework.Mvc.Models;
 using PX.Core.Ultilities.Files;
+using Simple.ImageResizer.MvcExtensions;
 
 namespace PX.Web.Areas.Admin.Controllers
 {
@@ -300,6 +301,14 @@ namespace PX.Web.Areas.Admin.Controllers
                     ex = ex.InnerException;
                 return Json(new { result = MediaEnums.EditImageEnums.SaveFail, message = ex.Message });
             }
+        }
+
+        [OutputCache(VaryByParam = "*", Duration = 60 * 60 * 24 * 365)]
+        public ImageResult Thumbnail(string path, int w = 0, int h = 0)
+        {
+            var filepath = Path.Combine("~", path);
+            filepath = Server.MapPath(filepath);
+            return new ImageResult(filepath, w, h);
         }
     }
 }
