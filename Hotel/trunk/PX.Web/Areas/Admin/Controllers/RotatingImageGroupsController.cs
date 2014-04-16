@@ -3,7 +3,6 @@ using Newtonsoft.Json;
 using PX.Business.Models.RotatingImageGroups;
 using PX.Business.Mvc.Attributes;
 using PX.Business.Mvc.Controllers;
-using PX.Business.Services.Localizes;
 using PX.Business.Services.RotatingImageGroups;
 using PX.Core.Framework.Enums;
 using PX.Core.Framework.Mvc.Attributes;

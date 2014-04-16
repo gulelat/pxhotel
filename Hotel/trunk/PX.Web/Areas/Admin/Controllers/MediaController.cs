@@ -308,6 +308,10 @@ namespace PX.Web.Areas.Admin.Controllers
         {
             var filepath = Path.Combine("~", path);
             filepath = Server.MapPath(filepath);
+            if (!System.IO.File.Exists(filepath))
+            {
+                filepath = Server.MapPath("~/Images/no-image.png");
+            }
             return new ImageResult(filepath, w, h);
         }
     }
