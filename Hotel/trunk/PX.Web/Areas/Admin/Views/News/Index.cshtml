@@ -50,6 +50,11 @@
             enableRefresh: true,
             enableView: true
         };
+        //init some data before create box show - used for handle before select row
+        function initCreateData() {
+            $(gridSelector).setColProp('Categories', { editoptions: { dataUrl: '@Url.Action("GetNewsCategories", "NewsCategories")' } });
+        }
+        
         jQuery(function ($) {
             jQuery(gridSelector).jqGrid({
                 datatype: "json",
@@ -111,6 +116,13 @@
                 rowList: [10, 20, 30],
                 shrinkToFit: false,
                 editurl: '@Url.Action("Manage")',
+
+                //Before select row change data Url base on news id
+                beforeSelectRow: function (rowId) {
+                    var tmpId = $(gridSelector).getRowData(rowId)['Id'];
+                    $(gridSelector).setColProp('Categories', { editoptions: { dataUrl: '@Url.Action("GetNewsCategories", "NewsCategories")/' + tmpId } });
+                    return true;
+                },
 
                 //Default Value
                 altRows: true,

@@ -29,6 +29,8 @@ namespace PX.Business.Models.Settings.SettingTypes.Base
 
         public T MappingData(NameValueCollection formData)
         {
+            var form = formData.ToString();
+
             var setting  = Activator.CreateInstance<T>();
             var type = typeof (T);
             var properties = type.GetProperties();

@@ -75,7 +75,8 @@
 
             $(".edit-icon").click(function () {
                 var imageUrl = $(this).data("url");
-                var image = $(this).find("img");
+                console.log($(this));
+                var image = $(this).parent().find("img");
                 $.fancybox({
                     href: "@Url.Action("ImageEditor", "Media", new { area = "Admin" })?virtualPath=" + imageUrl,
                     type: 'iframe',

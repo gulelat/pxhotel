@@ -216,7 +216,7 @@ namespace PX.Business.Services.RotatingImageGroups
             var group = GetById(id);
             if (group != null)
             {
-                var images = GetById(id).RotatingImages;
+                var images = GetById(id).RotatingImages.OrderBy(i => i.RecordOrder);
                 return new GroupGalleryModel
                     {
                         Id = id,
