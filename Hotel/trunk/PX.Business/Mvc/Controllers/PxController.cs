@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using PX.Business.Mvc.Attributes;
+using PX.Business.Mvc.Attributes.ActionFilters;
 using PX.Core.Framework.Mvc.Environments;
 using PX.Business.Services.Localizes;
 using PX.Core.Configurations.Constants;
@@ -11,6 +10,7 @@ using PX.Core.Framework.Mvc.Models;
 namespace PX.Business.Mvc.Controllers
 {
     [Internationalization]
+    [MasterChooser]
     public class PxController : Controller
     {
         public readonly ILocalizedResourceServices LocalizedResourceServices;

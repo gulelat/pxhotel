@@ -1,11 +1,12 @@
 ﻿@model PX.Business.Models.RotatingImageGroups.GroupGalleryModel
 @{
     ViewBag.Header = "Group Gallery";
-    ViewBag.Title = "Group Gallery Management";
+    ViewBag.Title = Model.GroupName;
     ViewBag.Description = "Group Gallery Management Page";
 }
 @section styles{
     <link rel="stylesheet" href="/Content/backend/css/colorbox.css" />
+    <link rel="stylesheet" href="/Content/backend/css/jquery-ui-1.10.3.full.min.css" />
 }
 
 <div class="page-header">
@@ -18,16 +19,16 @@
 </div>
 <div class="row">
     <div class="col-xs-12">
-        <ul class="ace-thumbnails">
+        <ul id="gallery" class="ace-thumbnails">
             @foreach (var item in Model.GalleryItems)
             {
-                <li>
+                <li id="@item.Id">
                     <a href="@item.ImageUrl" data-rel="colorbox">
                         <img alt="" src="@Thumbnail(item.ImageUrl, 150, 150)" />
                     </a>
 
                     <div class="tools tools-top">
-                        <a href="@item.Url">
+                        <a class="link-icon" data-id="@item.Id" data-url="@item.Url" href="javascript:void(0)">
                             <i class="icon-link"></i>
                         </a>
 
@@ -47,6 +48,7 @@
 @section scripts
 {
     <script src="~/Scripts/Backend/jquery.colorbox-min.js"></script>
+    <script src="~/Scripts/Backend/jquery-ui-1.10.3.full.min.js"></script>
     <script type="text/javascript">
         jQuery(function ($) {
             var colorboxParams = {
@@ -59,23 +61,73 @@
                 current: '{current} of {total}',
                 maxWidth: '100%',
                 maxHeight: '100%',
-                onOpen: function () {
+                onOpen: function() {
                     document.body.style.overflow = 'hidden';
                 },
-                onClosed: function () {
+                onClosed: function() {
                     document.body.style.overflow = 'auto';
                 },
-                onComplete: function () {
+                onComplete: function() {
                     $.colorbox.resize();
                 }
             };
 
-            $('.ace-thumbnails [data-rel="colorbox"]').colorbox(colorboxParams);
+            $('#gallery [data-rel="colorbox"]').colorbox(colorboxParams);
+
+            $("#gallery").sortable({
+                update: function(event, ui) {
+                    var idsInOrder = $(this).sortable("toArray");
+                    var data = JSON.stringify({ groupId: @Model.Id, Ids: idsInOrder });
+                    $.ajax({
+                        type: 'POST',
+                        url: '@Url.Action("SortRotatingImages")',
+                        contentType: 'application/json',
+                        data: data,
+                        success: function(response) {
+                            ShowMessage(response);
+                            if (!response.Success) {
+                                $("#gallery").sortable('cancel');
+                            }
+                        }
+                    });
+                }
+            });
+
             $("#cboxLoadingGraphic").append("<i class='icon-spinner orange'></i>"); //let's add a custom loading icon
 
+            $(".link-icon").click(function() {
+                var currentIcon = $(this);
+                var id = currentIcon.data("id");
+                var oldUrl = currentIcon.data("url");
+                bootbox.prompt({
+                    title: "Url:",
+                    value: oldUrl,
+                    callback: function(url) {
+                        if (url !== null) {
+                            if (url != oldUrl) {
+                                var data = {
+                                    id: id,
+                                    url: url
+                                };
+                                $.ajax({
+                                    type: 'POST',
+                                    url: "@Url.Action("UpdateUrl", "RotatingImages")",
+                                    data: data,
+                                    success: function(response) {
+                                        ShowMessage(response);
+                                        if (response.Success) {
+                                            currentIcon.data("url", url);
+                                        }
+                                    }
+                                });
+                            }
+                        }
+                    }
+                });
+            });
+            
             $(".edit-icon").click(function () {
                 var imageUrl = $(this).data("url");
-                console.log($(this));
                 var image = $(this).parent().find("img");
                 $.fancybox({
                     href: "@Url.Action("ImageEditor", "Media", new { area = "Admin" })?virtualPath=" + imageUrl,
@@ -92,20 +144,21 @@
             $(".delete-icon").click(function () {
                 var data = { id: $(this).data("id") };
                 var liTag = $(this).closest("li");
-                console.log(liTag);
-                if (confirm('@T("AdminModule:::RotatingImageGroups:::Messages:::ConfirmRemoveRotatingImage:::Are you sure you want to remove this image? This action cannot be undone.")')) {
-                    $.ajax({
-                        type: 'POST',
-                        url: "@Url.Action("DeleteImage", "RotatingImages")",
-                        data: data,
-                        success: function (response) {
-                            ShowMessage(response);
-                            if (response.Success) {
-                                liTag.remove();
+                bootbox.confirm('@T("AdminModule:::RotatingImageGroups:::Messages:::ConfirmRemoveRotatingImage:::Are you sure you want to remove this image? This action cannot be undone.")', function(ok) {
+                    if(ok) {
+                        $.ajax({
+                            type: 'POST',
+                            url: "@Url.Action("DeleteImage", "RotatingImages")",
+                            data: data,
+                            success: function(response) {
+                                ShowMessage(response);
+                                if (response.Success) {
+                                    liTag.remove();
+                                }
                             }
-                        }
-                    });
-                }
+                        });
+                    }
+                });
             });
         });
     </script>

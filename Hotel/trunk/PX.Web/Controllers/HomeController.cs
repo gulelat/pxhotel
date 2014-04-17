@@ -1,6 +1,6 @@
 ﻿using System.Web.Mvc;
+using PX.Business.Mvc.Attributes;
 using PX.Business.Mvc.Controllers;
-using PX.Business.Mvc.WorkContext;
 
 namespace PX.Web.Controllers
 {
@@ -9,10 +9,10 @@ namespace PX.Web.Controllers
         //
         // GET: /Home/
 
-        public ActionResult Index()
+        [Template(Name = "Home Page Template")]
+        public ActionResult Index(int? id)
         {
-            var user = WorkContext.CurrentUser;
-            return View();
+            return View("Index");
         }
     }
 }

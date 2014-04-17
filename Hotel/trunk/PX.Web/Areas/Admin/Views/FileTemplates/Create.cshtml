@@ -1,0 +1,31 @@
+﻿@model PX.Business.Models.PageTemplates.PageTemplateManageModel
+
+@{
+    ViewBag.Header = "Page Template Create";
+    ViewBag.Title = "Page Template Management";
+    ViewBag.Description = "Create Page Template";
+}
+@section styles{
+    <link rel="stylesheet" href="/Content/CodeMirror/codemirror.css" />
+    <link rel="stylesheet" href="/Scripts/CodeMirror/addon/hint/show-hint.css">
+    <link rel="stylesheet" href="/Scripts/CodeMirror/addon/display/fullscreen.css">
+    <link rel="stylesheet" href="/Content/CodeMirror/theme/pastel-on-dark.css">
+}
+<div class="page-header">
+    <h1>@ViewBag.Header
+        <small>
+            <i class="icon-double-angle-right"></i>
+            @ViewBag.Title
+        </small>
+    </h1>
+</div>
+
+<div class="row">
+    <div class="col-xs-12">
+        @ShowStatusMessage()
+        @using (Html.BeginForm("Create", "PageTemplates", null, FormMethod.Post, new { @class = "form-horizontal" }))
+        {
+            @Html.EditorForModel(Model)
+        }
+    </div>
+</div>

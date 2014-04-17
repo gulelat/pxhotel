@@ -1,10 +1,14 @@
 ﻿using System.Reflection;
 using System.Web;
+using System.Web.Hosting;
 using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using PX.Business.Mvc.ViewEngines;
+using PX.Business.Services.ClientMenus;
 using PX.Business.Services.CurlyBrackets;
+using PX.Business.Services.FileTemplates;
 using PX.Business.Services.Languages;
 using PX.Business.Services.Localizes;
 using PX.Business.Services.Medias;
@@ -50,7 +54,7 @@ namespace PX.Web
             InitializeProcess();
 
             //ViewEngines.Engines.Add(new ViewEngine());
-            //HostingEnvironment.RegisterVirtualPathProvider(new MyVirtualPathProvider());
+            HostingEnvironment.RegisterVirtualPathProvider(new MyVirtualPathProvider());
         }
 
         #region Initialize Process
@@ -62,6 +66,9 @@ namespace PX.Web
 
             //Initialize menu permissions
             MenuPermissionsInitialize();
+
+            //Initialize File Template
+            FileTemplateInitialize();
 
             //Initialize default template for curly bracket
             TemplatesInitialize();
@@ -83,6 +90,15 @@ namespace PX.Web
         {
             var menuServices = HostContainer.GetInstance<IMenuServices>();
             menuServices.InitializeMenuPermissions();
+        }
+
+        /// <summary>
+        /// Initialize menu permissions
+        /// </summary>
+        public void FileTemplateInitialize()
+        {
+            var pageTemplateServices = HostContainer.GetInstance<IPageTemplateServices>();
+            pageTemplateServices.InitializeFileTemplates();
         }
 
         public void TemplatesInitialize()
@@ -141,6 +157,8 @@ namespace PX.Web
             container.Register<IMediaServices, MediaServices>(Lifestyle.Singleton);
             container.Register<IMediaFileManager, MediaFileManager>(Lifestyle.Singleton);
             container.Register<ITagServices, TagServices>(Lifestyle.Singleton);
+            container.Register<IClientMenuServices, ClientMenuServices>(Lifestyle.Singleton);
+            container.Register<IFileTemplateServices, FileTemplateServices>(Lifestyle.Singleton);
         }
 
         #endregion

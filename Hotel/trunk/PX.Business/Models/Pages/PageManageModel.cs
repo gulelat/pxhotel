@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web.Mvc;
+using PX.Business.Services.FileTemplates;
 using PX.Business.Services.PageTemplates;
 using PX.Core.Framework.Enums;
 using PX.Core.Framework.Mvc.Environments;
@@ -17,10 +18,12 @@ namespace PX.Business.Models.Pages
     {
         private readonly IPageServices _pageServices;
         private readonly IPageTemplateServices _pageTemplateServices;
+        private readonly IFileTemplateServices _fileTemplateServices;
         public PageManageModel()
         {
             _pageServices = HostContainer.GetInstance<IPageServices>();
             _pageTemplateServices = HostContainer.GetInstance<IPageTemplateServices>();
+            _fileTemplateServices = HostContainer.GetInstance<IFileTemplateServices>();
 
             int position;
             int relativePageId;
@@ -28,6 +31,7 @@ namespace PX.Business.Models.Pages
             StatusList = _pageServices.GetStatus();
             Parents = _pageServices.GetPossibleParents();
             PageTemplates = _pageTemplateServices.GetPageTemplateSelectList();
+            FileTemplates = _fileTemplateServices.GetFileTemplateSelectList();
             Positions = EnumUtilities.GetAllItemsFromEnum<PageEnums.PositionEnums>();
             TagList = _pageServices.GetPageTags();
             Position = position;
@@ -40,6 +44,7 @@ namespace PX.Business.Models.Pages
         {
             _pageServices = HostContainer.GetInstance<IPageServices>();
             _pageTemplateServices = HostContainer.GetInstance<IPageTemplateServices>();
+            _fileTemplateServices = HostContainer.GetInstance<IFileTemplateServices>();
             int position;
             int relativePageId;
             var relativePages = _pageServices.GetRelativePages(out position, out relativePageId, page.Id, page.ParentId);
@@ -53,6 +58,8 @@ namespace PX.Business.Models.Pages
             StatusList = _pageServices.GetStatus();
             ParentId = page.ParentId;
             Parents = _pageServices.GetPossibleParents(page.Id);
+            FileTemplateId = page.FileTemplateId;
+            FileTemplates = _fileTemplateServices.GetFileTemplateSelectList(page.FileTemplateId);
             PageTemplateId = page.PageTemplateId;
             PageTemplates = _pageTemplateServices.GetPageTemplateSelectList(page.PageTemplateId);
             Position = position;
@@ -95,6 +102,10 @@ namespace PX.Business.Models.Pages
 
         public IEnumerable<SelectListItem> Parents { get; set; }
 
+        public int? FileTemplateId { get; set; }
+
+        public IEnumerable<SelectListItem> FileTemplates { get; set; }
+
         public int? PageTemplateId { get; set; }
 
         public IEnumerable<SelectListItem> PageTemplates { get; set; }
@@ -122,13 +133,19 @@ namespace PX.Business.Models.Pages
             var localizedResourceServices = HostContainer.GetInstance<ILocalizedResourceServices>();
             if (pageServices.IsTitleExisted(Id, Title))
             {
-                yield return new ValidationResult(localizedResourceServices.T("AdminModule:::Pages:::ValidationMessage:::Title is existed."), new[] { "Title" });
+                yield return new ValidationResult(localizedResourceServices.T("AdminModule:::Pages:::ValidationMessages:::Title is existed."), new[] { "Title" });
             }
 
             FriendlyUrl = string.IsNullOrWhiteSpace(FriendlyUrl) ? Title.ToUrlString() : FriendlyUrl.ToUrlString();
             if (pageServices.IsFriendlyUrlExisted(Id, FriendlyUrl))
             {
-                yield return new ValidationResult(localizedResourceServices.T("AdminModule:::Pages:::ValidationMessage:::Friendly Url is existed."), new[] { "FriendlyUrl" });
+                yield return new ValidationResult(localizedResourceServices.T("AdminModule:::Pages:::ValidationMessages:::Friendly Url is existed."), new[] { "FriendlyUrl" });
+            }
+
+            /*Can only choose 1 type of template*/
+            if (PageTemplateId.HasValue && FileTemplateId.HasValue)
+            {
+                yield return new ValidationResult(localizedResourceServices.T("AdminModule:::Pages:::ValidationMessages:::You can only choose 1 type of template."), new[] { "PageTemplateId", "FileTemplateId" });
             }
         }
         #endregion

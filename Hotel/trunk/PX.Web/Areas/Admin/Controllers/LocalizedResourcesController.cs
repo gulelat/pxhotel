@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using PX.Business.Models.LocalizedResources;
 using PX.Business.Mvc.Attributes;
+using PX.Business.Mvc.Attributes.Authorize;
 using PX.Business.Mvc.Controllers;
 using PX.Business.Services.Languages;
 using PX.Core.Framework.Enums;

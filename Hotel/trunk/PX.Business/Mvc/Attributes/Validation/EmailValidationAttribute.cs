@@ -3,7 +3,7 @@ using System.Web.Mvc;
 using PX.Business.Services.Localizes;
 using PX.Core.Framework.Mvc.Environments;
 
-namespace PX.Business.Mvc.Attributes
+namespace PX.Business.Mvc.Attributes.Validation
 {
     public class EmailValidationAttribute : RegularExpressionAttribute
     {

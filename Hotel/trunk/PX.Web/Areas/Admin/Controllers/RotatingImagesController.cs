@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using PX.Business.Models.RotatingImages;
 using PX.Business.Models.Settings;
 using PX.Business.Mvc.Attributes;
+using PX.Business.Mvc.Attributes.Authorize;
 using PX.Business.Mvc.Controllers;
 using PX.Business.Services.RotatingImageGroups;
 using PX.Business.Services.RotatingImages;
@@ -54,6 +55,11 @@ namespace PX.Web.Areas.Admin.Controllers
             });
         }
 
+        /// <summary>
+        /// Delete the image
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpPost]
         public JsonResult DeleteImage(int id)
         {
@@ -61,6 +67,18 @@ namespace PX.Web.Areas.Admin.Controllers
                 {
                     Id = id
                 }));
+        }
+
+        /// <summary>
+        /// Update url of rotating image
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="url"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public JsonResult UpdateUrl(int id, string url)
+        {
+            return Json(_rotatingImageServices.UpdateRotatingImageUrl(id, url));
         }
 
         #region Create

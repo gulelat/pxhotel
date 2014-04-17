@@ -75,13 +75,13 @@ namespace PX.Business.Services.CurlyBrackets
         public bool IsPageTemplateValid(string content)
         {
             //Not contains render body curly bracket
-            if (content.Contains(DefaultConstants.CurlyBracketRenderBody))
+            if (content.Contains(DefaultConstants.RenderBody))
             {
                 return false;
             }
 
             //Contains more than 1 render body curly bracket
-            if (content.LastIndexOf(DefaultConstants.CurlyBracketRenderBody, StringComparison.Ordinal) != content.IndexOf(DefaultConstants.CurlyBracketRenderBody, StringComparison.Ordinal))
+            if (content.LastIndexOf(DefaultConstants.RenderBody, StringComparison.Ordinal) != content.IndexOf(DefaultConstants.RenderBody, StringComparison.Ordinal))
             {
                 return false;
             }

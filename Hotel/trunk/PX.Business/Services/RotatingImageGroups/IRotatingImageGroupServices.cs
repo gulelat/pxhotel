@@ -36,5 +36,7 @@ namespace PX.Business.Services.RotatingImageGroups
         GroupManageSettingModel GetGroupManageSettingModel(int id);
 
         GroupGalleryModel GetGroupGallery(int id);
+
+        ResponseModel SortImages(GroupImageSortingModel model);
     }
 }

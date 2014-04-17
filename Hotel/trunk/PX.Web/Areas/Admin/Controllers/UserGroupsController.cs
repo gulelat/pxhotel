@@ -3,6 +3,7 @@ using System.Web.Mvc;
 using Newtonsoft.Json;
 using PX.Business.Models.UserGroups;
 using PX.Business.Mvc.Attributes;
+using PX.Business.Mvc.Attributes.Authorize;
 using PX.Business.Mvc.Controllers;
 using PX.Business.Services.UserGroups;
 using PX.Business.Services.Users;

@@ -5,29 +5,36 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="646df66615ab4512a9a66205577ab7c5" Name="Diagram1" ZoomLevel="46">
-        <EntityTypeShape EntityType="PXHotelModel.BookingRequest" Width="1.5" PointX="9.6929668475375355" PointY="14.46290031748959" />
-        <EntityTypeShape EntityType="PXHotelModel.Country" Width="1.5" PointX="0.84582345413315274" PointY="4.5276503584010763" />
-        <EntityTypeShape EntityType="PXHotelModel.GroupPermission" Width="1.5" PointX="5.3486174016020342" PointY="7.1382958624224626" />
-        <EntityTypeShape EntityType="PXHotelModel.Language" Width="1.5" PointX="2.0931875789971963" PointY="18.046868034660289" />
-        <EntityTypeShape EntityType="PXHotelModel.LocalizedResource" Width="1.5" PointX="3.4528749396339409" PointY="23.867975022582325" />
-        <EntityTypeShape EntityType="PXHotelModel.Menu" Width="1.5" PointX="0.29154407246575881" PointY="27.210412157331785" />
-        <EntityTypeShape EntityType="PXHotelModel.News" Width="1.5" PointX="2.0576639557525813" PointY="30.319016113094527" />
-        <EntityTypeShape EntityType="PXHotelModel.NewsCategory" Width="1.5" PointX="2.7223504924785118" PointY="18.859123655994946" />
-        <EntityTypeShape EntityType="PXHotelModel.NewsNewsCategory" Width="1.5" PointX="6.6196759821007376" PointY="13.959911874476779" />
-        <EntityTypeShape EntityType="PXHotelModel.Page" Width="1.5" PointX="6.06872825048339" PointY="3.591765122298042" />
-        <EntityTypeShape EntityType="PXHotelModel.PageTag" Width="1.5" PointX="5.8078352165444915" PointY="1.9544395962517893" />
-        <EntityTypeShape EntityType="PXHotelModel.PageTemplate" Width="1.5" PointX="2.0667641712663531" PointY="11.305859198470534" />
-        <EntityTypeShape EntityType="PXHotelModel.Room" Width="1.5" PointX="9.6060130454627863" PointY="11.435756971796861" />
-        <EntityTypeShape EntityType="PXHotelModel.RoomType" Width="1.5" PointX="8.9450587299396567" PointY="23.126741449873307" />
-        <EntityTypeShape EntityType="PXHotelModel.RotatingImageGroup" Width="1.5" PointX="9.0468099382923963" PointY="24.527819883324121" />
-        <EntityTypeShape EntityType="PXHotelModel.RotatingImage" Width="1.5" PointX="10.933072244251648" PointY="29.18619046974284" />
-        <EntityTypeShape EntityType="PXHotelModel.SettingType" Width="1.5" PointX="8.8918452676813331" PointY="28.661020769114149" />
-        <EntityTypeShape EntityType="PXHotelModel.SiteSetting" Width="1.5" PointX="11.254825103680986" PointY="9.41820686004041" />
-        <EntityTypeShape EntityType="PXHotelModel.Tag" Width="1.5" PointX="8.5487110617331741" PointY="0.28162318481207971" />
-        <EntityTypeShape EntityType="PXHotelModel.Template" Width="1.5" PointX="3.9843761026786533" PointY="4.4864228984743466" />
-        <EntityTypeShape EntityType="PXHotelModel.Testimonial" Width="1.5" PointX="10.067141096138927" PointY="9.1302368832427252" />
-        <EntityTypeShape EntityType="PXHotelModel.UserGroup" Width="1.5" PointX="7.2668777123405031" PointY="15.671493790890786" />
-        <EntityTypeShape EntityType="PXHotelModel.User" Width="1.5" PointX="2.3983236394814789" PointY="26.510085118240717" />
+        <EntityTypeShape EntityType="PXHotelModel.BookingRequest" Width="1.5" PointX="7.5401149874274225" PointY="9.6403792545387432" />
+        <EntityTypeShape EntityType="PXHotelModel.ClientMenu" Width="1.5" PointX="5.1204010439665995" PointY="25.94484942869509" />
+        <EntityTypeShape EntityType="PXHotelModel.Country" Width="1.5" PointX="4.2368251123637073" PointY="31.747209027291838" />
+        <EntityTypeShape EntityType="PXHotelModel.FileTemplate" Width="1.5" PointX="2.6678255138303273" PointY="30.395038603988958" />
+        <EntityTypeShape EntityType="PXHotelModel.GroupPermission" Width="1.5" PointX="2.2665877706681319" PointY="20.568173045557074" />
+        <EntityTypeShape EntityType="PXHotelModel.Language" Width="1.5" PointX="5.1557138008790622" PointY="1.8814183184324849" />
+        <EntityTypeShape EntityType="PXHotelModel.LocalizedResource" Width="1.5" PointX="3.555982278453178" PointY="2.2114753733442516" />
+        <EntityTypeShape EntityType="PXHotelModel.Menu" Width="1.5" PointX="5.1119328295401916" PointY="0.83990478554736114" />
+        <EntityTypeShape EntityType="PXHotelModel.News" Width="1.5" PointX="0.11142742825272839" PointY="6.6977058382228511" />
+        <EntityTypeShape EntityType="PXHotelModel.NewsCategory" Width="1.5" PointX="4.9070695549748233" PointY="21.399514312576276" />
+        <EntityTypeShape EntityType="PXHotelModel.NewsNewsCategory" Width="1.5" PointX="1.4541066835886365" PointY="10.873130758699556" />
+        <EntityTypeShape EntityType="PXHotelModel.Page" Width="1.5" PointX="10.282797373031638" PointY="12.695625057767902" />
+        <EntityTypeShape EntityType="PXHotelModel.PageTag" Width="1.5" PointX="10.821998984935693" PointY="21.754627163407683" />
+        <EntityTypeShape EntityType="PXHotelModel.PageTemplate" Width="1.5" PointX="10.900858925143655" PointY="17.221642830046658" />
+        <EntityTypeShape EntityType="PXHotelModel.Room" Width="1.5" PointX="0.0967877805683705" PointY="2.1150253573968194" />
+        <EntityTypeShape EntityType="PXHotelModel.RoomType" Width="1.5" PointX="0.84131956139640862" PointY="18.918377572166911" />
+        <EntityTypeShape EntityType="PXHotelModel.RotatingImageGroup" Width="1.5" PointX="5.4332850563494883" PointY="18.780168422861102" />
+        <EntityTypeShape EntityType="PXHotelModel.RotatingImage" Width="1.5" PointX="11.484883714227419" PointY="9.47991185331713" />
+        <EntityTypeShape EntityType="PXHotelModel.SettingType" Width="1.5" PointX="4.3816842308182657" PointY="0.34260952488640767" />
+        <EntityTypeShape EntityType="PXHotelModel.SiteSetting" Width="1.5" PointX="4.53415484937567" PointY="14.430272675319701" />
+        <EntityTypeShape EntityType="PXHotelModel.Tag" Width="1.5" PointX="11.887905053742186" PointY="16.684392340799977" />
+        <EntityTypeShape EntityType="PXHotelModel.Template" Width="1.5" PointX="2.1758334739952505" PointY="10.612997045094611" />
+        <EntityTypeShape EntityType="PXHotelModel.Testimonial" Width="1.5" PointX="5.91133967876031" PointY="4.3037865777983271" />
+        <EntityTypeShape EntityType="PXHotelModel.UserGroup" Width="1.5" PointX="4.3085035832172736" PointY="1.1829071199441827" />
+        <EntityTypeShape EntityType="PXHotelModel.User" Width="1.5" PointX="0.4533624688411888" PointY="11.497051542390627" />
+        <AssociationConnector Association="PXHotelModel.FK_FrontEndMenus_FrontEndMenus" />
+        <AssociationConnector Association="PXHotelModel.FK_FrontEndMenus_Pages" />
+        <AssociationConnector Association="PXHotelModel.FK_FileTemplates_FileTemplates" />
+        <AssociationConnector Association="PXHotelModel.FK_FileTemplates_FileTemplates1" />
+        <AssociationConnector Association="PXHotelModel.FK_Pages_FileTemplates" />
         <AssociationConnector Association="PXHotelModel.FK_GroupPermissions_UserGroups" />
         <AssociationConnector Association="PXHotelModel.FK_LocalizedResources_Languages" />
         <AssociationConnector Association="PXHotelModel.FK_Menu_Menu" />

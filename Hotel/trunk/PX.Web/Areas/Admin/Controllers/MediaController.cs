@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using PX.Business.Models.Medias;
 using PX.Business.Models.Settings.SettingTypes;
 using PX.Business.Mvc.Attributes;
+using PX.Business.Mvc.Attributes.Authorize;
 using PX.Business.Mvc.Controllers;
 using PX.Business.Services.Localizes;
 using PX.Business.Services.Medias;

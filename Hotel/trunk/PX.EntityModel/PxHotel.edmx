@@ -7,7 +7,9 @@
     <Schema Namespace="PXHotelModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityContainer Name="PXHotelModelStoreContainer">
           <EntitySet Name="BookingRequests" EntityType="PXHotelModel.Store.BookingRequests" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="ClientMenus" EntityType="PXHotelModel.Store.ClientMenus" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Countries" EntityType="PXHotelModel.Store.Countries" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="FileTemplates" EntityType="PXHotelModel.Store.FileTemplates" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="GroupPermissions" EntityType="PXHotelModel.Store.GroupPermissions" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Languages" EntityType="PXHotelModel.Store.Languages" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="LocalizedResources" EntityType="PXHotelModel.Store.LocalizedResources" store:Type="Tables" Schema="dbo" />
@@ -29,6 +31,22 @@
           <EntitySet Name="Testimonial" EntityType="PXHotelModel.Store.Testimonial" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="UserGroups" EntityType="PXHotelModel.Store.UserGroups" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Users" EntityType="PXHotelModel.Store.Users" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK_FileTemplates_FileTemplates" Association="PXHotelModel.Store.FK_FileTemplates_FileTemplates">
+            <End Role="PageTemplates" EntitySet="PageTemplates" />
+            <End Role="FileTemplates" EntitySet="FileTemplates" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FileTemplates_FileTemplates1" Association="PXHotelModel.Store.FK_FileTemplates_FileTemplates1">
+            <End Role="FileTemplates" EntitySet="FileTemplates" />
+            <End Role="FileTemplates1" EntitySet="FileTemplates" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FrontEndMenus_FrontEndMenus" Association="PXHotelModel.Store.FK_FrontEndMenus_FrontEndMenus">
+            <End Role="ClientMenus" EntitySet="ClientMenus" />
+            <End Role="ClientMenus1" EntitySet="ClientMenus" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FrontEndMenus_Pages" Association="PXHotelModel.Store.FK_FrontEndMenus_Pages">
+            <End Role="Pages" EntitySet="Pages" />
+            <End Role="ClientMenus" EntitySet="ClientMenus" />
+          </AssociationSet>
           <AssociationSet Name="FK_GroupPermissions_UserGroups" Association="PXHotelModel.Store.FK_GroupPermissions_UserGroups">
             <End Role="UserGroups" EntitySet="UserGroups" />
             <End Role="GroupPermissions" EntitySet="GroupPermissions" />
@@ -52,6 +70,10 @@
           <AssociationSet Name="FK_NewsNewsCategory_NewsCategory" Association="PXHotelModel.Store.FK_NewsNewsCategory_NewsCategory">
             <End Role="NewsCategories" EntitySet="NewsCategories" />
             <End Role="NewsNewsCategories" EntitySet="NewsNewsCategories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Pages_FileTemplates" Association="PXHotelModel.Store.FK_Pages_FileTemplates">
+            <End Role="FileTemplates" EntitySet="FileTemplates" />
+            <End Role="Pages" EntitySet="Pages" />
           </AssociationSet>
           <AssociationSet Name="FK_Pages_Pages" Association="PXHotelModel.Store.FK_Pages_Pages">
             <End Role="Pages" EntitySet="Pages" />
@@ -116,12 +138,48 @@
           <Property Name="Updated" Type="datetime" />
           <Property Name="UpdatedBy" Type="nvarchar" MaxLength="512" />
         </EntityType>
+        <EntityType Name="ClientMenus">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="512" />
+          <Property Name="PageId" Type="int" />
+          <Property Name="Url" Type="nvarchar" MaxLength="512" />
+          <Property Name="ParentId" Type="int" />
+          <Property Name="Hierarchy" Type="nvarchar(max)" />
+          <Property Name="RecordOrder" Type="int" Nullable="false" />
+          <Property Name="RecordActive" Type="bit" Nullable="false" />
+          <Property Name="Created" Type="datetime" Nullable="false" />
+          <Property Name="CreatedBy" Type="nvarchar" Nullable="false" MaxLength="512" />
+          <Property Name="Updated" Type="datetime" />
+          <Property Name="UpdatedBy" Type="nvarchar" MaxLength="512" />
+        </EntityType>
         <EntityType Name="Countries">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="512" />
+          <Property Name="RecordOrder" Type="int" Nullable="false" />
+          <Property Name="RecordActive" Type="bit" Nullable="false" />
+          <Property Name="Created" Type="datetime" Nullable="false" />
+          <Property Name="CreatedBy" Type="nvarchar" Nullable="false" MaxLength="512" />
+          <Property Name="Updated" Type="datetime" />
+          <Property Name="UpdatedBy" Type="nvarchar" MaxLength="512" />
+        </EntityType>
+        <EntityType Name="FileTemplates">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="512" />
+          <Property Name="Controller" Type="nvarchar" Nullable="false" MaxLength="512" />
+          <Property Name="Action" Type="nvarchar" Nullable="false" MaxLength="512" />
+          <Property Name="Parameters" Type="nvarchar" MaxLength="512" />
+          <Property Name="PageTemplateId" Type="int" />
+          <Property Name="ParentId" Type="int" />
+          <Property Name="Hierarchy" Type="nvarchar(max)" Nullable="false" />
           <Property Name="RecordOrder" Type="int" Nullable="false" />
           <Property Name="RecordActive" Type="bit" Nullable="false" />
           <Property Name="Created" Type="datetime" Nullable="false" />
@@ -242,6 +300,7 @@
           <Property Name="ContentWorking" Type="nvarchar(max)" />
           <Property Name="FriendlyUrl" Type="nvarchar" Nullable="false" MaxLength="512" />
           <Property Name="PageTemplateId" Type="int" />
+          <Property Name="FileTemplateId" Type="int" />
           <Property Name="Status" Type="int" Nullable="false" />
           <Property Name="IsHomePage" Type="bit" Nullable="false" />
           <Property Name="Hierarchy" Type="nvarchar(max)" Nullable="false" />
@@ -454,6 +513,54 @@
           <Property Name="Updated" Type="datetime" />
           <Property Name="UpdatedBy" Type="nvarchar" MaxLength="512" />
         </EntityType>
+        <Association Name="FK_FileTemplates_FileTemplates">
+          <End Role="PageTemplates" Type="PXHotelModel.Store.PageTemplates" Multiplicity="0..1" />
+          <End Role="FileTemplates" Type="PXHotelModel.Store.FileTemplates" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PageTemplates">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FileTemplates">
+              <PropertyRef Name="PageTemplateId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FileTemplates_FileTemplates1">
+          <End Role="FileTemplates" Type="PXHotelModel.Store.FileTemplates" Multiplicity="0..1" />
+          <End Role="FileTemplates1" Type="PXHotelModel.Store.FileTemplates" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FileTemplates">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FileTemplates1">
+              <PropertyRef Name="ParentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FrontEndMenus_FrontEndMenus">
+          <End Role="ClientMenus" Type="PXHotelModel.Store.ClientMenus" Multiplicity="0..1" />
+          <End Role="ClientMenus1" Type="PXHotelModel.Store.ClientMenus" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ClientMenus">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ClientMenus1">
+              <PropertyRef Name="ParentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FrontEndMenus_Pages">
+          <End Role="Pages" Type="PXHotelModel.Store.Pages" Multiplicity="0..1" />
+          <End Role="ClientMenus" Type="PXHotelModel.Store.ClientMenus" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Pages">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ClientMenus">
+              <PropertyRef Name="PageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_GroupPermissions_UserGroups">
           <End Role="UserGroups" Type="PXHotelModel.Store.UserGroups" Multiplicity="1" />
           <End Role="GroupPermissions" Type="PXHotelModel.Store.GroupPermissions" Multiplicity="*" />
@@ -523,6 +630,18 @@
             </Principal>
             <Dependent Role="NewsNewsCategories">
               <PropertyRef Name="NewsCategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Pages_FileTemplates">
+          <End Role="FileTemplates" Type="PXHotelModel.Store.FileTemplates" Multiplicity="0..1" />
+          <End Role="Pages" Type="PXHotelModel.Store.Pages" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FileTemplates">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Pages">
+              <PropertyRef Name="FileTemplateId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -652,7 +771,9 @@
       <Schema Namespace="PXHotelModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="PXHotelEntities" p1:LazyLoadingEnabled="true">
           <EntitySet Name="BookingRequests" EntityType="PXHotelModel.BookingRequest" />
+          <EntitySet Name="ClientMenus" EntityType="PXHotelModel.ClientMenu" />
           <EntitySet Name="Countries" EntityType="PXHotelModel.Country" />
+          <EntitySet Name="FileTemplates" EntityType="PXHotelModel.FileTemplate" />
           <EntitySet Name="GroupPermissions" EntityType="PXHotelModel.GroupPermission" />
           <EntitySet Name="Languages" EntityType="PXHotelModel.Language" />
           <EntitySet Name="LocalizedResources" EntityType="PXHotelModel.LocalizedResource" />
@@ -674,6 +795,26 @@
           <EntitySet Name="Testimonials" EntityType="PXHotelModel.Testimonial" />
           <EntitySet Name="UserGroups" EntityType="PXHotelModel.UserGroup" />
           <EntitySet Name="Users" EntityType="PXHotelModel.User" />
+          <AssociationSet Name="FK_FrontEndMenus_FrontEndMenus" Association="PXHotelModel.FK_FrontEndMenus_FrontEndMenus">
+            <End Role="ClientMenu" EntitySet="ClientMenus" />
+            <End Role="ClientMenu1" EntitySet="ClientMenus" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FrontEndMenus_Pages" Association="PXHotelModel.FK_FrontEndMenus_Pages">
+            <End Role="Page" EntitySet="Pages" />
+            <End Role="ClientMenu" EntitySet="ClientMenus" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FileTemplates_FileTemplates" Association="PXHotelModel.FK_FileTemplates_FileTemplates">
+            <End Role="PageTemplate" EntitySet="PageTemplates" />
+            <End Role="FileTemplate" EntitySet="FileTemplates" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FileTemplates_FileTemplates1" Association="PXHotelModel.FK_FileTemplates_FileTemplates1">
+            <End Role="FileTemplate" EntitySet="FileTemplates" />
+            <End Role="FileTemplate1" EntitySet="FileTemplates" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Pages_FileTemplates" Association="PXHotelModel.FK_Pages_FileTemplates">
+            <End Role="FileTemplate" EntitySet="FileTemplates" />
+            <End Role="Page" EntitySet="Pages" />
+          </AssociationSet>
           <AssociationSet Name="FK_GroupPermissions_UserGroups" Association="PXHotelModel.FK_GroupPermissions_UserGroups">
             <End Role="UserGroup" EntitySet="UserGroups" />
             <End Role="GroupPermission" EntitySet="GroupPermissions" />
@@ -761,6 +902,26 @@
           <Property Type="DateTime" Name="Updated" Precision="3" />
           <Property Type="String" Name="UpdatedBy" MaxLength="512" FixedLength="false" Unicode="true" />
         </EntityType>
+        <EntityType Name="ClientMenu">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="PageId" />
+          <Property Type="String" Name="Url" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="ParentId" />
+          <Property Type="String" Name="Hierarchy" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="RecordOrder" Nullable="false" />
+          <Property Type="Boolean" Name="RecordActive" Nullable="false" />
+          <Property Type="DateTime" Name="Created" Nullable="false" Precision="3" />
+          <Property Type="String" Name="CreatedBy" Nullable="false" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Type="DateTime" Name="Updated" Precision="3" />
+          <Property Type="String" Name="UpdatedBy" MaxLength="512" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="ClientMenus1" Relationship="PXHotelModel.FK_FrontEndMenus_FrontEndMenus" FromRole="ClientMenu" ToRole="ClientMenu1" />
+          <NavigationProperty Name="ClientMenu1" Relationship="PXHotelModel.FK_FrontEndMenus_FrontEndMenus" FromRole="ClientMenu1" ToRole="ClientMenu" />
+          <NavigationProperty Name="Page" Relationship="PXHotelModel.FK_FrontEndMenus_Pages" FromRole="ClientMenu" ToRole="Page" />
+        </EntityType>
         <EntityType Name="Country">
           <Key>
             <PropertyRef Name="Id" />
@@ -773,6 +934,29 @@
           <Property Type="String" Name="CreatedBy" Nullable="false" MaxLength="512" FixedLength="false" Unicode="true" />
           <Property Type="DateTime" Name="Updated" Precision="3" />
           <Property Type="String" Name="UpdatedBy" MaxLength="512" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="FileTemplate">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Controller" Nullable="false" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Action" Nullable="false" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Parameters" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="PageTemplateId" />
+          <Property Type="Int32" Name="ParentId" />
+          <Property Type="String" Name="Hierarchy" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="RecordOrder" Nullable="false" />
+          <Property Type="Boolean" Name="RecordActive" Nullable="false" />
+          <Property Type="DateTime" Name="Created" Nullable="false" Precision="3" />
+          <Property Type="String" Name="CreatedBy" Nullable="false" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Type="DateTime" Name="Updated" Precision="3" />
+          <Property Type="String" Name="UpdatedBy" MaxLength="512" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="PageTemplate" Relationship="PXHotelModel.FK_FileTemplates_FileTemplates" FromRole="FileTemplate" ToRole="PageTemplate" />
+          <NavigationProperty Name="FileTemplates1" Relationship="PXHotelModel.FK_FileTemplates_FileTemplates1" FromRole="FileTemplate" ToRole="FileTemplate1" />
+          <NavigationProperty Name="FileTemplate1" Relationship="PXHotelModel.FK_FileTemplates_FileTemplates1" FromRole="FileTemplate1" ToRole="FileTemplate" />
+          <NavigationProperty Name="Pages" Relationship="PXHotelModel.FK_Pages_FileTemplates" FromRole="FileTemplate" ToRole="Page" />
         </EntityType>
         <EntityType Name="GroupPermission">
           <Key>
@@ -898,6 +1082,7 @@
           <Property Type="String" Name="ContentWorking" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="FriendlyUrl" Nullable="false" MaxLength="512" FixedLength="false" Unicode="true" />
           <Property Type="Int32" Name="PageTemplateId" />
+          <Property Type="Int32" Name="FileTemplateId" />
           <Property Type="Int32" Name="Status" Nullable="false" />
           <Property Type="Boolean" Name="IsHomePage" Nullable="false" />
           <Property Type="String" Name="Hierarchy" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
@@ -913,6 +1098,8 @@
           <Property Type="String" Name="CreatedBy" Nullable="false" MaxLength="512" FixedLength="false" Unicode="true" />
           <Property Type="DateTime" Name="Updated" Precision="3" />
           <Property Type="String" Name="UpdatedBy" MaxLength="512" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="ClientMenus" Relationship="PXHotelModel.FK_FrontEndMenus_Pages" FromRole="Page" ToRole="ClientMenu" />
+          <NavigationProperty Name="FileTemplate" Relationship="PXHotelModel.FK_Pages_FileTemplates" FromRole="Page" ToRole="FileTemplate" />
           <NavigationProperty Name="Pages1" Relationship="PXHotelModel.FK_Pages_Pages" FromRole="Page" ToRole="Page1" />
           <NavigationProperty Name="Page1" Relationship="PXHotelModel.FK_Pages_Pages" FromRole="Page1" ToRole="Page" />
           <NavigationProperty Name="PageTemplate" Relationship="PXHotelModel.FK_Pages_PageTemplates" FromRole="Page" ToRole="PageTemplate" />
@@ -943,6 +1130,7 @@
           <Property Type="String" Name="CreatedBy" Nullable="false" MaxLength="512" FixedLength="false" Unicode="true" />
           <Property Type="DateTime" Name="Updated" Precision="3" />
           <Property Type="String" Name="UpdatedBy" MaxLength="512" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="FileTemplates" Relationship="PXHotelModel.FK_FileTemplates_FileTemplates" FromRole="PageTemplate" ToRole="FileTemplate" />
           <NavigationProperty Name="Pages" Relationship="PXHotelModel.FK_Pages_PageTemplates" FromRole="PageTemplate" ToRole="Page" />
           <NavigationProperty Name="PageTemplates1" Relationship="PXHotelModel.FK_PageTemplates_PageTemplates" FromRole="PageTemplate" ToRole="PageTemplate1" />
           <NavigationProperty Name="PageTemplate1" Relationship="PXHotelModel.FK_PageTemplates_PageTemplates" FromRole="PageTemplate1" ToRole="PageTemplate" />
@@ -1131,6 +1319,66 @@
           <Property Type="String" Name="UpdatedBy" MaxLength="512" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="UserGroup" Relationship="PXHotelModel.FK_User_Role" FromRole="User" ToRole="UserGroup" />
         </EntityType>
+        <Association Name="FK_FrontEndMenus_FrontEndMenus">
+          <End Type="PXHotelModel.ClientMenu" Role="ClientMenu" Multiplicity="0..1" />
+          <End Type="PXHotelModel.ClientMenu" Role="ClientMenu1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ClientMenu">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ClientMenu1">
+              <PropertyRef Name="ParentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FrontEndMenus_Pages">
+          <End Type="PXHotelModel.Page" Role="Page" Multiplicity="0..1" />
+          <End Type="PXHotelModel.ClientMenu" Role="ClientMenu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Page">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ClientMenu">
+              <PropertyRef Name="PageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FileTemplates_FileTemplates">
+          <End Type="PXHotelModel.PageTemplate" Role="PageTemplate" Multiplicity="0..1" />
+          <End Type="PXHotelModel.FileTemplate" Role="FileTemplate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PageTemplate">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FileTemplate">
+              <PropertyRef Name="PageTemplateId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FileTemplates_FileTemplates1">
+          <End Type="PXHotelModel.FileTemplate" Role="FileTemplate" Multiplicity="0..1" />
+          <End Type="PXHotelModel.FileTemplate" Role="FileTemplate1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FileTemplate">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FileTemplate1">
+              <PropertyRef Name="ParentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Pages_FileTemplates">
+          <End Type="PXHotelModel.FileTemplate" Role="FileTemplate" Multiplicity="0..1" />
+          <End Type="PXHotelModel.Page" Role="Page" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FileTemplate">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Page">
+              <PropertyRef Name="FileTemplateId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_GroupPermissions_UserGroups">
           <End Type="PXHotelModel.UserGroup" Role="UserGroup" Multiplicity="1" />
           <End Type="PXHotelModel.GroupPermission" Role="GroupPermission" Multiplicity="*" />
@@ -1352,6 +1600,24 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="ClientMenus">
+            <EntityTypeMapping TypeName="PXHotelModel.ClientMenu">
+              <MappingFragment StoreEntitySet="ClientMenus">
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="Updated" ColumnName="Updated" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+                <ScalarProperty Name="RecordActive" ColumnName="RecordActive" />
+                <ScalarProperty Name="RecordOrder" ColumnName="RecordOrder" />
+                <ScalarProperty Name="Hierarchy" ColumnName="Hierarchy" />
+                <ScalarProperty Name="ParentId" ColumnName="ParentId" />
+                <ScalarProperty Name="Url" ColumnName="Url" />
+                <ScalarProperty Name="PageId" ColumnName="PageId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Countries">
             <EntityTypeMapping TypeName="PXHotelModel.Country">
               <MappingFragment StoreEntitySet="Countries">
@@ -1361,6 +1627,26 @@
                 <ScalarProperty Name="Created" ColumnName="Created" />
                 <ScalarProperty Name="RecordActive" ColumnName="RecordActive" />
                 <ScalarProperty Name="RecordOrder" ColumnName="RecordOrder" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FileTemplates">
+            <EntityTypeMapping TypeName="PXHotelModel.FileTemplate">
+              <MappingFragment StoreEntitySet="FileTemplates">
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="Updated" ColumnName="Updated" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+                <ScalarProperty Name="RecordActive" ColumnName="RecordActive" />
+                <ScalarProperty Name="RecordOrder" ColumnName="RecordOrder" />
+                <ScalarProperty Name="Hierarchy" ColumnName="Hierarchy" />
+                <ScalarProperty Name="ParentId" ColumnName="ParentId" />
+                <ScalarProperty Name="PageTemplateId" ColumnName="PageTemplateId" />
+                <ScalarProperty Name="Parameters" ColumnName="Parameters" />
+                <ScalarProperty Name="Action" ColumnName="Action" />
+                <ScalarProperty Name="Controller" ColumnName="Controller" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
@@ -1492,6 +1778,7 @@
                 <ScalarProperty Name="Hierarchy" ColumnName="Hierarchy" />
                 <ScalarProperty Name="IsHomePage" ColumnName="IsHomePage" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="FileTemplateId" ColumnName="FileTemplateId" />
                 <ScalarProperty Name="PageTemplateId" ColumnName="PageTemplateId" />
                 <ScalarProperty Name="FriendlyUrl" ColumnName="FriendlyUrl" />
                 <ScalarProperty Name="ContentWorking" ColumnName="ContentWorking" />

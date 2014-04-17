@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using PX.Business.Models.News;
 using PX.Business.Mvc.Attributes;
+using PX.Business.Mvc.Attributes.Authorize;
 using PX.Business.Mvc.Controllers;
 using PX.Business.Services.News;
 using PX.Business.Services.NewsCategories;

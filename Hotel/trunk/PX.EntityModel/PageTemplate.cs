@@ -16,6 +16,7 @@ namespace PX.EntityModel
     {
         public PageTemplate()
         {
+            this.FileTemplates = new HashSet<FileTemplate>();
             this.Pages = new HashSet<Page>();
             this.PageTemplates1 = new HashSet<PageTemplate>();
         }
@@ -32,6 +33,7 @@ namespace PX.EntityModel
         public Nullable<System.DateTime> Updated { get; set; }
         public string UpdatedBy { get; set; }
     
+        public virtual ICollection<FileTemplate> FileTemplates { get; set; }
         public virtual ICollection<Page> Pages { get; set; }
         public virtual ICollection<PageTemplate> PageTemplates1 { get; set; }
         public virtual PageTemplate PageTemplate1 { get; set; }

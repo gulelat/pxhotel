@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using PX.Business.Models.NewsCategories;
 using PX.Business.Models.Testimonials;
 using PX.Business.Mvc.Attributes;
+using PX.Business.Mvc.Attributes.Authorize;
 using PX.Business.Mvc.Controllers;
 using PX.Business.Services.NewsCategories;
 using PX.Core.Framework.Enums;

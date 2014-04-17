@@ -29,6 +29,14 @@ namespace PX.Business.Services.PageTemplates
             _localizedResourceServices = HostContainer.GetInstance<ILocalizedResourceServices>();
         }
 
+        #region Initialize
+
+        public void InitializeFileTemplates()
+        {
+            
+        }
+        #endregion
+
         #region Base
         public IQueryable<PageTemplate> GetAll()
         {
@@ -83,7 +91,7 @@ namespace PX.Business.Services.PageTemplates
                 Id = u.Id,
                 Name = u.Name,
                 ParentId = u.ParentId,
-                ParentName = u.PageTemplate1 != null ? u.PageTemplate1.Name : string.Empty,
+                ParentName = u.ParentId.HasValue ? u.PageTemplate1.Name : string.Empty,
                 RecordActive = u.RecordActive,
                 RecordOrder = u.RecordOrder,
                 Created = u.Created,
@@ -258,6 +266,31 @@ namespace PX.Business.Services.PageTemplates
         }
 
         /// <summary>
+        /// Get page template for file template
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public IEnumerable<SelectListItem> GetPageTemplateSelectListForFileTemplate(int? id = null)
+        {
+            var pageTemplates = GetAll();
+            int? templateId = null;
+            var fileTemplate = FileTemplateRepository.GetById(id);
+            if (fileTemplate != null)
+            {
+                templateId = fileTemplate.PageTemplateId;
+            }
+            var data = pageTemplates.Select(m => new HierarchyModel
+            {
+                Id = m.Id,
+                Name = m.Name,
+                Hierarchy = m.Hierarchy,
+                RecordOrder = m.RecordOrder,
+                Selected = templateId.HasValue && templateId.Value == m.Id
+            }).ToList();
+            return PageTemplateRepository.BuildSelectList(data);
+        }
+
+        /// <summary>
         /// Check if template name is existed
         /// </summary>
         /// <param name="pageTemplateId">the template id</param>
@@ -265,7 +298,39 @@ namespace PX.Business.Services.PageTemplates
         /// <returns></returns>
         public bool IsPageTemplateNameExisted(int? pageTemplateId, string name)
         {
-            return Fetch(t => t.Id != pageTemplateId && !t.Name.Equals(name)).Any();
+            return Fetch(t => t.Id != pageTemplateId && t.Name.Equals(name)).Any();
+        }
+        
+        /// <summary>
+        /// Check if template existed for virtual path provider
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <returns></returns>
+        public bool IsPageTemplateExisted(string filePath)
+        {
+            var templates = filePath.Split('/').Last().Split('.');
+            if (!templates.First().Equals("DBTemplate", StringComparison.InvariantCultureIgnoreCase) || templates.Count() < 3)
+            {
+                return false;
+            }
+            var templateName = templates[1];
+            return Fetch(t => t.Name.Equals(templateName)).Any();
+        }
+
+        /// <summary>
+        /// Check if template existed for virtual path provider
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <returns></returns>
+        public PageTemplate FindTemplate(string filePath)
+        {
+            var templates = filePath.Split('/').Last().Split('.');
+            if (!templates.First().Equals("DBTemplate", StringComparison.InvariantCultureIgnoreCase) || templates.Count() < 3)
+            {
+                return null;
+            }
+            var templateName = templates[1];
+            return Fetch(t => t.Name.Equals(templateName)).FirstOrDefault();
         }
     }
 }
