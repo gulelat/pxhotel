@@ -26,7 +26,9 @@ namespace PX.EntityModel
         }
     
         public DbSet<BookingRequest> BookingRequests { get; set; }
+        public DbSet<ClientMenu> ClientMenus { get; set; }
         public DbSet<Country> Countries { get; set; }
+        public DbSet<FileTemplate> FileTemplates { get; set; }
         public DbSet<GroupPermission> GroupPermissions { get; set; }
         public DbSet<Language> Languages { get; set; }
         public DbSet<LocalizedResource> LocalizedResources { get; set; }

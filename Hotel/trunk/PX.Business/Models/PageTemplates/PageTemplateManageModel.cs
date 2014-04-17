@@ -14,7 +14,7 @@ namespace PX.Business.Models.PageTemplates
     {
         public PageTemplateManageModel()
         {
-            Content = DefaultConstants.CurlyBracketRenderBody;
+            Content = DefaultConstants.RenderBody;
         }
 
         #region Public Properties
@@ -29,6 +29,7 @@ namespace PX.Business.Models.PageTemplates
         public int? ParentId { get; set; }
 
         public IEnumerable<SelectListItem> Parents { get; set; }
+        #endregion
 
         /// <summary>
         /// Validate the model
@@ -42,7 +43,7 @@ namespace PX.Business.Models.PageTemplates
             var localizedResourceServices = HostContainer.GetInstance<ILocalizedResourceServices>();
             if (pageTemplateServices.IsPageTemplateNameExisted(Id, Name))
             {
-                yield return new ValidationResult(localizedResourceServices.T("AdminModule:::PageTemplates:::ValidationMessage:::Name is existed."), new[]{ "Name"});
+                yield return new ValidationResult(localizedResourceServices.T("AdminModule:::PageTemplates:::ValidationMessage:::Name is existed."), new[] { "Name" });
             }
 
             //Check if content is valid
@@ -51,6 +52,5 @@ namespace PX.Business.Models.PageTemplates
                 yield return new ValidationResult(localizedResourceServices.T("AdminModule:::PageTemplates:::ValidationMessage:::Template Content is not valid, please check {RenderBody} curly bracket."), new[] { "Content" });
             }
         }
-        #endregion
     }
 }

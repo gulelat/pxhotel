@@ -232,5 +232,35 @@ namespace PX.Business.Services.RotatingImageGroups
             }
             return null;
         }
+
+        public ResponseModel SortImages(GroupImageSortingModel model)
+        {
+            var group = GetById(model.GroupId);
+            if(group != null)
+            {
+                var images = group.RotatingImages.OrderBy(i => model.Ids.ToList().IndexOf(i.Id)).ToList();
+                var dictionary = images.OrderBy(i => i.RecordOrder).Select(i => new {i.Id, i.RecordOrder}).ToList();
+                var index = 0;
+                foreach (var image in images)
+                {
+                    if (image.Id != dictionary[index].Id)
+                    {
+                        image.RecordOrder = dictionary[index].RecordOrder;
+                        RotatingImageRepository.Update(image);
+                    }
+                    index++;
+                }
+                return new ResponseModel
+                    {
+                        Success = true,
+                        Message = _localizedResourceServices.T("AdminModule:::RotatingImagesGroups:::Messages:::Sort successfully.")
+                    };
+            }
+            return new ResponseModel
+            {
+                Success = false,
+                Message = _localizedResourceServices.T("AdminModule:::RotatingImageGroups:::Messages:::Rotating Image Group not founded.")
+            };
+        }
     }
 }

@@ -16,6 +16,7 @@ namespace PX.EntityModel
     {
         public Page()
         {
+            this.ClientMenus = new HashSet<ClientMenu>();
             this.Pages1 = new HashSet<Page>();
             this.PageTags = new HashSet<PageTag>();
         }
@@ -28,6 +29,7 @@ namespace PX.EntityModel
         public string ContentWorking { get; set; }
         public string FriendlyUrl { get; set; }
         public Nullable<int> PageTemplateId { get; set; }
+        public Nullable<int> FileTemplateId { get; set; }
         public int Status { get; set; }
         public bool IsHomePage { get; set; }
         public string Hierarchy { get; set; }
@@ -44,6 +46,8 @@ namespace PX.EntityModel
         public Nullable<System.DateTime> Updated { get; set; }
         public string UpdatedBy { get; set; }
     
+        public virtual ICollection<ClientMenu> ClientMenus { get; set; }
+        public virtual FileTemplate FileTemplate { get; set; }
         public virtual ICollection<Page> Pages1 { get; set; }
         public virtual Page Page1 { get; set; }
         public virtual PageTemplate PageTemplate { get; set; }

@@ -1,10 +1,9 @@
 using System.Threading;
 using System.Web.Mvc;
 using PX.Core.Framework.Mvc.Environments;
-using PX.Business.Mvc.WorkContext;
 using PX.Business.Services.Languages;
 
-namespace PX.Business.Mvc.Attributes
+namespace PX.Business.Mvc.Attributes.ActionFilters
 {
     public class InternationalizationAttribute : ActionFilterAttribute
     {

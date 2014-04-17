@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using PX.Business.Models.RotatingImageGroups;
 using PX.Business.Mvc.Attributes;
+using PX.Business.Mvc.Attributes.Authorize;
 using PX.Business.Mvc.Controllers;
 using PX.Business.Services.RotatingImageGroups;
 using PX.Core.Framework.Enums;
@@ -85,6 +86,12 @@ namespace PX.Web.Areas.Admin.Controllers
                 return RedirectToAction("Index");
             }
             return View(model);
+        }
+
+        [HttpPost]
+        public JsonResult SortRotatingImages(GroupImageSortingModel model)
+        {
+            return Json(_rotatingImageGroupServices.SortImages(model));
         }
         #endregion
     }

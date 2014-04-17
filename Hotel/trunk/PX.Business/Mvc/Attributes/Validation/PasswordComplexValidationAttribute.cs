@@ -7,8 +7,7 @@ using PX.Core.Framework.Mvc.Environments;
 using PX.Business.Services.Localizes;
 using PX.Business.Services.Settings;
 
-
-namespace PX.Business.Mvc.Attributes
+namespace PX.Business.Mvc.Attributes.Validation
 {
     /// <summary>
     /// Defines the <see cref="PasswordComplexValidationAttribute" /> object

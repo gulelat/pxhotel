@@ -6,10 +6,10 @@ using System.Reflection;
 using System.Web.Mvc;
 using PX.Business.Models.Menus;
 using PX.Business.Mvc.Attributes;
+using PX.Business.Mvc.Attributes.Authorize;
 using PX.Core.Framework.Mvc.Environments;
 using PX.Business.Mvc.WorkContext;
 using PX.Business.Services.Localizes;
-using PX.Core.Configurations.Constants;
 using PX.Core.Framework.Enums;
 using PX.Core.Framework.Mvc.Models;
 using PX.Core.Framework.Mvc.Models.JqGrid;
@@ -17,7 +17,6 @@ using PX.Core.Ultilities;
 using PX.EntityModel;
 using AutoMapper;
 using PX.EntityModel.Repositories;
-using PX.EntityModel.Repositories.RepositoryBase.Extensions;
 using PX.EntityModel.Repositories.RepositoryBase.Models;
 
 namespace PX.Business.Services.Menus
@@ -250,12 +249,12 @@ namespace PX.Business.Services.Menus
                     RecordOrder = m.RecordOrder,
                     Selected = parentId.HasValue && parentId.Value == m.Id
                 }).ToList();
-            return MenuRepository.BuildSelectList(data, DefaultConstants.HierarchyLevelPrefix);
+            return MenuRepository.BuildSelectList(data);
         }
 
 
         /// <summary>
-        /// Get page by parent id
+        /// Get menu by parent id
         /// </summary>
         /// <param name="parentId">the parent id</param>
         /// <returns></returns>

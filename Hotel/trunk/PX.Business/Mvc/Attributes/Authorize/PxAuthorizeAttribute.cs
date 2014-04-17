@@ -8,7 +8,7 @@ using PX.Business.Services.Localizes;
 using PX.Business.Services.Users;
 using PX.Core.Framework.Enums;
 
-namespace PX.Business.Mvc.Attributes
+namespace PX.Business.Mvc.Attributes.Authorize
 {
     public class PxAuthorizeAttribute : AuthorizeAttribute
     {

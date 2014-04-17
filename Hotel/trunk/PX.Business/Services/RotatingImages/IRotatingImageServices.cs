@@ -30,5 +30,7 @@ namespace PX.Business.Services.RotatingImages
         RotatingImageManageModel GetRotatingImageManageModel(int? id = null);
 
         ResponseModel SaveRotatingImage(RotatingImageManageModel model);
+
+        ResponseModel UpdateRotatingImageUrl(int id, string url);
     }
 }

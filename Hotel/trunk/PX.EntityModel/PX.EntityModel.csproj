@@ -61,7 +61,13 @@
     <Compile Include="BookingRequest.cs">
       <DependentUpon>PXHotel.tt</DependentUpon>
     </Compile>
+    <Compile Include="ClientMenu.cs">
+      <DependentUpon>PXHotel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Country.cs">
+      <DependentUpon>PXHotel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FileTemplate.cs">
       <DependentUpon>PXHotel.tt</DependentUpon>
     </Compile>
     <Compile Include="GroupPermission.cs">
@@ -76,6 +82,8 @@
     <Compile Include="Menu.cs">
       <DependentUpon>PXHotel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Entities\ClientMenu.cs" />
+    <Compile Include="Models\Entities\FileTemplate.cs" />
     <Compile Include="Models\Entities\SiteSetting.cs" />
     <Compile Include="Models\Entities\UserGroup.cs" />
     <Compile Include="Models\Entities\SettingType.cs" />
@@ -107,6 +115,8 @@
     <Compile Include="PageTemplate.cs">
       <DependentUpon>PXHotel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Repositories\ClientMenuRepository.cs" />
+    <Compile Include="Repositories\FileTemplateRepository.cs" />
     <Compile Include="Repositories\PageTagRepository.cs" />
     <Compile Include="Repositories\PageRepository.cs" />
     <Compile Include="Repositories\RotatingImageGroupRepository.cs" />

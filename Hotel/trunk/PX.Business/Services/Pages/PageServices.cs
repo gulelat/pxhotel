@@ -6,11 +6,12 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Web.Mvc;
 using AutoMapper;
+using PX.Business.Models.FileTemplates;
 using PX.Business.Models.Pages;
+using PX.Business.Services.ClientMenus;
 using PX.Core.Framework.Mvc.Environments;
 using PX.Business.Services.CurlyBrackets;
 using PX.Business.Services.Localizes;
-using PX.Business.Services.PageTemplates;
 using PX.Core.Configurations.Constants;
 using PX.Core.Framework.Enums;
 using PX.Core.Framework.Mvc.Models;
@@ -27,12 +28,12 @@ namespace PX.Business.Services.Pages
     {
         private readonly ILocalizedResourceServices _localizedResourceServices;
         private readonly ICurlyBracketServices _curlyBracketServices;
-        private readonly IPageTemplateServices _pageTemplateServices;
+        private readonly IClientMenuServices _clientMenuServices;
         public PageServices()
         {
             _localizedResourceServices = HostContainer.GetInstance<ILocalizedResourceServices>();
             _curlyBracketServices = HostContainer.GetInstance<ICurlyBracketServices>();
-            _pageTemplateServices = HostContainer.GetInstance<IPageTemplateServices>();
+            _clientMenuServices = HostContainer.GetInstance<IClientMenuServices>();
         }
 
         #region Base
@@ -86,7 +87,7 @@ namespace PX.Business.Services.Pages
         public Page GetPage(string friendlyUrl)
         {
             //Get Home Page
-            if(string.IsNullOrEmpty(friendlyUrl))
+            if (string.IsNullOrEmpty(friendlyUrl))
             {
                 return GetHomePage();
             }
@@ -145,13 +146,13 @@ namespace PX.Business.Services.Pages
             var response = new ResponseModel();
             var page = GetById(id);
             var homePage = GetHomePage();
-            if(page != null)
+            if (page != null)
             {
-                if(page.Id != homePage.Id)
+                if (page.Id != homePage.Id)
                 {
                     homePage.IsHomePage = false;
                     page.IsHomePage = true;
-                    if(Update(homePage).Success)
+                    if (Update(homePage).Success)
                     {
                         response = Update(page);
                         if (response.Success)
@@ -200,41 +201,23 @@ namespace PX.Business.Services.Pages
         {
             ResponseModel response;
             Mapper.CreateMap<PageModel, Page>();
-            Page page;
             switch (operation)
             {
                 case GridOperationEnums.Edit:
-                    page = GetById(model.Id);
+                    var page = GetById(model.Id);
                     page.Title = model.Title;
                     page.Status = model.Status;
                     page.FriendlyUrl = string.IsNullOrWhiteSpace(model.FriendlyUrl)
                                            ? model.Title.ToUrlString()
                                            : model.FriendlyUrl.ToUrlString();
-
-                    // Convert post data from jqGrid post
-                    page.PageTemplateId = model.PageTemplateName.ToNullableInt();
                     page.ParentId = model.ParentName.ToNullableInt();
 
                     response = HierarchyUpdate(page);
+
+                    _clientMenuServices.SavePageToClientMenu(page);
                     return response.SetMessage(response.Success ?
                         _localizedResourceServices.T("AdminModule:::Pages:::Messages:::Update page successfully")
                         : _localizedResourceServices.T("AdminModule:::Pages:::Messages:::Update page failure. Please try again later.. Please try again later."));
-
-                //Redundant Create function
-                case GridOperationEnums.Add:
-                    page = Mapper.Map<PageModel, Page>(model);
-                    page.Status = model.Status;
-                    page.Content = string.Empty;
-                    page.Caption = string.Empty;
-
-                    // Convert post data from jqGrid post
-                    page.PageTemplateId = model.PageTemplateName.ToNullableInt();
-                    page.ParentId = model.ParentName.ToNullableInt();
-
-                    response = HierarchyInsert(page);
-                    return response.SetMessage(response.Success ?
-                        _localizedResourceServices.T("AdminModule:::Pages:::Messages:::Create page successfully")
-                        : _localizedResourceServices.T("AdminModule:::Pages:::Messages:::Create page failure. Please try again later."));
 
                 case GridOperationEnums.Del:
                     response = Delete(model.Id);
@@ -275,7 +258,9 @@ namespace PX.Business.Services.Pages
             if (page != null)
             {
                 page.Title = model.Title;
+
                 page.PageTemplateId = model.PageTemplateId;
+                page.FileTemplateId = model.FileTemplateId;
 
                 page.Status = model.Status;
                 //Set content & caption base on status
@@ -295,7 +280,7 @@ namespace PX.Business.Services.Pages
                 {
                     PageTagRepository.Delete(page.Id, id);
                 }
-                if(model.Tags != null && model.Tags.Any())
+                if (model.Tags != null && model.Tags.Any())
                 {
                     foreach (var tagId in model.Tags)
                     {
@@ -352,6 +337,12 @@ namespace PX.Business.Services.Pages
                 {
                     response = Update(page);
                 }
+
+                if (response.Success && page.IncludeInSiteNavigation)
+                {
+                    _clientMenuServices.SavePageToClientMenu(page);
+                }
+
                 return response.SetMessage(response.Success ?
                     _localizedResourceServices.T("AdminModule:::Pages:::Update page successfully")
                     : _localizedResourceServices.T("AdminModule:::Pages:::Update page failure. Please try again later."));
@@ -367,6 +358,7 @@ namespace PX.Business.Services.Pages
                     ParentId = model.ParentId,
                     RecordOrder = 0,
                     PageTemplateId = model.PageTemplateId,
+                    FileTemplateId = model.FileTemplateId,
                     FriendlyUrl = string.IsNullOrWhiteSpace(model.FriendlyUrl)
                                       ? model.Title.ToUrlString()
                                       : model.FriendlyUrl.ToUrlString()
@@ -404,6 +396,11 @@ namespace PX.Business.Services.Pages
             }
 
             response = HierarchyInsert(page);
+
+            if (response.Success)
+            {
+                _clientMenuServices.SavePageToClientMenu(page);
+            }
             return response.SetMessage(response.Success ?
                 _localizedResourceServices.T("AdminModule:::Pages:::Messages:::Create page successfully")
                 : _localizedResourceServices.T("AdminModule:::Pages:::Messages:::Create page failure. Please try again later."));
@@ -535,6 +532,22 @@ namespace PX.Business.Services.Pages
             var page = GetPage(url);
             if (page != null)
             {
+                if (page.FileTemplateId != null)
+                {
+                    return new PageRenderModel
+                        {
+                            IsFileTemplate = true,
+                            FileTemplateModel = new TemplateModel
+                                {
+                                    Name = page.FileTemplate.Name,
+                                    Action = page.FileTemplate.Action,
+                                    Controller = page.FileTemplate.Controller,
+                                    Parameters = page.FileTemplate.Parameters
+                                },
+                            Title = page.Title,
+                            Content = page.Content
+                        };
+                }
                 var template = DefaultConstants.CurlyBracketRenderBody;
                 if (page.PageTemplateId.HasValue)
                 {
@@ -551,7 +564,7 @@ namespace PX.Business.Services.Pages
                         var cacheTemplateName = string.Empty;
                         foreach (var pageTemplate in pageTemplates)
                         {
-                            template = template.Replace(DefaultConstants.CurlyBracketRenderBody, pageTemplate.Content);
+                            template = template.Replace(DefaultConstants.RenderBody, pageTemplate.Content);
                             cacheTemplateName = pageTemplate.Name;
                         }
 
@@ -561,6 +574,8 @@ namespace PX.Business.Services.Pages
                                 Title = page.Title,
                                 Content = page.Content
                             };
+                        template = template.Replace(DefaultConstants.RenderBody,
+                                                    DefaultConstants.CurlyBracketRenderBody);
                         template = templateService.Parse(template, model, null, cacheTemplateName);
                     }
                 }
@@ -606,7 +621,7 @@ namespace PX.Business.Services.Pages
         {
             var pageTagIds = new List<int>();
             var page = GetById(pageId);
-            if(page != null)
+            if (page != null)
             {
                 pageTagIds = page.PageTags.Select(t => t.TagId).ToList();
             }

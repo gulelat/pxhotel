@@ -7,6 +7,8 @@ namespace PX.Core.Configurations.Constants
         //Hierarchy
         public const string HierarchyLevelPrefix = "---";
 
+        public const string RenderBody = "@RenderBody()";
+
         public const string CurlyBracketRenderBody = "{RenderBody}";
 
         public const string DefaultSystemAccount = "system";

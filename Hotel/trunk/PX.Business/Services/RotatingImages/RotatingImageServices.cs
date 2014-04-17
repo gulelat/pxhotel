@@ -128,7 +128,7 @@ namespace PX.Business.Services.RotatingImages
             return new ResponseModel
             {
                 Success = false,
-                Message = _localizedResourceServices.T("AdminModule:::RotatingImages:::Rotating image not founded")
+                Message = _localizedResourceServices.T("AdminModule:::RotatingImages:::Rotating image not founded.")
             };
         }
 
@@ -172,7 +172,6 @@ namespace PX.Business.Services.RotatingImages
                 rotatingImage.ImageUrl = model.ImageUrl;
                 rotatingImage.Text = model.Text;
                 rotatingImage.Url = model.Url;
-                rotatingImage.RecordOrder = model.RecordOrder;
                 rotatingImage.GroupId = model.GroupId;
 
                 response = Update(rotatingImage);
@@ -182,10 +181,35 @@ namespace PX.Business.Services.RotatingImages
             }
             Mapper.CreateMap<RotatingImageManageModel, RotatingImage>();
             rotatingImage = Mapper.Map<RotatingImageManageModel, RotatingImage>(model);
+            rotatingImage.RecordOrder = Fetch(i => i.GroupId == model.GroupId).Any() ? Fetch(i => i.GroupId == model.GroupId).Max(i => i.RecordOrder) + 1 : 0;
             response = Insert(rotatingImage);
             return response.SetMessage(response.Success ?
                 _localizedResourceServices.T("AdminModule:::RotatingImages:::Create rotating image successfully")
                 : _localizedResourceServices.T("AdminModule:::RotatingImages:::Create rotating image failure. Please try again later."));
+        }
+
+        /// <summary>
+        /// Update url of rotating image
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="url"></param>
+        /// <returns></returns>
+        public ResponseModel UpdateRotatingImageUrl(int id, string url)
+        {
+            var image = GetById(id);
+            if(image != null)
+            {
+                image.Url = url;
+                var response = Update(image);
+                return response.SetMessage(response.Success ?
+                    _localizedResourceServices.T("AdminModule:::RotatingImages:::Update rotating image successfully")
+                    : _localizedResourceServices.T("AdminModule:::RotatingImages:::Update rotating image failure. Please try again later."));
+            }
+            return new ResponseModel
+            {
+                Success = false,
+                Message = _localizedResourceServices.T("AdminModule:::RotatingImages:::Rotating image not founded.")
+            };
         }
         
     }

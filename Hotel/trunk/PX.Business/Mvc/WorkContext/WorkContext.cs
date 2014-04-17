@@ -22,7 +22,12 @@ namespace PX.Business.Mvc.WorkContext
         /// </summary>
         public static User CurrentUser
         {
-            get { return (User)HttpContext.Current.Session["CurrentUser"]; }
+            get
+            {
+                if (HttpContext.Current.Session != null)
+                    return (User)HttpContext.Current.Session["CurrentUser"];
+                return null;
+            }
             set { HttpContext.Current.Session["CurrentUser"] = value; }
         }
 

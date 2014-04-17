@@ -70,6 +70,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\ClientMenus\ClientMenuRenderingModel.cs" />
+    <Compile Include="Models\ClientMenus\ClientBreadCrumbModel.cs" />
+    <Compile Include="Models\ClientMenus\ClientMenuModel.cs" />
+    <Compile Include="Models\FileTemplates\TemplateModel.cs" />
+    <Compile Include="Models\FileTemplates\FileTemplateManageModel.cs" />
+    <Compile Include="Models\FileTemplates\FileTemplateModel.cs" />
+    <Compile Include="Models\RotatingImageGroups\GroupImageSortingModel.cs" />
     <Compile Include="Models\RotatingImageGroups\GroupGalleryModel.cs" />
     <Compile Include="Models\Tags\TestimonialModel.cs" />
     <Compile Include="Models\Medias\FileInfoModel.cs" />
@@ -92,6 +99,15 @@
     <Compile Include="Models\Testimonials\TestimonialModel.cs" />
     <Compile Include="Models\CurlyBrackets\CurlyBracketModel.cs" />
     <Compile Include="Models\Pages\PageManageModel.cs" />
+    <Compile Include="Mvc\Attributes\ActionFilters\MasterChooserAttribute.cs" />
+    <Compile Include="Mvc\Attributes\TemplateAttribute.cs" />
+    <Compile Include="Mvc\Attributes\ErrorHandle\PxHandleErrorAttribute.cs" />
+    <Compile Include="Mvc\ViewEngines\ViewResult\MVCTransferResult.cs" />
+    <Compile Include="Mvc\ViewEngines\VirtualPathProvider.cs" />
+    <Compile Include="Services\ClientMenus\IClientMenuServices.cs" />
+    <Compile Include="Services\ClientMenus\ClientMenuServices.cs" />
+    <Compile Include="Services\FileTemplates\IFileTemplateServices.cs" />
+    <Compile Include="Services\FileTemplates\FileTemplateServices.cs" />
     <Compile Include="Services\Tags\ITagServices.cs" />
     <Compile Include="Services\Tags\TagServices.cs" />
     <Compile Include="Services\Medias\MediaFileManager.cs" />
@@ -130,10 +146,10 @@
     <Compile Include="Models\UserGroups\GroupPermissionsModel.cs" />
     <Compile Include="Models\Users\ChangePasswordModel.cs" />
     <Compile Include="Mvc\Attributes\CurlyBracketAttribute.cs" />
-    <Compile Include="Mvc\Attributes\EmailValidationAttribute.cs" />
-    <Compile Include="Mvc\Attributes\InternationalizationAttribute.cs" />
-    <Compile Include="Mvc\Attributes\PasswordComplexValidationAttribute.cs" />
-    <Compile Include="Mvc\Attributes\PxAuthorizeAttribute.cs" />
+    <Compile Include="Mvc\Attributes\Validation\EmailValidationAttribute.cs" />
+    <Compile Include="Mvc\Attributes\ActionFilters\InternationalizationAttribute.cs" />
+    <Compile Include="Mvc\Attributes\Validation\PasswordComplexValidationAttribute.cs" />
+    <Compile Include="Mvc\Attributes\Authorize\PxAuthorizeAttribute.cs" />
     <Compile Include="Models\BaseModel.cs" />
     <Compile Include="Models\LocalizedResources\LocalizedResourceModel.cs" />
     <Compile Include="Models\Settings\SiteSettingModel.cs" />

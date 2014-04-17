@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using PX.Business.Models.Settings;
 using PX.Business.Models.Settings.SettingTypes;
 using PX.Business.Mvc.Attributes;
+using PX.Business.Mvc.Attributes.Authorize;
 using PX.Business.Mvc.Controllers;
 using PX.Business.Services.Settings;
 using PX.Core.Framework.Enums;

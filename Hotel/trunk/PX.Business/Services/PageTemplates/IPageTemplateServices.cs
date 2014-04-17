@@ -13,6 +13,11 @@ namespace PX.Business.Services.PageTemplates
 {
     public interface IPageTemplateServices
     {
+        #region Initialize
+
+        void InitializeFileTemplates();
+        #endregion
+
         #region Base
 
         IQueryable<PageTemplate> GetAll();
@@ -35,10 +40,16 @@ namespace PX.Business.Services.PageTemplates
 
         IEnumerable<SelectListItem> GetPageTemplateSelectList(int? id = null);
 
+        IEnumerable<SelectListItem> GetPageTemplateSelectListForFileTemplate(int? id = null);
+
         PageTemplateManageModel GetTemplateManageModel(int? id = null);
 
         ResponseModel SavePageTemplate(PageTemplateManageModel model);
 
         bool IsPageTemplateNameExisted(int? pageTemplateId, string name);
+
+        bool IsPageTemplateExisted(string filePath);
+
+        PageTemplate FindTemplate(string filePath);
     }
 }

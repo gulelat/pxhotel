@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using PX.Business.Models.Testimonials;
 using PX.Business.Mvc.Attributes;
+using PX.Business.Mvc.Attributes.Authorize;
 using PX.Business.Mvc.Controllers;
 using PX.Business.Services.Testimonials;
 using PX.Core.Framework.Enums;

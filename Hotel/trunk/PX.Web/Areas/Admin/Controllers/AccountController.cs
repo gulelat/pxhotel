@@ -4,6 +4,7 @@ using System.Web.Security;
 using PX.Business.Models.Users;
 using PX.Business.Models.Users.Logins;
 using PX.Business.Mvc.Attributes;
+using PX.Business.Mvc.Attributes.Authorize;
 using PX.Business.Mvc.Controllers;
 using PX.Business.Mvc.WorkContext;
 using PX.Business.Services.Users;
