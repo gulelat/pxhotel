@@ -51,5 +51,7 @@ namespace PX.Business.Services.PageTemplates
         bool IsPageTemplateExisted(string filePath);
 
         PageTemplate FindTemplate(string filePath);
+
+        string RenderPageTemplate(int? templateId);
     }
 }

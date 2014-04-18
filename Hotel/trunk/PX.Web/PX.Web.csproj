@@ -730,8 +730,8 @@
     <Content Include="Areas\Admin\Views\Account\_ChangePassword.cshtml" />
     <Content Include="Areas\Admin\Views\Pages\Index.cshtml" />
     <Content Include="Areas\Admin\Views\PageTemplates\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\PageTemplates\Edit.cshtml" />
-    <Content Include="Areas\Admin\Views\PageTemplates\EditorTemplates\PageTemplateManageModel.cshtml" />
+    <Content Include="Areas\Admin\Views\FileTemplates\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\FileTemplates\EditorTemplates\FileTemplateManageModel.cshtml" />
     <Content Include="Scripts\CkEditor\build-config.js" />
     <Content Include="Scripts\CkEditor\ckeditor.js" />
     <Content Include="Scripts\CkEditor\config.js" />
@@ -1086,8 +1086,8 @@
     <Content Include="Areas\Admin\Views\RotatingImageGroups\Gallery.cshtml" />
     <Content Include="Areas\Admin\Views\ClientMenus\Index.cshtml" />
     <Content Include="Areas\Admin\Views\FileTemplates\Create.cshtml" />
-    <Content Include="Areas\Admin\Views\FileTemplates\Edit.cshtml" />
-    <Content Include="Areas\Admin\Views\FileTemplates\EditorTemplates\PageTemplateManageModel.cshtml" />
+    <Content Include="Areas\Admin\Views\PageTemplates\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\PageTemplates\EditorTemplates\PageTemplateManageModel.cshtml" />
     <Content Include="Areas\Admin\Views\FileTemplates\Index.cshtml" />
     <None Include="Properties\PublishProfiles\Hotel.pubxml" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />

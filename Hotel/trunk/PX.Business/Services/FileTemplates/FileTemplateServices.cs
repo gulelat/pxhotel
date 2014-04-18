@@ -5,6 +5,7 @@ using System.Linq.Expressions;
 using System.Web.Mvc;
 using AutoMapper;
 using PX.Business.Models.FileTemplates;
+using PX.Business.Services.PageTemplates;
 using PX.Core.Framework.Mvc.Environments;
 using PX.Business.Services.Localizes;
 using PX.Core.Configurations.Constants;
@@ -21,9 +22,11 @@ namespace PX.Business.Services.FileTemplates
     public class FileTemplateServices : IFileTemplateServices
     {
         private readonly ILocalizedResourceServices _localizedResourceServices;
+        private readonly IPageTemplateServices _pageTemplateServices;
         public FileTemplateServices()
         {
             _localizedResourceServices = HostContainer.GetInstance<ILocalizedResourceServices>();
+            _pageTemplateServices = HostContainer.GetInstance<IPageTemplateServices>();
         }
 
         #region Initialize
@@ -109,7 +112,7 @@ namespace PX.Business.Services.FileTemplates
             return si.Search(fileTemplates);
         }
 
-        #region Manage file Template
+        #region Manage File Template
 
         /// <summary>
         /// Manage Site Setting
@@ -174,12 +177,19 @@ namespace PX.Business.Services.FileTemplates
                 {
                     Id = template.Id,
                     Name = template.Name,
+                    Content = template.Content,
+                    Action = template.Action,
+                    Controller = template.Controller,
+                    Parameters = template.Parameters,
+                    PageTemplateId = template.PageTemplateId,
+                    PageTemplates = _pageTemplateServices.GetPageTemplateSelectListForFileTemplate(template.Id),
                     ParentId = template.ParentId,
                     Parents = GetPossibleParents(template.Id)
                 };
             }
             return new FileTemplateManageModel
             {
+                PageTemplates = _pageTemplateServices.GetPageTemplateSelectListForFileTemplate(),
                 Parents = GetPossibleParents()
             };
         }
@@ -196,6 +206,10 @@ namespace PX.Business.Services.FileTemplates
             if (fileTemplate != null)
             {
                 fileTemplate.Name = model.Name;
+                fileTemplate.Content = model.Content;
+                fileTemplate.Action = model.Action;
+                fileTemplate.Controller = model.Controller;
+                fileTemplate.Parameters = model.Parameters;
                 fileTemplate.ParentId = model.ParentId;
 
                 response = HierarchyUpdate(fileTemplate);

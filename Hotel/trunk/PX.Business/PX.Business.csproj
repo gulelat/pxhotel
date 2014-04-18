@@ -106,6 +106,7 @@
     <Compile Include="Mvc\ViewEngines\VirtualPathProvider.cs" />
     <Compile Include="Services\ClientMenus\IClientMenuServices.cs" />
     <Compile Include="Services\ClientMenus\ClientMenuServices.cs" />
+    <Compile Include="Services\CurlyBrackets\CurlyBracketParser.cs" />
     <Compile Include="Services\FileTemplates\IFileTemplateServices.cs" />
     <Compile Include="Services\FileTemplates\FileTemplateServices.cs" />
     <Compile Include="Services\Tags\ITagServices.cs" />

@@ -15,11 +15,9 @@ namespace PX.Business.Mvc.ViewEngines
 {
     public class MyVirtualPathProvider : VirtualPathProvider
     {
-        private readonly IPageServices _pageServices;
         private readonly IPageTemplateServices _pageTemplateServices;
         public MyVirtualPathProvider()
         {
-            _pageServices = HostContainer.GetInstance<IPageServices>();
             _pageTemplateServices = HostContainer.GetInstance<IPageTemplateServices>();
         }
 
@@ -65,15 +63,17 @@ namespace PX.Business.Mvc.ViewEngines
 
             internal byte[] GetBytes(string str)
             {
-                byte[] bytes = new byte[str.Length * sizeof(char)];
-                System.Buffer.BlockCopy(str.ToCharArray(), 0, bytes, 0, bytes.Length);
+                var bytes = new byte[str.Length * sizeof(char)];
+                Buffer.BlockCopy(str.ToCharArray(), 0, bytes, 0, bytes.Length);
                 return bytes;
             }
 
             public MyVirtualFile(string virtualPath, PageTemplate template)
                 : base(virtualPath)
             {
-                this._data = System.Text.Encoding.ASCII.GetBytes(template.Content);
+                var pageTemplateServices = HostContainer.GetInstance<IPageTemplateServices>();
+                var content = pageTemplateServices.RenderPageTemplate(template.Id);
+                _data = System.Text.Encoding.ASCII.GetBytes(content);
             }
 
             public override Stream Open()

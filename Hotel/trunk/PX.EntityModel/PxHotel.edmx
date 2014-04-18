@@ -174,6 +174,7 @@
           </Key>
           <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="512" />
+          <Property Name="Content" Type="nvarchar(max)" Nullable="false" />
           <Property Name="Controller" Type="nvarchar" Nullable="false" MaxLength="512" />
           <Property Name="Action" Type="nvarchar" Nullable="false" MaxLength="512" />
           <Property Name="Parameters" Type="nvarchar" MaxLength="512" />
@@ -941,6 +942,7 @@
           </Key>
           <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="String" Name="Name" Nullable="false" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Content" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="Controller" Nullable="false" MaxLength="512" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="Action" Nullable="false" MaxLength="512" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="Parameters" MaxLength="512" FixedLength="false" Unicode="true" />
@@ -1647,6 +1649,7 @@
                 <ScalarProperty Name="Parameters" ColumnName="Parameters" />
                 <ScalarProperty Name="Action" ColumnName="Action" />
                 <ScalarProperty Name="Controller" ColumnName="Controller" />
+                <ScalarProperty Name="Content" ColumnName="Content" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
