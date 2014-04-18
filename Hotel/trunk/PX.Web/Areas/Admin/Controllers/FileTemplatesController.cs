@@ -1,7 +1,6 @@
 ﻿using System.Web.Mvc;
 using Newtonsoft.Json;
 using PX.Business.Models.FileTemplates;
-using PX.Business.Mvc.Attributes;
 using PX.Business.Mvc.Attributes.Authorize;
 using PX.Business.Mvc.Controllers;
 using PX.Business.Services.FileTemplates;
@@ -10,7 +9,6 @@ using PX.Core.Framework.Enums;
 using PX.Core.Framework.Mvc.Attributes;
 using PX.Core.Framework.Mvc.Models;
 using PX.Core.Framework.Mvc.Models.JqGrid;
-using PX.EntityModel;
 
 namespace PX.Web.Areas.Admin.Controllers
 {
@@ -96,6 +94,7 @@ namespace PX.Web.Areas.Admin.Controllers
                 }
                 SetErrorMessage(response.Message);
             }
+            model.PageTemplates = _pageTemplateServices.GetPageTemplateSelectListForFileTemplate();
             model.Parents = _fileTemplateServices.GetPossibleParents();
             return View(model);
         }
@@ -133,6 +132,7 @@ namespace PX.Web.Areas.Admin.Controllers
                 }
                 SetErrorMessage(response.Message);
             }
+            model.PageTemplates = _pageTemplateServices.GetPageTemplateSelectListForFileTemplate(model.Id);
             model.Parents = _fileTemplateServices.GetPossibleParents(model.Id);
             return View(model);
         }

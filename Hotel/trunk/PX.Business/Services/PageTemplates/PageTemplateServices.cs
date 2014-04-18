@@ -6,7 +6,9 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Web.Mvc;
 using AutoMapper;
+using PX.Business.Models.Pages;
 using PX.Business.Models.PageTemplates;
+using PX.Business.Services.CurlyBrackets;
 using PX.Core.Framework.Mvc.Environments;
 using PX.Business.Services.Localizes;
 using PX.Business.Services.Pages;
@@ -18,6 +20,7 @@ using PX.Core.Ultilities;
 using PX.EntityModel;
 using PX.EntityModel.Repositories;
 using PX.EntityModel.Repositories.RepositoryBase.Models;
+using RazorEngine.Templating;
 
 namespace PX.Business.Services.PageTemplates
 {
@@ -331,6 +334,39 @@ namespace PX.Business.Services.PageTemplates
             }
             var templateName = templates[1];
             return Fetch(t => t.Name.Equals(templateName)).FirstOrDefault();
+        }
+
+        public string RenderPageTemplate(int? templateId)
+        {
+            var template = DefaultConstants.CurlyBracketRenderBody;
+            var pageTemplate = GetById(templateId);
+            if (pageTemplate != null)
+            {
+                var pageTemplates =
+                    PageTemplateRepository.GetAll().Where(t => pageTemplate.Hierarchy.Contains(t.Hierarchy))
+                    .OrderBy(t => t.Hierarchy)
+                    .Select(t => new
+                    {
+                        t.Content,
+                        t.Name
+                    });
+                if (pageTemplates.Any())
+                {
+                    var cacheTemplateName = string.Empty;
+                    foreach (var item in pageTemplates)
+                    {
+                        template = CurlyBracketParser.Parse(template);
+                        template = template.Replace(DefaultConstants.RenderBody, item.Content);
+                        cacheTemplateName = item.Name;
+                    }
+
+                    var templateService = new TemplateService();
+                    template = template.Replace(DefaultConstants.RenderBody,
+                                                DefaultConstants.CurlyBracketRenderBody);
+                    template = templateService.Parse(template, null, null, cacheTemplateName);
+                }
+            }
+            return template;
         }
     }
 }

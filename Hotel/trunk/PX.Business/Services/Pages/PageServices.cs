@@ -9,6 +9,7 @@ using AutoMapper;
 using PX.Business.Models.FileTemplates;
 using PX.Business.Models.Pages;
 using PX.Business.Services.ClientMenus;
+using PX.Business.Services.PageTemplates;
 using PX.Core.Framework.Mvc.Environments;
 using PX.Business.Services.CurlyBrackets;
 using PX.Business.Services.Localizes;
@@ -27,11 +28,13 @@ namespace PX.Business.Services.Pages
     public class PageServices : IPageServices
     {
         private readonly ILocalizedResourceServices _localizedResourceServices;
+        private readonly IPageTemplateServices _pageTemplateServices;
         private readonly ICurlyBracketServices _curlyBracketServices;
         private readonly IClientMenuServices _clientMenuServices;
         public PageServices()
         {
             _localizedResourceServices = HostContainer.GetInstance<ILocalizedResourceServices>();
+            _pageTemplateServices = HostContainer.GetInstance<IPageTemplateServices>();
             _curlyBracketServices = HostContainer.GetInstance<ICurlyBracketServices>();
             _clientMenuServices = HostContainer.GetInstance<IClientMenuServices>();
         }
@@ -548,44 +551,13 @@ namespace PX.Business.Services.Pages
                             Content = page.Content
                         };
                 }
-                var template = DefaultConstants.CurlyBracketRenderBody;
-                if (page.PageTemplateId.HasValue)
-                {
-                    var pageTemplates =
-                        PageTemplateRepository.GetAll().Where(t => page.PageTemplate.Hierarchy.Contains(t.Hierarchy))
-                        .OrderBy(t => t.Hierarchy)
-                        .Select(t => new
-                            {
-                                t.Content,
-                                t.Name
-                            });
-                    if (pageTemplates.Any())
-                    {
-                        var cacheTemplateName = string.Empty;
-                        foreach (var pageTemplate in pageTemplates)
-                        {
-                            template = template.Replace(DefaultConstants.RenderBody, pageTemplate.Content);
-                            cacheTemplateName = pageTemplate.Name;
-                        }
-
-                        var templateService = new TemplateService();
-                        var model = new PageRenderModel
-                            {
-                                Title = page.Title,
-                                Content = page.Content
-                            };
-                        template = template.Replace(DefaultConstants.RenderBody,
-                                                    DefaultConstants.CurlyBracketRenderBody);
-                        template = templateService.Parse(template, model, null, cacheTemplateName);
-                    }
-                }
-
+                var template = _pageTemplateServices.RenderPageTemplate(page.PageTemplateId);
                 template = template.Replace(DefaultConstants.CurlyBracketRenderBody, page.Content);
 
                 return new PageRenderModel
-                    {
-                        Content = _curlyBracketServices.Render(template)
-                    };
+                {
+                    Content = _curlyBracketServices.Render(template)
+                };
             }
             return null;
         }

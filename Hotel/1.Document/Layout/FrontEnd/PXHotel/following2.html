@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="PXHotel">
+    <meta name="author" content="PXHotel">
+    <link rel="shortcut icon" href="favicon.png">
+
+    <title>PXHotel</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.css" rel="stylesheet">
+
+    <!-- Just for debugging purposes. Don't actually copy this line! -->
+    <!--[if lt IE 9]><script src="js/ie8-responsive-file-warning.js"></script><![endif]-->
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Custom styles for this template -->
+    <link href="css/styles.css" rel="stylesheet">
+    <link href="css/font-awesome.min.css" rel="stylesheet">
+    <link href="fonts/allura-regular-webfont.css" rel="stylesheet">
+    <link href="fonts/fontviet1-webfont.css" rel="stylesheet">
+    <link href="css/owl.carousel.css" rel="stylesheet">
+    <link href="css/owl.theme.css" rel="stylesheet">
+    <link href="css/owl.transitions.css" rel="stylesheet">
+    <link href="css/animate.min.css" rel="stylesheet">
+    <link href="css/datepicker.css" rel="stylesheet">
+    <link href="css/datepicker.date.css" rel="stylesheet">
+    <link href="css/photobox.css" rel="stylesheet">
+    <link href="css/photobox.ie.css" rel="stylesheet">    
+    <link href="css/summernote.css" rel="stylesheet">
+  </head>
+  <body>
+
+    <div class="bigWrapper col-lg-10 col-lg-offset-1">
+      <div>
+        <div class="divMenuAndLogo">
+          <div class="navbar navbar-static-top navbar-default" role="navigation">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+            </div>
+            <div class="navbar-collapse collapse">
+              <ul class="nav navbar-nav myNavbarNav">
+                <li class="active dropdown parentDropdownMenu hidden-xs">
+                  <a href="#" class="dropdown-submenu" data-toggle="dropdown">trang chủ</a>
+                </li>
+                <li class="visible-xs menuItemOnMobileWithoutChildren">
+                  <a href="">trang chủ</a>
+                </li>
+                
+
+                <li class="dropdown parentDropdownMenu hidden-xs">
+                  <a href="#" class="dropdown-submenu" data-toggle="dropdown">dịch vụ</a>
+                  <ul class="dropdown-menu">
+                    <li class="dropdown-submenu">
+                      <a tabindex="-1" href="#">
+                        <span>dịch vụ 1</span>
+                      </a>
+                      <ul class="dropdown-menu">
+                        <li class="dropdown-submenu">
+                          <a tabindex="-1" href="#">
+                            <span>dịch vụ 1 - 1</span>
+                          </a>
+                          <ul class="dropdown-menu">
+                            <li class="dropdown-submenu">
+                              <a tabindex="-1" href="#">
+                                <span>dịch vụ 1 - 1 - 1</span>
+                              </a>
+                            </li>
+                          </ul>
+                        </li>
+                        <li class="dropdown-submenu">
+                          <a tabindex="-1" href="#">
+                            <span>dịch vụ 1 - 2</span>
+                          </a>
+                        </li>
+                      </ul>
+                    </li>
+                    <li class="dropdown-submenu">
+                      <a tabindex="-1" href="#">
+                        <span>dịch vụ 2</span>
+                      </a>
+                    </li>
+                    <li class="dropdown-submenu">
+                      <a tabindex="-1" href="#">
+                        <span>dịch vụ 3</span>
+                      </a>
+                    </li>
+                    <li class="dropdown-submenu">
+                      <a tabindex="-1" href="#">
+                        <span>dịch vụ 4</span>
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+
+                <li class="visible-xs menuItemOnMobile">
+                  <div class="linkItemLevel1OnMobile">dịch vụ</div>
+                  <ul class="menuItemContainerLevel1OnMobile">
+                    <li class="subMenuWithImage">
+                      <div class="linkItemLevel2OnMobile">dịch vụ 1</div>
+                      <ul class="menuItemContainerLevel2OnMobile">
+                        <li><a href="#">dịch vụ 1-1</a></li>
+                        <li><a href="#">dịch vụ 1-2</a></li>
+                        <li><a href="#">dịch vụ 1-3</a></li>
+                      </ul>
+                    </li>
+                    <li class="subMenuWithImage subMenuCaymanOnMobile">
+                      <div class="linkItemLevel2OnMobile">dịch vụ 2</div>
+                      <ul class="menuItemContainerLevel2OnMobile">
+                        <li><a href="#">dịch vụ 2-1</a></li>
+                        <li><a href="#">dịch vụ 2-2</a></li>
+                        <li><a href="#">dịch vụ 2-3</a></li>
+                      </ul>
+                    </li>
+                    <li class="visible-xs menuItemOnMobileWithoutChildren">
+                      <a href="#">dịch vụ 3</a>
+                    </li>
+                  </ul>
+                </li>
+
+                <li class="dropdown parentDropdownMenu hidden-xs">
+                  <a href="#" class="dropdown-submenu" data-toggle="dropdown">tin tức - sự kiện</a>
+                </li>
+                <li class="visible-xs menuItemOnMobileWithoutChildren">
+                  <a href="">tin tức - sự kiện</a>
+                </li>
+
+                <li class="dropdown parentDropdownMenu hidden-xs">
+                  <a href="#" class="dropdown-submenu" data-toggle="dropdown">phòng nghỉ</a>
+                </li>
+                <li class="visible-xs menuItemOnMobileWithoutChildren">
+                  <a href="">phòng nghỉ</a>
+                </li>
+
+                <li class="dropdown parentDropdownMenu hidden-xs">
+                  <a href="#" class="dropdown-submenu" data-toggle="dropdown">liên hệ</a>
+                </li>
+                <li class="visible-xs menuItemOnMobileWithoutChildren">
+                  <a href="">liên hệ</a>
+                </li>
+
+                <li class="dropdown parentDropdownMenu hidden-xs">
+                  <a href="#" class="dropdown-submenu" data-toggle="dropdown">về chúng tôi</a>
+                </li>
+                <li class="visible-xs menuItemOnMobileWithoutChildren">
+                  <a href="">về chúng tôi</a>
+                </li>
+              </ul>
+            </div> 
+          </div>
+
+          <div class="divLogo col-sm-2 col-sm-offset-5 col-xs-4 col-xs-offset-4">
+              <img src="img/hotelLogo.png" class="img-responsive" />
+          </div>
+          <div class="clearfix"></div>
+
+          <div class="col-lg-4 col-lg-offset-4 divTextLuxuryHotel">
+            <hr>
+            <div>
+              <div>Luxury Hotel</div>
+            </div>
+          </div>
+          <div class="clearfix"></div>
+        </div>
+
+        <div class="divWrapperBigHeadingIntroText">
+          <div class="col-sm-11 col-sm-offset-1 bigHeadingIntroText">
+            <h1>Booking</h1>
+            <span>
+              chi tiết đặt phòng
+            </span>
+          </div>
+        </div>
+
+        <div class="divWrapperBookingDetails">
+          <div class="col-xs-12 col-sm-4 col-sm-push-8 bookingDetailInfo">
+            <!--<div class="panel panel-default">
+              <div class="panel-body">
+                <div class="col-sm-6 col-sm-offset-3">
+                  <img class="img-responsive" src="img/support1.png" />
+                </div>
+                <div class="clearfix"></div>
+                <div class="col-sm-12 text-center">
+                  <a href="tel:+8463229933" class="btn btn-success"><i class="fa fa-phone"></i> Gọi Ngay!</a>
+                </div>
+                <div class="clearfix"></div>
+              </div>
+            </div>-->
+            <div class="panel panel-default">
+              Chi tiết đặt phòng
+              <br>
+              ABC
+              <br>
+              ABC
+              <br>
+              ABC
+            </div>
+          </div>
+
+          <div class="col-xs-12 col-sm-8 col-sm-pull-4 contactInfoAndPayment">
+            <div class="panel panel-info">
+              <div class="panel-heading">
+                <strong>Thông tin liên hệ</strong>
+              </div>
+              <div class="panel-body">
+                <form class="form-horizontal" role="form">
+                  <div class="form-group">
+                    <label for="inputBookingName" class="col-sm-3 control-label">Họ và tên *</label>
+                    <div class="col-sm-6">
+                      <input type="text" class="form-control" id="inputBookingName" placeholder="">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="inputBookingEmail" class="col-sm-3 control-label">Email *</label>
+                    <div class="col-sm-6">
+                      <input type="email" class="form-control" id="inputBookingEmail" placeholder="">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="inputBookingAddress" class="col-sm-3 control-label">Địa chỉ *</label>
+                    <div class="col-sm-6">
+                      <input type="text" class="form-control" id="inputBookingAddress" placeholder="">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="inputBookingPhone" class="col-sm-3 control-label">Điện thoại *</label>
+                    <div class="col-sm-6">
+                      <input type="text" class="form-control" id="inputBookingPhone" placeholder="">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="inputBookingNationality" class="col-sm-3 control-label">Quốc tịch *</label>
+                    <div class="col-sm-6">
+                      <select class="form-control">
+                        <option>Việt Nam</option>
+                        <option>Mỹ</option>
+                        <option>Pháp</option>
+                        <option>Đức</option>
+                        <option>Nga</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="inputBookingPhone" class="col-sm-3 control-label">Điện thoại *</label>
+                    <div class="col-sm-6">
+                      <div class="checkbox">
+                        <label>
+                          <input type="checkbox">
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="inputBookingNationality" class="col-sm-3 control-label">Yêu cầu khác</label>
+                  </div>
+                  <div id="summernote"></div>
+                </form>
+              </div>
+            </div>
+            <div class="panel panel-info">
+              <div class="panel-heading">
+                <strong>Thanh toán</strong>
+              </div>
+              <div class="panel-body">
+                <div class="col-sm-6">
+                  <form role="form">
+                    <div class="form-group">
+                      <label for="inputPaymentMethod">Phương thức thanh toán</label>
+                      <select class="form-control">
+                        <option>VISA</option>
+                        <option>MASTERCARD</option>
+                        <option>PAYPAL</option>
+                        <option>Ngân lượng</option>
+                        <option>Thanh toán trực tiếp</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label for="inputPaymentName">Tên chủ thẻ</label>
+                      <input type="text" class="form-control" id="inputPaymentName" placeholder="">
+                    </div>
+                  </form>
+                </div>
+                <div class="col-sm-6">
+
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="clearfix"></div>
+        </div>
+
+        <footer>
+          <div class="col-sm-6">
+            PX HOTEL &copy; 2014
+          </div>
+          <div class="col-sm-6">
+            <ul class="containerSocialLinkAtFooter">
+              <li>
+                <a href="#" class="iconSocialAtFooter facebookIcon">&#61594;</a>
+                <a href="#" class="iconSocialAtFooter googleIcon">&#61653;</a>
+                <a href="#" class="iconSocialAtFooter youTubeIcon">&#61799;</a>
+                <a href="#" class="iconSocialAtFooter twitterIcon">&#61593;</a>
+                <a href="#" class="iconSocialAtFooter rssIcon">&#xF09E;</a>
+              </li>
+            </ul>
+          </div>
+          <div class="clearfix"></div>
+        </footer>
+
+        <div class="fixedNavigation">
+          <ul class="smallItemWrapperFixedNavigation">
+            <li class="smallItemFixedNavigation">
+              <a id="btnScrollTop" href="" title="Top"><i class="fa fa-arrow-up"></i></a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="js/jquery-1.10.2.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/owl.carousel.min.js"></script>
+    <script src="js/waypoints.min.js"></script>
+    <script src="js/imagesloaded.pkgd.min.js"></script>
+    <script src="js/picker.js"></script>
+    <script src="js/picker.date.js"></script>
+    <script src="js/jquery.photobox.js"></script>
+    <script src="js/summernote.min.js"></script>
+    <script src="js/jquery.parallax-1.1.3.js"></script>
+    <script type="text/javascript">
+      $(document).ready(function(){
+        $("#bigCarousel").owlCarousel({
+          autoPlay : 3000,
+          stopOnHover : true,
+          navigation:true,
+          paginationSpeed : 1000,
+          paginationNumbers: true,
+          lazyLoad : true,
+          goToFirstSpeed : 2000,
+          singleItem : true,
+          autoHeight : true,
+          transitionStyle:"fade",
+          navigationText: [
+          "<i class='fa fa-chevron-left'></i>",
+          "<i class='fa fa-chevron-right'></i>"]
+        });
+
+        $(".carouselServiceList").owlCarousel({
+          autoPlay: 5000,
+          stopOnHover: true,
+          paginationNumbers: true,
+          lazyLoad: true,
+          singleItem : true
+        });
+
+        $("#carouselTestimonial").owlCarousel({
+          autoPlay: 5000,
+          singleItem: true,
+          pagination: false,
+          transitionStyle: "backSlide"
+        });
+
+        $('#bigCarousel').addClass('animated bounceIn');
+
+        $('.divWrapperTwoHalf').imagesLoaded(function( instance ) {
+          $('.divWrapperTwoHalf').waypoint(function(direction) {
+            if (direction == "down"){
+              $('.divHalfContentWrapper.halfOnRight').addClass('animated fadeInRight showDiv');
+              $('.divHalfContentWrapper.halfOnLeft').addClass('animated fadeInLeft showDiv');
+            }
+          }, {
+            offset: function() {
+              if ($(window).width() < 768)
+                return ($(window).height());
+              else
+                return ($('#bigCarousel').height()*1.5);
+            }
+          });
+        });
+
+        $('.adsOrPromo').imagesLoaded(function( instance ) {
+          $('.adsOrPromo').waypoint(function(direction) {
+            if (direction == "down"){
+              $(this).addClass('animated fadeInDown showDiv');
+            }
+          }, {
+            offset: function() {
+              return ($(window).height() - $(this).height()*0.5);
+            }
+          });
+        });
+
+        $('.divFeedbackAndGallery').imagesLoaded(function( instance ) {
+          $('.divFeedbackAndGallery').waypoint(function(direction) {
+            if (direction == "down"){
+              $(this).find('.divWrapperTestimonial').addClass('animated bounceIn showDiv');
+              $(this).find('.divWrapperFeedback').addClass('animated bounceIn showDiv');
+              $(this).find('.divWrapperContact').addClass('animated bounceIn showDiv');
+              $(this).find('.divWrapperImageGallery').addClass('animated bounceIn showDiv');
+            }
+          }, {
+            offset: function() {
+              if ($(window).width() < 768)
+                return ($(window).height());
+              else
+                return ($(window).height() - $(this).height()*0.5);
+            }
+          });
+        });              
+
+        /*Small Fixed Navigation behavior*/
+        if ($(window).scrollTop() == 0)
+          $("#btnScrollTop").css({"color":"#000000"});
+          
+        $(function () {
+          $(window).scroll(function () {
+            if ($(this).scrollTop() > 10) {
+              $('#btnScrollTop').css({"color":"#FFFFFF"});
+              $('.fixedNavigation').addClass('move');
+            } else {
+              $('#btnScrollTop').css({"color":"#000000"});
+              $('.fixedNavigation').removeClass('move');
+            }
+          });
+        });
+
+        $('#btnScrollTop').click(function () {
+          $('body,html').animate({
+            scrollTop: 0
+          }, 800);
+          return false;
+        });
+
+        $('.divSmallSquareImg > div').hover(function(){
+          $(this).addClass('smallHovered');
+        },function(){
+          $(this).removeClass('smallHovered');
+        });
+
+        // Datepicker
+        $('.datepickerfield').pickadate({
+          monthsFull: ['Tháng Một', 'Tháng Hai', 'Tháng Ba', 'Tháng Tư', 'Tháng Năm', 'Tháng Sáu', 'Tháng Bảy', 'Tháng Tám', 'Tháng Chín', 'Tháng Mười', 'Tháng Mười Một', 'Tháng Mười Hai'],
+          monthsShort: ['Th 1', 'Th 2', 'Th 3', 'Th 4', 'Th 5', 'Th 6', 'Th 7', 'Th 8', 'Th 9', 'Th 10', 'Th 11', 'Th 12'],
+          weekdaysFull: ['Chủ Nhật', 'Thứ Hai', 'Thứ Ba', 'Thứ Tư', 'Thứ Năm', 'Thứ Sáu', 'Thứ Bảy'],
+          weekdaysShort: ['CN', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7'],
+          today: 'Hôm nay',
+          clear: 'Xóa',
+          format: 'dd/mm/yyyy'
+        });
+
+        // Photobox
+        $('#gallery').photobox({
+          time: 2000
+        });
+
+        // Hover the heading text
+        $('.divNewsEvents').hover(function(){
+          $(this).find('.text-center').addClass('animated fadeInDown');
+        }, function(){
+          $(this).find('.text-center').removeClass('animated fadeInDown');
+        });
+
+        $('.divServices').hover(function(){
+          $(this).find('.text-center').addClass('animated fadeInDown');
+        }, function(){
+          $(this).find('.text-center').removeClass('animated fadeInDown');
+        });
+
+        $('.divBooking').hover(function(){
+          $(this).find('.text-center').addClass('animated fadeInDown');
+        }, function(){
+          $(this).find('.text-center').removeClass('animated fadeInDown');
+        });
+
+        // Hover the heading text
+        $('.divWrapperTestimonial').hover(function(){
+          $(this).find('.textHeadingDivFeedback').addClass('animated fadeInRight');
+        }, function(){
+          $(this).find('.textHeadingDivFeedback').removeClass('animated fadeInRight');
+        });
+
+        $('.divWrapperFeedback').hover(function(){
+          $(this).find('.textHeadingDivFeedback').addClass('animated fadeInRight');
+        }, function(){
+          $(this).find('.textHeadingDivFeedback').removeClass('animated fadeInRight');
+        });
+
+        $('.divWrapperContact').hover(function(){
+          $(this).find('.textHeadingDivFeedback').addClass('animated fadeInRight');
+        }, function(){
+          $(this).find('.textHeadingDivFeedback').removeClass('animated fadeInRight');
+        });
+
+        $('.divWrapperImageGallery').hover(function(){
+          $(this).find('.textHeadingDivFeedback').addClass('animated fadeInRight');
+        }, function(){
+          $(this).find('.textHeadingDivFeedback').removeClass('animated fadeInRight');
+        });
+
+        // Hover the menu
+        $('li.parentDropdownMenu').hover(function(){
+          $(this).find('ul.dropdown-menu').addClass('animated fadeInUp MenuHovered');
+        }, function(){
+          $(this).find('ul.dropdown-menu').removeClass('animated fadeInUp MenuHovered');
+        });
+
+        $('li.dropdown-submenu').hover(function(){
+          $(this).find('ul.dropdown-menu').addClass('animated fadeInRight MenuHovered');
+        }, function(){
+          $(this).find('ul.dropdown-menu').removeClass('animated fadeInRight MenuHovered');
+        });
+
+        // IF MENU HAS SUBMENU(S), TURN ON RIGHT ARROW
+        $(".myNavbarNav .dropdown .dropdown-menu .dropdown-submenu").each(function(index){
+          if($(this).children("ul.dropdown-menu").length > 0){
+            $(this).children("a").after().addClass("HasChildMenusArrow");
+          }
+        });
+
+        // Enable click
+        $('.myNavbarNav > li a').click(function(){
+          window.location.href = $(this).attr("href");
+        });
+
+        // Menu on mobile
+        $('.linkItemLevel1OnMobile').click(function() {
+            //collapse another menu before expand this
+            $.each($(this).parent().siblings(), function(i, val){
+              if ($(this).find("ul").is(":visible")){
+                $(this).find("ul")[0].style.display = "none";
+                $(this).removeClass("AfterExpand");
+              }
+            });
+
+            $(this).siblings('ul.menuItemContainerLevel1OnMobile').toggle();
+            $(this).parent().toggleClass("AfterExpand");
+            if ($(this).parent().hasClass('AfterExpand')){
+              $('html, body').animate({
+              scrollTop: $(this).offset().top - 13}, 350);  
+            }
+            else
+              $('html, body').animate({
+              scrollTop: 0}, 350);
+            
+        });
+
+        $('.linkItemLevel2OnMobile').click(function() {
+            //collapse another menu before expand this
+            $.each($(this).parent().siblings(), function(i, val){
+              if ($(this).find("ul").is(":visible")){
+                $(this).find("ul")[0].style.display = "none";
+                $(this).removeClass("AfterExpand");
+              }
+            });
+
+            $(this).siblings('ul.menuItemContainerLevel2OnMobile').toggle();
+            $(this).parent().toggleClass("AfterExpand");
+            if ($(this).parent().hasClass('AfterExpand')){
+              $('html, body').animate({
+              scrollTop: $(this).offset().top - 13}, 350);  
+            }
+            else
+              $('html, body').animate({
+              scrollTop: 0}, 350);
+            
+        });
+
+        $('#summernote').summernote({
+          height: 300
+        });
+
+        $('.divWrapperBigHeadingIntroText').parallax("50%", 0.1);
+      });
+    </script>
+  </body>
+</html>
