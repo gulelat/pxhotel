@@ -27,7 +27,7 @@ namespace PX.Business.Mvc.Attributes.Validation
 
             if (string.IsNullOrEmpty((string)value))
             {
-                ErrorMessage =  localizedResourceServies.T("AdminModule:::Users:::Validation:::Password field is required");
+                ErrorMessage =  localizedResourceServies.T("AdminModule:::Users:::ValidationMessages:::RequiredPassword:::Password field is required");
                 return false;
             }
             

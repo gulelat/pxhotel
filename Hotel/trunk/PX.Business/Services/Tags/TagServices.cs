@@ -52,7 +52,7 @@ namespace PX.Business.Services.Tags
         }
         #endregion
 
-        #region Search Methods
+        #region Grid Search
 
         /// <summary>
         /// search the tags.
@@ -77,7 +77,7 @@ namespace PX.Business.Services.Tags
 
         #endregion
 
-        #region Manage Methods
+        #region Grid Manage
 
         /// <summary>
         /// Manage tag
@@ -99,26 +99,26 @@ namespace PX.Business.Services.Tags
                     tag.RecordActive = model.RecordActive;
                     response = Update(tag);
                     return response.SetMessage(response.Success ?
-                        _localizedResourceServices.T("AdminModule:::Tags:::Update Tag successfully")
-                        : _localizedResourceServices.T("AdminModule:::Tags:::Update Tag failure. Please try again later."));
+                        _localizedResourceServices.T("AdminModule:::Tags:::Messages:::UpdateSuccessfully:::Update tag successfully.")
+                        : _localizedResourceServices.T("AdminModule:::Tags:::Messages:::UpdateNotFounded:::Update tag failed. Please try again later."));
                 
                 case GridOperationEnums.Add:
                     tag = Mapper.Map<TagModel, Tag>(model);
                     response = Insert(tag);
                     return response.SetMessage(response.Success ?
-                        _localizedResourceServices.T("AdminModule:::Tags:::Insert Tag successfully")
-                        : _localizedResourceServices.T("AdminModule:::Tags:::Insert Tag failure. Please try again later."));
+                        _localizedResourceServices.T("AdminModule:::Tags:::Messages:::CreateSuccessfully:::Insert tag successfully.")
+                        : _localizedResourceServices.T("AdminModule:::Tags:::Messages:::CreateFailure:::Insert tag failed. Please try again later."));
                 
                 case GridOperationEnums.Del:
                     response = Delete(model.Id);
                     return response.SetMessage(response.Success ?
-                        _localizedResourceServices.T("AdminModule:::Tags:::Delete Tag successfully")
-                        : _localizedResourceServices.T("AdminModule:::Tags:::Delete Tag failure. Please try again later."));
+                        _localizedResourceServices.T("AdminModule:::Tags:::Messages:::DeleteSuccessfully:::Delete tag successfully.")
+                        : _localizedResourceServices.T("AdminModule:::Tags:::Messages:::DeleteFailure:::Delete tag failed. Please try again later."));
             }
             return new ResponseModel
             {
                 Success = false,
-                Message = _localizedResourceServices.T("AdminModule:::Tags:::Tag not founded")
+                Message = _localizedResourceServices.T("AdminModule:::Tags:::Messages:::ObjectNotFound:::Tag not is founded")
             };
         }
 

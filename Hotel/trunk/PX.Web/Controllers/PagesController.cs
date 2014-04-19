@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using System.Web.Routing;
+﻿using System.Web.Mvc;
 using PX.Business.Mvc.Controllers;
 using PX.Business.Mvc.ViewEngines.ViewResult;
 using PX.Business.Services.Pages;
 
 namespace PX.Web.Controllers
 {
-    public class PagesController : PxController
+    public class PagesController : ClientController
     {
         private readonly IPageServices _pageServices;
         public PagesController(IPageServices pageServices)
@@ -34,11 +29,6 @@ namespace PX.Web.Controllers
                 return new MVCTransferResult(routeValues, model.FileTemplateModel.Parameters);
             }
             return View(model);
-        }
-
-        public ActionResult Test()
-        {
-            return View();
         }
     }
 }

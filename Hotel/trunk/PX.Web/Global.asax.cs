@@ -11,7 +11,7 @@ using PX.Business.Services.CurlyBrackets;
 using PX.Business.Services.FileTemplates;
 using PX.Business.Services.Languages;
 using PX.Business.Services.Localizes;
-using PX.Business.Services.Medias;
+using PX.Business.Services.Media;
 using PX.Business.Services.Menus;
 using PX.Business.Services.News;
 using PX.Business.Services.NewsCategories;

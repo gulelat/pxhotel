@@ -24,9 +24,23 @@ namespace PX.Business.Services.Settings
 
         #endregion
 
+        #region Grid Search
+        JqGridSearchOut SearchSiteSettings(JqSearchIn si);
+
+        #endregion
+
+        #region Manage Grid
         ResponseModel ManageSiteSetting(GridOperationEnums operation, SiteSettingModel model);
 
-        JqGridSearchOut SearchSiteSettings(JqSearchIn si);
+        #endregion
+
+        #region Manage
+
+        SiteSettingManageModel GetSettingManageModel(int id);
+
+        ResponseModel SaveSettingManageModel(SiteSettingManageModel model, NameValueCollection data);
+
+        #endregion
 
         T GetSetting<T>(int id);
 
@@ -35,9 +49,5 @@ namespace PX.Business.Services.Settings
         T GetSetting<T>(string key, T defaultValue);
 
         dynamic LoadSetting<T>(object[] parameterArray = null);
-
-        SiteSettingManageModel GetSettingManageModel(int id);
-
-        ResponseModel SaveSettingManageModel(SiteSettingManageModel model, NameValueCollection data);
     }
 }

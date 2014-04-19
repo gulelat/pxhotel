@@ -13,7 +13,7 @@ using PX.Core.Framework.Mvc.Models.JqGrid;
 namespace PX.Web.Areas.Admin.Controllers
 {
     [PxAuthorize(Permissions = new[] { PermissionEnums.ManageContent })]
-    public class MenusController : PxController
+    public class MenusController : AdminController
     {
         private readonly IMenuServices _menuServices;
         public MenusController(IMenuServices menuServices)

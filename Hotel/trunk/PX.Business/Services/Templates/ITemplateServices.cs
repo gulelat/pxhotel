@@ -25,18 +25,29 @@ namespace PX.Business.Services.Templates
         void InitializeTemplates();
         #endregion
 
-        ResponseModel ManageTemplate(GridOperationEnums operation, TemplateModel model);
-
+        #region Grid Search
         JqGridSearchOut SearchTemplates(JqSearchIn si);
 
-        bool IsTemplateNameExisted(int? templateId, string name);
+        #endregion
+
+        #region Manage Grid
+        ResponseModel ManageTemplate(GridOperationEnums operation, TemplateModel model);
+
+        #endregion
+
+        #region Manage
+        TemplateManageModel GetTemplateManageModel(int? id = null);
+
+        TemplateManageModel GetTemplateManageModel(string type);
 
         TemplateManageModel GetTemplateByName(string name);
-        TemplateManageModel GetTemplateManageModel(int? id = null);
-        TemplateManageModel GetTemplateManageModel(string type);
 
         ResponseModel SaveTemplate(TemplateManageModel model);
 
+        #endregion
+
         string RenderTemplate(string template, dynamic model, string cacheName = "");
+
+        bool IsTemplateNameExisted(int? templateId, string name);
     }
 }

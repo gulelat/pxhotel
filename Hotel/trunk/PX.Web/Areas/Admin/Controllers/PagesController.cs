@@ -16,7 +16,7 @@ using PX.EntityModel;
 namespace PX.Web.Areas.Admin.Controllers
 {
     [PxAuthorize(Permissions = new[] { PermissionEnums.ManageContent })]
-    public class PagesController : PxController
+    public class PagesController : AdminController
     {
         private readonly IPageServices _pageServices;
         private readonly IPageTemplateServices _pageTemplateServices;

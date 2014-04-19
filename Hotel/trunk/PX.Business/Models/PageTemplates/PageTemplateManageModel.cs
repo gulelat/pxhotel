@@ -43,13 +43,13 @@ namespace PX.Business.Models.PageTemplates
             var localizedResourceServices = HostContainer.GetInstance<ILocalizedResourceServices>();
             if (pageTemplateServices.IsPageTemplateNameExisted(Id, Name))
             {
-                yield return new ValidationResult(localizedResourceServices.T("AdminModule:::PageTemplates:::ValidationMessage:::Name is existed."), new[] { "Name" });
+                yield return new ValidationResult(localizedResourceServices.T("AdminModule:::PageTemplates:::ValidationMessages:::ExistingName:::Name is existed."), new[] { "Name" });
             }
 
             //Check if content is valid
             if (curlyBracketServices.IsPageTemplateValid(Content))
             {
-                yield return new ValidationResult(localizedResourceServices.T("AdminModule:::PageTemplates:::ValidationMessage:::Template Content is not valid, please check {RenderBody} curly bracket."), new[] { "Content" });
+                yield return new ValidationResult(localizedResourceServices.T("AdminModule:::PageTemplates:::ValidationMessages:::InvalidContentFormat:::Template Content is not valid, please check {RenderBody} curly bracket."), new[] { "Content" });
             }
         }
     }

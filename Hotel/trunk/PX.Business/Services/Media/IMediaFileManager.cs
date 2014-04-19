@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace PX.Business.Services.Medias
+namespace PX.Business.Services.Media
 {
     public interface IMediaFileManager
     {

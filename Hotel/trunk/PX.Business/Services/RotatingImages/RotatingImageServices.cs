@@ -60,6 +60,8 @@ namespace PX.Business.Services.RotatingImages
         }
         #endregion
 
+        #region Grid Search
+
         /// <summary>
         /// search the rotating images.
         /// </summary>
@@ -84,6 +86,10 @@ namespace PX.Business.Services.RotatingImages
             return si.Search(rotatingImages);
         }
 
+        #endregion
+
+        #region Manage Grid
+
         /// <summary>
         /// Manage Rotating Images
         /// </summary>
@@ -106,8 +112,8 @@ namespace PX.Business.Services.RotatingImages
                     rotatingImage.RecordActive = model.RecordActive;
                     response = Update(rotatingImage);
                     return response.SetMessage(response.Success ?
-                        _localizedResourceServices.T("AdminModule:::RotatingImages:::Update rotating image successfully")
-                        : _localizedResourceServices.T("AdminModule:::RotatingImages:::Update rotating image failure. Please try again later."));
+                        _localizedResourceServices.T("AdminModule:::RotatingImages:::Messages:::UpdateSuccessfully:::Update rotating image successfully.")
+                        : _localizedResourceServices.T("AdminModule:::RotatingImages:::Messages:::UpdateFailure:::Update rotating image failed. Please try again later."));
 
                 case GridOperationEnums.Add:
                     rotatingImage = Mapper.Map<RotatingImageModel, RotatingImage>(model);
@@ -116,21 +122,25 @@ namespace PX.Business.Services.RotatingImages
 
                     response = Insert(rotatingImage);
                     return response.SetMessage(response.Success ?
-                        _localizedResourceServices.T("AdminModule:::RotatingImages:::Insert rotating image successfully")
-                        : _localizedResourceServices.T("AdminModule:::RotatingImages:::Insert rotating image failure. Please try again later."));
+                        _localizedResourceServices.T("AdminModule:::RotatingImages:::Messages:::CreateSuccessfully:::Create rotating image successfully.")
+                        : _localizedResourceServices.T("AdminModule:::RotatingImages:::Messages:::CreateFailure:::Insert rotating image failed. Please try again later."));
 
                 case GridOperationEnums.Del:
                     response = Delete(model.Id);
                     return response.SetMessage(response.Success ?
-                        _localizedResourceServices.T("AdminModule:::RotatingImages:::Delete rotating image successfully")
-                        : _localizedResourceServices.T("AdminModule:::RotatingImages:::Delete rotating image failure. Please try again later."));
+                        _localizedResourceServices.T("AdminModule:::RotatingImages:::Messages:::DeleteSuccessfully:::Delete rotating image successfully.")
+                        : _localizedResourceServices.T("AdminModule:::RotatingImages:::Messages:::DeleteFailure:::Delete rotating image failed. Please try again later."));
             }
             return new ResponseModel
             {
                 Success = false,
-                Message = _localizedResourceServices.T("AdminModule:::RotatingImages:::Rotating image not founded.")
+                Message = _localizedResourceServices.T("AdminModule:::RotatingImages:::Messages:::ObjectNotFounded:::Rotating image is not founded.")
             };
         }
+
+        #endregion
+
+        #region Manage
 
         /// <summary>
         /// Get rotating image manage model for edit/create
@@ -176,16 +186,16 @@ namespace PX.Business.Services.RotatingImages
 
                 response = Update(rotatingImage);
                 return response.SetMessage(response.Success ?
-                    _localizedResourceServices.T("AdminModule:::RotatingImages:::Update rotating image successfully")
-                    : _localizedResourceServices.T("AdminModule:::RotatingImages:::Update rotating image failure. Please try again later."));
+                    _localizedResourceServices.T("AdminModule:::RotatingImages:::Messages:::UpdateSuccessfully:::Update rotating image successfully.")
+                    : _localizedResourceServices.T("AdminModule:::RotatingImages:::Messages:::UpdateFailure:::Update rotating image failed. Please try again later."));
             }
             Mapper.CreateMap<RotatingImageManageModel, RotatingImage>();
             rotatingImage = Mapper.Map<RotatingImageManageModel, RotatingImage>(model);
             rotatingImage.RecordOrder = Fetch(i => i.GroupId == model.GroupId).Any() ? Fetch(i => i.GroupId == model.GroupId).Max(i => i.RecordOrder) + 1 : 0;
             response = Insert(rotatingImage);
             return response.SetMessage(response.Success ?
-                _localizedResourceServices.T("AdminModule:::RotatingImages:::Create rotating image successfully")
-                : _localizedResourceServices.T("AdminModule:::RotatingImages:::Create rotating image failure. Please try again later."));
+                _localizedResourceServices.T("AdminModule:::RotatingImages:::Messages:::CreateSuccessfully:::Create rotating image successfully.")
+                : _localizedResourceServices.T("AdminModule:::RotatingImages:::Messages:::CreateFailure:::Create rotating image failed. Please try again later."));
         }
 
         /// <summary>
@@ -197,20 +207,21 @@ namespace PX.Business.Services.RotatingImages
         public ResponseModel UpdateRotatingImageUrl(int id, string url)
         {
             var image = GetById(id);
-            if(image != null)
+            if (image != null)
             {
                 image.Url = url;
                 var response = Update(image);
                 return response.SetMessage(response.Success ?
-                    _localizedResourceServices.T("AdminModule:::RotatingImages:::Update rotating image successfully")
-                    : _localizedResourceServices.T("AdminModule:::RotatingImages:::Update rotating image failure. Please try again later."));
+                    _localizedResourceServices.T("AdminModule:::RotatingImages:::Messages:::UpdateSuccessfully:::Update rotating image successfully.")
+                    : _localizedResourceServices.T("AdminModule:::RotatingImages:::UpdateFailure:::Update rotating image failed. Please try again later."));
             }
             return new ResponseModel
             {
                 Success = false,
-                Message = _localizedResourceServices.T("AdminModule:::RotatingImages:::Rotating image not founded.")
+                Message = _localizedResourceServices.T("AdminModule:::RotatingImages:::Messages:::ObjectNotFounded:::Rotating image is not founded.")
             };
         }
+        #endregion
         
     }
 }

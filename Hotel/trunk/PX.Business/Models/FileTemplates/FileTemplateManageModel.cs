@@ -11,10 +11,6 @@ namespace PX.Business.Models.FileTemplates
 {
     public class FileTemplateManageModel : BaseModel, IValidatableObject
     {
-        public FileTemplateManageModel()
-        {
-            Content = DefaultConstants.RenderBody;
-        }
 
         #region Public Properties
         public int? Id { get; set; }
@@ -29,9 +25,6 @@ namespace PX.Business.Models.FileTemplates
 
         [Required]
         public string Name { get; set; }
-
-        [Required]
-        public string Content { get; set; }
 
         public int? PageTemplateId { get; set; }
 
@@ -54,13 +47,7 @@ namespace PX.Business.Models.FileTemplates
             var localizedResourceServices = HostContainer.GetInstance<ILocalizedResourceServices>();
             if (fileTemplateServices.IsFileTemplateNameExisted(Id, Name))
             {
-                yield return new ValidationResult(localizedResourceServices.T("AdminModule:::FileTemplates:::ValidationMessage:::Name is existed."), new[] { "Name" });
-            }
-
-            //Check if content is valid
-            if (curlyBracketServices.IsPageTemplateValid(Content))
-            {
-                yield return new ValidationResult(localizedResourceServices.T("AdminModule:::PageTemplates:::ValidationMessage:::Template Content is not valid, please check {RenderBody} curly bracket."), new[] { "Content" });
+                yield return new ValidationResult(localizedResourceServices.T("AdminModule:::FileTemplates:::ValidationMessages:::ExistingName:::File template name is existed."), new[] { "Name" });
             }
         }
     }

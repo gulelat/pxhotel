@@ -4,7 +4,7 @@ using System.IO;
 using PX.Business.Models.Medias;
 using PX.Core.Framework.Mvc.Models;
 
-namespace PX.Business.Services.Medias
+namespace PX.Business.Services.Media
 {
     public interface IMediaServices
     {

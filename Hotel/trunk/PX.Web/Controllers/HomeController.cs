@@ -4,7 +4,7 @@ using PX.Business.Mvc.Controllers;
 
 namespace PX.Web.Controllers
 {
-    public class HomeController : PxController
+    public class HomeController : ClientController
     {
         //
         // GET: /Home/

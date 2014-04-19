@@ -25,9 +25,17 @@ namespace PX.Business.Services.UserGroups
 
         #endregion
 
-        ResponseModel ManageUserGroup(GridOperationEnums operation, UserGroupModel model);
+        #region Grid Search
 
         JqGridSearchOut SearchUserGroups(JqSearchIn si);
+
+        #endregion
+
+        #region Manage Grid
+
+        ResponseModel ManageUserGroup(GridOperationEnums operation, UserGroupModel model);
+
+        #endregion
         
         IEnumerable<SelectListItem> GetUserGroups(int? userGroupId);
 

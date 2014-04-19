@@ -83,7 +83,7 @@ namespace PX.Business.Services.Templates
         }
         #endregion
 
-        #region Search Methods
+        #region Grid Search
 
         /// <summary>
         /// search the user groups.
@@ -108,23 +108,8 @@ namespace PX.Business.Services.Templates
         }
 
         #endregion
-        public TemplateManageModel GetTemplateByName(string name)
-        {
-            var template = TemplateRepository.FetchFirst(t => t.Name.Equals(name));
-            if(template != null)
-            {
-                return new TemplateManageModel
-                    {
-                        Id = template.Id,
-                        Name = template.Name,
-                        Content = template.Content,
-                        DataType = template.DataType
-                    };
-            }
-            return null;
-        }
 
-        #region Manage Methods
+        #region Grid Manage
 
         /// <summary>
         /// Manage user group
@@ -147,28 +132,52 @@ namespace PX.Business.Services.Templates
                     template.RecordActive = model.RecordActive;
                     response = Update(template);
                     return response.SetMessage(response.Success ?
-                        _localizedResourceServices.T("AdminModule:::Templates:::Update template successfully")
-                        : _localizedResourceServices.T("AdminModule:::Templates:::Update template failure. Please try again later."));
+                        _localizedResourceServices.T("AdminModule:::Templates:::Messages:::UpdateSuccessfully:::Update template successfully.")
+                        : _localizedResourceServices.T("AdminModule:::Templates:::Messages:::UpdateFailure:::Update template failed. Please try again later."));
 
                 case GridOperationEnums.Add:
                     template = Mapper.Map<TemplateModel, Template>(model);
                     template.Content = string.Empty;
                     response = Insert(template);
                     return response.SetMessage(response.Success ?
-                        _localizedResourceServices.T("AdminModule:::Templates:::Insert template successfully")
-                        : _localizedResourceServices.T("AdminModule:::Templates:::Insert template failure. Please try again later."));
+                        _localizedResourceServices.T("AdminModule:::Templates:::Messages:::CreateSuccessfully:::Create template successfully.")
+                        : _localizedResourceServices.T("AdminModule:::Templates:::Messages:::CreateFailure:::Create template failed. Please try again later."));
 
                 case GridOperationEnums.Del:
                     response = Delete(model.Id);
                     return response.SetMessage(response.Success ?
-                        _localizedResourceServices.T("AdminModule:::Templates:::Delete template successfully")
-                        : _localizedResourceServices.T("AdminModule:::Templates:::Delete template failure. Please try again later."));
+                        _localizedResourceServices.T("AdminModule:::Templates:::Messages:::DeleteSuccessfully:::Delete template successfully.")
+                        : _localizedResourceServices.T("AdminModule:::Templates:::Messages:::DeleteFailure:::Delete template failed. Please try again later."));
             }
             return new ResponseModel
             {
                 Success = false,
-                Message = _localizedResourceServices.T("AdminModule:::Templates:::Template not founded")
+                Message = _localizedResourceServices.T("AdminModule:::Templates:::Messages:::ObjectNotFounded:::Template is not founded")
             };
+        }
+
+        #endregion
+
+        #region Manage
+        /// <summary>
+        /// Get template by name
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public TemplateManageModel GetTemplateByName(string name)
+        {
+            var template = TemplateRepository.FetchFirst(t => t.Name.Equals(name));
+            if (template != null)
+            {
+                return new TemplateManageModel
+                {
+                    Id = template.Id,
+                    Name = template.Name,
+                    Content = template.Content,
+                    DataType = template.DataType
+                };
+            }
+            return null;
         }
 
         /// <summary>
@@ -176,7 +185,7 @@ namespace PX.Business.Services.Templates
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public  TemplateManageModel GetTemplateManageModel(int? id = null)
+        public TemplateManageModel GetTemplateManageModel(int? id = null)
         {
             var template = GetById(id);
             if (template != null)
@@ -218,29 +227,18 @@ namespace PX.Business.Services.Templates
 
                 response = Update(pageTemplate);
                 return response.SetMessage(response.Success ?
-                    _localizedResourceServices.T("AdminModule:::Templates:::Update template successfully")
-                    : _localizedResourceServices.T("AdminModule:::Templates:::Update template failure. Please try again later."));
+                    _localizedResourceServices.T("AdminModule:::Templates:::Messages:::UpdateSuccessfully:::Update template successfully.")
+                    : _localizedResourceServices.T("AdminModule:::Templates:::Messages:::UpdateFailure:::Update template failed. Please try again later."));
             }
             Mapper.CreateMap<TemplateManageModel, Template>();
             pageTemplate = Mapper.Map<TemplateManageModel, Template>(model);
             response = Insert(pageTemplate);
             return response.SetMessage(response.Success ?
-                _localizedResourceServices.T("AdminModule:::Templates:::Create template successfully")
-                : _localizedResourceServices.T("AdminModule:::Templates:::Create template failure. Please try again later."));
+                _localizedResourceServices.T("AdminModule:::Templates:::Messages:::CreateSuccessfully:::Create template successfully.")
+                : _localizedResourceServices.T("AdminModule:::Templates:::Messages:::CreateFailure:::Create template failed. Please try again later."));
         }
 
         #endregion
-
-        /// <summary>
-        /// Check if template name is existed
-        /// </summary>
-        /// <param name="templateId"></param>
-        /// <param name="name"></param>
-        /// <returns></returns>
-        public bool IsTemplateNameExisted(int? templateId, string name)
-        {
-            return Fetch(t => t.Id != templateId && t.Name.Equals(name)).Any();
-        }
 
         /// <summary>
         /// Render template using Razor engine
@@ -253,6 +251,17 @@ namespace PX.Business.Services.Templates
         {
             var templateService = new TemplateService();
             return templateService.Parse(template, model, null, cacheName);
+        }
+
+        /// <summary>
+        /// Check if template name is existed
+        /// </summary>
+        /// <param name="templateId"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public bool IsTemplateNameExisted(int? templateId, string name)
+        {
+            return Fetch(t => t.Id != templateId && t.Name.Equals(name)).Any();
         }
     }
 }

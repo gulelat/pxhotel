@@ -16,7 +16,7 @@ using PX.Core.Framework.Mvc.Models.JqGrid;
 namespace PX.Web.Areas.Admin.Controllers
 {
     [PxAuthorize(Permissions = new[] { PermissionEnums.ManageContent })]
-    public class RotatingImagesController : PxController
+    public class RotatingImagesController : AdminController
     {
         private readonly IRotatingImageServices _rotatingImageServices;
         private readonly IRotatingImageGroupServices _rotatingImageGroupServices;

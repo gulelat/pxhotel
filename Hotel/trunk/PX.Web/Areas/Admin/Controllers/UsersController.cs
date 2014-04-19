@@ -14,7 +14,7 @@ using PX.Core.Framework.Mvc.Models.JqGrid;
 namespace PX.Web.Areas.Admin.Controllers
 {
     [PxAuthorize(Permissions = new [] { PermissionEnums.ManageUser })]
-    public class UsersController : PxController
+    public class UsersController : AdminController
     {
         private readonly IUserServices _userServices;
         private readonly IUserGroupServices _userGroupServices;

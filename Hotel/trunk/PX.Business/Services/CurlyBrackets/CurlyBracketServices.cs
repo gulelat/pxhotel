@@ -75,13 +75,13 @@ namespace PX.Business.Services.CurlyBrackets
         public bool IsPageTemplateValid(string content)
         {
             //Not contains render body curly bracket
-            if (content.Contains(DefaultConstants.RenderBody))
+            if (content.Contains(DefaultConstants.CurlyBracketRenderBody))
             {
                 return false;
             }
 
             //Contains more than 1 render body curly bracket
-            if (content.LastIndexOf(DefaultConstants.RenderBody, StringComparison.Ordinal) != content.IndexOf(DefaultConstants.RenderBody, StringComparison.Ordinal))
+            if (content.LastIndexOf(DefaultConstants.CurlyBracketRenderBody, StringComparison.Ordinal) != content.IndexOf(DefaultConstants.CurlyBracketRenderBody, StringComparison.Ordinal))
             {
                 return false;
             }
@@ -96,7 +96,7 @@ namespace PX.Business.Services.CurlyBrackets
         /// <returns></returns>
         public IEnumerable<SelectListItem> GetCurlyBracketSelectListFromObject(Type type)
         {
-            var properties = type.GetProperties();
+            var properties = ReflectionUtilities.GetAllPropertiesOfType(type);
             return properties.Select(p => new SelectListItem
                 {
                     Text = string.Format("{{{0}}}", p.Name),

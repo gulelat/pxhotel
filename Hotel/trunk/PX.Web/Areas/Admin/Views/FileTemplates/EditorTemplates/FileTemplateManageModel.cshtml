@@ -43,24 +43,6 @@
 </div>
 <div class="space-4"></div>
 <div class="form-group">
-    @MText(Tags.Label, "AdminModule:::FileTemplates:::Forms:::Content", "Content", new { @class = "col-xs-3 col-sm-1 control-label no-padding-right", @for = "Content" })
-    <div class="col-xs-9 col-sm-10">
-        <div class="btn-group">
-            <button class="btn btn-xs dropdown-toggle" data-toggle="dropdown">
-                @MText(Tags.Text, "AdminModule:::FileTemplates:::Forms:::AddCurlyBracket", "Add curly bracket")
-                <span class="icon-angle-down icon-on-right bigger-110"></span>
-            </button>
-            <ul id="curlyBracketList" class="dropdown-menu">
-            </ul>
-        </div>
-    </div>
-    <div class="col-sm-offset-1 col-xs-12 col-sm-11">
-        @Html.TextAreaFor(m => m.Content, new { @class = "col-xs-12", id = "template-content" })
-        @Html.ValidationMessageFor(m => m.Content)
-    </div>
-</div>
-<div class="space-4"></div>
-<div class="form-group">
     @MText(Tags.Label, "AdminModule:::FileTemplates:::Forms:::Parent Dropdown", "Parent", new { @class = "col-xs-3 col-sm-1 control-label no-padding-right", @for = "ParentId" })
     <div class="col-xs-9 col-sm-11">
         @Html.DropDownListFor(m => m.ParentId, Model.Parents, "..Select parent ..", new { @class = "form-control col-xs-12" })
@@ -86,61 +68,3 @@
         </button>
     </div>
 </div>
-
-@* Code Mirror *@
-<script src="/Scripts/CodeMirror/codemirror.js"></script>
-<script src="/Scripts/CodeMirror/addon/hint/show-hint.js"></script>
-<script src="/Scripts/CodeMirror/addon/hint/xml-hint.js"></script>
-<script src="/Scripts/CodeMirror/addon/hint/html-hint.js"></script>
-<script src="/Scripts/CodeMirror/addon/hint/javascript-hint.js"></script>
-<script src="/Scripts/CodeMirror/addon/hint/css-hint.js"></script>
-<script src="/Scripts/CodeMirror/addon/display/fullscreen.js"></script>
-<script src="/Scripts/CodeMirror/mode/xml/xml.js"></script>
-<script src="/Scripts/CodeMirror/mode/javascript/javascript.js"></script>
-<script src="/Scripts/CodeMirror/mode/css/css.js"></script>
-<script src="/Scripts/CodeMirror/mode/htmlmixed/htmlmixed.js"></script>
-
-<script type="text/javascript">
-    var Createor;
-    $(function () {
-        Createor = CodeMirror.fromTextArea(document.getElementById("template-content"), {
-            lineNumbers: true,
-            mode: "text/html",
-            theme: 'pastel-on-dark',
-            extraKeys: {
-                "Ctrl-Space": "autocomplete",
-                "F11": function (cm) {
-                    if ($(".CodeMirror-scroll").css("top") == "45px") {
-                        $(".CodeMirror-scroll").css("top", "0px");
-                    }
-                    else {
-                        $(".CodeMirror-scroll").css("top", "45px");
-                    }
-                    cm.setOption("fullScreen", !cm.getOption("fullScreen"));
-                },
-                "Esc": function (cm) {
-                    $(".CodeMirror-scroll").css("top", "0px");
-                    if (cm.getOption("fullScreen")) cm.setOption("fullScreen", false);
-                }
-            },
-            value: document.documentElement.innerHTML
-        });
-        var getCurlyBracketListUrl = "@Url.Action("GetCurlyBracketList", "CurlyBrackets")";
-        $.ajax({
-            type: "POST",
-            url: getCurlyBracketListUrl,
-            async: false,
-            success: function (data) {
-                $.map(data, function (item) {
-                    $("#curlyBracketList")
-                        .append("<li><a href='javascript:void(0)' onclick='printCurlybracket(\"{"
-                            + item.CurlyBracket + "}\")'>" +
-                            item.Name + "</a></li>");
-                });
-            }
-        });
-    });
-    function printCurlybracket(curlyBracket) {
-        Createor.replaceRange(curlyBracket, Createor.getCursor());
-    }
-</script>

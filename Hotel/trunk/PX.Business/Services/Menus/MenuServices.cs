@@ -130,8 +130,8 @@ namespace PX.Business.Services.Menus
                     response = HierarchyUpdate(menu);
                     if (hasUpdatePermission) UpdateMenuPermission(menu);
                     return response.SetMessage(response.Success ?
-                        _localizedResourceServices.T("AdminModule:::Menus:::Update menu successfully")
-                        : _localizedResourceServices.T("AdminModule:::Menus:::Update menu failure. Please try again later."));
+                        _localizedResourceServices.T("AdminModule:::Menus:::Messages:::UpdateSuccessfully:::Update menu successfully.")
+                        : _localizedResourceServices.T("AdminModule:::Menus:::UpdateFailure:::Update menu failed. Please try again later."));
 
                 case GridOperationEnums.Add:
                     menu = Mapper.Map<MenuModel, Menu>(model);
@@ -139,19 +139,19 @@ namespace PX.Business.Services.Menus
                     response = HierarchyInsert(menu);
                     UpdateMenuPermission(menu);
                     return response.SetMessage(response.Success ?
-                        _localizedResourceServices.T("AdminModule:::Menus:::Create menu successfully")
-                        : _localizedResourceServices.T("AdminModule:::Menus:::Create menu failure. Please try again later."));
+                        _localizedResourceServices.T("AdminModule:::Menus:::Messages:::CreateSuccessfully:::Create menu successfully.")
+                        : _localizedResourceServices.T("AdminModule:::Menus:::Messages:::CreateFailure:::Create menu failed. Please try again later."));
 
                 case GridOperationEnums.Del:
                     response = Delete(model.Id);
                     return response.SetMessage(response.Success ?
-                        _localizedResourceServices.T("AdminModule:::Menus:::Delete menu successfully")
-                        : _localizedResourceServices.T("AdminModule:::Menus:::Delete menu failure. Please try again later."));
+                        _localizedResourceServices.T("AdminModule:::Menus:::Messages:::DeleteSuccessfully:::Delete menu successfully.")
+                        : _localizedResourceServices.T("AdminModule:::Menus:::Messages:::DeleteFailure:::Delete menu failed. Please try again later."));
             }
             return new ResponseModel
             {
                 Success = false,
-                Message = _localizedResourceServices.T("AdminModule:::Menus:::Object not founded")
+                Message = _localizedResourceServices.T("AdminModule:::Menus:::Messages:::ObjectNotFounded:::Menu is not founded.")
             };
         }
 

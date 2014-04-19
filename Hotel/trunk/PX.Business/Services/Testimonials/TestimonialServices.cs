@@ -53,7 +53,7 @@ namespace PX.Business.Services.Testimonials
         }
         #endregion
 
-        #region Search Methods
+        #region Grid Search
 
         /// <summary>
         /// search the testimonials.
@@ -81,7 +81,7 @@ namespace PX.Business.Services.Testimonials
 
         #endregion
 
-        #region Manage Methods
+        #region Grid Manage
 
         /// <summary>
         /// Manage testimonial
@@ -105,26 +105,26 @@ namespace PX.Business.Services.Testimonials
                     testimonial.RecordActive = model.RecordActive;
                     response = Update(testimonial);
                     return response.SetMessage(response.Success ?
-                        _localizedResourceServices.T("AdminModule:::Testimonials:::Update testimonial successfully")
-                        : _localizedResourceServices.T("AdminModule:::Testimonials:::Update testimonial failure. Please try again later."));
+                        _localizedResourceServices.T("AdminModule:::Testimonials:::Messages:::UpdateSuccessfully:::Update testimonial successfully.")
+                        : _localizedResourceServices.T("AdminModule:::Testimonials:::Messages:::UpdateFailure:::Update testimonial failed. Please try again later."));
                 
                 case GridOperationEnums.Add:
                     testimonial = Mapper.Map<TestimonialModel, Testimonial>(model);
                     response = Insert(testimonial);
                     return response.SetMessage(response.Success ?
-                        _localizedResourceServices.T("AdminModule:::Testimonials:::Insert testimonial successfully")
-                        : _localizedResourceServices.T("AdminModule:::Testimonials:::Insert testimonial failure. Please try again later."));
+                        _localizedResourceServices.T("AdminModule:::Testimonials:::Messages:::CreateSuccessfully:::Create testimonial successfully.")
+                        : _localizedResourceServices.T("AdminModule:::Testimonials:::Messages:::CreateFailure:::Insert testimonial failed. Please try again later."));
                 
                 case GridOperationEnums.Del:
                     response = Delete(model.Id);
                     return response.SetMessage(response.Success ?
-                        _localizedResourceServices.T("AdminModule:::Testimonials:::Delete testimonial successfully")
-                        : _localizedResourceServices.T("AdminModule:::Testimonials:::Delete testimonial failure. Please try again later."));
+                        _localizedResourceServices.T("AdminModule:::Testimonials:::Messages:::DeleteSuccessfully:::Delete testimonial successfully.")
+                        : _localizedResourceServices.T("AdminModule:::Testimonials:::Messages:::DeleteFailure:::Delete testimonial failed. Please try again later."));
             }
             return new ResponseModel
             {
                 Success = false,
-                Message = _localizedResourceServices.T("AdminModule:::Testimonials:::Testimonial not founded")
+                Message = _localizedResourceServices.T("AdminModule:::Testimonials:::Messages:::ObjectNotFounded:::Testimonial is not founded.")
             };
         }
 

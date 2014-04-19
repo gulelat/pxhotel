@@ -10,11 +10,10 @@ using PX.Core.Framework.Mvc.Models;
 namespace PX.Business.Mvc.Controllers
 {
     [Internationalization]
-    [MasterChooser]
-    public class PxController : Controller
+    public class AdminController : Controller
     {
         public readonly ILocalizedResourceServices LocalizedResourceServices;
-        public PxController()
+        public AdminController()
         {
             LocalizedResourceServices = HostContainer.GetInstance<ILocalizedResourceServices>();
         }

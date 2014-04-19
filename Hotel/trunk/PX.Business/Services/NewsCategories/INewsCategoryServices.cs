@@ -24,9 +24,15 @@ namespace PX.Business.Services.NewsCategories
 
         #endregion
 
-        ResponseModel ManageNewsCategory(GridOperationEnums operation, NewsCategoryModel model);
-
+        #region Grid Search
         JqGridSearchOut SearchNewsCategories(JqSearchIn si);
+        
+        #endregion
+
+        #region Grid Manage
+        ResponseModel ManageNewsCategory(GridOperationEnums operation, NewsCategoryModel model);
+        
+        #endregion
 
         bool IsNameExisted(int? newsCategoryId, string name);
 

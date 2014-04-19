@@ -57,7 +57,7 @@ namespace PX.Business.Services.SettingTypes
         }
         #endregion
 
-        #region Search Methods
+        #region Grid Search
 
         /// <summary>
         /// search the user groups.
@@ -82,7 +82,7 @@ namespace PX.Business.Services.SettingTypes
 
         #endregion
 
-        #region Manage Methods
+        #region Grid Manage
 
         /// <summary>
         /// Manage user group
@@ -104,26 +104,26 @@ namespace PX.Business.Services.SettingTypes
                     settingType.RecordActive = model.RecordActive;
                     response = Update(settingType);
                     return response.SetMessage(response.Success ?
-                        _localizedResourceServices.T("AdminModule:::SettingTypes:::Update setting type successfully")
-                        : _localizedResourceServices.T("AdminModule:::SettingTypes:::Update setting type failure. Please try again later."));
+                        _localizedResourceServices.T("AdminModule:::SettingTypes:::Messages:::UpdateSuccessfully:::Update setting type successfully.")
+                        : _localizedResourceServices.T("AdminModule:::SettingTypes:::Messages:::UpdateFailure:::Update setting type failed. Please try again later."));
                 
                 case GridOperationEnums.Add:
                     settingType = Mapper.Map<SettingTypeModel, SettingType>(model);
                     response = Insert(settingType);
                     return response.SetMessage(response.Success ?
-                        _localizedResourceServices.T("AdminModule:::SettingTypes:::Insert setting type successfully")
-                        : _localizedResourceServices.T("AdminModule:::SettingTypes:::Insert setting type failure. Please try again later."));
+                        _localizedResourceServices.T("AdminModule:::SettingTypes:::Messages:::CreateSuccessfully:::Create setting type successfully.")
+                        : _localizedResourceServices.T("AdminModule:::SettingTypes:::Messages:::CreateFailure:::Create setting type failed. Please try again later."));
                 
                 case GridOperationEnums.Del:
                     response = Delete(model.Id);
                     return response.SetMessage(response.Success ?
-                        _localizedResourceServices.T("AdminModule:::SettingTypes:::Delete setting type successfully")
-                        : _localizedResourceServices.T("AdminModule:::SettingTypes:::Delete setting type failure. Please try again later."));
+                        _localizedResourceServices.T("AdminModule:::SettingTypes:::Messages:::DeleteSuccessfully:::Delete setting type successfully.")
+                        : _localizedResourceServices.T("AdminModule:::SettingTypes:::Messages:::DeleteFailure:::Delete setting type failed. Please try again later."));
             }
             return new ResponseModel
             {
                 Success = false,
-                Message = _localizedResourceServices.T("AdminModule:::SettingTypes:::Setting type not founded")
+                Message = _localizedResourceServices.T("AdminModule:::SettingTypes:::Messages:::ObjectNotFounded:::Setting type is not founded.")
             };
         }
 

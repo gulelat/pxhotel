@@ -7,7 +7,7 @@ using PX.Business.Services.Menus;
 namespace PX.Web.Areas.Admin.Controllers
 {
     [PxAuthorize]
-    public class HomeController : PxController
+    public class HomeController : AdminController
     {
         private readonly IMenuServices _menuServices;
         public HomeController(IMenuServices menuServices)

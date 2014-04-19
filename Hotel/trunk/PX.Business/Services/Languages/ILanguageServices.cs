@@ -23,8 +23,14 @@ namespace PX.Business.Services.Languages
 
         #endregion
 
+        #region Grid Search
+        JqGridSearchOut SearchLanguages(JqSearchIn si);
+        
+        #endregion
+
+        #region Manage Grid
         ResponseModel ManageLanguage(GridOperationEnums operation, LanguageModel model);
 
-        JqGridSearchOut SearchLanguages(JqSearchIn si);
+        #endregion
     }
 }

@@ -15,7 +15,7 @@ using PX.EntityModel;
 namespace PX.Web.Areas.Admin.Controllers
 {
     [PxAuthorize(Permissions = new[] { PermissionEnums.ManageContent })]
-    public class TemplatesController : PxController
+    public class TemplatesController : AdminController
     {
         private readonly ITemplateServices _templateServices;
         private readonly ICurlyBracketServices _curlyBracketServices;

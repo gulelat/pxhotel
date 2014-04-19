@@ -1,6 +1,4 @@
-﻿using System;
-using System.Security.Principal;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using PX.Business.Services.FileTemplates;
 using PX.Core.Framework.Mvc.Environments;
 
@@ -20,7 +18,7 @@ namespace PX.Business.Mvc.Attributes.ActionFilters
                 var master = fileTemplateServices.GetFileTemplateMaster(controller, action);
                 if(!string.IsNullOrEmpty(master))
                 {
-                    result.MasterName = fileTemplateServices.GetFileTemplateMaster(controller, action);
+                    result.MasterName = master;
                 }
             }
         }

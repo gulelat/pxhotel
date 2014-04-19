@@ -21,9 +21,17 @@ namespace PX.Business.Services.Testimonials
 
         #endregion
 
-        ResponseModel ManageTestimonial(GridOperationEnums operation, TestimonialModel model);
+        #region Grid Search
 
         JqGridSearchOut SearchTestimonials(JqSearchIn si);
+
+        #endregion
+
+        #region Manage Grid
+
+        ResponseModel ManageTestimonial(GridOperationEnums operation, TestimonialModel model);
+
+        #endregion
 
         List<TestimonialModel> GetRandom(int count);
     }

@@ -24,17 +24,26 @@ namespace PX.Business.Services.News
 
         #endregion
 
+        #region Grid Search
+        JqGridSearchOut SearchNews(JqSearchIn si);
+
+        #endregion
+
+        #region Manage Grid
         ResponseModel ManageNews(GridOperationEnums operation, NewsModel model);
 
-        JqGridSearchOut SearchNews(JqSearchIn si);
+        #endregion
+
+        #region Manage
 
         NewsManageModel GetNewsManageModel(int? id = null);
 
         ResponseModel SaveNewsManageModel(NewsManageModel model);
 
+        #endregion
+
         IEnumerable<SelectListItem> GetStatus();
 
         bool IsTitleExisted(int? newsId, string title);
-
     }
 }

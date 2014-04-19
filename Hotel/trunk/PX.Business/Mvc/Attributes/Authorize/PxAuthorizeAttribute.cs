@@ -30,7 +30,7 @@ namespace PX.Business.Mvc.Attributes.Authorize
 
             if (authorizationContext.Result is HttpUnauthorizedResult)
             {
-                authorizationContext.Controller.TempData["ErrorMessage"] = localizedResourceServices.T("AdminModule:::GroupPermissions:::You don't have permission to access this featured. Please log in");
+                authorizationContext.Controller.TempData["ErrorMessage"] = localizedResourceServices.T("AdminModule:::GroupPermissions:::AccessDenied:::You don't have permission to access this featured. Please log in");
                 //If its an unauthorized/timed out ajax request go to top window and redirect to logon.
                 if (authorizationContext.HttpContext.Request.IsAjaxRequest())
                 {

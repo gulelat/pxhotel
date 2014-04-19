@@ -23,9 +23,15 @@ namespace PX.Business.Services.RotatingImages
 
         #endregion
 
+        #region Grid Search
+        JqGridSearchOut SearchRotatingImages(JqSearchIn si);
+
+        #endregion
+
+        #region Manage Grid
         ResponseModel ManageRotatingImage(GridOperationEnums operation, RotatingImageModel model);
 
-        JqGridSearchOut SearchRotatingImages(JqSearchIn si);
+        #endregion
 
         RotatingImageManageModel GetRotatingImageManageModel(int? id = null);
 
