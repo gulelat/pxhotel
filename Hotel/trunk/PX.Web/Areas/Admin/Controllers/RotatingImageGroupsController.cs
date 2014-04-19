@@ -12,7 +12,7 @@ using PX.Core.Framework.Mvc.Models.JqGrid;
 namespace PX.Web.Areas.Admin.Controllers
 {
     [PxAuthorize(Permissions = new[] { PermissionEnums.ManageContent })]
-    public class RotatingImageGroupsController : PxController
+    public class RotatingImageGroupsController : AdminController
     {
         private readonly IRotatingImageGroupServices _rotatingImageGroupServices;
 
@@ -82,7 +82,7 @@ namespace PX.Web.Areas.Admin.Controllers
             var model = _rotatingImageGroupServices.GetGroupGallery(id);
             if(model == null)
             {
-                SetErrorMessage(LocalizedResourceServices.T("AdminModule:::RotatingImageGroups:::Messages:::Rotating Image Group not founded."));
+                SetErrorMessage(LocalizedResourceServices.T("AdminModule:::RotatingImageGroups:::Messages:::UpdateFailure:::Rotating Image Group not founded."));
                 return RedirectToAction("Index");
             }
             return View(model);

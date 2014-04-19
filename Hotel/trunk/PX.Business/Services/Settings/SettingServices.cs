@@ -66,6 +66,7 @@ namespace PX.Business.Services.Settings
         }
         #endregion
 
+        #region Grid Search
         /// <summary>
         /// search the SiteSettings.
         /// </summary>
@@ -89,6 +90,9 @@ namespace PX.Business.Services.Settings
             return si.Search(siteSettings);
         }
 
+        #endregion
+
+        #region Manage Grid
         /// <summary>
         /// Manage Site Setting
         /// </summary>
@@ -121,8 +125,8 @@ namespace PX.Business.Services.Settings
 
                     response = Update(siteSetting);
                     return response.SetMessage(response.Success ?
-                        _localizedResourceServices.T("AdminModule:::Settings:::Update setting successfully")
-                        : _localizedResourceServices.T("AdminModule:::Settings:::Update setting failure. Please try again later."));
+                        _localizedResourceServices.T("AdminModule:::Settings:::Messages:::UpdateSuccessfully:::Update setting successfully.")
+                        : _localizedResourceServices.T("AdminModule:::Settings:::Messages:::UpdateFailure:::Update setting failed. Please try again later."));
 
                 case GridOperationEnums.Add:
                     siteSetting = Mapper.Map<SiteSettingModel, SiteSetting>(model);
@@ -137,21 +141,88 @@ namespace PX.Business.Services.Settings
 
                     response = Insert(siteSetting);
                     return response.SetMessage(response.Success ?
-                        _localizedResourceServices.T("AdminModule:::Settings:::Insert setting successfully")
-                        : _localizedResourceServices.T("AdminModule:::Settings:::Insert setting failure. Please try again later."));
+                        _localizedResourceServices.T("AdminModule:::Settings:::Messages:::CreateSuccessfully:::Create setting successfully.")
+                        : _localizedResourceServices.T("AdminModule:::Settings:::Messages:::CreateFailure:::Insert setting failed. Please try again later."));
 
                 case GridOperationEnums.Del:
                     response = Delete(model.Id);
                     return response.SetMessage(response.Success ?
-                        _localizedResourceServices.T("AdminModule:::Settings:::Delete setting successfully")
-                        : _localizedResourceServices.T("AdminModule:::Settings:::Delete setting failure. Please try again later."));
+                        _localizedResourceServices.T("AdminModule:::Settings:::Messages:::DeleteSuccessfully:::Delete setting successfully.")
+                        : _localizedResourceServices.T("AdminModule:::Settings:::Messages:::DeleteFailure:::Delete setting failed. Please try again later."));
             }
             return new ResponseModel
             {
                 Success = false,
-                Message = _localizedResourceServices.T("AdminModule:::Settings:::Setting not founded")
+                Message = _localizedResourceServices.T("AdminModule:::Settings:::Messages:::ObjectNotFounded:::Setting is not founded.")
             };
         }
+
+        #endregion
+
+        #region Manage
+
+        public SiteSettingManageModel GetSettingManageModel(int id)
+        {
+            var setting = GetById(id);
+            if (setting != null)
+            {
+                var settingManageModel = new SiteSettingManageModel
+                {
+                    SettingTypeId = setting.SettingTypeId,
+                    SettingTypes = _settingTypeServices.GetSettingTypes(setting.SettingTypeId),
+                    SettingName = setting.Name
+                };
+                var settingParsers = ReflectionUtilities.GetAllImplementTypesOfInterface(typeof(ISettingModel));
+                foreach (var parser in settingParsers)
+                {
+                    var instance = (ISettingModel)Activator.CreateInstance(parser);
+                    if (instance.SettingName.Equals(setting.Name))
+                    {
+                        settingManageModel.Setting = instance.LoadSetting();
+                        return settingManageModel;
+                    }
+                }
+                settingManageModel.Setting = setting;
+                return settingManageModel;
+            }
+            return null;
+        }
+
+        public ResponseModel SaveSettingManageModel(SiteSettingManageModel model, NameValueCollection data)
+        {
+            var setting = SiteSettingRepository.GetByKey(model.SettingName);
+            if (setting != null)
+            {
+                setting.SettingTypeId = model.SettingTypeId;
+                var settingParsers = ReflectionUtilities.GetAllImplementTypesOfInterface(typeof(ISettingModel));
+                ResponseModel response;
+                foreach (var parser in settingParsers)
+                {
+                    var instance = (ISettingModel)Activator.CreateInstance(parser);
+                    if (instance.SettingName.Equals(setting.Name))
+                    {
+                        setting.Value = instance.GetSettingValue(data);
+                        response = Update(setting);
+                        return response.SetMessage(response.Success ?
+                            _localizedResourceServices.T("AdminModule:::Settings:::Messages:::UpdateSuccessfully:::Update setting successfully.")
+                            : _localizedResourceServices.T("AdminModule:::Settings:::Messages:::UpdateFailure:::Update setting failed. Please try again later."));
+                    }
+                }
+                setting.Value = data["Value"];
+                response = Update(setting);
+                return response.SetMessage(response.Success ?
+                    _localizedResourceServices.T("AdminModule:::Settings:::Messages:::UpdateSuccessfully:::Update setting successfully.")
+                    : _localizedResourceServices.T("AdminModule:::Settings:::Messages:::UpdateFailure:::Update setting failed. Please try again later."));
+
+            }
+            return new ResponseModel
+            {
+                Success = false,
+                Message = _localizedResourceServices.T("AdminModule:::Settings:::Messages:::ObjectNotFounded:::Setting is not founded.")
+            };
+        }
+
+        #endregion
 
         /// <summary>
         /// Get setting with key, if not found, insert setting to database
@@ -226,67 +297,6 @@ namespace PX.Business.Services.Settings
                 result = methodInfo.Invoke(classInstance, parameters.Length == 0 ? null : parameterArray);
             }
             return result;
-        }
-
-        public SiteSettingManageModel GetSettingManageModel(int id)
-        {
-            var setting = GetById(id);
-            if (setting != null)
-            {
-                var settingManageModel = new SiteSettingManageModel
-                    {
-                        SettingTypeId = setting.SettingTypeId,
-                        SettingTypes = _settingTypeServices.GetSettingTypes(setting.SettingTypeId),
-                        SettingName = setting.Name
-                    };
-                var settingParsers = ReflectionUtilities.GetAllImplementTypesOfInterface(typeof(ISettingModel));
-                foreach (var parser in settingParsers)
-                {
-                    var instance = (ISettingModel)Activator.CreateInstance(parser);
-                    if (instance.SettingName.Equals(setting.Name))
-                    {
-                        settingManageModel.Setting = instance.LoadSetting();
-                        return settingManageModel;
-                    }
-                }
-                settingManageModel.Setting = setting;
-                return settingManageModel;
-            }
-            return null;
-        }
-
-        public ResponseModel SaveSettingManageModel(SiteSettingManageModel model, NameValueCollection data)
-        {
-            var setting = SiteSettingRepository.GetByKey(model.SettingName);
-            if (setting != null)
-            {
-                setting.SettingTypeId = model.SettingTypeId;
-                var settingParsers = ReflectionUtilities.GetAllImplementTypesOfInterface(typeof(ISettingModel));
-                ResponseModel response;
-                foreach (var parser in settingParsers)
-                {
-                    var instance = (ISettingModel)Activator.CreateInstance(parser);
-                    if (instance.SettingName.Equals(setting.Name))
-                    {
-                        setting.Value = instance.GetSettingValue(data);
-                        response = Update(setting);
-                        return response.SetMessage(response.Success ?
-                            _localizedResourceServices.T("AdminModule:::Settings:::Messages:::Update setting successfully.")
-                            : _localizedResourceServices.T("AdminModule:::Settings:::Messages:::Update setting failure. Please try again later."));
-                    }
-                }
-                setting.Value = data["Value"];
-                response = Update(setting);
-                return response.SetMessage(response.Success ?
-                    _localizedResourceServices.T("AdminModule:::Settings:::Messages:::Update setting successfully.")
-                    : _localizedResourceServices.T("AdminModule:::Settings:::Messages:::Update setting failure. Please try again later."));
-
-            }
-            return new ResponseModel
-            {
-                Success = false,
-                Message = _localizedResourceServices.T("AdminModule:::Settings:::Setting not founded")
-            };
         }
     }
 }

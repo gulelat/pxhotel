@@ -11,7 +11,7 @@ namespace PX.Business.Mvc.Attributes.Validation
             : base(@"\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*")
         {
             var localizedResourceServies = HostContainer.GetInstance<ILocalizedResourceServices>();
-            ErrorMessage = localizedResourceServies.T("AdminModule:::Users:::Validation:::Email is invalid");
+            ErrorMessage = localizedResourceServies.T("AdminModule:::Users:::ValidationMessages:::InvalidEmail:::Email is invalid");
         }
 
         static EmailValidationAttribute()

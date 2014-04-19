@@ -3,7 +3,7 @@ using System.IO;
 using System.Text.RegularExpressions;
 using System.Web;
 
-namespace PX.Business.Services.Medias
+namespace PX.Business.Services.Media
 {
     public class MediaFileManager : IMediaFileManager
     {

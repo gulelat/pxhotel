@@ -95,27 +95,27 @@ namespace PX.Business.Services.NewsCategories
 
                     response = HierarchyUpdate(newsCategory);
                     return response.SetMessage(response.Success ?
-                        _localizedResourceServices.T("AdminModule:::NewsCategories:::Update news category successfully")
-                        : _localizedResourceServices.T("AdminModule:::NewsCategories:::Update news category failure. Please try again later."));
+                        _localizedResourceServices.T("AdminModule:::NewsCategories:::Messages:::UpdateSuccessfully:::Update news category successfully.")
+                        : _localizedResourceServices.T("AdminModule:::NewsCategories:::Messages:::UpdateFailure:::Update news category failed. Please try again later."));
 
                 case GridOperationEnums.Add:
                     newsCategory = Mapper.Map<NewsCategoryModel, NewsCategory>(model);
 
                     response = HierarchyInsert(newsCategory);
                     return response.SetMessage(response.Success ?
-                        _localizedResourceServices.T("AdminModule:::NewsCategories:::Insert news category successfully")
-                        : _localizedResourceServices.T("AdminModule:::NewsCategories:::Insert news category failure. Please try again later."));
+                        _localizedResourceServices.T("AdminModule:::NewsCategories:::Messages:::CreateSuccessfully:::Create news category successfully.")
+                        : _localizedResourceServices.T("AdminModule:::NewsCategories:::Messages:::CreateFailure:::Insert news category failed. Please try again later."));
 
                 case GridOperationEnums.Del:
                     response = Delete(model.Id);
                     return response.SetMessage(response.Success ?
-                        _localizedResourceServices.T("AdminModule:::NewsCategories:::Delete news category successfully")
-                        : _localizedResourceServices.T("AdminModule:::NewsCategories:::Delete news category failure. Please try again later."));
+                        _localizedResourceServices.T("AdminModule:::NewsCategories:::Messages:::DeleteSuccessfully:::Delete news category successfully.")
+                        : _localizedResourceServices.T("AdminModule:::NewsCategories:::Messages:::DeleteFailure:::Delete news category failed. Please try again later."));
             }
             return new ResponseModel
             {
                 Success = false,
-                Message = _localizedResourceServices.T("AdminModule:::NewsCategories:::news category not founded")
+                Message = _localizedResourceServices.T("AdminModule:::NewsCategories:::Messages:::ObjectNotFounded:::News category is not founded.")
             };
         }
 

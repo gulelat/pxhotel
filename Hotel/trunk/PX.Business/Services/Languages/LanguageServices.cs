@@ -56,6 +56,7 @@ namespace PX.Business.Services.Languages
         }
         #endregion
 
+        #region Grid Search
         /// <summary>
         /// search the Languages.
         /// </summary>
@@ -78,6 +79,10 @@ namespace PX.Business.Services.Languages
             return si.Search(languages);
         }
 
+        #endregion
+
+        #region Manage Grid
+
         /// <summary>
         /// Manage Language
         /// </summary>
@@ -99,28 +104,29 @@ namespace PX.Business.Services.Languages
                     language.RecordOrder = model.RecordOrder;
                     response = Update(language);
                     return response.SetMessage(response.Success ?
-                        _localizedResourceServices.T("AdminModule:::Languages:::Update language successfully")
-                        : _localizedResourceServices.T("AdminModule:::Languages:::Update language failure. Please try again later."));
+                        _localizedResourceServices.T("AdminModule:::Languages:::Messages::UpdateSuccessfully:::Update language successfully.")
+                        : _localizedResourceServices.T("AdminModule:::Languages:::Messages:::UpdateFailure:::Update language failed. Please try again later."));
 
                 case GridOperationEnums.Add:
                     language = Mapper.Map<LanguageModel, Language>(model);
                     response = Insert(language);
                     return response.SetMessage(response.Success ?
-                        _localizedResourceServices.T("AdminModule:::Languages:::Create language successfully")
-                        : _localizedResourceServices.T("AdminModule:::Languages:::Create language failure. Please try again later."));
+                        _localizedResourceServices.T("AdminModule:::Languages:::Messages:::CreateSuccessfully:::Create language successfully.")
+                        : _localizedResourceServices.T("AdminModule:::Languages:::Messages:::CreateFailure:::Create language failed. Please try again later."));
 
                 case GridOperationEnums.Del:
                     response = Delete(model.Id);
                     return response.SetMessage(response.Success ?
-                        _localizedResourceServices.T("AdminModule:::Languages:::Delete language successfully")
-                        : _localizedResourceServices.T("AdminModule:::Languages:::Delete language failure. Please try again later."));
+                        _localizedResourceServices.T("AdminModule:::Languages:::Messages:::DeleteSuccessfully:::Delete language successfully.")
+                        : _localizedResourceServices.T("AdminModule:::Languages:::Messages:::DeleteFailure:::Delete language failed. Please try again later."));
             }
             return new ResponseModel
             {
                 Success = false,
-                Message = _localizedResourceServices.T("AdminModule:::Languages:::Object not founded")
+                Message = _localizedResourceServices.T("AdminModule:::Languages:::Messages:::ObjectNotFounded:::Language is not founded.")
             };
         }
 
+        #endregion
     }
 }

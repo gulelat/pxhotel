@@ -25,11 +25,16 @@ namespace PX.Business.Services.SettingTypes
 
         #endregion
 
+        #region Grid Search
+        JqGridSearchOut SearchSettingTypes(JqSearchIn si);
+
+        #endregion
+
+        #region Manage Grid
         ResponseModel ManageSettingType(GridOperationEnums operation, SettingTypeModel model);
 
-        JqGridSearchOut SearchSettingTypes(JqSearchIn si);
+        #endregion
         
         IEnumerable<SelectListItem> GetSettingTypes(int? typeId);
-
     }
 }

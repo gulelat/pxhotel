@@ -10,7 +10,7 @@ using PX.Business.Mvc.Attributes;
 using PX.Business.Mvc.Attributes.Authorize;
 using PX.Business.Mvc.Controllers;
 using PX.Business.Services.Localizes;
-using PX.Business.Services.Medias;
+using PX.Business.Services.Media;
 using PX.Business.Services.Settings;
 using PX.Core.Configurations;
 using PX.Core.Configurations.Constants;
@@ -22,7 +22,7 @@ using Simple.ImageResizer.MvcExtensions;
 namespace PX.Web.Areas.Admin.Controllers
 {
     [PxAuthorize(Permissions = new[] { PermissionEnums.ManageContent })]
-    public class MediaController : PxController
+    public class MediaController : AdminController
     {
         private readonly ILocalizedResourceServices _localizedResourceServices;
         private readonly IMediaFileManager _mediaFileManager;
@@ -118,19 +118,19 @@ namespace PX.Web.Areas.Admin.Controllers
                     {
                         if (imageUploadSetting.MinWidth.HasValue && img.Width < imageUploadSetting.MinWidth)
                         {
-                            return Json(new { Success = false, Message = string.Format(_localizedResourceServices.T("AdminModule:::Media:::Upload:::Image Width is less than {0}"), imageUploadSetting.MinWidth) }, "text/html");
+                            return Json(new { Success = false, Message = string.Format(_localizedResourceServices.T("AdminModule:::Media:::Upload:::ValidationMessages:::InvalidMinWidth:::Image Width is less than {0}"), imageUploadSetting.MinWidth) }, "text/html");
                         }
                         if (imageUploadSetting.MinHeight.HasValue && img.Height < imageUploadSetting.MinHeight)
                         {
-                            return Json(new  { Success = false, Message = string.Format(_localizedResourceServices.T("AdminModule:::Media:::Upload:::Image Height is less than {0}"), imageUploadSetting.MinHeight) }, "text/html");
+                            return Json(new { Success = false, Message = string.Format(_localizedResourceServices.T("AdminModule:::Media:::Upload:::ValidationMessages:::InvalidMinHeight:::Image Height is less than {0}"), imageUploadSetting.MinHeight) }, "text/html");
                         }
                         if (imageUploadSetting.MaxWidth.HasValue && img.Width > imageUploadSetting.MaxWidth)
                         {
-                            return Json(new  { Success = false, Message = string.Format(_localizedResourceServices.T("AdminModule:::Media:::Upload:::Image Width is greater than {0}"), imageUploadSetting.MaxWidth) }, "text/html");
+                            return Json(new { Success = false, Message = string.Format(_localizedResourceServices.T("AdminModule:::Media:::Upload:::ValidationMessages:::InvalidMaxWidth:::Image Width is greater than {0}"), imageUploadSetting.MaxWidth) }, "text/html");
                         }
                         if (imageUploadSetting.MaxHeight.HasValue && img.Height > imageUploadSetting.MaxHeight)
                         {
-                            return Json(new  { Success = false, Message = string.Format(_localizedResourceServices.T("AdminModule:::Media:::Upload:::Image Height is greater than {0}"), imageUploadSetting.MaxHeight) }, "text/html");
+                            return Json(new { Success = false, Message = string.Format(_localizedResourceServices.T("AdminModule:::Media:::Upload:::ValidationMessages:::InvalidMaxHeight:::Image Height is greater than {0}"), imageUploadSetting.MaxHeight) }, "text/html");
                         }
                     }
                     img.Save(file);
@@ -156,7 +156,7 @@ namespace PX.Web.Areas.Admin.Controllers
             }
 
             var location = string.Format("{0}/{1}", dir, returnFile);
-            return Json(new { Success = true, Message = _localizedResourceServices.T("AdminModule:::Media:::Upload:::Upload successfully."), fileLocation = location, isImage }, "text/html");
+            return Json(new { Success = true, Message = _localizedResourceServices.T("AdminModule:::Media:::Upload:::Messages:::Upload successfully."), fileLocation = location, isImage }, "text/html");
         }
 
         [HttpPost]

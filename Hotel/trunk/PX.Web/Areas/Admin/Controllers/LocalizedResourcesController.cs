@@ -13,7 +13,7 @@ using PX.Core.Framework.Mvc.Models.JqGrid;
 namespace PX.Web.Areas.Admin.Controllers
 {
     [PxAuthorize(Permissions = new[] { PermissionEnums.ManageContent })]
-    public class LocalizedResourcesController : PxController
+    public class LocalizedResourcesController : AdminController
     {
         private readonly ILanguageServices _languageServices;
         public LocalizedResourcesController(ILanguageServices languageServices)

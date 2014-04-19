@@ -59,7 +59,7 @@ namespace PX.Business.Services.News
         }
         #endregion
 
-        #region Search Methods
+        #region Grid Search
 
         /// <summary>
         /// search the user groups.
@@ -89,7 +89,7 @@ namespace PX.Business.Services.News
 
         #endregion
 
-        #region Manage Methods
+        #region Grid Manage
 
         /// <summary>
         /// Manage user group
@@ -134,8 +134,8 @@ namespace PX.Business.Services.News
                         }
                     }
                     return response.SetMessage(response.Success ?
-                        _localizedResourceServices.T("AdminModule:::News:::Update news successfully")
-                        : _localizedResourceServices.T("AdminModule:::News:::Update news failure. Please try again later."));
+                        _localizedResourceServices.T("AdminModule:::News:::Messages:::UpdateSuccessfully:::Update news successfully.")
+                        : _localizedResourceServices.T("AdminModule:::News:::Messages:::UpdateFailure:::Update news failed. Please try again later."));
 
                 case GridOperationEnums.Add:
                     news = Mapper.Map<NewsModel, EntityModel.News>(model);
@@ -154,21 +154,25 @@ namespace PX.Business.Services.News
                         NewsNewsCategoryRepository.Insert(newsNewsCategory);
                     }
                     return response.SetMessage(response.Success ?
-                        _localizedResourceServices.T("AdminModule:::News:::Insert news successfully")
-                        : _localizedResourceServices.T("AdminModule:::News:::Insert news failure. Please try again later."));
+                        _localizedResourceServices.T("AdminModule:::News:::Messages:::CreateSuccessfully:::Create news successfully.")
+                        : _localizedResourceServices.T("AdminModule:::News:::Messages:::CreateFailure:::Insert news failed. Please try again later."));
 
                 case GridOperationEnums.Del:
                     response = Delete(model.Id);
                     return response.SetMessage(response.Success ?
-                        _localizedResourceServices.T("AdminModule:::News:::Delete news successfully")
-                        : _localizedResourceServices.T("AdminModule:::News:::Delete news failure. Please try again later."));
+                        _localizedResourceServices.T("AdminModule:::News:::Messages:::DeleteSuccessfully:::Delete news successfully.")
+                        : _localizedResourceServices.T("AdminModule:::News:::Messages:::DeleteFailure:::Delete news failed. Please try again later."));
             }
             return new ResponseModel
             {
                 Success = false,
-                Message = _localizedResourceServices.T("AdminModule:::News:::News not founded")
+                Message = _localizedResourceServices.T("AdminModule:::News:::Messages:::ObjectNotFounded:::News is not founded")
             };
         }
+
+        #endregion
+
+        #region Manage
 
         /// <summary>
         /// Get news manage model by id
@@ -244,8 +248,8 @@ namespace PX.Business.Services.News
                 //Get page record order
                 response = Update(news);
                 return response.SetMessage(response.Success ?
-                    _localizedResourceServices.T("AdminModule:::News:::Update news successfully")
-                    : _localizedResourceServices.T("AdminModule:::News:::Update news failure. Please try again later."));
+                    _localizedResourceServices.T("AdminModule:::News:::Messages:::UpdateSuccessfully:::Update news successfully.")
+                    : _localizedResourceServices.T("AdminModule:::News:::Messages:::UpdateFailure:::Update news failed. Please try again later."));
             }
             #endregion
 
@@ -269,10 +273,9 @@ namespace PX.Business.Services.News
                 NewsNewsCategoryRepository.Insert(newsNewsCategory);
             }
             return response.SetMessage(response.Success ?
-                _localizedResourceServices.T("AdminModule:::News:::Create news successfully")
-                : _localizedResourceServices.T("AdminModule:::News:::Create news failure. Please try again later."));
+                _localizedResourceServices.T("AdminModule:::News:::Messages:::CreateSuccessfully:::Create news successfully.")
+                : _localizedResourceServices.T("AdminModule:::News:::Messages:::CreateFailure:::Create news failed. Please try again later."));
         }
-
         #endregion
 
         /// <summary>

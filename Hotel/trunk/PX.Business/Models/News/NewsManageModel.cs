@@ -44,7 +44,7 @@ namespace PX.Business.Models.News
             var localizedResourceServices = HostContainer.GetInstance<ILocalizedResourceServices>();
             if (newsServices.IsTitleExisted(Id, Title))
             {
-                yield return new ValidationResult(localizedResourceServices.T("AdminModule:::Newss:::ValidationMessage:::News title is existed."), new[]{ "Title"});
+                yield return new ValidationResult(localizedResourceServices.T("AdminModule:::Newss:::ValidationMessages:::ExistingTitle:::News title is existed."), new[]{ "Title"});
             }
         }
         #endregion

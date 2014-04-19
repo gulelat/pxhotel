@@ -52,6 +52,33 @@ namespace PX.Business.Services.Localizes
         }
         #endregion
 
+        #region Initialize
+
+        /// <summary>
+        /// Refresh localize resource dictionaries
+        /// </summary>
+        public void RefreshDictionary()
+        {
+            var data = GetAll().Select(l => new LocalizedResourceModel
+            {
+                TextKey = l.TextKey,
+                DefaultValue = l.DefaultValue,
+                LanguageId = l.LanguageId,
+                TranslatedValue = l.TranslatedValue
+            }).ToList();
+            WorkContext.LocalizedResourceDictionary =
+                data.Select(
+                    l => new LocalizeDictionaryItem
+                    {
+                        Language = l.LanguageId,
+                        Key = DictionaryHelper.BuildKey(l.LanguageId, l.TextKey),
+                        Value = l.TranslatedValue
+                    }).ToList();
+        }
+        #endregion
+
+        #region Grid Search
+
         /// <summary>
         /// search the LocalizedResources.
         /// </summary>
@@ -76,6 +103,10 @@ namespace PX.Business.Services.Localizes
             return si.Search(localizedResources);
         }
 
+        #endregion
+
+        #region Manage Grid
+
         /// <summary>
         /// Manage LocalizedResource
         /// </summary>
@@ -95,30 +126,38 @@ namespace PX.Business.Services.Localizes
                     localizedResource.RecordActive = model.RecordActive;
 
                     response = Update(localizedResource);
+                    if(response.Success)
+                        RefreshDictionary();
                     return response.SetMessage(response.Success ?
-                        T("AdminModule:::LocalizedResources:::Update localized resource successfully")
-                        : T("AdminModule:::LocalizedResources:::Update localized resource failure. Please try again later."));
+                        T("AdminModule:::LocalizedResources:::Messages:::UpdateSuccessfully:::Update localized resource successfully.")
+                        : T("AdminModule:::LocalizedResources:::Messages:::UpdateFailure:::Update localized resource failed. Please try again later."));
 
                 case GridOperationEnums.Add:
                     localizedResource = Mapper.Map<LocalizedResourceModel, LocalizedResource>(model);
                     localizedResource.DefaultValue = model.TranslatedValue;
                     response = Insert(localizedResource);
+                    if(response.Success)
+                        RefreshDictionary();
                     return response.SetMessage(response.Success ?
-                        T("AdminModule:::LocalizedResources:::Insert localized resource successfully")
-                        : T("AdminModule:::LocalizedResources:::Insert localized resource failure. Please try again later."));
+                        T("AdminModule:::LocalizedResources:::Messages:::CreateSuccessfully:::Create localized resource successfully.")
+                        : T("AdminModule:::LocalizedResources:::Messages:::CreateFailure:::Create localized resource failed. Please try again later."));
 
                 case GridOperationEnums.Del:
                     response = Delete(model.Id);
+                    if(response.Success)
+                        RefreshDictionary();
                     return response.SetMessage(response.Success ?
-                        T("AdminModule:::LocalizedResources:::Delete localized resource successfully")
-                        : T("AdminModule:::LocalizedResources:::Delete localized resource failure. Please try again later."));
+                        T("AdminModule:::LocalizedResources:::Messages:::DeleteSuccessfully:::Delete localized resource successfully.")
+                        : T("AdminModule:::LocalizedResources:::Messages:::DeleteFailure:::Delete localized resource failed. Please try again later."));
             }
             return new ResponseModel
             {
                 Success = false,
-                Message = T("AdminModule:::LocalizedResources:::Localized resource not founded")
+                Message = T("AdminModule:::LocalizedResources:::Messages:::ObjectNotFounded:::Localized resource is not founded.")
             };
         }
+
+        #endregion
 
         #region Get localize resources
 
@@ -129,7 +168,14 @@ namespace PX.Business.Services.Localizes
         /// <returns></returns>
         public string T(string textKey)
         {
-            return GetLocalizedResource(textKey, textKey);
+            var values = textKey.Split(new[] {LocalizedSerperator}, StringSplitOptions.RemoveEmptyEntries);
+            if(values.Count() < 2)
+            {
+                return textKey;
+            }
+            var defaultValue = values.Last();
+            var newTextKeys = values.Take(values.Count() - 1);
+            return GetLocalizedResource(string.Join(LocalizedSerperator, newTextKeys), defaultValue);
         }
 
         /// <summary>
@@ -193,9 +239,8 @@ namespace PX.Business.Services.Localizes
         /// <param name="textKey"></param>
         /// <param name="defaultValue"></param>
         /// <param name="parameters"> </param>
-        private string UpdateDictionaryToDb(string textKey, string defaultValue = "", params object[] parameters)
+        private string UpdateDictionaryToDb(string textKey, string defaultValue , params object[] parameters)
         {
-            var values = defaultValue.Split(new[] { LocalizedSerperator }, StringSplitOptions.RemoveEmptyEntries).Last();
             var existedResourceIds = Fetch(l => l.TextKey.Equals(textKey)).Select(l => l.LanguageId);
             var languages = LanguageRepository.Fetch(l => !existedResourceIds.Contains(l.Id)).Select(l => l.Id).ToList();
             foreach (var language in languages)
@@ -203,8 +248,8 @@ namespace PX.Business.Services.Localizes
                 var localizeResource = new LocalizedResource
                 {
                     TextKey = textKey,
-                    DefaultValue = values,
-                    TranslatedValue = values,
+                    DefaultValue = defaultValue,
+                    TranslatedValue = defaultValue,
                     LanguageId = language
                 };
                 Insert(localizeResource);
@@ -212,31 +257,9 @@ namespace PX.Business.Services.Localizes
             RefreshDictionary();
             if (parameters != null && parameters.Any())
             {
-                return string.Format(values, parameters);
+                return string.Format(defaultValue, parameters);
             }
-            return values;
-        }
-
-        /// <summary>
-        /// Refresh localize resource dictionaries
-        /// </summary>
-        public void RefreshDictionary()
-        {
-            var data = GetAll().Select(l => new LocalizedResourceModel
-            {
-                TextKey = l.TextKey,
-                DefaultValue = l.DefaultValue,
-                LanguageId = l.LanguageId,
-                TranslatedValue = l.TranslatedValue
-            }).ToList();
-            WorkContext.LocalizedResourceDictionary =
-                data.Select(
-                    l => new LocalizeDictionaryItem
-                    {
-                        Language = l.LanguageId,
-                        Key = DictionaryHelper.BuildKey(l.LanguageId, l.TextKey),
-                        Value = l.TranslatedValue
-                    }).ToList();
+            return defaultValue;
         }
         #endregion
     }

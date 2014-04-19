@@ -57,7 +57,7 @@ namespace PX.Business.Services.UserGroups
         }
         #endregion
 
-        #region Search Methods
+        #region Grid Search
 
         /// <summary>
         /// search the user groups.
@@ -83,7 +83,7 @@ namespace PX.Business.Services.UserGroups
 
         #endregion
 
-        #region Manage Methods
+        #region Grid Manage
 
         /// <summary>
         /// Manage user group
@@ -106,26 +106,26 @@ namespace PX.Business.Services.UserGroups
                     userGroup.RecordActive = model.RecordActive;
                     response = Update(userGroup);
                     return response.SetMessage(response.Success ?
-                        _localizedResourceServices.T("AdminModule:::UserGroups:::Update group successfully")
-                        : _localizedResourceServices.T("AdminModule:::UserGroups:::Update group failure. Please try again later."));
+                        _localizedResourceServices.T("AdminModule:::UserGroups:::Messages:::UpdateSuccessfully:::Update user group successfully.")
+                        : _localizedResourceServices.T("AdminModule:::UserGroups:::Messages:::UpdateFailure:::Update user group failed. Please try again later."));
                 
                 case GridOperationEnums.Add:
                     userGroup = Mapper.Map<UserGroupModel, UserGroup>(model);
                     response = Insert(userGroup);
                     return response.SetMessage(response.Success ?
-                        _localizedResourceServices.T("AdminModule:::UserGroups:::Insert group successfully")
-                        : _localizedResourceServices.T("AdminModule:::UserGroups:::Insert group failure. Please try again later."));
+                        _localizedResourceServices.T("AdminModule:::UserGroups:::Messages:::CreateSuccessfully:::Craete user group successfully.")
+                        : _localizedResourceServices.T("AdminModule:::UserGroups:::Messages:::CreateFailure:::Create user group failed. Please try again later."));
                 
                 case GridOperationEnums.Del:
                     response = Delete(model.Id);
                     return response.SetMessage(response.Success ?
-                        _localizedResourceServices.T("AdminModule:::UserGroups:::Delete group successfully")
-                        : _localizedResourceServices.T("AdminModule:::UserGroups:::Delete group failure. Please try again later."));
+                        _localizedResourceServices.T("AdminModule:::UserGroups:::Messages:::DeleteSuccessfully:::Delete user group successfully.")
+                        : _localizedResourceServices.T("AdminModule:::UserGroups:::Messages:::DeleteFailure:::Delete user group failed. Please try again later."));
             }
             return new ResponseModel
             {
                 Success = false,
-                Message = _localizedResourceServices.T("AdminModule:::UserGroups:::Object not founded")
+                Message = _localizedResourceServices.T("AdminModule:::UserGroups:::Messages:::ObjectNotFounded:::User group is not founded.")
             };
         }
 
@@ -216,7 +216,7 @@ namespace PX.Business.Services.UserGroups
             return new ResponseModel
                 {
                     Success = true,
-                    Message = _localizedResourceServices.T("AdminModule:::UserGroupPermissions:::Save permission successfully.")
+                    Message = _localizedResourceServices.T("AdminModule:::UserGroupPermissions:::Messages:::UpdatePermissionSuccessfully:::Save permission successfully.")
                 }
             ;
         }

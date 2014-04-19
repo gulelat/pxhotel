@@ -13,7 +13,7 @@ using PX.Core.Framework.Enums;
 using PX.Core.Framework.Mvc.Models;
 using PX.Core.Logging;
 
-namespace PX.Business.Services.Medias
+namespace PX.Business.Services.Media
 {
     public class MediaServices : IMediaServices
     {
@@ -206,7 +206,7 @@ namespace PX.Business.Services.Medias
                 var mediaPath = ToRelativePath(string.Format("{0}/{1}", relativePath, f.Name));
                 var t = new FileTreeModel
                 {
-                    attr = new FileTreeAttribute { Id = mediaPath, @Class = "jstree-leaf" },
+                    attr = new FileTreeAttribute { Id = mediaPath, Class = "jstree-leaf" },
                     data = f.Name,
                     state = "open",
                 };
@@ -245,7 +245,7 @@ namespace PX.Business.Services.Medias
             {
                 var t = new FileTreeModel
                 {
-                    attr = new FileTreeAttribute { Id = string.Format("{0}/{1}", ToRelativePath(relativePath), f.Name), @Class = "jstree-leaf" },
+                    attr = new FileTreeAttribute { Id = string.Format("{0}/{1}", ToRelativePath(relativePath), f.Name), Class = "jstree-leaf" },
                     data = f.Name,
                     state = "open"
                 };
@@ -325,31 +325,26 @@ namespace PX.Business.Services.Medias
             {
                 case MediaEnums.MoveNodeStatusEnums.MoveParentNodeToChild:
                     response.Message =
-                        _localizedResourceServices.T(
-                            "AdminModule:::Media:::MoveData:::Cannot move parent folder to child folder. Please try again.");
+                        _localizedResourceServices.T("AdminModule:::Media:::MoveData:::Messages:::MoveParentToChild:::Cannot move parent folder to child folder. Please try again.");
                     break;
                 case MediaEnums.MoveNodeStatusEnums.MoveNodeToFile:
                     response.Message =
-                        _localizedResourceServices.T(
-                            "AdminModule:::Media:::MoveData:::Cannot move item to file. Please try again.");
+                        _localizedResourceServices.T("AdminModule:::Media:::MoveData:::Messages:::MoveItemToFile:::Cannot move item to file. Please try again.");
                     break;
                 case MediaEnums.MoveNodeStatusEnums.MoveSameLocation:
                     response.Message =
-                        _localizedResourceServices.T(
-                            "AdminModule:::Media:::MoveData:::Cannot move item in same location. Please try again.");
+                        _localizedResourceServices.T("AdminModule:::Media:::MoveData:::Messages:::MoveSameLocation:::Cannot move item in same location. Please try again.");
                     break;
                 case MediaEnums.MoveNodeStatusEnums.Failure:
                     response.Message =
                         string.Format(
-                            _localizedResourceServices.T(
-                                "AdminModule:::Media:::MoveData:::There's an error: while create new folder. Error Message: {0}. Please try again."),
+                            _localizedResourceServices.T("AdminModule:::Media:::MoveData:::Messages:::CreateFolderFailure:::There's an error: while create new folder. Error Message: {0}. Please try again."),
                             response.Message);
                     break;
                 case MediaEnums.MoveNodeStatusEnums.Success:
                     response.Message =
                         string.Format(
-                            _localizedResourceServices.T(
-                                "AdminModule:::Media:::MoveData:::Move data successfully."),
+                            _localizedResourceServices.T("AdminModule:::Media:::MoveData:::Messages:::MoveSuccessfully:::Move data successfully."),
                             response.Message);
                     response.Success = true;
                     break;
@@ -398,7 +393,7 @@ namespace PX.Business.Services.Medias
                         {
                             Success = false,
                             Data = relativePath,
-                            Message = _localizedResourceServices.T("AdminModule:::Media:::CreateFolder:::Folder name has existed in the system. Please you another one.")
+                            Message = _localizedResourceServices.T("AdminModule:::Media:::CreateFolder:::Messages:::ExistingName:::Folder name has existed in the system. Please you another one.")
                         };
                 }
                 Directory.CreateDirectory(physicalPath);
@@ -410,14 +405,14 @@ namespace PX.Business.Services.Medias
                 {
                     Success = false,
                     Data = relativePath,
-                    Message = string.Format(_localizedResourceServices.T("AdminModule:::Media:::CreateFolder:::There's an error: while create new folder. Error Message: {0}. Please try again."), exception.Message)
+                    Message = string.Format(_localizedResourceServices.T("AdminModule:::Media:::CreateFolder:::Messages:::CreateFailure:::There's an error: while create new folder. Error Message: {0}. Please try again."), exception.Message)
                 };
             }
             return new ResponseModel
             {
                 Success = true,
                 Data = relativePath,
-                Message = _localizedResourceServices.T("AdminModule:::Media:::CreateFolder:::Create folder successfully.")
+                Message = _localizedResourceServices.T("AdminModule:::Media:::CreateFolder:::Messages:::CreateSuccessfully:::Create folder successfully.")
             };
         }
 
@@ -441,7 +436,7 @@ namespace PX.Business.Services.Medias
                 return new ResponseModel
                     {
                         Success = true,
-                        Message = _localizedResourceServices.T("AdminModule:::Media:::DeleteItem:::Delete file/folder successfully.")
+                        Message = _localizedResourceServices.T("AdminModule:::Media:::DeleteItem:::Messages:::DeleteSuccessfully:::Delete file/folder successfully.")
                     };
             }
             catch (Exception exception)
@@ -450,7 +445,7 @@ namespace PX.Business.Services.Medias
                 return new ResponseModel
                 {
                     Success = false,
-                    Message = _localizedResourceServices.T("AdminModule:::Media:::DeleteItem:::Delete file/folder failure. Please try again later.." + exception.Message)
+                    Message = _localizedResourceServices.T("AdminModule:::Media:::DeleteItem:::Messages:::DeleteFailure:::Delete file/folder failed. Please try again later.." + exception.Message)
                 };
             }
         }
@@ -518,17 +513,17 @@ namespace PX.Business.Services.Medias
                 case MediaEnums.RenameStatusEnums.DuplicateName:
                     response.Message =
                         _localizedResourceServices.T(
-                            "AdminModule:::Media:::RenameFolder:::The name of file/folder has already existed. Please rename and try again.");
+                            "AdminModule:::Media:::RenameFolder:::Messages:::ExistingName:::The name of file/folder has already existed. Please rename and try again.");
                     break;
                 case MediaEnums.RenameStatusEnums.Failure:
                     response.Message =
                         string.Format(_localizedResourceServices.T(
-                            "AdminModule:::Media:::RenameFolder:::Error while rename file/folder. Error Message: {0}. Please try again."), response.Message);
+                            "AdminModule:::Media:::RenameFolder:::Messages:::RenameFailure:::Error while rename file/folder. Error Message: {0}. Please try again."), response.Message);
                     break;
                 default:
                     response.Message =
                         _localizedResourceServices.T(
-                            "AdminModule:::Media:::RenameFolder:::Rename successfully.");
+                            "AdminModule:::Media:::RenameFolder::::Messages:::RenameSuccess::Rename successfully.");
                     response.Success = true;
                     break;
             }

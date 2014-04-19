@@ -1,7 +1,6 @@
 ﻿using System.Web.Mvc;
 using Newtonsoft.Json;
 using PX.Business.Models.Languages;
-using PX.Business.Mvc.Attributes;
 using PX.Business.Mvc.Attributes.Authorize;
 using PX.Business.Mvc.Controllers;
 using PX.Business.Services.Languages;
@@ -13,7 +12,7 @@ using PX.Core.Framework.Mvc.Models.JqGrid;
 namespace PX.Web.Areas.Admin.Controllers
 {
     [PxAuthorize(Permissions = new[] { PermissionEnums.ManageContent })]
-    public class LanguagesController : PxController
+    public class LanguagesController : AdminController
     {
         private readonly ILanguageServices _languageServices;
         public LanguagesController(ILanguageServices languageServices)

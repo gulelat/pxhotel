@@ -3,18 +3,16 @@ using System.Web.Mvc;
 using System.Web.Security;
 using PX.Business.Models.Users;
 using PX.Business.Models.Users.Logins;
-using PX.Business.Mvc.Attributes;
 using PX.Business.Mvc.Attributes.Authorize;
 using PX.Business.Mvc.Controllers;
 using PX.Business.Mvc.WorkContext;
 using PX.Business.Services.Users;
-using PX.Core.Configurations.Constants;
 using PX.Core.Framework.Mvc.Models;
 using PX.Core.Framework.Mvc.Models.Editable;
 
 namespace PX.Web.Areas.Admin.Controllers
 {
-    public class AccountController : PxController
+    public class AccountController : AdminController
     {
         private readonly IUserServices _userServices;
         public AccountController(IUserServices userServices)
@@ -50,7 +48,7 @@ namespace PX.Web.Areas.Admin.Controllers
                 var response = _userServices.Login(model);
                 if (response.Success)
                 {
-                    SetSuccessMessage(LocalizedResourceServices.T("AdminModule:::Account:::Messages:::Login successfully."));
+                    SetSuccessMessage(LocalizedResourceServices.T("AdminModule:::Account:::Messages:::LoginSuccess:::Login successfully."));
                 }
                 return Json(response);
             }

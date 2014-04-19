@@ -21,8 +21,14 @@ namespace PX.Business.Services.Tags
 
         #endregion
 
+        #region Grid Search
+        JqGridSearchOut SearchTags(JqSearchIn si);
+
+        #endregion
+
+        #region Manage Grid
         ResponseModel ManageTag(GridOperationEnums operation, TagModel model);
 
-        JqGridSearchOut SearchTags(JqSearchIn si);
+        #endregion
     }
 }

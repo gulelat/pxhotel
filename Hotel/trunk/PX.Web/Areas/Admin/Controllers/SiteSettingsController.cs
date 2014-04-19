@@ -15,7 +15,7 @@ using PX.Core.Framework.Mvc.Models.JqGrid;
 namespace PX.Web.Areas.Admin.Controllers
 {
     [PxAuthorize(Permissions = new[] { PermissionEnums.ManageContent })]
-    public class SiteSettingsController : PxController
+    public class SiteSettingsController : AdminController
     {
         private readonly ISettingServices _settingServices;
         public SiteSettingsController(ISettingServices settingServices)

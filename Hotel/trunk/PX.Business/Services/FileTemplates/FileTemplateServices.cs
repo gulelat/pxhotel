@@ -84,6 +84,7 @@ namespace PX.Business.Services.FileTemplates
         }
         #endregion
 
+        #region Grid Search
         /// <summary>
         /// search the FileTemplates.
         /// </summary>
@@ -112,7 +113,9 @@ namespace PX.Business.Services.FileTemplates
             return si.Search(fileTemplates);
         }
 
-        #region Manage File Template
+        #endregion
+
+        #region Manage Grid
 
         /// <summary>
         /// Manage Site Setting
@@ -138,8 +141,8 @@ namespace PX.Business.Services.FileTemplates
 
                     response = HierarchyUpdate(fileTemplate);
                     return response.SetMessage(response.Success ?
-                        _localizedResourceServices.T("AdminModule:::FileTemplates:::Update file template successfully")
-                        : _localizedResourceServices.T("AdminModule:::FileTemplates:::Update file template failure. Please try again later."));
+                        _localizedResourceServices.T("AdminModule:::FileTemplates:::Messages:::UpdateSuccessfully:::Update file template successfully.")
+                        : _localizedResourceServices.T("AdminModule:::FileTemplates:::Messages:::UpdateFailure:::Update file template failed. Please try again later."));
 
                 case GridOperationEnums.Add:
                     fileTemplate = Mapper.Map<FileTemplateModel, FileTemplate>(model);
@@ -147,21 +150,26 @@ namespace PX.Business.Services.FileTemplates
                     fileTemplate.PageTemplateId = model.PageTemplateName.ToNullableInt();
                     response = HierarchyInsert(fileTemplate);
                     return response.SetMessage(response.Success ?
-                        _localizedResourceServices.T("AdminModule:::FileTemplates:::Insert file template successfully")
-                        : _localizedResourceServices.T("AdminModule:::FileTemplates:::Insert file template failure. Please try again later."));
+                        _localizedResourceServices.T("AdminModule:::FileTemplates:::Messages:::CreateSuccessfully:::Create file template successfully.")
+                        : _localizedResourceServices.T("AdminModule:::FileTemplate:::Messagess:::CreateFailure:::Insert file template failed. Please try again later."));
 
                 case GridOperationEnums.Del:
                     response = Delete(model.Id);
                     return response.SetMessage(response.Success ?
-                        _localizedResourceServices.T("AdminModule:::FileTemplates:::Delete file template successfully")
-                        : _localizedResourceServices.T("AdminModule:::FileTemplates:::Delete file template failure. Please try again later."));
+                        _localizedResourceServices.T("AdminModule:::FileTemplates:::Messages:::DeleteSuccessfully:::Messages:::Delete file template successfully.")
+                        : _localizedResourceServices.T("AdminModule:::FileTemplates:::Messages:::DeleteFailure:::Delete file template failed. Please try again later."));
             }
             return new ResponseModel
             {
                 Success = false,
-                Message = _localizedResourceServices.T("AdminModule:::FileTemplates:::file template not founded")
+                Message = _localizedResourceServices.T("AdminModule:::FileTemplates:::Messages:::ObjectNotFounded:::File template is not founded.")
             };
         }
+        
+        #endregion
+
+        #region Manage
+
 
         /// <summary>
         /// Get file template manage model for edit/create
@@ -177,7 +185,6 @@ namespace PX.Business.Services.FileTemplates
                 {
                     Id = template.Id,
                     Name = template.Name,
-                    Content = template.Content,
                     Action = template.Action,
                     Controller = template.Controller,
                     Parameters = template.Parameters,
@@ -206,7 +213,6 @@ namespace PX.Business.Services.FileTemplates
             if (fileTemplate != null)
             {
                 fileTemplate.Name = model.Name;
-                fileTemplate.Content = model.Content;
                 fileTemplate.Action = model.Action;
                 fileTemplate.Controller = model.Controller;
                 fileTemplate.Parameters = model.Parameters;
@@ -214,17 +220,16 @@ namespace PX.Business.Services.FileTemplates
 
                 response = HierarchyUpdate(fileTemplate);
                 return response.SetMessage(response.Success ?
-                    _localizedResourceServices.T("AdminModule:::FileTemplates:::Update file template successfully")
-                    : _localizedResourceServices.T("AdminModule:::FileTemplates:::Update file template failure. Please try again later."));
+                    _localizedResourceServices.T("AdminModule:::FileTemplates:::Messages:::UpdateSuccessfully:::Update file template successfully.")
+                    : _localizedResourceServices.T("AdminModule:::FileTemplates:::Messages:::UpdateFailure:::Update file template failed. Please try again later."));
             }
             Mapper.CreateMap<FileTemplateManageModel, FileTemplate>();
             fileTemplate = Mapper.Map<FileTemplateManageModel, FileTemplate>(model);
             response = HierarchyInsert(fileTemplate);
             return response.SetMessage(response.Success ?
-                _localizedResourceServices.T("AdminModule:::FileTemplates:::Create file template successfully")
-                : _localizedResourceServices.T("AdminModule:::FileTemplates:::Create file template failure. Please try again later."));
+                _localizedResourceServices.T("AdminModule:::FileTemplates:::Messages:::CreateSuccessfully:::Create file template successfully.")
+                : _localizedResourceServices.T("AdminModule:::FileTemplates:::Messages:::CreateFailure:::Create file template failed. Please try again later."));
         }
-        
         #endregion
 
         /// <summary>
@@ -254,16 +259,6 @@ namespace PX.Business.Services.FileTemplates
         }
 
         /// <summary>
-        /// Get file by parent id
-        /// </summary>
-        /// <param name="parentId">the parent id</param>
-        /// <returns></returns>
-        public List<FileTemplate> GetFileTemplates(int? parentId = null)
-        {
-            return GetAll().Where(m => parentId.HasValue ? m.ParentId == parentId : !m.ParentId.HasValue).OrderBy(m => m.RecordOrder).ToList();
-        }
-
-        /// <summary>
         /// Gets the user groups.
         /// </summary>
         /// <returns></returns>
@@ -285,6 +280,16 @@ namespace PX.Business.Services.FileTemplates
                 Selected = templateId.HasValue && templateId.Value == m.Id
             }).ToList();
             return FileTemplateRepository.BuildSelectList(data);
+        }
+
+        /// <summary>
+        /// Get file by parent id
+        /// </summary>
+        /// <param name="parentId">the parent id</param>
+        /// <returns></returns>
+        public List<FileTemplate> GetFileTemplates(int? parentId = null)
+        {
+            return GetAll().Where(m => parentId.HasValue ? m.ParentId == parentId : !m.ParentId.HasValue).OrderBy(m => m.RecordOrder).ToList();
         }
 
         /// <summary>

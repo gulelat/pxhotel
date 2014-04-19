@@ -40,7 +40,7 @@ namespace PX.Business.Models.Users
             var localizedResourceServices = HostContainer.GetInstance<ILocalizedResourceServices>();
             if (!userServices.GetById(UserId).Password.Equals(OldPassword))
             {
-                yield return new ValidationResult(localizedResourceServices.T("AdminModule:::Users:::ValidationMessage:::Wrong old password."));
+                yield return new ValidationResult(localizedResourceServices.T("AdminModule:::Users:::ValidationMessages:::InvalidOldPassword:::Wrong old password."));
             }
         }
     }

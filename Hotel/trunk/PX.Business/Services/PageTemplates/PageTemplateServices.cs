@@ -1,17 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Objects.SqlClient;
-using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Web.Mvc;
 using AutoMapper;
-using PX.Business.Models.Pages;
 using PX.Business.Models.PageTemplates;
+using PX.Business.Models.Pages;
 using PX.Business.Services.CurlyBrackets;
 using PX.Core.Framework.Mvc.Environments;
 using PX.Business.Services.Localizes;
-using PX.Business.Services.Pages;
 using PX.Core.Configurations.Constants;
 using PX.Core.Framework.Enums;
 using PX.Core.Framework.Mvc.Models;
@@ -20,12 +17,14 @@ using PX.Core.Ultilities;
 using PX.EntityModel;
 using PX.EntityModel.Repositories;
 using PX.EntityModel.Repositories.RepositoryBase.Models;
+using RazorEngine;
 using RazorEngine.Templating;
 
 namespace PX.Business.Services.PageTemplates
 {
     public class PageTemplateServices : IPageTemplateServices
     {
+        public const string DBTemplate = "DBTemplate";
         private readonly ILocalizedResourceServices _localizedResourceServices;
         public PageTemplateServices()
         {
@@ -36,7 +35,7 @@ namespace PX.Business.Services.PageTemplates
 
         public void InitializeFileTemplates()
         {
-            
+
         }
         #endregion
 
@@ -128,28 +127,28 @@ namespace PX.Business.Services.PageTemplates
 
                     response = HierarchyUpdate(pageTemplate);
                     return response.SetMessage(response.Success ?
-                        _localizedResourceServices.T("AdminModule:::PageTemplates:::Update page template successfully")
-                        : _localizedResourceServices.T("AdminModule:::PageTemplates:::Update page template failure. Please try again later."));
+                        _localizedResourceServices.T("AdminModule:::PageTemplates:::Messages:::UpdateSuccessfully:::Update page template successfully.")
+                        : _localizedResourceServices.T("AdminModule:::PageTemplates:::Messages:::UpdateFailure:::Update page template failed. Please try again later."));
 
                 case GridOperationEnums.Add:
                     pageTemplate = Mapper.Map<PageTemplateModel, PageTemplate>(model);
                     pageTemplate.ParentId = model.ParentName.ToNullableInt();
-                    pageTemplate.Content = string.Empty;
+                    pageTemplate.Content = DefaultConstants.CurlyBracketRenderBody;
                     response = HierarchyInsert(pageTemplate);
                     return response.SetMessage(response.Success ?
-                        _localizedResourceServices.T("AdminModule:::PageTemplates:::Insert page template successfully")
-                        : _localizedResourceServices.T("AdminModule:::PageTemplates:::Insert page template failure. Please try again later."));
+                        _localizedResourceServices.T("AdminModule:::PageTemplates:::Messages:::CreateSuccessfully:::Create page template successfully.")
+                        : _localizedResourceServices.T("AdminModule:::PageTemplates:::Messages:::CreateFailure:::Create page template failed. Please try again later."));
 
                 case GridOperationEnums.Del:
                     response = Delete(model.Id);
                     return response.SetMessage(response.Success ?
-                        _localizedResourceServices.T("AdminModule:::PageTemplates:::Delete page template successfully")
-                        : _localizedResourceServices.T("AdminModule:::PageTemplates:::Delete page template failure. Please try again later."));
+                        _localizedResourceServices.T("AdminModule:::PageTemplates:::Messages:::DeleteSuccessfully:::Delete page template successfully.")
+                        : _localizedResourceServices.T("AdminModule:::PageTemplates:::Messages:::DeleteFailure:::Delete page template failed. Please try again later."));
             }
             return new ResponseModel
             {
                 Success = false,
-                Message = _localizedResourceServices.T("AdminModule:::PageTemplates:::Page template not founded")
+                Message = _localizedResourceServices.T("AdminModule:::PageTemplates:::Messages:::ObjectNotFounded:::Page template is not founded.")
             };
         }
 
@@ -195,17 +194,17 @@ namespace PX.Business.Services.PageTemplates
 
                 response = HierarchyUpdate(pageTemplate);
                 return response.SetMessage(response.Success ?
-                    _localizedResourceServices.T("AdminModule:::PageTemplates:::Update page template successfully")
-                    : _localizedResourceServices.T("AdminModule:::PageTemplates:::Update page template failure. Please try again later."));
+                    _localizedResourceServices.T("AdminModule:::PageTemplates:::Messages:::UpdateSuccessfully:::Update page template successfully.")
+                    : _localizedResourceServices.T("AdminModule:::PageTemplates:::Messages:::UpdateFailure:::Update page template failed. Please try again later."));
             }
             Mapper.CreateMap<PageTemplateManageModel, PageTemplate>();
             pageTemplate = Mapper.Map<PageTemplateManageModel, PageTemplate>(model);
             response = HierarchyInsert(pageTemplate);
             return response.SetMessage(response.Success ?
-                _localizedResourceServices.T("AdminModule:::PageTemplates:::Create page template successfully")
-                : _localizedResourceServices.T("AdminModule:::PageTemplates:::Create page template failure. Please try again later."));
+                _localizedResourceServices.T("AdminModule:::PageTemplates:::Messages:::CreateSuccessfully:::Create page template successfully.")
+                : _localizedResourceServices.T("AdminModule:::PageTemplates:::Messages:::CreateFailure:::Create page template failed. Please try again later."));
         }
-        
+
         #endregion
 
         /// <summary>
@@ -303,7 +302,7 @@ namespace PX.Business.Services.PageTemplates
         {
             return Fetch(t => t.Id != pageTemplateId && t.Name.Equals(name)).Any();
         }
-        
+
         /// <summary>
         /// Check if template existed for virtual path provider
         /// </summary>
@@ -312,7 +311,7 @@ namespace PX.Business.Services.PageTemplates
         public bool IsPageTemplateExisted(string filePath)
         {
             var templates = filePath.Split('/').Last().Split('.');
-            if (!templates.First().Equals("DBTemplate", StringComparison.InvariantCultureIgnoreCase) || templates.Count() < 3)
+            if (!templates.First().Equals(DBTemplate, StringComparison.InvariantCultureIgnoreCase) || templates.Count() < 3)
             {
                 return false;
             }
@@ -328,7 +327,7 @@ namespace PX.Business.Services.PageTemplates
         public PageTemplate FindTemplate(string filePath)
         {
             var templates = filePath.Split('/').Last().Split('.');
-            if (!templates.First().Equals("DBTemplate", StringComparison.InvariantCultureIgnoreCase) || templates.Count() < 3)
+            if (!templates.First().Equals(DBTemplate, StringComparison.InvariantCultureIgnoreCase) || templates.Count() < 3)
             {
                 return null;
             }
@@ -336,37 +335,83 @@ namespace PX.Business.Services.PageTemplates
             return Fetch(t => t.Name.Equals(templateName)).FirstOrDefault();
         }
 
-        public string RenderPageTemplate(int? templateId)
+        #region Render Page Template
+        public string RenderPageTemplate(int? pageTemplateId, PageRenderModel model)
         {
-            var template = DefaultConstants.CurlyBracketRenderBody;
-            var pageTemplate = GetById(templateId);
-            if (pageTemplate != null)
+            var pageTemplate = GetById(pageTemplateId);
+            using (var templateService = new TemplateService())
             {
-                var pageTemplates =
-                    PageTemplateRepository.GetAll().Where(t => pageTemplate.Hierarchy.Contains(t.Hierarchy))
-                    .OrderBy(t => t.Hierarchy)
-                    .Select(t => new
-                    {
-                        t.Content,
-                        t.Name
-                    });
-                if (pageTemplates.Any())
+                var template = DefaultConstants.RenderBody;
+                var layout = "DefaultMasterTemplateWithRenderContentOnly";
+                if (Razor.Resolve(layout) == null)
                 {
-                    var cacheTemplateName = string.Empty;
-                    foreach (var item in pageTemplates)
-                    {
-                        template = CurlyBracketParser.Parse(template);
-                        template = template.Replace(DefaultConstants.RenderBody, item.Content);
-                        cacheTemplateName = item.Name;
-                    }
-
-                    var templateService = new TemplateService();
-                    template = template.Replace(DefaultConstants.RenderBody,
-                                                DefaultConstants.CurlyBracketRenderBody);
-                    template = templateService.Parse(template, null, null, cacheTemplateName);
+                    templateService.Compile(template, null, layout);
                 }
+                templateService.Compile(template, null, layout);
+                if (pageTemplate != null)
+                {
+                    var pageTemplates =
+                        PageTemplateRepository.GetAll().Where(t => pageTemplate.Hierarchy.Contains(t.Hierarchy))
+                        .OrderBy(t => t.Hierarchy)
+                        .Select(t => new
+                        {
+                            t.Content,
+                            t.Name,
+                            t.Updated,
+                            t.Created
+                        });
+                    if (pageTemplates.Any())
+                    {
+                        foreach (var item in pageTemplates)
+                        {
+                            //Convert curly bracket properties to razor syntax
+                            template = CurlyBracketParser.ParseProperties(item.Content);
+
+                            template = InsertMasterPage(template, layout);
+                            template = FormatMaster(template);
+                            template = templateService.Parse(template, model, null, null);
+                            template = ReformatMaster(template);
+
+                            layout = string.Format("{0}-{1}", item.Name, item.Updated.HasValue ? item.Updated.Value.ToString("hhmmss-ddMMyyyy") : item.Created.ToString("hhmmss-ddMMyyyy"));
+
+                            template = CurlyBracketParser.ParseRenderBody(template);
+
+                            if (Razor.Resolve(layout) == null)
+                            {
+                                templateService.Compile(template, typeof(PageRenderModel), layout);
+                            }
+                        }
+                    }
+                }
+                return template;
             }
-            return template;
         }
+
+        /// <summary>
+        /// Add parent layout to page template
+        /// </summary>
+        /// <param name="content"></param>
+        /// <param name="masterPage"></param>
+        /// <returns></returns>
+        private string InsertMasterPage(string content, string masterPage)
+        {
+            return "@{ this.Layout = \"" + masterPage + "\";}" + content;
+        }
+
+        private string FormatMaster(string content)
+        {
+            //Remove render section to render master
+            content = content.Replace("@RenderSection", "RenderSection");
+            return content;
+        }
+
+        private string ReformatMaster(string content)
+        {
+            //Add render section after render master
+            content = content.Replace("RenderSection", "@RenderSection");
+            return content;
+        }
+
+        #endregion
     }
 }

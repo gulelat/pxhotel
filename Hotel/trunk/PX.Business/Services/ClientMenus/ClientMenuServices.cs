@@ -116,27 +116,27 @@ namespace PX.Business.Services.ClientMenus
                     clientMenu.ParentId = model.ParentName.ToNullableInt();
                     response = HierarchyUpdate(clientMenu);
                     return response.SetMessage(response.Success ?
-                        _localizedResourceServices.T("AdminModule:::ClientMenus:::Messages:::Update client menu successfully")
-                        : _localizedResourceServices.T("AdminModule:::ClientMenus:::Messages:::Update client menu failure. Please try again later."));
+                        _localizedResourceServices.T("AdminModule:::ClientMenus:::Messages:::UpdateSuccessfully:::Update client menu successfully.")
+                        : _localizedResourceServices.T("AdminModule:::ClientMenus:::Messages:::UpdateFailure:::Update client menu failed. Please try again later."));
 
                 case GridOperationEnums.Add:
                     clientMenu = Mapper.Map<ClientMenuModel, ClientMenu>(model);
                     clientMenu.ParentId = model.ParentName.ToNullableInt();
                     response = HierarchyInsert(clientMenu);
                     return response.SetMessage(response.Success ?
-                        _localizedResourceServices.T("AdminModule:::ClientMenus:::Messages:::Create client menu successfully")
-                        : _localizedResourceServices.T("AdminModule:::ClientMenus:::Messages:::Create client menu failure. Please try again later."));
+                        _localizedResourceServices.T("AdminModule:::ClientMenus:::Messages:::CreateSuccessfully:::Create client menu successfully.")
+                        : _localizedResourceServices.T("AdminModule:::ClientMenus:::Messages:::CreateFailure:::Create client menu failed. Please try again later."));
 
                 case GridOperationEnums.Del:
                     response = Delete(model.Id);
                     return response.SetMessage(response.Success ?
-                        _localizedResourceServices.T("AdminModule:::ClientMenus:::Messages:::Delete client menu successfully")
-                        : _localizedResourceServices.T("AdminModule:::ClientMenus:::Messages:::Delete client menu failure. Please try again later."));
+                        _localizedResourceServices.T("AdminModule:::ClientMenus:::Messages:::DeleteSuccessfully:::Delete client menu successfully.")
+                        : _localizedResourceServices.T("AdminModule:::ClientMenus:::Messages:::DeleteFailure:::Delete client menu failed. Please try again later."));
             }
             return new ResponseModel
             {
                 Success = false,
-                Message = _localizedResourceServices.T("AdminModule:::ClientMenus:::Messages:::Client menu not founded.")
+                Message = _localizedResourceServices.T("AdminModule:::ClientMenus:::Messages::ObjectNotFounded:::Client menu is not founded.")
             };
         }
 
@@ -227,7 +227,6 @@ namespace PX.Business.Services.ClientMenus
                     clientMenu.Url = page.FriendlyUrl;
                     clientMenu.Name = page.Title;
                     clientMenu.RecordOrder = page.RecordOrder;
-
                 }
             }
             clientMenu = new ClientMenu

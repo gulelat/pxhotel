@@ -45,5 +45,26 @@ namespace PX.Core.Ultilities
             if (targetProperty != null)
                 targetProperty.SetValue(entityToSet, value, null);
         }
+
+        /// <summary>
+        /// Get all properties from type
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public static List<PropertyInfo> GetAllPropertiesOfType(Type type)
+        {
+            return type.GetProperties().ToList();
+        } 
+
+        /// <summary>
+        /// Get all properties from type
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public static List<string> GetAllPropertyNamesOfType(Type type)
+        {
+            var properties = type.GetProperties();
+            return properties.Select(p => p.Name).ToList();
+        } 
     }
 }

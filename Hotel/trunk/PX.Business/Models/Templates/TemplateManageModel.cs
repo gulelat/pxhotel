@@ -32,7 +32,7 @@ namespace PX.Business.Models.Templates
             var localizedResourceServices = HostContainer.GetInstance<ILocalizedResourceServices>();
             if (templateServices.IsTemplateNameExisted(Id, Name))
             {
-                yield return new ValidationResult(localizedResourceServices.T("AdminModule:::PageTemplates:::ValidationMessage:::Name is existed."), new[]{ "Name"});
+                yield return new ValidationResult(localizedResourceServices.T("AdminModule:::PageTemplates:::ValidationMessages:::ExistingName:::Name is existed."), new[]{ "Name"});
             }
         }
         #endregion

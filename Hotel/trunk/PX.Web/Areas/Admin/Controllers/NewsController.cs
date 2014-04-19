@@ -13,7 +13,7 @@ using PX.Core.Framework.Mvc.Models.JqGrid;
 namespace PX.Web.Areas.Admin.Controllers
 {
     [PxAuthorize(Permissions = new[] { PermissionEnums.ManageContent })]
-    public class NewsController : PxController
+    public class NewsController : AdminController
     {
         private readonly INewsServices _newsServices;
         private readonly INewsCategoryServices _newsCategoryServices;

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Web.Mvc;
 using PX.Business.Models.PageTemplates;
+using PX.Business.Models.Pages;
 using PX.Core.Framework.Enums;
 using PX.Core.Framework.Mvc.Models;
 using PX.Core.Framework.Mvc.Models.JqGrid;
@@ -30,28 +31,38 @@ namespace PX.Business.Services.PageTemplates
 
         #endregion
 
-        ResponseModel ManagePageTemplate(GridOperationEnums operation, PageTemplateModel model);
-
+        #region Grid Search
         JqGridSearchOut SearchPageTemplates(JqSearchIn si);
 
-        IEnumerable<SelectListItem> GetPossibleParents(int? id = null);
+        #endregion
 
-        List<PageTemplate> GetPageTemplates(int? parentId = null);
+        #region Manage Grid
+        ResponseModel ManagePageTemplate(GridOperationEnums operation, PageTemplateModel model);
 
-        IEnumerable<SelectListItem> GetPageTemplateSelectList(int? id = null);
+        #endregion
 
-        IEnumerable<SelectListItem> GetPageTemplateSelectListForFileTemplate(int? id = null);
+        #region Manage
 
         PageTemplateManageModel GetTemplateManageModel(int? id = null);
 
         ResponseModel SavePageTemplate(PageTemplateManageModel model);
 
-        bool IsPageTemplateNameExisted(int? pageTemplateId, string name);
-
-        bool IsPageTemplateExisted(string filePath);
+        #endregion
 
         PageTemplate FindTemplate(string filePath);
 
-        string RenderPageTemplate(int? templateId);
+        string RenderPageTemplate(int? pageTemplateId, PageRenderModel model);
+
+        IEnumerable<SelectListItem> GetPossibleParents(int? id = null);
+
+        IEnumerable<SelectListItem> GetPageTemplateSelectList(int? id = null);
+
+        IEnumerable<SelectListItem> GetPageTemplateSelectListForFileTemplate(int? id = null);
+
+        List<PageTemplate> GetPageTemplates(int? parentId = null);
+
+        bool IsPageTemplateNameExisted(int? pageTemplateId, string name);
+
+        bool IsPageTemplateExisted(string filePath);
     }
 }

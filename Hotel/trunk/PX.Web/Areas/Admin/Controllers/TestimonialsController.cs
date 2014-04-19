@@ -12,7 +12,7 @@ using PX.Core.Framework.Mvc.Models.JqGrid;
 namespace PX.Web.Areas.Admin.Controllers
 {
     [PxAuthorize(Permissions = new[] { PermissionEnums.ManageContent })]
-    public class TestimonialsController : PxController
+    public class TestimonialsController : AdminController
     {
         private readonly ITestimonialServices _testimonialServices;
         public TestimonialsController(ITestimonialServices testimonialServices)

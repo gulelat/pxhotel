@@ -13,7 +13,7 @@ using PX.Core.Framework.Mvc.Models.JqGrid;
 namespace PX.Web.Areas.Admin.Controllers
 {
     [PxAuthorize(Permissions = new[] { PermissionEnums.ManageContent })]
-    public class FileTemplatesController : PxController
+    public class FileTemplatesController : AdminController
     {
         private readonly IFileTemplateServices _fileTemplateServices;
         private readonly IPageTemplateServices _pageTemplateServices;

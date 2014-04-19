@@ -23,9 +23,24 @@ namespace PX.Business.Services.Localizes
 
         #endregion
 
+        #region Grid Search
+        JqGridSearchOut SearchLocalizedResources(JqSearchIn si, string language);
+
+        #endregion
+
+        #region Manage Grid
         ResponseModel ManageLocalizedResource(GridOperationEnums operation, LocalizedResourceModel model);
 
-        JqGridSearchOut SearchLocalizedResources(JqSearchIn si, string language);
+        #endregion
+
+        #region Initialize
+
+        /// <summary>
+        /// Refresh dictionary
+        /// </summary>
+        void RefreshDictionary();
+
+        #endregion
 
         /// <summary>
         /// Gets the localized string from a text key, if the value is not available then add the default value to the dictionary
@@ -35,11 +50,6 @@ namespace PX.Business.Services.Localizes
         /// <param name="parameters">Parameters for passing to the default value string</param>
         /// <returns></returns>
         string GetLocalizedResource(string textKey, string defaultValue = null, params object[] parameters);
-
-        /// <summary>
-        /// Refresh dictionary
-        /// </summary>
-        void RefreshDictionary();
 
         string T(string textKey);
 

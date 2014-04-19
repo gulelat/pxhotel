@@ -82,31 +82,7 @@ namespace PX.Business.Services.Pages
         }
         #endregion
 
-        /// <summary>
-        /// Get page by friendly url
-        /// </summary>
-        /// <param name="friendlyUrl"></param>
-        /// <returns></returns>
-        public Page GetPage(string friendlyUrl)
-        {
-            //Get Home Page
-            if (string.IsNullOrEmpty(friendlyUrl))
-            {
-                return GetHomePage();
-            }
-            return GetAll().FirstOrDefault(p => p.FriendlyUrl.Equals(friendlyUrl, StringComparison.InvariantCultureIgnoreCase));
-        }
-
-        /// <summary>
-        /// Get home page
-        /// </summary>
-        /// <returns></returns>
-        public Page GetHomePage()
-        {
-            return PageRepository.FetchFirst(p => p.IsHomePage);
-        }
-
-        #region Search Pages
+        #region Grid Search
 
         /// <summary>
         /// search the Pages.
@@ -137,7 +113,7 @@ namespace PX.Business.Services.Pages
 
         #endregion
 
-        #region Manage Page
+        #region Grid Manage
 
         /// <summary>
         /// Change home page
@@ -162,16 +138,14 @@ namespace PX.Business.Services.Pages
                         {
                             response.Message =
                                 string.Format(
-                                    _localizedResourceServices.T(
-                                        "AdminModule:::Pages:::Message:::Change page {0} to home page successfully."),
+                                    _localizedResourceServices.T("AdminModule:::Pages:::Messages:::ChangeHomePageSuccessfully:::Change page {0} to home page successfully."),
                                     page.Title);
                         }
                         else
                         {
                             response.Message =
                                 string.Format(
-                                    _localizedResourceServices.T(
-                                        "AdminModule:::Pages:::Message:::Change page {0} to home page failure. Please try again later."),
+                                    _localizedResourceServices.T("AdminModule:::Pages:::Messages:::ChangeHomePageFailure:::Change page {0} to home page failed. Please try again later."),
                                     page.Title);
                         }
                     }
@@ -181,15 +155,14 @@ namespace PX.Business.Services.Pages
                     response.Success = true;
                     response.Message =
                         string.Format(
-                            _localizedResourceServices.T(
-                                "AdminModule:::Pages:::Message:::Change page {0} to home page successfully."),
+                            _localizedResourceServices.T("AdminModule:::Pages:::Messages:::ChangeHomePageSuccessfully:::Change page {0} to home page successfully."),
                             page.Title);
                 }
             }
             else
             {
                 response.Success = false;
-                response.Message = _localizedResourceServices.T("AdminModule:::Pages:::Messages:::Page not founded");
+                response.Message = _localizedResourceServices.T("AdminModule:::Pages:::Messages:::ObjectNotFounded:::Page is not founded.");
             }
             return response;
         }
@@ -219,21 +192,25 @@ namespace PX.Business.Services.Pages
 
                     _clientMenuServices.SavePageToClientMenu(page);
                     return response.SetMessage(response.Success ?
-                        _localizedResourceServices.T("AdminModule:::Pages:::Messages:::Update page successfully")
-                        : _localizedResourceServices.T("AdminModule:::Pages:::Messages:::Update page failure. Please try again later.. Please try again later."));
+                        _localizedResourceServices.T("AdminModule:::Pages:::Messages:::UpdateSuccessfully:::Update page successfully.")
+                        : _localizedResourceServices.T("AdminModule:::Pages:::Messages:::UpdateFailure:::Update page failed. Please try again later.. Please try again later."));
 
                 case GridOperationEnums.Del:
                     response = Delete(model.Id);
                     return response.SetMessage(response.Success ?
-                        _localizedResourceServices.T("AdminModule:::Pages:::Messages:::Delete page successfully")
-                        : _localizedResourceServices.T("AdminModule:::Pages:::Messages:::Delete page failure. Please try again later."));
+                        _localizedResourceServices.T("AdminModule:::Pages:::Messages:::DeleteSuccessfully:::Delete page successfully.")
+                        : _localizedResourceServices.T("AdminModule:::Pages:::Messages:::DeleteFailure:::Delete page failed. Please try again later."));
             }
             return new ResponseModel
             {
                 Success = false,
-                Message = _localizedResourceServices.T("AdminModule:::Pages:::Messages:::Page not founded")
+                Message = _localizedResourceServices.T("AdminModule:::Pages:::Messages:::ObjectNotFounded:::Page is not founded.")
             };
         }
+        #endregion
+
+        #region Manage
+
 
         /// <summary>
         /// Get page manage model by id
@@ -347,25 +324,25 @@ namespace PX.Business.Services.Pages
                 }
 
                 return response.SetMessage(response.Success ?
-                    _localizedResourceServices.T("AdminModule:::Pages:::Update page successfully")
-                    : _localizedResourceServices.T("AdminModule:::Pages:::Update page failure. Please try again later."));
+                    _localizedResourceServices.T("AdminModule:::Pages:::Messages:::UpdateSuccessfully:::Update page successfully.")
+                    : _localizedResourceServices.T("AdminModule:::Pages:::Messages:::UpdateFailure:::Update page failed. Please try again later."));
             }
             #endregion
 
             page = new Page
-                {
-                    Title = model.Title,
-                    Status = model.Status,
-                    Content = model.Content,
-                    Caption = model.Caption,
-                    ParentId = model.ParentId,
-                    RecordOrder = 0,
-                    PageTemplateId = model.PageTemplateId,
-                    FileTemplateId = model.FileTemplateId,
-                    FriendlyUrl = string.IsNullOrWhiteSpace(model.FriendlyUrl)
-                                      ? model.Title.ToUrlString()
-                                      : model.FriendlyUrl.ToUrlString()
-                };
+            {
+                Title = model.Title,
+                Status = model.Status,
+                Content = model.Content,
+                Caption = model.Caption,
+                ParentId = model.ParentId,
+                RecordOrder = 0,
+                PageTemplateId = model.PageTemplateId,
+                FileTemplateId = model.FileTemplateId,
+                FriendlyUrl = string.IsNullOrWhiteSpace(model.FriendlyUrl)
+                                  ? model.Title.ToUrlString()
+                                  : model.FriendlyUrl.ToUrlString()
+            };
 
             //Set content & caption base on status
             if (model.Status == (int)PageEnums.PageStatusEnums.Draft)
@@ -405,11 +382,62 @@ namespace PX.Business.Services.Pages
                 _clientMenuServices.SavePageToClientMenu(page);
             }
             return response.SetMessage(response.Success ?
-                _localizedResourceServices.T("AdminModule:::Pages:::Messages:::Create page successfully")
-                : _localizedResourceServices.T("AdminModule:::Pages:::Messages:::Create page failure. Please try again later."));
+                _localizedResourceServices.T("AdminModule:::Pages:::Messages:::CreateSuccessfully:::Create page successfully.")
+                : _localizedResourceServices.T("AdminModule:::Pages:::Messages:::CreateFailure:::Create page failed. Please try again later."));
         }
 
         #endregion
+
+        /// <summary>
+        /// Render page content by friendly url
+        /// </summary>
+        /// <param name="url"></param>
+        /// <returns></returns>
+        public PageRenderModel RenderContent(string url)
+        {
+            var page = GetPage(url);
+            if (page != null)
+            {
+                var model = new PageRenderModel(page);
+                if (model.IsFileTemplate) return model;
+                using (var templateService = new TemplateService())
+                {
+                    var template = _pageTemplateServices.RenderPageTemplate(page.PageTemplateId, model);
+                    if(template.IndexOf(DefaultConstants.RenderBody, StringComparison.Ordinal) > -1)
+                    {
+                        template = template.Replace(DefaultConstants.RenderBody, "@Raw(Model.Content)");
+                    }
+                    template = templateService.Parse(template, model, null, page.Title);
+
+                    model.Content = _curlyBracketServices.Render(template);
+                    return model;
+                }
+            }
+            return null;
+        }
+
+        #region Select List
+
+        /// <summary>
+        /// Get all tags of page
+        /// </summary>
+        /// <param name="pageId"></param>
+        /// <returns></returns>
+        public IEnumerable<SelectListItem> GetPageTags(int? pageId = null)
+        {
+            var pageTagIds = new List<int>();
+            var page = GetById(pageId);
+            if (page != null)
+            {
+                pageTagIds = page.PageTags.Select(t => t.TagId).ToList();
+            }
+            return TagRepository.GetAll().Select(t => new SelectListItem
+            {
+                Text = t.Name,
+                Value = SqlFunctions.StringConvert((double)t.Id).Trim(),
+                Selected = pageTagIds.Contains(t.Id)
+            });
+        }
 
         /// <summary>
         /// Get possible parent menu
@@ -461,11 +489,11 @@ namespace PX.Business.Services.Pages
             var order = 0;
             var relativePages = Fetch(p => (!pageId.HasValue || p.Id != pageId) && (parentId.HasValue ? p.ParentId == parentId : p.ParentId == null))
                 .OrderBy(p => p.RecordOrder).Select(p => new
-                    {
-                        p.Title,
-                        p.Id,
-                        p.RecordOrder
-                    }).ToList();
+                {
+                    p.Title,
+                    p.Id,
+                    p.RecordOrder
+                }).ToList();
             var page = GetById(pageId);
             if (page != null)
             {
@@ -492,11 +520,11 @@ namespace PX.Business.Services.Pages
             }
             var selectPageId = relativePageId;
             return relativePages.Select(p => new SelectListItem
-                  {
-                      Text = p.Title,
-                      Value = p.Id.ToString(CultureInfo.InvariantCulture),
-                      Selected = p.Id == selectPageId
-                  });
+            {
+                Text = p.Title,
+                Value = p.Id.ToString(CultureInfo.InvariantCulture),
+                Selected = p.Id == selectPageId
+            });
         }
 
         /// <summary>
@@ -509,10 +537,35 @@ namespace PX.Business.Services.Pages
         {
             return Fetch(p => (!pageId.HasValue || p.Id != pageId) && (parentId.HasValue ? p.ParentId == parentId : p.ParentId == null))
                 .OrderBy(p => p.RecordOrder).Select(p => new SelectListItem
+                {
+                    Text = p.Title,
+                    Value = SqlFunctions.StringConvert((double)p.Id).Trim()
+                });
+        }
+        #endregion
+
+        /// <summary>
+        /// Get page by friendly url
+        /// </summary>
+        /// <param name="friendlyUrl"></param>
+        /// <returns></returns>
+        public Page GetPage(string friendlyUrl)
+        {
+            //Get Home Page
+            if (string.IsNullOrEmpty(friendlyUrl))
             {
-                Text = p.Title,
-                Value = SqlFunctions.StringConvert((double)p.Id).Trim()
-            });
+                return GetHomePage();
+            }
+            return GetAll().FirstOrDefault(p => p.FriendlyUrl.Equals(friendlyUrl, StringComparison.InvariantCultureIgnoreCase));
+        }
+
+        /// <summary>
+        /// Get home page
+        /// </summary>
+        /// <returns></returns>
+        public Page GetHomePage()
+        {
+            return PageRepository.FetchFirst(p => p.IsHomePage);
         }
 
         /// <summary>
@@ -523,43 +576,6 @@ namespace PX.Business.Services.Pages
         public List<Page> GetPages(int? parentId = null)
         {
             return Fetch(p => parentId.HasValue ? p.ParentId == parentId : !p.ParentId.HasValue).OrderBy(p => p.RecordOrder).ToList();
-        }
-
-        /// <summary>
-        /// Render page content by friendly url
-        /// </summary>
-        /// <param name="url"></param>
-        /// <returns></returns>
-        public PageRenderModel RenderContent(string url)
-        {
-            var page = GetPage(url);
-            if (page != null)
-            {
-                if (page.FileTemplateId != null)
-                {
-                    return new PageRenderModel
-                        {
-                            IsFileTemplate = true,
-                            FileTemplateModel = new TemplateModel
-                                {
-                                    Name = page.FileTemplate.Name,
-                                    Action = page.FileTemplate.Action,
-                                    Controller = page.FileTemplate.Controller,
-                                    Parameters = page.FileTemplate.Parameters
-                                },
-                            Title = page.Title,
-                            Content = page.Content
-                        };
-                }
-                var template = _pageTemplateServices.RenderPageTemplate(page.PageTemplateId);
-                template = template.Replace(DefaultConstants.CurlyBracketRenderBody, page.Content);
-
-                return new PageRenderModel
-                {
-                    Content = _curlyBracketServices.Render(template)
-                };
-            }
-            return null;
         }
 
         /// <summary>
@@ -582,27 +598,6 @@ namespace PX.Business.Services.Pages
         public bool IsFriendlyUrlExisted(int? pageId, string friendlyUrl)
         {
             return Fetch(u => u.FriendlyUrl.Equals(friendlyUrl) && u.Id != pageId).Any();
-        }
-
-        /// <summary>
-        /// Get all tags of page
-        /// </summary>
-        /// <param name="pageId"></param>
-        /// <returns></returns>
-        public IEnumerable<SelectListItem> GetPageTags(int? pageId = null)
-        {
-            var pageTagIds = new List<int>();
-            var page = GetById(pageId);
-            if (page != null)
-            {
-                pageTagIds = page.PageTags.Select(t => t.TagId).ToList();
-            }
-            return TagRepository.GetAll().Select(t => new SelectListItem
-            {
-                Text = t.Name,
-                Value = SqlFunctions.StringConvert((double)t.Id).Trim(),
-                Selected = pageTagIds.Contains(t.Id)
-            });
         }
     }
 }

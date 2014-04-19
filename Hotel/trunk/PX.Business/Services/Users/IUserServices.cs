@@ -28,23 +28,35 @@ namespace PX.Business.Services.Users
 
         #endregion
 
-        ResponseModel ManageUser(GridOperationEnums operation, UserModel model);
-
-        User GetUser(string email);
-
-        User GetActiveUser(string email);
+        #region Grid Search
 
         JqGridSearchOut SearchUsers(JqSearchIn si);
 
-        IEnumerable<SelectListItem> GetStatus();
+        #endregion
 
-        ResponseModel Login(LoginModel model);
+        #region Manage Grid
+
+        ResponseModel ManageUser(GridOperationEnums operation, UserModel model);
+
+        #endregion
+
+        #region Manage
 
         ResponseModel ChangePassword(ChangePasswordModel model);
 
         ResponseModel UploadAvatar(int userId, HttpPostedFileBase avatar);
 
         ResponseModel UpdateUserData(XEditableModel model);
+
+        #endregion
+
+        User GetUser(string email);
+
+        User GetActiveUser(string email);
+
+        IEnumerable<SelectListItem> GetStatus();
+
+        ResponseModel Login(LoginModel model);
 
         bool IsEmailExisted(int? userId, string email);
     }

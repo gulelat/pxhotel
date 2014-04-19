@@ -133,19 +133,19 @@ namespace PX.Business.Models.Pages
             var localizedResourceServices = HostContainer.GetInstance<ILocalizedResourceServices>();
             if (pageServices.IsTitleExisted(Id, Title))
             {
-                yield return new ValidationResult(localizedResourceServices.T("AdminModule:::Pages:::ValidationMessages:::Title is existed."), new[] { "Title" });
+                yield return new ValidationResult(localizedResourceServices.T("AdminModule:::Pages:::ValidationMessages:::ExistingTitle:::Title is existed."), new[] { "Title" });
             }
 
             FriendlyUrl = string.IsNullOrWhiteSpace(FriendlyUrl) ? Title.ToUrlString() : FriendlyUrl.ToUrlString();
             if (pageServices.IsFriendlyUrlExisted(Id, FriendlyUrl))
             {
-                yield return new ValidationResult(localizedResourceServices.T("AdminModule:::Pages:::ValidationMessages:::Friendly Url is existed."), new[] { "FriendlyUrl" });
+                yield return new ValidationResult(localizedResourceServices.T("AdminModule:::Pages:::ValidationMessages:::ExistingFriendlyUrl:::Friendly Url is existed."), new[] { "FriendlyUrl" });
             }
 
             /*Can only choose 1 type of template*/
             if (PageTemplateId.HasValue && FileTemplateId.HasValue)
             {
-                yield return new ValidationResult(localizedResourceServices.T("AdminModule:::Pages:::ValidationMessages:::You can only choose 1 type of template."), new[] { "PageTemplateId", "FileTemplateId" });
+                yield return new ValidationResult(localizedResourceServices.T("AdminModule:::Pages:::ValidationMessages:::MultipleTemplate:::You can only choose 1 type of template."), new[] { "PageTemplateId", "FileTemplateId" });
             }
         }
         #endregion

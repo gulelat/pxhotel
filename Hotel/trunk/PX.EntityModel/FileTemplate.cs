@@ -22,7 +22,6 @@ namespace PX.EntityModel
     
         public int Id { get; set; }
         public string Name { get; set; }
-        public string Content { get; set; }
         public string Controller { get; set; }
         public string Action { get; set; }
         public string Parameters { get; set; }

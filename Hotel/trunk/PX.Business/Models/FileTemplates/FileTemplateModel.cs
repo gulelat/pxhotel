@@ -41,7 +41,7 @@ namespace PX.Business.Models.FileTemplates
             var localizedResourceServices = HostContainer.GetInstance<ILocalizedResourceServices>();
             if (fileTemplateServices.GetAll().Any(u => u.Name.Equals(Name) && u.Id != Id))
             {
-                yield return new ValidationResult(localizedResourceServices.T("AdminModule:::FileTemplates:::ValidationMessage:::Name is existed."), new[] { "Name" });
+                yield return new ValidationResult(localizedResourceServices.T("AdminModule:::FileTemplates:::ValidationMessages:::ExistingName:::File template name is existed."), new[] { "Name" });
             }
         }
     }

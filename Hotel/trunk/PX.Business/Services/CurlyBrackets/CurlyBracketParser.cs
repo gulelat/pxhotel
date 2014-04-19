@@ -1,23 +1,27 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using PX.Business.Models.Pages;
 using PX.Business.Mvc.WorkContext;
+using PX.Core.Configurations.Constants;
+using PX.Core.Ultilities;
 
 namespace PX.Business.Services.CurlyBrackets
 {
     public class CurlyBracketParser
     {
         /// <summary>
-        /// Replace curly bracket with razor syntax
+        /// Parse curly bracket properties to razor syntax
         /// </summary>
         /// <returns></returns>
-        public static string Parse(string content)
+        public static string ParseProperties(string content)
         {
             if (string.IsNullOrEmpty(content))
             {
                 return content;
             }
-            content = content.Replace("{RenderBody}", "@RenderBody()");
+
+            var modelProperties = ReflectionUtilities.GetAllPropertyNamesOfType(typeof(PageRenderModel));
 
             var result = new StringBuilder(content);
             var positions = new Stack<int>();
@@ -37,16 +41,30 @@ namespace PX.Business.Services.CurlyBrackets
                             var match = result.ToString(beginPos + 1, i - beginPos - 1);
                             if (!WorkContext.CurlyBrackets.Any(c => c.CurlyBracket.Equals(match)))
                             {
-                                var replacement = string.Format("Model.{0}", match);
-                                result.Remove(beginPos, i - beginPos + 1);
-                                result.Insert(beginPos, replacement);
-                                i = beginPos + replacement.Length - 1;
+                                if (modelProperties.Contains(match))
+                                {
+                                    var replacement = string.Format("@Model.{0}", match);
+                                    result.Remove(beginPos, i - beginPos + 1);
+                                    result.Insert(beginPos, replacement);
+                                    i = beginPos + replacement.Length - 1;
+                                }
                             }
                         }
                     }
                 }
             }
             return result.ToString();
+        }
+
+        /// <summary>
+        /// Parse {RenderBody} curly bracket to razor syntax
+        /// </summary>
+        /// <param name="content"></param>
+        /// <returns></returns>
+        public static string ParseRenderBody(string content)
+        {
+            content = content.Replace(DefaultConstants.CurlyBracketRenderBody, DefaultConstants.RenderBody);
+            return content;
         }
     }
 }

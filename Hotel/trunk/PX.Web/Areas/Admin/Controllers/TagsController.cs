@@ -12,7 +12,7 @@ using PX.Core.Framework.Mvc.Models.JqGrid;
 namespace PX.Web.Areas.Admin.Controllers
 {
     [PxAuthorize(Permissions = new[] { PermissionEnums.ManageContent })]
-    public class TagsController : PxController
+    public class TagsController : AdminController
     {
         private readonly ITagServices _tagServices;
         public TagsController(ITagServices tagServices)

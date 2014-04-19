@@ -32,26 +32,33 @@ namespace PX.Business.Services.FileTemplates
 
         #endregion
 
+        #region Grid Manage
+
         ResponseModel ManageFileTemplate(GridOperationEnums operation, FileTemplateModel model);
 
-        string GetFileTemplateMaster(string controller, string action);
+        #endregion
 
+        #region Grid Search
         JqGridSearchOut SearchFileTemplates(JqSearchIn si);
+
+        #endregion
 
         IEnumerable<SelectListItem> GetPossibleParents(int? id = null);
 
-        List<FileTemplate> GetFileTemplates(int? parentId = null);
-
         IEnumerable<SelectListItem> GetFileTemplateSelectList(int? id = null);
+
+        string GetFileTemplateMaster(string controller, string action);
+
+        List<FileTemplate> GetFileTemplates(int? parentId = null);
 
         FileTemplateManageModel GetTemplateManageModel(int? id = null);
 
         ResponseModel SaveFileTemplate(FileTemplateManageModel model);
 
+        FileTemplate FindTemplate(string filePath);
+
         bool IsFileTemplateNameExisted(int? fileTemplateId, string name);
 
         bool IsFileTemplateExisted(string filePath);
-
-        FileTemplate FindTemplate(string filePath);
     }
 }

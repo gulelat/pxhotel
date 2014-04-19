@@ -25,31 +25,43 @@ namespace PX.Business.Services.Pages
 
         #endregion
 
-        Page GetPage(string friendlyUrl);
-
-        ResponseModel ManagePage(GridOperationEnums operation, PageModel model);
-
+        #region Grid Search
         JqGridSearchOut SearchPages(JqSearchIn si);
 
-        IEnumerable<SelectListItem> GetPossibleParents(int? id = null);
+        #endregion
 
-        IEnumerable<SelectListItem> GetStatus();
+        #region Manage Grid
+        ResponseModel ManagePage(GridOperationEnums operation, PageModel model);
 
-        ResponseModel ChangeHomePage(int id);
+        #endregion
 
-        List<Page> GetPages(int? parentId = null);
-
-        PageRenderModel RenderContent(string url);
+        #region Manage
 
         PageManageModel GetPageManageModel(int? id = null);
 
         ResponseModel SavePageManageModel(PageManageModel model);
+        #endregion
+
+        PageRenderModel RenderContent(string url);
+
+        #region Select List
+        IEnumerable<SelectListItem> GetPossibleParents(int? id = null);
+
+        IEnumerable<SelectListItem> GetStatus();
 
         IEnumerable<SelectListItem> GetRelativePages(int? pageId = null, int? parentId = null);
 
         IEnumerable<SelectListItem> GetRelativePages(out int position, out int relativePageId, int? pageId = null, int? parentId = null);
 
         IEnumerable<SelectListItem> GetPageTags(int? pageId = null);
+
+        #endregion
+
+        Page GetPage(string friendlyUrl);
+
+        ResponseModel ChangeHomePage(int id);
+
+        List<Page> GetPages(int? parentId = null);
 
         bool IsTitleExisted(int? pageId, string title);
 
