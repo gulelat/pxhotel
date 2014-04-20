@@ -285,7 +285,7 @@ namespace PX.Business.Services.ClientMenus
                 clientMenu.IncludeInSiteNavigation = page.IncludeInSiteNavigation;
                 clientMenu.StartPublishingDate = page.StartPublishingDate;
                 clientMenu.EndPublishingDate = page.EndPublishingDate;
-                if(page.RecordOrder != clientMenu.RecordOrder)
+                if(page.RecordOrder * 10 != clientMenu.RecordOrder)
                 {
                     var relativePages = PageRepository.Fetch(p => (page.ParentId.HasValue ? p.ParentId == page.ParentId : !p.ParentId.HasValue) && p.Id != page.Id);
                     foreach (var relativePage in relativePages)

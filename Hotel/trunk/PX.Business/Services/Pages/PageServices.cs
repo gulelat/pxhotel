@@ -133,20 +133,10 @@ namespace PX.Business.Services.Pages
                     if (Update(homePage).Success)
                     {
                         response = Update(page);
-                        if (response.Success)
-                        {
-                            response.Message =
-                                string.Format(
-                                    _localizedResourceServices.T("AdminModule:::Pages:::Messages:::ChangeHomePageSuccessfully:::Change page {0} to home page successfully."),
-                                    page.Title);
-                        }
-                        else
-                        {
-                            response.Message =
-                                string.Format(
-                                    _localizedResourceServices.T("AdminModule:::Pages:::Messages:::ChangeHomePageFailure:::Change page {0} to home page failed. Please try again later."),
-                                    page.Title);
-                        }
+                        response.Message = string.Format(response.Success ?
+                            _localizedResourceServices.T("AdminModule:::Pages:::Messages:::ChangeHomePageSuccessfully:::Change page {0} to home page successfully.")
+                            : _localizedResourceServices.T("AdminModule:::Pages:::Messages:::ChangeHomePageFailure:::Change page {0} to home page failed. Please try again later.")
+                            , page.Title);
                     }
                 }
                 else
@@ -286,29 +276,39 @@ namespace PX.Business.Services.Pages
                 relativePage = GetById(model.RelativePageId);
                 if (relativePage != null)
                 {
+                    /*
+                     * If position is not changed, donot need to update order of relative pages
+                     * If position is changed, check if position is before or after and update the record other of all relative pages
+                     */
+                    var relativePages = Fetch(p => p.Id != page.Id && relativePage.ParentId.HasValue ? p.ParentId == relativePage.ParentId : p.ParentId == null)
+                        .OrderBy(p => p.RecordOrder);
                     if (model.Position == (int)PageEnums.PositionEnums.Before)
                     {
-                        //if(page.RecordOrder > relativePage.RecordOrder)
-                        //{
+                        if (page.RecordOrder > relativePage.RecordOrder || relativePages.Any(p => p.RecordOrder > page.RecordOrder && p.RecordOrder < relativePage.RecordOrder))
+                        {
                             page.RecordOrder = relativePage.RecordOrder;
+                            //Set this for keep relative page update in static db context
+                            relativePage.RecordOrder = relativePage.RecordOrder + 1;
                             var query =
                                 string.Format(
                                     "Update Pages set RecordOrder = RecordOrder + 1 Where {0} And RecordOrder >= {1}",
                                     relativePage.ParentId.HasValue ? string.Format(" ParentId = {0}", relativePage.ParentId) : "ParentId Is NULL", relativePage.RecordOrder);
                             PageRepository.ExcuteSql(query);
-                        //}
+                        }
                     }
                     else
                     {
-                        //if(page.RecordOrder < relativePage.RecordOrder)
-                        //{
+                        if (page.RecordOrder < relativePage.RecordOrder || relativePages.Any(p => p.RecordOrder < page.RecordOrder && p.RecordOrder > relativePage.RecordOrder))
+                        {
                             page.RecordOrder = relativePage.RecordOrder + 1;
                             var query =
                                 string.Format(
                                     "Update Pages set RecordOrder = RecordOrder + 1 Where {0} And RecordOrder > {1}",
-                                    relativePage.ParentId.HasValue ? string.Format(" ParentId = {0}", relativePage.ParentId) : "ParentId Is NULL", relativePage.RecordOrder);
+                                    relativePage.ParentId.HasValue
+                                        ? string.Format(" ParentId = {0}", relativePage.ParentId)
+                                        : "ParentId Is NULL", relativePage.RecordOrder);
                             PageRepository.ExcuteSql(query);
-                        //}
+                        }
                     }
                 }
 
@@ -407,7 +407,7 @@ namespace PX.Business.Services.Pages
                 using (var templateService = new TemplateService())
                 {
                     var template = _pageTemplateServices.RenderPageTemplate(page.PageTemplateId, model);
-                    if(template.IndexOf(Configurations.RenderBody, StringComparison.Ordinal) > -1)
+                    if (template.IndexOf(Configurations.RenderBody, StringComparison.Ordinal) > -1)
                     {
                         template = template.Replace(Configurations.RenderBody, "@Raw(Model.Content)");
                     }
@@ -539,12 +539,13 @@ namespace PX.Business.Services.Pages
         /// <returns></returns>
         public IEnumerable<SelectListItem> GetRelativePages(int? pageId = null, int? parentId = null)
         {
-            return Fetch(p => (!pageId.HasValue || p.Id != pageId) && (parentId.HasValue ? p.ParentId == parentId : p.ParentId == null))
+            return Fetch(p => (!pageId.HasValue || p.Id != pageId)
+                              && (parentId.HasValue ? p.ParentId == parentId : p.ParentId == null))
                 .OrderBy(p => p.RecordOrder).Select(p => new SelectListItem
-                {
-                    Text = p.Title,
-                    Value = SqlFunctions.StringConvert((double)p.Id).Trim()
-                });
+                    {
+                        Text = p.Title,
+                        Value = SqlFunctions.StringConvert((double)p.Id).Trim()
+                    });
         }
         #endregion
 
