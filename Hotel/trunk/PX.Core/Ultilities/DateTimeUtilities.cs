@@ -1,5 +1,4 @@
 ﻿using System;
-using PX.Core.Configurations.Constants;
 
 namespace PX.Core.Ultilities
 {
@@ -17,10 +16,9 @@ namespace PX.Core.Ultilities
 
         public static string ToShortDateString(this DateTime? date)
         {
-            var a = date.Value.ToString(DefaultConstants.DateFormat);
             if (date.HasValue)
-                return date.Value.ToString(DefaultConstants.DateFormat);
-            return new DateTime(0).ToString(DefaultConstants.DateFormat);
+                return date.Value.ToString(Configurations.Configurations.DateFormat);
+            return new DateTime(0).ToString(Configurations.Configurations.DateFormat);
         }
     }
 }

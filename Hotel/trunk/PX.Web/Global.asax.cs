@@ -50,12 +50,31 @@ namespace PX.Web
             //Initialize Simple Injector
             SimpleInjectorInitialize();
 
+            //Initialize View Engine
+            InitializeViewEngine();
+
             //Initialize some part of core
             InitializeProcess();
+
+        }
+
+        #region View Engine
+
+        /// <summary>
+        /// Initialize view engine
+        /// </summary>
+        private void InitializeViewEngine()
+        {
+            //Remove All Engine
+            ViewEngines.Engines.Clear();
+            //Add Razor Engine
+            ViewEngines.Engines.Add(new RazorViewEngine());
 
             //ViewEngines.Engines.Add(new ViewEngine());
             HostingEnvironment.RegisterVirtualPathProvider(new MyVirtualPathProvider());
         }
+
+        #endregion
 
         #region Initialize Process
 

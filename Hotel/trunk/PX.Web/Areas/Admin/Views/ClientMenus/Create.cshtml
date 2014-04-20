@@ -1,9 +1,9 @@
-﻿@model PX.Business.Models.Pages.PageManageModel
+﻿@model PX.Business.Models.ClientMenus.ClientMenuManageModel
 
 @{
-    ViewBag.Header = "Page Management";
-    ViewBag.Title = "Page Create";
-    ViewBag.Description = "Create Page";
+    ViewBag.Header = "Client Menu Management";
+    ViewBag.Title = "Client Menu Create";
+    ViewBag.Description = "Create Client Menu";
 }
 
 <div class="page-header">
@@ -18,7 +18,7 @@
 <div class="row">
     <div class="col-xs-12">
         @ShowStatusMessage()
-        @using (Html.BeginForm("Create", "Pages", null, FormMethod.Post, new { @class = "form-horizontal" }))
+        @using (Html.BeginForm("Create", "ClientMenus", null, FormMethod.Post, new { @class = "form-horizontal" }))
         {
             @Html.EditorForModel(Model)
         }

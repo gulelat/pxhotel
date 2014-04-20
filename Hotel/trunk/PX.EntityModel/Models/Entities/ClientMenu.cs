@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using PX.Core.Framework.Mvc.Attributes;
 
 namespace PX.EntityModel
@@ -8,6 +9,25 @@ namespace PX.EntityModel
     [Table(Name = "ClientMenus")]
     public partial class ClientMenu
     {
+        public ClientMenu(Page page)
+        {
+            Name = page.Title;
+            PageId = page.Id;
+            Url = page.FriendlyUrl;
+            if (page.ParentId.HasValue && page.Page1.ClientMenus.Any())
+            {
+                ParentId = page.Page1.ClientMenus.First().Id;
+            }
+            else
+            {
+                ParentId = null;                
+            }
+            IncludeInSiteNavigation = page.IncludeInSiteNavigation;
+            StartPublishingDate = page.StartPublishingDate;
+            EndPublishingDate = page.EndPublishingDate;
+            RecordOrder = page.RecordOrder * 10;
+            RecordActive = page.RecordActive;
+        }
     }
 
     public class ClientMenuMetaData
@@ -24,6 +44,12 @@ namespace PX.EntityModel
         public int? ParentId { get; set; }
 
         public string Hierarchy { get; set; }
+
+        public bool IncludeInSiteNavigation { get; set; }
+
+        public DateTime? StartPublishingDate { get; set; }
+
+        public DateTime? EndPublishingDate { get; set; }
         
         public int? RecordOrder { get; set; }
 

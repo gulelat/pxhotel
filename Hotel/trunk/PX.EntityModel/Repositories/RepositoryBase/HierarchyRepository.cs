@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using PX.Core.Configurations.Constants;
+using PX.Core.Configurations;
 using PX.Core.Framework.Mvc.Models;
 using PX.EntityModel.Repositories.RepositoryBase.Extensions;
 using PX.EntityModel.Repositories.RepositoryBase.Models;
@@ -114,7 +114,7 @@ namespace PX.EntityModel.Repositories.RepositoryBase
                 return null;
             }
             var prefix = entity.GetHierarchy();
-            return GetAll().Where(string.Format("{0} LIKE '{1}%'", HierarchyPropertyName, prefix));
+            return GetAll().Where(string.Format("{0}.StartsWith(\"{1}\")", HierarchyPropertyName, prefix));
         }
 
         /// <summary>
@@ -124,7 +124,7 @@ namespace PX.EntityModel.Repositories.RepositoryBase
         /// <param name="levelPrefix">the prefix level</param>
         /// <param name="needReorder"> </param>
         /// <returns></returns>
-        public static List<SelectListItem> BuildSelectList(List<HierarchyModel> data, string levelPrefix = DefaultConstants.HierarchyLevelPrefix, bool needReorder = true)
+        public static List<SelectListItem> BuildSelectList(List<HierarchyModel> data, bool needReorder = true, string levelPrefix = Configurations.HierarchyLevelPrefix)
         {
             if (needReorder)
             {

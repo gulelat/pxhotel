@@ -1,7 +1,6 @@
 ﻿using System.Web.Mvc;
 using Newtonsoft.Json;
 using PX.Business.Models.ClientMenus;
-using PX.Business.Mvc.Attributes;
 using PX.Business.Mvc.Attributes.Authorize;
 using PX.Business.Mvc.Controllers;
 using PX.Business.Services.ClientMenus;
@@ -21,6 +20,7 @@ namespace PX.Web.Areas.Admin.Controllers
             _clientMenuServices = clientMenuServices;
         }
 
+        #region Listing
         public ActionResult Index()
         {
             return View();
@@ -39,6 +39,9 @@ namespace PX.Web.Areas.Admin.Controllers
         }
         #endregion
 
+        #endregion
+
+        #region Grid Manage
         [HttpPost]
         [HandleJsonException]
         public JsonResult Manage(ClientMenuModel model, GridManagingModel manageModel)
@@ -53,6 +56,81 @@ namespace PX.Web.Areas.Admin.Controllers
                 Success = false,
                 Message = GetFirstValidationResults(ModelState).Message
             });
+        }
+
+        #endregion
+
+        #region Create
+
+        public ActionResult Create()
+        {
+            var model = _clientMenuServices.GetClientMenuManageModel();
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateInput(false)]
+        public ActionResult Create(ClientMenuManageModel model, SubmitTypeEnums submit)
+        {
+            if (ModelState.IsValid)
+            {
+                var response = _clientMenuServices.SaveClientMenuManageModel(model);
+                if (response.Success)
+                {
+                    var templateId = (int)response.Data;
+                    SetSuccessMessage(response.Message);
+                    switch (submit)
+                    {
+                        case SubmitTypeEnums.Save:
+                            return RedirectToAction("Index");
+                        default:
+                            return RedirectToAction("Edit", new { id = templateId });
+                    }
+                }
+                SetErrorMessage(response.Message);
+            }
+            model.Parents = _clientMenuServices.GetPossibleParents();
+            return View(model);
+        }
+        #endregion
+
+        #region Edit
+        public ActionResult Edit(int id)
+        {
+            var model = _clientMenuServices.GetClientMenuManageModel(id);
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateInput(false)]
+        public ActionResult Edit(ClientMenuManageModel model, SubmitTypeEnums submit)
+        {
+            if (ModelState.IsValid)
+            {
+                var response = _clientMenuServices.SaveClientMenuManageModel(model);
+                if (response.Success)
+                {
+                    var templateId = (int)response.Data;
+                    SetSuccessMessage(response.Message);
+                    switch (submit)
+                    {
+                        case SubmitTypeEnums.Save:
+                            return RedirectToAction("Index");
+                        default:
+                            return RedirectToAction("Edit", new { id = templateId });
+                    }
+                }
+                SetErrorMessage(response.Message);
+            }
+            model.Parents = _clientMenuServices.GetPossibleParents();
+            return View(model);
+        }
+
+        #endregion
+
+        public JsonResult GetRelativeMenus(int? id, int? parentId)
+        {
+            return Json(_clientMenuServices.GetRelativeMenus(id, parentId));
         }
     }
 }

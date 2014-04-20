@@ -1,19 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Threading;
 using System.Web;
 using System.Web.Mvc;
 using PX.Business.Models.Medias;
 using PX.Business.Models.Settings.SettingTypes;
-using PX.Business.Mvc.Attributes;
 using PX.Business.Mvc.Attributes.Authorize;
 using PX.Business.Mvc.Controllers;
 using PX.Business.Services.Localizes;
 using PX.Business.Services.Media;
 using PX.Business.Services.Settings;
 using PX.Core.Configurations;
-using PX.Core.Configurations.Constants;
 using PX.Core.Framework.Enums;
 using PX.Core.Framework.Mvc.Models;
 using PX.Core.Ultilities.Files;
@@ -53,9 +49,9 @@ namespace PX.Web.Areas.Admin.Controllers
                 if (upload != null && upload.ContentLength > 0)
                 {
                     var extension = Path.GetExtension(upload.FileName);
-                    if (extension != null && DefaultConstants.ImageExtensions.Contains(extension.ToLower()))
+                    if (extension != null && _mediaServices.IsImage(upload.FileName))
                     {
-                        var vFileName = DateTime.Now.ToString("yyyyMMdd-HHMMssff") +
+                        var vFileName = DateTime.Now.ToString(Configurations.DateTimeFormat) +
                                         extension.ToLower();
                         var vFolderPath = Server.MapPath(Configurations.UploadFolder);
 
@@ -68,17 +64,17 @@ namespace PX.Web.Areas.Admin.Controllers
                         upload.SaveAs(vFilePath);
 
                         vImagePath = Url.Content(Configurations.UploadFolder + vFileName);
-                        vMessage = "Image was saved correctly";
+                        vMessage = _localizedResourceServices.T("AdminModule:::Media:::Messages:::SaveImageSuccessfully:::Image was saved successfully.");
                     }
                     else
                     {
-                        vMessage = "Wrong input file type";
+                        vMessage = _localizedResourceServices.T("AdminModule:::Media:::Messages:::WrongFileType:::Wrong input file type.");
                     }
                 }
             }
             catch
             {
-                vMessage = "There was an issue uploading";
+                vMessage = _localizedResourceServices.T("AdminModule:::Media:::Messages:::UploadFailure:::There was an issue while uploading. Please try again.");
             }
             var vOutput = @"<html><body><script>window.parent.CKEDITOR.tools.callFunction(" + CKEditorFuncNum + ", \"" + vImagePath + "\", \"" + vMessage + "\");</script></body></html>";
 
@@ -311,7 +307,7 @@ namespace PX.Web.Areas.Admin.Controllers
             filepath = Server.MapPath(filepath);
             if (!System.IO.File.Exists(filepath))
             {
-                filepath = Server.MapPath("~/Images/no-image.png");
+                filepath = Server.MapPath(Configurations.NoImage);
             }
             return new ImageResult(filepath, w, h);
         }

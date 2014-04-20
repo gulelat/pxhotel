@@ -2,9 +2,9 @@
 using System.Linq;
 using System.Web.Mvc;
 using PX.Business.Mvc.Attributes.ActionFilters;
+using PX.Core.Configurations;
 using PX.Core.Framework.Mvc.Environments;
 using PX.Business.Services.Localizes;
-using PX.Core.Configurations.Constants;
 using PX.Core.Framework.Mvc.Models;
 
 namespace PX.Business.Mvc.Controllers
@@ -27,7 +27,7 @@ namespace PX.Business.Mvc.Controllers
         protected override ITempDataProvider CreateTempDataProvider()
         {
             ITempDataProvider iTempDataProvider = base.CreateTempDataProvider();
-            HttpContext.Items[DefaultConstants.PxHotelCurrentController] = this;
+            HttpContext.Items[Configurations.PxHotelCurrentController] = this;
             return iTempDataProvider;
         }
         #endregion
@@ -60,15 +60,15 @@ namespace PX.Business.Mvc.Controllers
         #region Message
         public void SetErrorMessage(string message)
         {
-            TempData[DefaultConstants.ErrorMessage] = message;
+            TempData[Configurations.ErrorMessage] = message;
         }
         public void SetSuccessMessage(string message)
         {
-            TempData[DefaultConstants.SuccessMessage] = message;
+            TempData[Configurations.SuccessMessage] = message;
         }
         public void SetWarningMessage(string message)
         {
-            TempData[DefaultConstants.WarningMessage] = message;
+            TempData[Configurations.WarningMessage] = message;
         }
         #endregion
     }

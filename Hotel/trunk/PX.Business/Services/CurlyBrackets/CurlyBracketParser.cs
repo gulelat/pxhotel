@@ -3,7 +3,7 @@ using System.Linq;
 using System.Text;
 using PX.Business.Models.Pages;
 using PX.Business.Mvc.WorkContext;
-using PX.Core.Configurations.Constants;
+using PX.Core.Configurations;
 using PX.Core.Ultilities;
 
 namespace PX.Business.Services.CurlyBrackets
@@ -63,7 +63,7 @@ namespace PX.Business.Services.CurlyBrackets
         /// <returns></returns>
         public static string ParseRenderBody(string content)
         {
-            content = content.Replace(DefaultConstants.CurlyBracketRenderBody, DefaultConstants.RenderBody);
+            content = content.Replace(Configurations.CurlyBracketRenderBody, Configurations.RenderBody);
             return content;
         }
     }

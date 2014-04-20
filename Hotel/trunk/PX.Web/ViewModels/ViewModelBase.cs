@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Web;
 using System.Web.Mvc;
-using PX.Core.Configurations.Constants;
+using PX.Core.Configurations;
 using PX.Core.Framework.Enums;
 
 namespace PX.Web.ViewModels
@@ -15,7 +15,7 @@ namespace PX.Web.ViewModels
         /// </summary>
         public ViewModelBase()
         {
-            _currentController = (ControllerBase)HttpContext.Current.Items[DefaultConstants.PxHotelCurrentController];
+            _currentController = (ControllerBase)HttpContext.Current.Items[Configurations.PxHotelCurrentController];
         }
         #endregion
 
@@ -40,14 +40,14 @@ namespace PX.Web.ViewModels
                 if (_currentController == null)
                     return null;
 
-                return (string)_currentController.TempData[DefaultConstants.SuccessMessage];
+                return (string)_currentController.TempData[Configurations.SuccessMessage];
             }
             set
             {
                 if (_currentController == null)
                     return;
 
-                _currentController.TempData[DefaultConstants.SuccessMessage] = value;
+                _currentController.TempData[Configurations.SuccessMessage] = value;
             }
         }
 

@@ -94,11 +94,11 @@ namespace PX.Business.Models.Pages
 
         public DateTime? EndPublishingDate { get; set; }
 
-        public int? ParentId { get; set; }
-
         public List<int> Tags { get; set; }
 
         public IEnumerable<SelectListItem> TagList { get; set; }
+
+        public int? ParentId { get; set; }
 
         public IEnumerable<SelectListItem> Parents { get; set; }
 
@@ -129,15 +129,14 @@ namespace PX.Business.Models.Pages
         /// <returns></returns>
         public IEnumerable<ValidationResult> Validate(ValidationContext context)
         {
-            var pageServices = HostContainer.GetInstance<IPageServices>();
             var localizedResourceServices = HostContainer.GetInstance<ILocalizedResourceServices>();
-            if (pageServices.IsTitleExisted(Id, Title))
+            if (_pageServices.IsTitleExisted(Id, Title))
             {
                 yield return new ValidationResult(localizedResourceServices.T("AdminModule:::Pages:::ValidationMessages:::ExistingTitle:::Title is existed."), new[] { "Title" });
             }
 
             FriendlyUrl = string.IsNullOrWhiteSpace(FriendlyUrl) ? Title.ToUrlString() : FriendlyUrl.ToUrlString();
-            if (pageServices.IsFriendlyUrlExisted(Id, FriendlyUrl))
+            if (_pageServices.IsFriendlyUrlExisted(Id, FriendlyUrl))
             {
                 yield return new ValidationResult(localizedResourceServices.T("AdminModule:::Pages:::ValidationMessages:::ExistingFriendlyUrl:::Friendly Url is existed."), new[] { "FriendlyUrl" });
             }

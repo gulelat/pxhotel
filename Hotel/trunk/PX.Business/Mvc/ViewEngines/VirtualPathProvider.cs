@@ -15,7 +15,8 @@ namespace PX.Business.Mvc.ViewEngines
 {
     public class MyVirtualPathProvider : VirtualPathProvider
     {
-        public const string DBTemplate = "DBTemplate";
+        private const string DBTemplate = "DBTemplate";
+        private const string DateTimeFormat = "hhmmss-ddMMyyyy";
         private readonly IPageTemplateServices _pageTemplateServices;
         public MyVirtualPathProvider()
         {
@@ -62,8 +63,8 @@ namespace PX.Business.Mvc.ViewEngines
             {
                 var template = FindTemplate(virtualPath);
                 return template.Updated.HasValue
-                           ? template.Updated.Value.ToString("hhmmss-ddMMyyyy")
-                           : template.Created.ToString("hhmmss-ddMMyyyy");
+                           ? template.Updated.Value.ToString(DateTimeFormat)
+                           : template.Created.ToString(DateTimeFormat);
             }
             return base.GetFileHash(virtualPath, virtualPathDependencies);
         }

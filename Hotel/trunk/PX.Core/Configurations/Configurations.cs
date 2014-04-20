@@ -1,224 +1,46 @@
-﻿using System;
-using System.Configuration;
-using PX.Core.Configurations.Constants;
-
-namespace PX.Core.Configurations
+﻿namespace PX.Core.Configurations
 {
-
-    public static class Configurations
+    public class Configurations
     {
-        #region News Configurations
-        /// <summary>
-        /// Gets the page size of News.
-        /// </summary>
-        /// <remarks></remarks>
-        public static int PageSizes
-        {
-            get { return Convert.ToInt32(ConfigurationManager.AppSettings["PageSizes"]); }
-        }
+        //Hierarchy
+        public const string HierarchyLevelPrefix = "---";
 
-        /// <summary>
-        /// Gets the default news image.
-        /// </summary>
-        /// <remarks></remarks>
-        public static string DefaultNewsImage
-        {
-            get { return ConfigurationManager.AppSettings["DefaultNewsImage"]; }
-        }
+        #region Razor Constants
 
-        /// <summary>
-        /// Gets the default news save folder.
-        /// </summary>
-        /// <remarks></remarks>
-        public static string DefaultNewsFolder
-        {
-            get { return DefaultConstants.DefaultNewsFolder; }
-        }
+        public const string RenderBody = "@RenderBody()";
 
-        /// <summary>
-        /// Gets the default ratio of news thumbnail.
-        /// </summary>
-        /// <remarks></remarks>
-        public static double DefaultNewsRatio
-        {
-            get { return Convert.ToDouble(ConfigurationManager.AppSettings["DefaultNewsRatio"]); }
-        }
-        #endregion
-
-        /// <summary>
-        /// Gets the page cut lenght of description.
-        /// </summary>
-        /// <remarks></remarks>
-        public static int DescriptionLength
-        {
-            get { return Convert.ToInt32(ConfigurationManager.AppSettings["DescriptionLength"]); }
-        }
-
-        /// <summary>
-        /// Gets the page cut height of thumbnail.
-        /// </summary>
-        /// <remarks></remarks>
-        public static int ThumbnailHeight
-        {
-            get { return Convert.ToInt32(ConfigurationManager.AppSettings["ThumbnailHeight"]); }
-        }
-
-        #region Mail Configurations
-        /// <summary>
-        /// The path to the mail from.
-        /// </summary>
-        public static string MailFrom
-        {
-            get { return ConfigurationManager.AppSettings["MailFrom"]; }
-        }
-
-        /// <summary>
-        /// The path to the mail to.
-        /// </summary>
-        public static string MailTo
-        {
-            get { return ConfigurationManager.AppSettings["MailTo"]; }
-        }
+        public const string CurlyBracketRenderBody = "{RenderBody}";
 
         #endregion
 
-        #region Common Configurations
-        /// <summary>
-        /// The path to the site's login form.
-        /// </summary>
-        public static string LoginPagePath
-        {
-            get { return ConfigurationManager.AppSettings["LoginPagePath"]; }
-        }
+        public const string DefaultSystemAccount = "system";
 
-        /// <summary>
-        /// The folder to save upload image.
-        /// </summary>
-        public static string UploadFolder
-        {
-            get { return DefaultConstants.UploadFolder; }
-        }
+        #region Media
 
-        /// <summary>
-        /// The temp folder to save image.
-        /// </summary>
-        public static string TempFolder
-        {
-            get { return DefaultConstants.TempFolder; }
-        }
+        public const string NoImage = "~/Images/no-image.png";
 
-        /// <summary>
-        /// The path to the admin site's login form.
-        /// </summary>
-        public static string AdminLoginPagePath
-        {
-            get { return ConfigurationManager.AppSettings["AdminLoginPagePath"]; }
-        }
+        public const string NoAvatar = "noavatar.png";
 
-        /// <summary>
-        /// The path to the server push camera url.
-        /// </summary>
-        public static string ServerPushUrl
-        {
-            get { return "http://{0}:{1}/video.cgi?user={2}&pwd={3}&"; }
-        }
+        public const string AvatarFolder = "/Images/uploads/Avatars/";
 
-        /// <summary>
-        /// The path to the snap shot camera url.
-        /// </summary>
-        public static string SnapShotUrl
-        {
-            get { return "http://{0}:{1}/snapshot.cgi?user={2}&pwd={3}&"; }
-        }
+        public const string UploadFolder = "~/Images/uploads/";
 
-        /// <summary>
-        /// Gets the page size of reference News.
-        /// </summary>
-        /// <remarks></remarks>
-        public static int ReferenceSizes
-        {
-            get { return Convert.ToInt32(ConfigurationManager.AppSettings["ReferenceSizes"]); }
-        }
         #endregion
 
-        #region Admin Configurations
-        /// <summary>
-        /// Gets the page size of admin list.
-        /// </summary>
-        /// <remarks></remarks>
-        public static int AdminPageSizes
-        {
-            get { return 10; }
-        }
+        #region Data
+
+        public const string DateTimeFormat = "hhmmss-ddMMyyyy";
+
+        public const string DateFormat = "dd/MM/yyyy";
+
         #endregion
 
-        #region User Configurations
+        #region Controller
+        public const string PxHotelCurrentController = "PxHotelCurrentController";
+        public const string ErrorMessage = "ErrorMessage";
+        public const string SuccessMessage = "SuccessMessage";
+        public const string WarningMessage = "WarningMessage";
 
-        /// <summary>
-        /// Gets the default user image.
-        /// </summary>
-        /// <remarks></remarks>
-        public static string DefaultAvatar
-        {
-            get { return DefaultConstants.NoAvatar; }
-        }
-
-        /// <summary>
-        /// Gets the default user save folder.
-        /// </summary>
-        /// <remarks></remarks>
-        public static string AvatarFolder
-        {
-            get { return DefaultConstants.AvatarFolder; }
-        }
-
-        /// <summary>
-        /// Gets the default ratio of user avatar.
-        /// </summary>
-        /// <remarks></remarks>
-        public static double DefaultUserRatio
-        {
-            get { return Convert.ToDouble(ConfigurationManager.AppSettings["DefaultUserRatio"]); }
-        }
-
-        /// <summary>
-        /// Gets the timeout viewing camera in minutes.
-        /// </summary>
-        /// <remarks></remarks>
-        public static double ViewCameraTimeOut
-        {
-            get { return Convert.ToInt32(ConfigurationManager.AppSettings["ViewCameraTimeOut"]) * 60 * 1000; }
-        }
-
-        /// <summary>
-        /// Gets the timeout viewing camera in second.
-        /// </summary>
-        /// <remarks></remarks>
-        public static double HearBeatInterval
-        {
-            get { return Convert.ToInt32(ConfigurationManager.AppSettings["HearBeatInterval"]) * 1000; }
-        }
         #endregion
-
-        #region Account Configurations
-        /// <summary>
-        /// Gets the price per month.
-        /// </summary>
-        /// <remarks></remarks>
-        public static int PricePerMonth
-        {
-            get { return Convert.ToInt32(ConfigurationManager.AppSettings["PricePerMonth"]); }
-        }
-
-        /// <summary>
-        /// Gets the date starting count.
-        /// </summary>
-        /// <remarks></remarks>
-        public static int DayCount
-        {
-            get { return Convert.ToInt32(ConfigurationManager.AppSettings["DayCount"]); }
-        }
-        #endregion
-        
     }
 }

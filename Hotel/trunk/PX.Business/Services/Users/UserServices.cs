@@ -8,6 +8,7 @@ using System.Web.Mvc;
 using System.Web.Security;
 using PX.Business.Models.Users;
 using PX.Business.Models.Users.Logins;
+using PX.Core.Configurations;
 using PX.Core.Framework.Mvc.Environments;
 using PX.Business.Mvc.WorkContext;
 using PX.Business.Services.Localizes;
@@ -20,7 +21,6 @@ using PX.EntityModel;
 using AutoMapper;
 using PX.EntityModel.Repositories;
 using PX.EntityModel.Repositories.RepositoryBase.Extensions;
-using Configurations = PX.Core.Configurations.Configurations;
 
 namespace PX.Business.Services.Users
 {
@@ -251,11 +251,10 @@ namespace PX.Business.Services.Users
                         Message = _localizedResourceServices.T("AdminModule:::Users:::Messsages:::ObjectNotFounded:::User is not founded.")
                     };
             }
-            var avatarUploadFolder = Configurations.AvatarFolder;
             var extension = avatar.FileName.GetExtension();
             var fileName = user.Id.GenerateAvatarFileName(extension);
-            var path = Path.Combine(HttpContext.Current.Server.MapPath(avatarUploadFolder), fileName);
-            var returnPath = string.Format("{0}{1}", avatarUploadFolder, fileName);
+            var path = Path.Combine(HttpContext.Current.Server.MapPath(Configurations.AvatarFolder), fileName);
+            var returnPath = string.Format("{0}{1}", Configurations.AvatarFolder, fileName);
             user.AvatarFileName = fileName;
             var response = Update(user);
 

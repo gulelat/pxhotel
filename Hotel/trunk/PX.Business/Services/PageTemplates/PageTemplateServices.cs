@@ -7,9 +7,9 @@ using AutoMapper;
 using PX.Business.Models.PageTemplates;
 using PX.Business.Models.Pages;
 using PX.Business.Services.CurlyBrackets;
+using PX.Core.Configurations;
 using PX.Core.Framework.Mvc.Environments;
 using PX.Business.Services.Localizes;
-using PX.Core.Configurations.Constants;
 using PX.Core.Framework.Enums;
 using PX.Core.Framework.Mvc.Models;
 using PX.Core.Framework.Mvc.Models.JqGrid;
@@ -25,6 +25,7 @@ namespace PX.Business.Services.PageTemplates
     public class PageTemplateServices : IPageTemplateServices
     {
         public const string DBTemplate = "DBTemplate";
+        private const string DefaultTemplateName = "DefaultMasterTemplateWithRenderContentOnly";
         private readonly ILocalizedResourceServices _localizedResourceServices;
         public PageTemplateServices()
         {
@@ -47,6 +48,10 @@ namespace PX.Business.Services.PageTemplates
         public IQueryable<PageTemplate> Fetch(Expression<Func<PageTemplate, bool>> expression)
         {
             return PageTemplateRepository.Fetch(expression);
+        }
+        public PageTemplate FetchFirst(Expression<Func<PageTemplate, bool>> expression)
+        {
+            return PageTemplateRepository.FetchFirst(expression);
         }
         public PageTemplate GetById(object id)
         {
@@ -82,6 +87,8 @@ namespace PX.Business.Services.PageTemplates
         }
         #endregion
 
+        #region Grid Search
+
         /// <summary>
         /// search the PageTemplates.
         /// </summary>
@@ -104,8 +111,10 @@ namespace PX.Business.Services.PageTemplates
 
             return si.Search(pageTemplates);
         }
+        
+        #endregion
 
-        #region Manage Page Template
+        #region Grid Manage
 
         /// <summary>
         /// Manage Site Setting
@@ -133,7 +142,7 @@ namespace PX.Business.Services.PageTemplates
                 case GridOperationEnums.Add:
                     pageTemplate = Mapper.Map<PageTemplateModel, PageTemplate>(model);
                     pageTemplate.ParentId = model.ParentName.ToNullableInt();
-                    pageTemplate.Content = DefaultConstants.CurlyBracketRenderBody;
+                    pageTemplate.Content = Configurations.CurlyBracketRenderBody;
                     response = HierarchyInsert(pageTemplate);
                     return response.SetMessage(response.Success ?
                         _localizedResourceServices.T("AdminModule:::PageTemplates:::Messages:::CreateSuccessfully:::Create page template successfully.")
@@ -151,6 +160,9 @@ namespace PX.Business.Services.PageTemplates
                 Message = _localizedResourceServices.T("AdminModule:::PageTemplates:::Messages:::ObjectNotFounded:::Page template is not founded.")
             };
         }
+        #endregion
+
+        #region Manage
 
         /// <summary>
         /// Get page template manage model for edit/create
@@ -188,11 +200,30 @@ namespace PX.Business.Services.PageTemplates
             var pageTemplate = GetById(model.Id);
             if (pageTemplate != null)
             {
+                List<PageTemplate> childTemplates = new List<PageTemplate>();
+                if(pageTemplate.Name.Equals(DefaultTemplateName))
+                {
+                    childTemplates = GetAll().Where(t => !t.Name.Equals(DefaultTemplateName)).ToList();
+                }
+                else if(!pageTemplate.Content.Equals(model.Content) || pageTemplate.ParentId != model.ParentId)
+                {
+                    childTemplates = PageTemplateRepository.GetHierarcies(pageTemplate).ToList();
+                }
+                if(childTemplates.Any())
+                {
+                    foreach (var childTemplate in childTemplates)
+                    {
+                        Update(childTemplate);
+                    }
+                }
+
                 pageTemplate.Name = model.Name;
+                    pageTemplate.Content = model.Content;
+
                 pageTemplate.ParentId = model.ParentId;
-                pageTemplate.Content = model.Content;
 
                 response = HierarchyUpdate(pageTemplate);
+
                 return response.SetMessage(response.Success ?
                     _localizedResourceServices.T("AdminModule:::PageTemplates:::Messages:::UpdateSuccessfully:::Update page template successfully.")
                     : _localizedResourceServices.T("AdminModule:::PageTemplates:::Messages:::UpdateFailure:::Update page template failed. Please try again later."));
@@ -230,7 +261,7 @@ namespace PX.Business.Services.PageTemplates
                 RecordOrder = m.RecordOrder,
                 Selected = parentId.HasValue && parentId.Value == m.Id
             }).ToList();
-            return PageTemplateRepository.BuildSelectList(data, DefaultConstants.HierarchyLevelPrefix, false);
+            return PageTemplateRepository.BuildSelectList(data, false);
         }
 
         /// <summary>
@@ -341,15 +372,27 @@ namespace PX.Business.Services.PageTemplates
             var pageTemplate = GetById(pageTemplateId);
             using (var templateService = new TemplateService())
             {
-                var template = DefaultConstants.RenderBody;
-                var layout = "DefaultMasterTemplateWithRenderContentOnly";
+                /* 
+                 * Get default master template for all content
+                 * This template is used for including some scripts or html for all page contents and file contents
+                */
+                var defaultTemplate = GetDefaultTemplate();
+                var template = defaultTemplate.Content;
+                template = CurlyBracketParser.ParseProperties(template);
+                template = CurlyBracketParser.ParseRenderBody(template);
+
+                var layout = string.Format("{0}-{1}", defaultTemplate.Name, defaultTemplate.Updated.HasValue ? defaultTemplate.Updated.Value.ToString("hhmmss-ddMMyyyy") : defaultTemplate.Created.ToString("hhmmss-ddMMyyyy"));
                 if (Razor.Resolve(layout) == null)
                 {
-                    templateService.Compile(template, null, layout);
+                    templateService.Compile(template, typeof(PageRenderModel), layout);
                 }
-                templateService.Compile(template, null, layout);
+
+                /*
+                 * Loop all the parent template to compile and render layout
+                */
                 if (pageTemplate != null)
                 {
+                    // Using hierarchy to load all parent templates
                     var pageTemplates =
                         PageTemplateRepository.GetAll().Where(t => pageTemplate.Hierarchy.Contains(t.Hierarchy))
                         .OrderBy(t => t.Hierarchy)
@@ -367,15 +410,17 @@ namespace PX.Business.Services.PageTemplates
                             //Convert curly bracket properties to razor syntax
                             template = CurlyBracketParser.ParseProperties(item.Content);
 
+                            //Insert master page for child template and parsing
                             template = InsertMasterPage(template, layout);
                             template = FormatMaster(template);
                             template = templateService.Parse(template, model, null, null);
                             template = ReformatMaster(template);
 
+                            //This used for re-cache the template
                             layout = string.Format("{0}-{1}", item.Name, item.Updated.HasValue ? item.Updated.Value.ToString("hhmmss-ddMMyyyy") : item.Created.ToString("hhmmss-ddMMyyyy"));
 
+                            //Convert {RenderBody} to @RenderBody() for next rendering
                             template = CurlyBracketParser.ParseRenderBody(template);
-
                             if (Razor.Resolve(layout) == null)
                             {
                                 templateService.Compile(template, typeof(PageRenderModel), layout);
@@ -385,6 +430,28 @@ namespace PX.Business.Services.PageTemplates
                 }
                 return template;
             }
+        }
+
+        /// <summary>
+        /// Get default page template
+        /// </summary>
+        /// <returns></returns>
+        private PageTemplate GetDefaultTemplate()
+        {
+            var defaultTemplate = FetchFirst(t => t.Name.Equals(DefaultTemplateName));
+            if (defaultTemplate == null)
+            {
+                defaultTemplate = new PageTemplate
+                {
+                    Name = "DefaultMasterTemplateWithRenderContentOnly",
+                    Content = Configurations.RenderBody,
+                    RecordOrder = 0,
+                    RecordActive = true
+                };
+                HierarchyInsert(defaultTemplate);
+                return defaultTemplate;
+            }
+            return defaultTemplate;
         }
 
         /// <summary>
@@ -398,6 +465,11 @@ namespace PX.Business.Services.PageTemplates
             return "@{ this.Layout = \"" + masterPage + "\";}" + content;
         }
 
+        /// <summary>
+        /// Remove some syntax not valid for child template
+        /// </summary>
+        /// <param name="content"></param>
+        /// <returns></returns>
         private string FormatMaster(string content)
         {
             //Remove render section to render master
@@ -405,6 +477,11 @@ namespace PX.Business.Services.PageTemplates
             return content;
         }
 
+        /// <summary>
+        /// Re-add the syntax for next rendering
+        /// </summary>
+        /// <param name="content"></param>
+        /// <returns></returns>
         private string ReformatMaster(string content)
         {
             //Add render section after render master
