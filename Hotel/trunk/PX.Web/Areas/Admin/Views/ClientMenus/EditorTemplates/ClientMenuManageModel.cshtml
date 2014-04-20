@@ -1,0 +1,115 @@
+﻿@using PX.Core.Framework.Enums
+@model PX.Business.Models.ClientMenus.ClientMenuManageModel
+@Html.HiddenFor(m => m.Id)
+<div class="form-group">
+    @MText(Tags.Label, "AdminModule:::ClientMenus:::Forms:::Name", "Name", new { @class = "col-xs-2 no-padding-right control-label", @for = "Name" })
+    <div class="col-xs-10">
+        @Html.TextBoxFor(m => m.Name, new { @class = "col-xs-10", placeholder = T("AdminModule:::ClientMenus:::Form:::Name place holder", "Please input menu name") })
+        @Html.ValidationMessageFor(m => m.Name)
+    </div>
+</div>
+<div class="space-4"></div>
+<div class="form-group">
+    @MText(Tags.Label, "AdminModule:::ClientMenus:::Forms:::Url", "Url", new { @class = "col-xs-2 no-padding-right control-label", @for = "Url" })
+    <div class="col-xs-10">
+        @Html.TextBoxFor(m => m.Url, new { @class = "col-xs-10" })
+        @Html.ValidationMessageFor(m => m.Url)
+    </div>
+</div>
+<div class="space-4"></div>
+<div class="form-group">
+    @MText(Tags.Label, "AdminModule:::Pages:::Forms:::Position", "Position", new { @class = "col-xs-2 no-padding-right control-label", @for = "Position" })
+    <div class="col-xs-2 col-sm-2">
+        @Html.DropDownListFor(m => m.Position, Model.Positions, new { @class = "col-xs-12" })
+        @Html.ValidationMessageFor(m => m.Position)
+    </div>
+    <div class="col-xs-7 col-sm-7">
+        @Html.DropDownListFor(m => m.RelativeMenuId, Model.RelativeMenus, new { @class = "col-xs-12", id = "selectRelativePages" })
+        @Html.ValidationMessageFor(m => m.RelativeMenuId)
+    </div>
+</div>
+<div class="space-4"></div>
+<div class="form-group">
+    @MText(Tags.Label, "AdminModule:::ClientMenus:::Forms:::ParentMenuDropdown", "Parent Menu", new { @class = "col-xs-2 no-padding-right control-label", @for = "ParentId" })
+    <div class="col-xs-10">
+        @Html.DropDownListFor(m => m.ParentId, Model.Parents, "..Select parent menu..", new { @class = "col-xs-10", id = "selectParents" })
+        @Html.ValidationMessageFor(m => m.ParentId)
+    </div>
+</div>
+<div class="space-4"></div>
+<div class="form-group">
+    @MText(Tags.Label, "AdminModule:::ClientMenus:::Forms:::IncludeInSiteNavigation", "Include In Site Navigation", new { @class = "col-xs-2 no-padding-right control-label", @for = "ClientMenuTemplateId" })
+    <div class="col-xs-10">
+        @Html.CheckBoxFor(m => m.IncludeInSiteNavigation)
+        @Html.ValidationMessageFor(m => m.IncludeInSiteNavigation)
+    </div>
+</div>
+<div class="space-4"></div>
+<div class="form-group">
+    @MText(Tags.Label, "AdminModule:::ClientMenus:::Forms:::StartPublishingDate", "Start Publishing Date", new { @class = "col-xs-2 no-padding-right control-label", @for = "StartPublishingDate" })
+    <div class="col-xs-10">
+        <div class="input-group col-sm-4 no-padding">
+            @Html.TextBoxFor(m => m.StartPublishingDate, new { @class = "form-control col-xs-12 date-picker" })
+            <span class="input-group-addon">
+                <i class="icon-calendar bigger-110"></i>
+            </span>
+        </div>
+        @Html.ValidationMessageFor(m => m.StartPublishingDate)
+    </div>
+</div>
+<div class="form-group">
+    @MText(Tags.Label, "AdminModule:::ClientMenus:::Forms:::EndPublishingDate", "End Publishing Date", new { @class = "col-sm-2 no-padding-right control-label", @for = "EndPublishingDate" })
+    <div class="col-xs-10">
+        <div class="input-group col-sm-4 no-padding">
+            @Html.TextBoxFor(m => m.EndPublishingDate, new { @class = "form-control col-xs-12 date-picker" })
+            <span class="input-group-addon">
+                <i class="icon-calendar bigger-110"></i>
+            </span>
+        </div>
+        @Html.ValidationMessageFor(m => m.EndPublishingDate)
+    </div>
+</div>
+<div class="space-4"></div>
+<div class="clearfix form-actions">
+    <div class="col-md-offset-1 col-md-9">
+        <a class="btn btn-link" href="@Url.Action("Index")">Back To List
+        </a>
+        <button class="btn btn-primary" type="submit" value="@SubmitTypeEnums.Save" name="Submit">
+            <i class="icon-ok bigger-110"></i>
+            Save
+        </button>
+        <button class="btn btn-info" type="submit" value="@SubmitTypeEnums.SaveAndContinueEdit" name="Submit">
+            <i class="icon-ok bigger-110"></i>
+            Save and Continue Edit
+        </button>
+        <button class="btn" onclick="location.href= window.location.href;" type="reset">
+            <i class="icon-undo bigger-110"></i>
+            Reset
+        </button>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function () {
+
+        $("#selectParents").change(function () {
+            var parent = $(this).val();
+            var id = '@Model.Id';
+            var data = { id: id, parentId: parent };
+            var url = "@Url.Action("GetRelativeMenus")";
+            var selectRelativePages = $("#selectRelativePages");
+            $.post(url, data, function (response) {
+                selectRelativePages.empty();
+                $.each(response, function (index, item) {
+                    selectRelativePages.append($('<option></option>')
+                        .val(item.Value).html(item.Text));
+                });
+            });
+        });
+        
+        $('.date-picker').datepicker({
+            autoclose: true, dateonly: true
+        }).next().on(ace.click_event, function () {
+            $(this).prev().focus();
+        });
+    });
+</script>

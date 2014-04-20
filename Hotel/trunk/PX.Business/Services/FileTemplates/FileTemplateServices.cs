@@ -8,7 +8,6 @@ using PX.Business.Models.FileTemplates;
 using PX.Business.Services.PageTemplates;
 using PX.Core.Framework.Mvc.Environments;
 using PX.Business.Services.Localizes;
-using PX.Core.Configurations.Constants;
 using PX.Core.Framework.Enums;
 using PX.Core.Framework.Mvc.Models;
 using PX.Core.Framework.Mvc.Models.JqGrid;
@@ -255,7 +254,7 @@ namespace PX.Business.Services.FileTemplates
                 RecordOrder = m.RecordOrder,
                 Selected = parentId.HasValue && parentId.Value == m.Id
             }).ToList();
-            return FileTemplateRepository.BuildSelectList(data, DefaultConstants.HierarchyLevelPrefix, false);
+            return FileTemplateRepository.BuildSelectList(data, false);
         }
 
         /// <summary>

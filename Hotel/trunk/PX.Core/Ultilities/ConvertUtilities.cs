@@ -1,17 +1,14 @@
 ﻿using System;
-using System.ComponentModel;
-using PX.Core.Configurations.Constants;
 
 namespace PX.Core.Ultilities
 {
     public static class ConvertUtilities
     {
-
         public static T ToType<T>(this object value)
         {
-            Type t = typeof(T);
+            var type = typeof(T);
 
-            if (t.IsGenericType && t.GetGenericTypeDefinition() == typeof(Nullable<>))
+            if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>))
             {
                 // Nullable type.
 
@@ -23,7 +20,7 @@ namespace PX.Core.Ultilities
                 else
                 {
                     // Get the type that was made nullable.
-                    Type valueType = t.GetGenericArguments()[0];
+                    Type valueType = type.GetGenericArguments()[0];
 
                     // Convert to the value type.
                     object result = Convert.ChangeType(value, valueType);
@@ -35,6 +32,7 @@ namespace PX.Core.Ultilities
             // Not nullable.
             return (T)Convert.ChangeType(value, typeof(T));
         } 
+
         public static bool ToBool(this object value, bool defaultValue)
         {
             if (value == null || value == DBNull.Value)
@@ -57,7 +55,7 @@ namespace PX.Core.Ultilities
 
             try
             {
-                return DateTime.ParseExact(value.ToString(), DefaultConstants.DateFormat, null);
+                return DateTime.ParseExact(value.ToString(), Configurations.Configurations.DateFormat, null);
             }
             catch
             {
@@ -224,7 +222,7 @@ namespace PX.Core.Ultilities
             {
                 var dateInfo = new System.Globalization.DateTimeFormatInfo();
 
-                shortDatePattern = string.IsNullOrEmpty(shortDatePattern) ? DefaultConstants.DateFormat : shortDatePattern;
+                shortDatePattern = string.IsNullOrEmpty(shortDatePattern) ? Configurations.Configurations.DateFormat : shortDatePattern;
                 dateInfo.ShortDatePattern = shortDatePattern;
 
                 return Convert.ToDateTime(value, dateInfo);

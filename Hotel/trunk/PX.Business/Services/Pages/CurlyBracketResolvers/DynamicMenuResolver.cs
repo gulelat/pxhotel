@@ -5,13 +5,11 @@ using PX.Business.Models.Pages.CurlyBrackets;
 using PX.Business.Models.Templates;
 using PX.Business.Models.Testimonials.CurlyBrackets;
 using PX.Business.Mvc.Attributes;
+using PX.Core.Configurations;
 using PX.Core.Framework.Mvc.Environments;
 using PX.Business.Services.CurlyBrackets.CurlyBracketResolver;
 using PX.Business.Services.Templates;
-using PX.Business.Services.Testimonials;
-using PX.Core.Configurations.Constants;
 using PX.EntityModel;
-using RazorEngine.Templating;
 
 namespace PX.Business.Services.Pages.CurlyBracketResolvers
 {
@@ -50,7 +48,7 @@ namespace PX.Business.Services.Pages.CurlyBracketResolvers
                     RecordActive = true,
                     RecordOrder = 0,
                     Created = DateTime.Now,
-                    CreatedBy = DefaultConstants.DefaultSystemAccount
+                    CreatedBy = Configurations.DefaultSystemAccount
                 };
                 _templateServices.Insert(template);
             }

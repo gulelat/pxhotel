@@ -28,6 +28,7 @@ namespace PX.Business.Models.Pages
                     Parameters = string.Format("pageId={0}&{1}", page.Id, page.FileTemplate.Parameters),
                 };
             }
+            Id = page.Id;
             Title = page.Title;
             Content = page.Content;
             Keywords = page.Keywords;
@@ -37,6 +38,8 @@ namespace PX.Business.Models.Pages
         #endregion
 
         #region Public Properties
+
+        public int Id { get; set; }
 
         public bool IsFileTemplate { get; set; }
 

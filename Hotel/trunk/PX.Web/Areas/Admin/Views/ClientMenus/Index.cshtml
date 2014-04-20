@@ -17,6 +17,13 @@
     </h1>
 </div>
 <div class="row">
+    @ShowStatusMessage()
+    <div class="col-xs-12">
+        <a href="@Url.Action("Create")" class="btn btn-yellow btn-minier">
+            <i class="icon-plus align-top bigger-125"></i>
+            Create New Menu
+        </a>
+    </div>
     <div class="col-xs-12">
         <!-- PAGE CONTENT BEGINS -->
 
@@ -36,9 +43,9 @@
         var gridSelector = "#grid-table";
         var pagerSelector = "#grid-pager";
         var navButtonsSetup = {
-            enableEdit: true,
-            enableCreate: true,
-            enableDelete: true,
+            enableEdit: false,
+            enableCreate: false,
+            enableDelete: false,
             enableSearch: true,
             enableRefresh: true,
             enableView: true
@@ -47,18 +54,28 @@
         function initCreateData() {
             $(gridSelector).setColProp('ParentName', { editoptions: { dataUrl: '@Url.Action("GetParents")' } });
         }
-        
+
         jQuery(function ($) {
             jQuery(gridSelector).jqGrid({
                 datatype: "json",
                 url: "@Url.Action("_AjaxBinding")",
                 caption: "Client Menu Management",
                 height: 370,
-                colNames: ['Id', 'Name', 'Url', 'Parent Menu', 'Order', 'Active', 'Created', 'CreatedBy', 'Updated', 'UpdatedBy'],
+                colNames: ['', 'Id', 'Name', 'Url', 'Parent Menu', 'Is Page Menu', 'Order', 'Created', 'CreatedBy', 'Updated', 'UpdatedBy'],
                 colModel: [
+                    {
+                        name: 'action', width: 60, sortable: false, search: false, align: "center",
+                        formatter: function (cellvalue, options, rowObject) {
+                            var isPageMenu = rowObject["IsPageMenu"];
+                            var editIcon = "<a class='grid-action' href='@Url.Action("Edit")/" + options.rowId + "'><div class='ui-pg-div ui-inline-edit' title='' data-original-title='Edit Menu'><span class='icon-edit'></span></div></a>";
+                            if (isPageMenu)
+                                editIcon = '';
+                            return editIcon;
+                        }
+                    },
                     { name: 'Id', index: 'Id', width: 60, key: true, sorttype: "int" },
                     { name: 'Name', index: 'Name', width: 150, editable: true, editrules: { required: true } },
-                    { name: 'Url', index: 'Url', width: 50, editable: true },
+                    { name: 'Url', index: 'Url', width: 150, editable: true },
                     {
                         name: 'ParentName', index: 'ParentName', width: 180, editable: true, edittype: "select",
                         formatter: function (cellvalue, options, rowObject) {
@@ -71,8 +88,8 @@
                             }
                         }
                     },
+                    { name: 'IsPageMenu', index: 'IsPageMenu', width: 110, align: "center" },
                     { name: 'RecordOrder', index: 'RecordOrder', width: 50, sorttype: "int", align: "center" },
-                    { name: 'Active', index: 'Active', width: 100, editable: true, edittype: "checkbox",  align:"center", editoptions: { value: "Yes:No", defaultValue: 'Yes' }, unformat: aceSwitch },
                     { name: 'Created', index: 'Created', formatter: "date", width: 100, editable: false, sorttype: "datetime", unformat: pickDate },
                     { name: 'CreatedBy', index: 'CreatedBy', width: 150, editable: false, editoptions: { size: "20", maxlength: "30" } },
                     { name: 'Updated', index: 'Updated', formatter: "date", width: 90, editable: false, sorttype: "datetime", unformat: pickDate },

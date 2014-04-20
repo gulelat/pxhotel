@@ -25,16 +25,38 @@ namespace PX.Business.Services.ClientMenus
 
         #endregion
 
-        ResponseModel ManageClientMenu(GridOperationEnums operation, ClientMenuModel model);
+        #region Grid Search
 
         JqGridSearchOut SearchClientMenus(JqSearchIn si);
+
+        #endregion
+
+        #region Grid Manage
+
+        ResponseModel ManageClientMenu(GridOperationEnums operation, ClientMenuModel model);
+
+        #endregion
+
+        #region Manage
+
+        ClientMenuManageModel GetClientMenuManageModel(int? id = null);
+
+        ResponseModel SaveClientMenuManageModel(ClientMenuManageModel model);
+
+        ResponseModel SavePageToClientMenu(Page page);
+
+        IEnumerable<SelectListItem> GetRelativeMenus(out int position, out int relativeClientMenuId,
+                                                     int? clientMenuId = null, int? parentId = null);
+
+        IEnumerable<SelectListItem> GetRelativeMenus(int? menuId = null, int? parentId = null);
+        #endregion
+
+        bool IsMenuNameExisted(int? id, string name);
 
         IEnumerable<SelectListItem> GetPossibleParents(int? id = null);
 
         List<ClientMenu> GetClientMenus(int? parentId = null);
 
         ClientBreadCrumbModel GetBreadCrumbs(string url);
-
-        ResponseModel SavePageToClientMenu(Page page);
     }
 }

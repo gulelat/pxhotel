@@ -5,7 +5,6 @@ using PX.Business.Services.CurlyBrackets;
 using PX.Business.Services.FileTemplates;
 using PX.Core.Framework.Mvc.Environments;
 using PX.Business.Services.Localizes;
-using PX.Core.Configurations.Constants;
 
 namespace PX.Business.Models.FileTemplates
 {

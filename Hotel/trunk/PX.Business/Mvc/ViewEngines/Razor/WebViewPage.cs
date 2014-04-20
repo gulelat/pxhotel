@@ -4,7 +4,7 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using PX.Business.Services.Localizes;
 using PX.Business.Services.Settings;
-using PX.Core.Configurations.Constants;
+using PX.Core.Configurations;
 using PX.Core.Framework.Mvc.Environments;
 using PX.EntityModel;
 
@@ -20,7 +20,7 @@ namespace PX.Business.Mvc.ViewEngines.Razor
         {
             _localizedResourceServices = HostContainer.GetInstance<ILocalizedResourceServices>();
             _settingServices = HostContainer.GetInstance<ISettingServices>();
-            _currentController = (ControllerBase)HttpContext.Current.Items[DefaultConstants.PxHotelCurrentController];
+            _currentController = (ControllerBase)HttpContext.Current.Items[Configurations.PxHotelCurrentController];
             base.InitHelpers();
         }
 
@@ -122,12 +122,12 @@ namespace PX.Business.Mvc.ViewEngines.Razor
             get
             {
                 if (_currentController == null) return null;
-                return (string)_currentController.TempData[DefaultConstants.ErrorMessage];
+                return (string)_currentController.TempData[Configurations.ErrorMessage];
             }
             set
             {
                 if (_currentController == null) return;
-                _currentController.TempData[DefaultConstants.ErrorMessage] = value;
+                _currentController.TempData[Configurations.ErrorMessage] = value;
             }
         }
 
@@ -139,12 +139,12 @@ namespace PX.Business.Mvc.ViewEngines.Razor
             get
             {
                 if (_currentController == null) return null;
-                return (string)_currentController.TempData[DefaultConstants.WarningMessage];
+                return (string)_currentController.TempData[Configurations.WarningMessage];
             }
             set
             {
                 if (_currentController == null) return;
-                _currentController.TempData[DefaultConstants.WarningMessage] = value;
+                _currentController.TempData[Configurations.WarningMessage] = value;
             }
         }
 
@@ -156,12 +156,12 @@ namespace PX.Business.Mvc.ViewEngines.Razor
             get
             {
                 if (_currentController == null) return null;
-                return (string)_currentController.TempData[DefaultConstants.SuccessMessage];
+                return (string)_currentController.TempData[Configurations.SuccessMessage];
             }
             set
             {
                 if (_currentController == null) return;
-                _currentController.TempData[DefaultConstants.SuccessMessage] = value;
+                _currentController.TempData[Configurations.SuccessMessage] = value;
             }
         }
 

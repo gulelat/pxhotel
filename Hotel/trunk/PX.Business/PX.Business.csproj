@@ -73,6 +73,7 @@
     <Compile Include="Models\ClientMenus\ClientMenuRenderingModel.cs" />
     <Compile Include="Models\ClientMenus\ClientBreadCrumbModel.cs" />
     <Compile Include="Models\ClientMenus\ClientMenuModel.cs" />
+    <Compile Include="Models\ClientMenus\ClientMenuManageModel.cs" />
     <Compile Include="Models\FileTemplates\TemplateModel.cs" />
     <Compile Include="Models\FileTemplates\FileTemplateManageModel.cs" />
     <Compile Include="Models\FileTemplates\FileTemplateModel.cs" />

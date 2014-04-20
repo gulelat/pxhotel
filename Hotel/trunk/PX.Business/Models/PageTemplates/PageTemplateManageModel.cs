@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Web.Mvc;
+using PX.Core.Configurations;
 using PX.Core.Framework.Mvc.Environments;
 using PX.Business.Services.CurlyBrackets;
 using PX.Business.Services.Localizes;
 using PX.Business.Services.PageTemplates;
-using PX.Core.Configurations.Constants;
 
 namespace PX.Business.Models.PageTemplates
 {
@@ -14,7 +13,7 @@ namespace PX.Business.Models.PageTemplates
     {
         public PageTemplateManageModel()
         {
-            Content = DefaultConstants.RenderBody;
+            Content = Configurations.RenderBody;
         }
 
         #region Public Properties

@@ -5,17 +5,14 @@ using System.Linq.Expressions;
 using System.Web.Mvc;
 using AutoMapper;
 using PX.Business.Models.NewsCategories;
-using PX.Business.Models.Testimonials;
 using PX.Core.Framework.Mvc.Environments;
 using PX.Business.Services.Localizes;
-using PX.Core.Configurations.Constants;
 using PX.Core.Framework.Enums;
 using PX.Core.Framework.Mvc.Models;
 using PX.Core.Framework.Mvc.Models.JqGrid;
 using PX.Core.Ultilities;
 using PX.EntityModel;
 using PX.EntityModel.Repositories;
-using PX.EntityModel.Repositories.RepositoryBase.Extensions;
 using PX.EntityModel.Repositories.RepositoryBase.Models;
 
 namespace PX.Business.Services.NewsCategories

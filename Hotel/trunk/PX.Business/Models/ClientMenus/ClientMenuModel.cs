@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace PX.Business.Models.ClientMenus
 {
@@ -11,7 +12,13 @@ namespace PX.Business.Models.ClientMenus
 
         public string Url { get; set; }
 
-        public int PageId { get; set; }
+        public bool IsPageMenu { get; set; }
+
+        public bool IncludeInSiteNavigation { get; set; }
+
+        public DateTime? StartPublishingDate { get; set; }
+
+        public DateTime? EndPublishingDate { get; set; }
 
         public int? ParentId { get; set; }
 

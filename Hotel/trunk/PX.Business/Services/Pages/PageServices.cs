@@ -6,14 +6,13 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Web.Mvc;
 using AutoMapper;
-using PX.Business.Models.FileTemplates;
 using PX.Business.Models.Pages;
 using PX.Business.Services.ClientMenus;
 using PX.Business.Services.PageTemplates;
+using PX.Core.Configurations;
 using PX.Core.Framework.Mvc.Environments;
 using PX.Business.Services.CurlyBrackets;
 using PX.Business.Services.Localizes;
-using PX.Core.Configurations.Constants;
 using PX.Core.Framework.Enums;
 using PX.Core.Framework.Mvc.Models;
 using PX.Core.Framework.Mvc.Models.JqGrid;
@@ -211,7 +210,6 @@ namespace PX.Business.Services.Pages
 
         #region Manage
 
-
         /// <summary>
         /// Get page manage model by id
         /// </summary>
@@ -290,21 +288,27 @@ namespace PX.Business.Services.Pages
                 {
                     if (model.Position == (int)PageEnums.PositionEnums.Before)
                     {
-                        page.RecordOrder = relativePage.RecordOrder;
-                        var query =
-                            string.Format(
-                                "Update Pages set RecordOrder = RecordOrder + 1 Where {0} And RecordOrder >= {1}",
-                                relativePage.ParentId.HasValue ? string.Format(" ParentId = {0}", relativePage.ParentId) : "ParentId Is NULL", relativePage.RecordOrder);
-                        PageRepository.ExcuteSql(query);
+                        //if(page.RecordOrder > relativePage.RecordOrder)
+                        //{
+                            page.RecordOrder = relativePage.RecordOrder;
+                            var query =
+                                string.Format(
+                                    "Update Pages set RecordOrder = RecordOrder + 1 Where {0} And RecordOrder >= {1}",
+                                    relativePage.ParentId.HasValue ? string.Format(" ParentId = {0}", relativePage.ParentId) : "ParentId Is NULL", relativePage.RecordOrder);
+                            PageRepository.ExcuteSql(query);
+                        //}
                     }
                     else
                     {
-                        page.RecordOrder = relativePage.RecordOrder + 1;
-                        var query =
-                            string.Format(
-                                "Update Pages set RecordOrder = RecordOrder + 1 Where {0} And RecordOrder > {1}",
-                                relativePage.ParentId.HasValue ? string.Format(" ParentId = {0}", relativePage.ParentId) : "ParentId Is NULL", relativePage.RecordOrder);
-                        PageRepository.ExcuteSql(query);
+                        //if(page.RecordOrder < relativePage.RecordOrder)
+                        //{
+                            page.RecordOrder = relativePage.RecordOrder + 1;
+                            var query =
+                                string.Format(
+                                    "Update Pages set RecordOrder = RecordOrder + 1 Where {0} And RecordOrder > {1}",
+                                    relativePage.ParentId.HasValue ? string.Format(" ParentId = {0}", relativePage.ParentId) : "ParentId Is NULL", relativePage.RecordOrder);
+                            PageRepository.ExcuteSql(query);
+                        //}
                     }
                 }
 
@@ -318,7 +322,7 @@ namespace PX.Business.Services.Pages
                     response = Update(page);
                 }
 
-                if (response.Success && page.IncludeInSiteNavigation)
+                if (response.Success)
                 {
                     _clientMenuServices.SavePageToClientMenu(page);
                 }
@@ -403,9 +407,9 @@ namespace PX.Business.Services.Pages
                 using (var templateService = new TemplateService())
                 {
                     var template = _pageTemplateServices.RenderPageTemplate(page.PageTemplateId, model);
-                    if(template.IndexOf(DefaultConstants.RenderBody, StringComparison.Ordinal) > -1)
+                    if(template.IndexOf(Configurations.RenderBody, StringComparison.Ordinal) > -1)
                     {
-                        template = template.Replace(DefaultConstants.RenderBody, "@Raw(Model.Content)");
+                        template = template.Replace(Configurations.RenderBody, "@Raw(Model.Content)");
                     }
                     template = templateService.Parse(template, model, null, page.Title);
 
@@ -586,7 +590,7 @@ namespace PX.Business.Services.Pages
         /// <returns></returns>
         public bool IsTitleExisted(int? pageId, string title)
         {
-            return Fetch(u => u.Title.Equals(title) && u.Id != pageId).Any();
+            return Fetch(u => u.Title.Equals(title) && (!pageId.HasValue || u.Id != pageId)).Any();
         }
 
         /// <summary>

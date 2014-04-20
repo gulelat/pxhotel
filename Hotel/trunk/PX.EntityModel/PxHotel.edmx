@@ -148,6 +148,9 @@
           <Property Name="Url" Type="nvarchar" MaxLength="512" />
           <Property Name="ParentId" Type="int" />
           <Property Name="Hierarchy" Type="nvarchar(max)" />
+          <Property Name="IncludeInSiteNavigation" Type="bit" Nullable="false" />
+          <Property Name="StartPublishingDate" Type="datetime" />
+          <Property Name="EndPublishingDate" Type="datetime" />
           <Property Name="RecordOrder" Type="int" Nullable="false" />
           <Property Name="RecordActive" Type="bit" Nullable="false" />
           <Property Name="Created" Type="datetime" Nullable="false" />
@@ -294,7 +297,7 @@
           </Key>
           <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="Title" Type="nvarchar" Nullable="false" MaxLength="512" />
-          <Property Name="Caption" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Caption" Type="nvarchar(max)" />
           <Property Name="CaptionWorking" Type="nvarchar(max)" />
           <Property Name="Content" Type="nvarchar(max)" Nullable="false" />
           <Property Name="ContentWorking" Type="nvarchar(max)" />
@@ -912,6 +915,9 @@
           <Property Type="String" Name="Url" MaxLength="512" FixedLength="false" Unicode="true" />
           <Property Type="Int32" Name="ParentId" />
           <Property Type="String" Name="Hierarchy" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="Boolean" Name="IncludeInSiteNavigation" Nullable="false" />
+          <Property Type="DateTime" Name="StartPublishingDate" Precision="3" />
+          <Property Type="DateTime" Name="EndPublishingDate" Precision="3" />
           <Property Type="Int32" Name="RecordOrder" Nullable="false" />
           <Property Type="Boolean" Name="RecordActive" Nullable="false" />
           <Property Type="DateTime" Name="Created" Nullable="false" Precision="3" />
@@ -1076,7 +1082,7 @@
           </Key>
           <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="String" Name="Title" Nullable="false" MaxLength="512" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Caption" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Caption" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="CaptionWorking" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="Content" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="ContentWorking" MaxLength="Max" FixedLength="false" Unicode="true" />
@@ -1609,6 +1615,9 @@
                 <ScalarProperty Name="Created" ColumnName="Created" />
                 <ScalarProperty Name="RecordActive" ColumnName="RecordActive" />
                 <ScalarProperty Name="RecordOrder" ColumnName="RecordOrder" />
+                <ScalarProperty Name="EndPublishingDate" ColumnName="EndPublishingDate" />
+                <ScalarProperty Name="StartPublishingDate" ColumnName="StartPublishingDate" />
+                <ScalarProperty Name="IncludeInSiteNavigation" ColumnName="IncludeInSiteNavigation" />
                 <ScalarProperty Name="Hierarchy" ColumnName="Hierarchy" />
                 <ScalarProperty Name="ParentId" ColumnName="ParentId" />
                 <ScalarProperty Name="Url" ColumnName="Url" />

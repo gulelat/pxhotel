@@ -30,7 +30,7 @@ namespace PX.EntityModel
             {
                 if (string.IsNullOrEmpty(AvatarFileName) || !File.Exists(HttpContext.Current.Server.MapPath(Configurations.AvatarFolder + AvatarFileName)))
                 {
-                    return Configurations.AvatarFolder + Configurations.DefaultAvatar;
+                    return Configurations.AvatarFolder + Configurations.NoAvatar;
                 }
                 return Configurations.AvatarFolder + AvatarFileName;
             }
@@ -43,7 +43,7 @@ namespace PX.EntityModel
                 if (string.IsNullOrEmpty(AvatarFileName)
                     || !File.Exists(HttpContext.Current.Server.MapPath(Configurations.AvatarFolder + AvatarFileName)))
                 {
-                    return Configurations.DefaultAvatar;
+                    return Configurations.NoAvatar;
                 }
                 return AvatarFileName;
             }

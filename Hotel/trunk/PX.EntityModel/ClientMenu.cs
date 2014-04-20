@@ -25,6 +25,9 @@ namespace PX.EntityModel
         public string Url { get; set; }
         public Nullable<int> ParentId { get; set; }
         public string Hierarchy { get; set; }
+        public bool IncludeInSiteNavigation { get; set; }
+        public Nullable<System.DateTime> StartPublishingDate { get; set; }
+        public Nullable<System.DateTime> EndPublishingDate { get; set; }
         public int RecordOrder { get; set; }
         public bool RecordActive { get; set; }
         public System.DateTime Created { get; set; }
