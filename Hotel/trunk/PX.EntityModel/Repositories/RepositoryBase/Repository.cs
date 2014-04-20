@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using System.Data.Entity.Validation;
 using System.Linq;
 using System.Linq.Expressions;
@@ -90,6 +91,7 @@ namespace PX.EntityModel.Repositories.RepositoryBase
                                                     ? Configurations.DefaultSystemAccount
                                                     : HttpContext.Current.User.Identity.Name);
             }
+            DataContext.Entry(entity).State = EntityState.Modified;
             try
             {
                 DataContext.SaveChanges();
