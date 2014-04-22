@@ -454,6 +454,7 @@
           <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="512" />
           <Property Name="Content" Type="nvarchar(max)" Nullable="false" />
           <Property Name="DataType" Type="nvarchar" Nullable="false" MaxLength="512" />
+          <Property Name="IsDefaultTemplate" Type="bit" Nullable="false" />
           <Property Name="RecordOrder" Type="int" Nullable="false" />
           <Property Name="RecordActive" Type="bit" Nullable="false" />
           <Property Name="Created" Type="datetime" Nullable="false" />
@@ -1260,6 +1261,7 @@
           <Property Type="String" Name="Name" Nullable="false" MaxLength="512" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="Content" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="DataType" Nullable="false" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Type="Boolean" Name="IsDefaultTemplate" Nullable="false" />
           <Property Type="Int32" Name="RecordOrder" Nullable="false" />
           <Property Type="Boolean" Name="RecordActive" Nullable="false" />
           <Property Type="DateTime" Name="Created" Nullable="false" Precision="3" />
@@ -1943,6 +1945,7 @@
                 <ScalarProperty Name="Created" ColumnName="Created" />
                 <ScalarProperty Name="RecordActive" ColumnName="RecordActive" />
                 <ScalarProperty Name="RecordOrder" ColumnName="RecordOrder" />
+                <ScalarProperty Name="IsDefaultTemplate" ColumnName="IsDefaultTemplate" />
                 <ScalarProperty Name="DataType" ColumnName="DataType" />
                 <ScalarProperty Name="Content" ColumnName="Content" />
                 <ScalarProperty Name="Name" ColumnName="Name" />

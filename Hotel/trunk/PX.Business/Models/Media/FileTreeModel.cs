@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace PX.Business.Models.Medias
+namespace PX.Business.Models.Media
 {
     public class FileTreeModel
     {

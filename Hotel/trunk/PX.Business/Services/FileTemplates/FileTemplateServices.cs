@@ -215,6 +215,7 @@ namespace PX.Business.Services.FileTemplates
                 fileTemplate.Action = model.Action;
                 fileTemplate.Controller = model.Controller;
                 fileTemplate.Parameters = model.Parameters;
+                fileTemplate.PageTemplateId = model.PageTemplateId;
                 fileTemplate.ParentId = model.ParentId;
 
                 response = HierarchyUpdate(fileTemplate);

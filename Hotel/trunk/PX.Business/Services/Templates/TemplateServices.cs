@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Web.Mvc;
 using PX.Business.Models.Templates;
+using PX.Core.Configurations;
 using PX.Core.Framework.Mvc.Environments;
 using PX.Business.Mvc.WorkContext;
 using PX.Business.Services.CurlyBrackets;
@@ -164,18 +165,12 @@ namespace PX.Business.Services.Templates
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        public TemplateManageModel GetTemplateByName(string name)
+        public TemplateRenderModel GetTemplateByName(string name)
         {
             var template = TemplateRepository.FetchFirst(t => t.Name.Equals(name));
             if (template != null)
             {
-                return new TemplateManageModel
-                {
-                    Id = template.Id,
-                    Name = template.Name,
-                    Content = template.Content,
-                    DataType = template.DataType
-                };
+                return new TemplateRenderModel(template);
             }
             return null;
         }
@@ -262,6 +257,21 @@ namespace PX.Business.Services.Templates
         public bool IsTemplateNameExisted(int? templateId, string name)
         {
             return Fetch(t => t.Id != templateId && t.Name.Equals(name)).Any();
+        }
+
+        /// <summary>
+        /// Get cache template name
+        /// </summary>
+        /// <param name="templateName"></param>
+        /// <param name="created"></param>
+        /// <param name="updated"></param>
+        /// <returns></returns>
+        public static string GetTemplateCacheName(string templateName, DateTime created, DateTime? updated)
+        {
+            return string.Format("{0}-{1}", templateName,
+                                 updated.HasValue
+                                     ? updated.Value.ToString(Configurations.DateTimeFormat)
+                                     : created.ToString(Configurations.DateTimeFormat));
         }
     }
 }
