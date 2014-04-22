@@ -17,6 +17,7 @@
           <EntitySet Name="News" EntityType="PXHotelModel.Store.News" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="NewsCategories" EntityType="PXHotelModel.Store.NewsCategories" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="NewsNewsCategories" EntityType="PXHotelModel.Store.NewsNewsCategories" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="PageAudits" EntityType="PXHotelModel.Store.PageAudits" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Pages" EntityType="PXHotelModel.Store.Pages" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="PageTags" EntityType="PXHotelModel.Store.PageTags" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="PageTemplates" EntityType="PXHotelModel.Store.PageTemplates" store:Type="Tables" Schema="dbo" />
@@ -70,6 +71,10 @@
           <AssociationSet Name="FK_NewsNewsCategory_NewsCategory" Association="PXHotelModel.Store.FK_NewsNewsCategory_NewsCategory">
             <End Role="NewsCategories" EntitySet="NewsCategories" />
             <End Role="NewsNewsCategories" EntitySet="NewsNewsCategories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PageAudits_Pages" Association="PXHotelModel.Store.FK_PageAudits_Pages">
+            <End Role="Pages" EntitySet="Pages" />
+            <End Role="PageAudits" EntitySet="PageAudits" />
           </AssociationSet>
           <AssociationSet Name="FK_Pages_FileTemplates" Association="PXHotelModel.Store.FK_Pages_FileTemplates">
             <End Role="FileTemplates" EntitySet="FileTemplates" />
@@ -291,6 +296,35 @@
           <Property Name="NewsId" Type="int" Nullable="false" />
           <Property Name="NewsCategoryId" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="PageAudits">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="PageId" Type="int" Nullable="false" />
+          <Property Name="SessionId" Type="nvarchar" Nullable="false" MaxLength="512" />
+          <Property Name="Title" Type="nvarchar" Nullable="false" MaxLength="512" />
+          <Property Name="Caption" Type="nvarchar(max)" />
+          <Property Name="CaptionWorking" Type="nvarchar(max)" />
+          <Property Name="Content" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="ContentWorking" Type="nvarchar(max)" />
+          <Property Name="FriendlyUrl" Type="nvarchar" Nullable="false" MaxLength="512" />
+          <Property Name="PageTemplateId" Type="int" />
+          <Property Name="FileTemplateId" Type="int" />
+          <Property Name="Status" Type="int" Nullable="false" />
+          <Property Name="ParentId" Type="int" />
+          <Property Name="IncludeInSiteNavigation" Type="bit" Nullable="false" />
+          <Property Name="StartPublishingDate" Type="datetime" />
+          <Property Name="EndPublishingDate" Type="datetime" />
+          <Property Name="Keywords" Type="nvarchar" MaxLength="512" />
+          <Property Name="ChangeLog" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="RecordOrder" Type="int" Nullable="false" />
+          <Property Name="RecordActive" Type="bit" Nullable="false" />
+          <Property Name="Created" Type="datetime" Nullable="false" />
+          <Property Name="CreatedBy" Type="nvarchar" Nullable="false" MaxLength="512" />
+          <Property Name="Updated" Type="datetime" />
+          <Property Name="UpdatedBy" Type="nvarchar" MaxLength="512" />
+        </EntityType>
         <EntityType Name="Pages">
           <Key>
             <PropertyRef Name="Id" />
@@ -312,7 +346,6 @@
           <Property Name="StartPublishingDate" Type="datetime" />
           <Property Name="EndPublishingDate" Type="datetime" />
           <Property Name="Keywords" Type="nvarchar" MaxLength="512" />
-          <Property Name="Tags" Type="nvarchar" MaxLength="1024" />
           <Property Name="RecordOrder" Type="int" Nullable="false" />
           <Property Name="RecordActive" Type="bit" Nullable="false" />
           <Property Name="Created" Type="datetime" Nullable="false" />
@@ -637,6 +670,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_PageAudits_Pages">
+          <End Role="Pages" Type="PXHotelModel.Store.Pages" Multiplicity="1" />
+          <End Role="PageAudits" Type="PXHotelModel.Store.PageAudits" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Pages">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PageAudits">
+              <PropertyRef Name="PageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Pages_FileTemplates">
           <End Role="FileTemplates" Type="PXHotelModel.Store.FileTemplates" Multiplicity="0..1" />
           <End Role="Pages" Type="PXHotelModel.Store.Pages" Multiplicity="*" />
@@ -785,6 +830,7 @@
           <EntitySet Name="News" EntityType="PXHotelModel.News" />
           <EntitySet Name="NewsCategories" EntityType="PXHotelModel.NewsCategory" />
           <EntitySet Name="NewsNewsCategories" EntityType="PXHotelModel.NewsNewsCategory" />
+          <EntitySet Name="PageAudits" EntityType="PXHotelModel.PageAudit" />
           <EntitySet Name="Pages" EntityType="PXHotelModel.Page" />
           <EntitySet Name="PageTags" EntityType="PXHotelModel.PageTag" />
           <EntitySet Name="PageTemplates" EntityType="PXHotelModel.PageTemplate" />
@@ -842,6 +888,10 @@
           <AssociationSet Name="FK_NewsNewsCategory_NewsCategory" Association="PXHotelModel.FK_NewsNewsCategory_NewsCategory">
             <End Role="NewsCategory" EntitySet="NewsCategories" />
             <End Role="NewsNewsCategory" EntitySet="NewsNewsCategories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PageAudits_Pages" Association="PXHotelModel.FK_PageAudits_Pages">
+            <End Role="Page" EntitySet="Pages" />
+            <End Role="PageAudit" EntitySet="PageAudits" />
           </AssociationSet>
           <AssociationSet Name="FK_Pages_Pages" Association="PXHotelModel.FK_Pages_Pages">
             <End Role="Page" EntitySet="Pages" />
@@ -1077,6 +1127,36 @@
           <NavigationProperty Name="News" Relationship="PXHotelModel.FK_NewsNewsCategory_News" FromRole="NewsNewsCategory" ToRole="News" />
           <NavigationProperty Name="NewsCategory" Relationship="PXHotelModel.FK_NewsNewsCategory_NewsCategory" FromRole="NewsNewsCategory" ToRole="NewsCategory" />
         </EntityType>
+        <EntityType Name="PageAudit">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="PageId" Nullable="false" />
+          <Property Type="String" Name="SessionId" Nullable="false" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Title" Nullable="false" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Caption" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="CaptionWorking" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Content" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="ContentWorking" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="FriendlyUrl" Nullable="false" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="PageTemplateId" />
+          <Property Type="Int32" Name="FileTemplateId" />
+          <Property Type="Int32" Name="Status" Nullable="false" />
+          <Property Type="Int32" Name="ParentId" />
+          <Property Type="Boolean" Name="IncludeInSiteNavigation" Nullable="false" />
+          <Property Type="DateTime" Name="StartPublishingDate" Precision="3" />
+          <Property Type="DateTime" Name="EndPublishingDate" Precision="3" />
+          <Property Type="String" Name="Keywords" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="ChangeLog" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="RecordOrder" Nullable="false" />
+          <Property Type="Boolean" Name="RecordActive" Nullable="false" />
+          <Property Type="DateTime" Name="Created" Nullable="false" Precision="3" />
+          <Property Type="String" Name="CreatedBy" Nullable="false" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Type="DateTime" Name="Updated" Precision="3" />
+          <Property Type="String" Name="UpdatedBy" MaxLength="512" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Page" Relationship="PXHotelModel.FK_PageAudits_Pages" FromRole="PageAudit" ToRole="Page" />
+        </EntityType>
         <EntityType Name="Page">
           <Key>
             <PropertyRef Name="Id" />
@@ -1098,7 +1178,6 @@
           <Property Type="DateTime" Name="StartPublishingDate" Precision="3" />
           <Property Type="DateTime" Name="EndPublishingDate" Precision="3" />
           <Property Type="String" Name="Keywords" MaxLength="512" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Tags" MaxLength="1024" FixedLength="false" Unicode="true" />
           <Property Type="Int32" Name="RecordOrder" Nullable="false" />
           <Property Type="Boolean" Name="RecordActive" Nullable="false" />
           <Property Type="DateTime" Name="Created" Nullable="false" Precision="3" />
@@ -1107,6 +1186,7 @@
           <Property Type="String" Name="UpdatedBy" MaxLength="512" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="ClientMenus" Relationship="PXHotelModel.FK_FrontEndMenus_Pages" FromRole="Page" ToRole="ClientMenu" />
           <NavigationProperty Name="FileTemplate" Relationship="PXHotelModel.FK_Pages_FileTemplates" FromRole="Page" ToRole="FileTemplate" />
+          <NavigationProperty Name="PageAudits" Relationship="PXHotelModel.FK_PageAudits_Pages" FromRole="Page" ToRole="PageAudit" />
           <NavigationProperty Name="Pages1" Relationship="PXHotelModel.FK_Pages_Pages" FromRole="Page" ToRole="Page1" />
           <NavigationProperty Name="Page1" Relationship="PXHotelModel.FK_Pages_Pages" FromRole="Page1" ToRole="Page" />
           <NavigationProperty Name="PageTemplate" Relationship="PXHotelModel.FK_Pages_PageTemplates" FromRole="Page" ToRole="PageTemplate" />
@@ -1459,6 +1539,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_PageAudits_Pages">
+          <End Type="PXHotelModel.Page" Role="Page" Multiplicity="1" />
+          <End Type="PXHotelModel.PageAudit" Role="PageAudit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Page">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PageAudit">
+              <PropertyRef Name="PageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Pages_Pages">
           <End Type="PXHotelModel.Page" Role="Page" Multiplicity="0..1" />
           <End Type="PXHotelModel.Page" Role="Page1" Multiplicity="*" />
@@ -1771,6 +1863,36 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="PageAudits">
+            <EntityTypeMapping TypeName="PXHotelModel.PageAudit">
+              <MappingFragment StoreEntitySet="PageAudits">
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="Updated" ColumnName="Updated" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+                <ScalarProperty Name="RecordActive" ColumnName="RecordActive" />
+                <ScalarProperty Name="RecordOrder" ColumnName="RecordOrder" />
+                <ScalarProperty Name="ChangeLog" ColumnName="ChangeLog" />
+                <ScalarProperty Name="Keywords" ColumnName="Keywords" />
+                <ScalarProperty Name="EndPublishingDate" ColumnName="EndPublishingDate" />
+                <ScalarProperty Name="StartPublishingDate" ColumnName="StartPublishingDate" />
+                <ScalarProperty Name="IncludeInSiteNavigation" ColumnName="IncludeInSiteNavigation" />
+                <ScalarProperty Name="ParentId" ColumnName="ParentId" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="FileTemplateId" ColumnName="FileTemplateId" />
+                <ScalarProperty Name="PageTemplateId" ColumnName="PageTemplateId" />
+                <ScalarProperty Name="FriendlyUrl" ColumnName="FriendlyUrl" />
+                <ScalarProperty Name="ContentWorking" ColumnName="ContentWorking" />
+                <ScalarProperty Name="Content" ColumnName="Content" />
+                <ScalarProperty Name="CaptionWorking" ColumnName="CaptionWorking" />
+                <ScalarProperty Name="Caption" ColumnName="Caption" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="SessionId" ColumnName="SessionId" />
+                <ScalarProperty Name="PageId" ColumnName="PageId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Pages">
             <EntityTypeMapping TypeName="PXHotelModel.Page">
               <MappingFragment StoreEntitySet="Pages">
@@ -1780,7 +1902,6 @@
                 <ScalarProperty Name="Created" ColumnName="Created" />
                 <ScalarProperty Name="RecordActive" ColumnName="RecordActive" />
                 <ScalarProperty Name="RecordOrder" ColumnName="RecordOrder" />
-                <ScalarProperty Name="Tags" ColumnName="Tags" />
                 <ScalarProperty Name="Keywords" ColumnName="Keywords" />
                 <ScalarProperty Name="EndPublishingDate" ColumnName="EndPublishingDate" />
                 <ScalarProperty Name="StartPublishingDate" ColumnName="StartPublishingDate" />

@@ -6,8 +6,10 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Web.Mvc;
 using AutoMapper;
+using PX.Business.Models.PageAudits;
 using PX.Business.Models.Pages;
 using PX.Business.Services.ClientMenus;
+using PX.Business.Services.PageAudits;
 using PX.Business.Services.PageTemplates;
 using PX.Core.Configurations;
 using PX.Core.Framework.Mvc.Environments;
@@ -28,6 +30,7 @@ namespace PX.Business.Services.Pages
     {
         private readonly ILocalizedResourceServices _localizedResourceServices;
         private readonly IPageTemplateServices _pageTemplateServices;
+        private readonly IPageAuditServices _pageAuditServices;
         private readonly ICurlyBracketServices _curlyBracketServices;
         private readonly IClientMenuServices _clientMenuServices;
         public PageServices()
@@ -36,6 +39,7 @@ namespace PX.Business.Services.Pages
             _pageTemplateServices = HostContainer.GetInstance<IPageTemplateServices>();
             _curlyBracketServices = HostContainer.GetInstance<ICurlyBracketServices>();
             _clientMenuServices = HostContainer.GetInstance<IClientMenuServices>();
+            _pageAuditServices = HostContainer.GetInstance<IPageAuditServices>();
         }
 
         #region Base
@@ -225,6 +229,7 @@ namespace PX.Business.Services.Pages
             #region Edit Page
             if (page != null)
             {
+                var pageAudit = new PageAuditViewModel(page);
                 page.Title = model.Title;
 
                 page.PageTemplateId = model.PageTemplateId;
@@ -325,6 +330,7 @@ namespace PX.Business.Services.Pages
                 if (response.Success)
                 {
                     _clientMenuServices.SavePageToClientMenu(page);
+                    _pageAuditServices.SaveAuditPage(pageAudit);
                 }
 
                 return response.SetMessage(response.Success ?
