@@ -6,6 +6,7 @@ using PX.Core.Configurations;
 using PX.Core.Framework.Mvc.Environments;
 using PX.Business.Services.CurlyBrackets.CurlyBracketResolver;
 using PX.Business.Services.Templates;
+using PX.Core.Ultilities;
 using PX.EntityModel;
 
 namespace PX.Business.Services.Testimonials.CurlyBracketResolvers
@@ -16,9 +17,14 @@ namespace PX.Business.Services.Testimonials.CurlyBracketResolvers
         #region Private Properties
         private readonly ITemplateServices _templateServices;
         private readonly ITestimonialServices _testimonialServices;
-        public string DefaultTemplate()
+        private const int DefaultRandomNumber = 5;
+        #endregion
+
+        #region Public Properties
+
+        public string DefaultTemplate
         {
-            return "Default.Testimonials";
+            get { return "Default.Testimonials"; }
         }
         #endregion
 
@@ -31,44 +37,65 @@ namespace PX.Business.Services.Testimonials.CurlyBracketResolvers
 
         #endregion
 
+        #region Parse Params
+
+        private int Count { get; set; }
+
+        private string Template { get; set; }
+
+        private void ParseParams(string[] parameters)
+        {
+            /*
+             * Params:
+             * * Count
+             * * Template
+             */
+
+            //Count
+            if(parameters.Length > 1)
+            {
+                Count = parameters[1].ToInt(DefaultRandomNumber);
+            }
+
+            //Template
+            if (parameters.Length > 1)
+            {
+                Template = parameters[2];
+            }
+        }
+        #endregion
+
+        /// <summary>
+        /// Initialize template and required data
+        /// </summary>
         public void Initialize()
         {
-            if (_templateServices.GetTemplateByName(DefaultTemplate()) == null)
+            if (_templateServices.GetTemplateByName(DefaultTemplate) == null)
             {
                 var template = new Template
                     {
-                        Name = DefaultTemplate(),
+                        Name = DefaultTemplate,
                         DataType = typeof(TestimonialCurlyBracket).FullName,
-                        Content = "{Model.Author}",
-                        RecordActive = true,
-                        RecordOrder = 0,
-                        Created = DateTime.Now,
-                        CreatedBy = Configurations.DefaultSystemAccount
+                        Content = string.Empty,
+                        IsDefaultTemplate = true
                     };
                 _templateServices.Insert(template);
             }
         }
 
+        /// <summary>
+        /// Render testimonial curlybracket
+        /// </summary>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
         public string Render(string[] parameters)
         {
-            var count = 5;
-            TemplateManageModel templateManageModel = null;
-            if (parameters.Length > 1)
-            {
-                if (int.TryParse(parameters[1], out count))
-                {
-                    if (parameters.Length > 2)
-                    {
-                        templateManageModel = _templateServices.GetTemplateByName(parameters[2]);
-                    }
-                }
-            }
-            if (templateManageModel == null)
-            {
-                templateManageModel = _templateServices.GetTemplateByName(DefaultTemplate());
-            }
-            var model = _testimonialServices.GetRandom(count);
-            return _templateServices.RenderTemplate(templateManageModel.Content, model, templateManageModel.Name);
+            ParseParams(parameters);
+            var templateManageModel = _templateServices.GetTemplateByName(Template) ??
+                                                      _templateServices.GetTemplateByName(DefaultTemplate);
+
+            var model = _testimonialServices.GetRandom(Count);
+            return _templateServices.RenderTemplate(templateManageModel.Content, model, templateManageModel.CacheName);
         }
     }
 }

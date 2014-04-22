@@ -7,6 +7,7 @@ using System.Web.Hosting;
 using PX.Business.Models.Pages;
 using PX.Business.Services.PageTemplates;
 using PX.Business.Services.Pages;
+using PX.Business.Services.Templates;
 using PX.Core.Framework.Mvc.Environments;
 using PX.Core.Ultilities;
 using PX.EntityModel;
@@ -16,7 +17,6 @@ namespace PX.Business.Mvc.ViewEngines
     public class MyVirtualPathProvider : VirtualPathProvider
     {
         private const string DBTemplate = "DBTemplate";
-        private const string DateTimeFormat = "hhmmss-ddMMyyyy";
         private readonly IPageTemplateServices _pageTemplateServices;
         public MyVirtualPathProvider()
         {
@@ -62,9 +62,7 @@ namespace PX.Business.Mvc.ViewEngines
             if(IsPathIsDbTemplate(virtualPath))
             {
                 var template = FindTemplate(virtualPath);
-                return template.Updated.HasValue
-                           ? template.Updated.Value.ToString(DateTimeFormat)
-                           : template.Created.ToString(DateTimeFormat);
+                return TemplateServices.GetTemplateCacheName(template.Name, template.Created, template.Updated);
             }
             return base.GetFileHash(virtualPath, virtualPathDependencies);
         }

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using PX.Business.Models.Templates;
 using PX.Core.Framework.Enums;
 using PX.Core.Framework.Mvc.Models;
@@ -40,7 +41,7 @@ namespace PX.Business.Services.Templates
 
         TemplateManageModel GetTemplateManageModel(string type);
 
-        TemplateManageModel GetTemplateByName(string name);
+        TemplateRenderModel GetTemplateByName(string name);
 
         ResponseModel SaveTemplate(TemplateManageModel model);
 

@@ -1,10 +1,8 @@
-﻿using System.Web.Mvc;
-
-namespace PX.Business.Services.CurlyBrackets.CurlyBracketResolver
+﻿namespace PX.Business.Services.CurlyBrackets.CurlyBracketResolver
 {
     public interface ICurlyBracketResolver
     {
-        string DefaultTemplate();
+        string DefaultTemplate { get; }
 
         void Initialize();
 

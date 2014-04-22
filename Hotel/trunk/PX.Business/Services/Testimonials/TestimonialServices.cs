@@ -107,14 +107,14 @@ namespace PX.Business.Services.Testimonials
                     return response.SetMessage(response.Success ?
                         _localizedResourceServices.T("AdminModule:::Testimonials:::Messages:::UpdateSuccessfully:::Update testimonial successfully.")
                         : _localizedResourceServices.T("AdminModule:::Testimonials:::Messages:::UpdateFailure:::Update testimonial failed. Please try again later."));
-                
+
                 case GridOperationEnums.Add:
                     testimonial = Mapper.Map<TestimonialModel, Testimonial>(model);
                     response = Insert(testimonial);
                     return response.SetMessage(response.Success ?
                         _localizedResourceServices.T("AdminModule:::Testimonials:::Messages:::CreateSuccessfully:::Create testimonial successfully.")
                         : _localizedResourceServices.T("AdminModule:::Testimonials:::Messages:::CreateFailure:::Insert testimonial failed. Please try again later."));
-                
+
                 case GridOperationEnums.Del:
                     response = Delete(model.Id);
                     return response.SetMessage(response.Success ?
@@ -137,11 +137,22 @@ namespace PX.Business.Services.Testimonials
         /// <returns></returns>
         public List<TestimonialModel> GetRandom(int count)
         {
-            return GetAll().Take(count).Select(t => new TestimonialModel
-                {
-                    Author = t.Author,
-                    Content = t.Content
-                }).ToList();
+            var data = new List<TestimonialModel>();
+            var testimonials = GetAll().Select(t => new TestimonialModel
+            {
+                Author = t.Author,
+                Content = t.Content
+            }).ToList();
+
+            for (var i = 0; i < count; i++)
+            {
+                if(testimonials.Count == 0)
+                    break;
+                var index = new Random(testimonials.Count).Next();
+                data.Add(testimonials[index]);
+                testimonials.Remove(testimonials[index]);
+            }
+            return data;
         }
     }
 }

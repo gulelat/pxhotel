@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 
-namespace PX.Business.Models.Pages.CurlyBrackets
+namespace PX.Business.Models.ClientMenus.CurlyBrackets
 {
     public class DynamicMenuCurlyBracket
     {
         public int Id { get; set; }
 
-        public string Title { get; set; }
+        public string Name { get; set; }
 
         public string Url { get; set; }
 

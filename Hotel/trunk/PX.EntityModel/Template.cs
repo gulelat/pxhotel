@@ -18,6 +18,7 @@ namespace PX.EntityModel
         public string Name { get; set; }
         public string Content { get; set; }
         public string DataType { get; set; }
+        public bool IsDefaultTemplate { get; set; }
         public int RecordOrder { get; set; }
         public bool RecordActive { get; set; }
         public System.DateTime Created { get; set; }

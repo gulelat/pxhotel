@@ -7,6 +7,7 @@ using AutoMapper;
 using PX.Business.Models.PageTemplates;
 using PX.Business.Models.Pages;
 using PX.Business.Services.CurlyBrackets;
+using PX.Business.Services.Templates;
 using PX.Core.Configurations;
 using PX.Core.Framework.Mvc.Environments;
 using PX.Business.Services.Localizes;
@@ -381,7 +382,8 @@ namespace PX.Business.Services.PageTemplates
                 template = CurlyBracketParser.ParseProperties(template);
                 template = CurlyBracketParser.ParseRenderBody(template);
 
-                var layout = string.Format("{0}-{1}", defaultTemplate.Name, defaultTemplate.Updated.HasValue ? defaultTemplate.Updated.Value.ToString("hhmmss-ddMMyyyy") : defaultTemplate.Created.ToString("hhmmss-ddMMyyyy"));
+                var layout = TemplateServices.GetTemplateCacheName(pageTemplate.Name, pageTemplate.Created,
+                                                                   pageTemplate.Updated);
                 if (Razor.Resolve(layout) == null)
                 {
                     templateService.Compile(template, typeof(PageRenderModel), layout);
@@ -417,7 +419,7 @@ namespace PX.Business.Services.PageTemplates
                             template = ReformatMaster(template);
 
                             //This used for re-cache the template
-                            layout = string.Format("{0}-{1}", item.Name, item.Updated.HasValue ? item.Updated.Value.ToString("hhmmss-ddMMyyyy") : item.Created.ToString("hhmmss-ddMMyyyy"));
+                            layout = TemplateServices.GetTemplateCacheName(item.Name, item.Created, item.Updated);
 
                             //Convert {RenderBody} to @RenderBody() for next rendering
                             template = CurlyBracketParser.ParseRenderBody(template);

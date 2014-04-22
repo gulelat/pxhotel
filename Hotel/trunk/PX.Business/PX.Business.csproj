@@ -80,9 +80,9 @@
     <Compile Include="Models\RotatingImageGroups\GroupImageSortingModel.cs" />
     <Compile Include="Models\RotatingImageGroups\GroupGalleryModel.cs" />
     <Compile Include="Models\Tags\TestimonialModel.cs" />
-    <Compile Include="Models\Medias\FileInfoModel.cs" />
-    <Compile Include="Models\Medias\FileTreeModel.cs" />
-    <Compile Include="Models\Pages\CurlyBrackets\DynamicMenuCurlyBracket.cs" />
+    <Compile Include="Models\Media\FileInfoModel.cs" />
+    <Compile Include="Models\Media\FileTreeModel.cs" />
+    <Compile Include="Models\ClientMenus\CurlyBrackets\DynamicMenuCurlyBracket.cs" />
     <Compile Include="Models\RotatingImageGroups\GroupManageSettingModel.cs" />
     <Compile Include="Models\RotatingImageGroups\GroupSettingModel.cs" />
     <Compile Include="Models\RotatingImageGroups\RotatingImageGroupModel.cs" />
@@ -91,6 +91,7 @@
     <Compile Include="Models\News\NewsManageModel.cs" />
     <Compile Include="Models\Settings\SettingTypes\ImageUploadSettings.cs" />
     <Compile Include="Models\Settings\SiteSettingManageModel.cs" />
+    <Compile Include="Models\Templates\TemplateRenderModel.cs" />
     <Compile Include="Models\Templates\TemplateManageModel.cs" />
     <Compile Include="Models\Templates\TemplateModel.cs" />
     <Compile Include="Models\NewsCategories\NewsCategoryModel.cs" />
@@ -111,13 +112,14 @@
     <Compile Include="Services\CurlyBrackets\CurlyBracketParser.cs" />
     <Compile Include="Services\FileTemplates\IFileTemplateServices.cs" />
     <Compile Include="Services\FileTemplates\FileTemplateServices.cs" />
+    <Compile Include="Services\Pages\CurlyBracketResolvers\PageResolver.cs" />
     <Compile Include="Services\Tags\ITagServices.cs" />
     <Compile Include="Services\Tags\TagServices.cs" />
     <Compile Include="Services\Media\MediaFileManager.cs" />
     <Compile Include="Services\Media\IMediaFileManager.cs" />
     <Compile Include="Services\Media\IMediaServices.cs" />
     <Compile Include="Services\Media\MediaServices.cs" />
-    <Compile Include="Services\Pages\CurlyBracketResolvers\DynamicMenuResolver.cs" />
+    <Compile Include="Services\ClientMenus\CurlyBracketResolvers\DynamicMenuResolver.cs" />
     <Compile Include="Services\RotatingImageGroups\IRotatingImageGroupServices.cs" />
     <Compile Include="Services\RotatingImageGroups\RotatingImageGroupServices.cs" />
     <Compile Include="Services\RotatingImages\IRotatingImageServices.cs" />
@@ -172,7 +174,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\CurlyBrackets\CurlyBracketServices.cs" />
     <Compile Include="Services\CurlyBrackets\ICurlyBracketServices.cs" />
-    <Compile Include="Services\Pages\CurlyBracketResolvers\PageResolver.cs" />
     <Compile Include="Services\PageTemplates\IPageTemplateServices.cs" />
     <Compile Include="Services\PageTemplates\PageTemplateServices.cs" />
     <Compile Include="Services\Pages\IPageServices.cs" />
@@ -203,7 +204,9 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Models\Pages\CurlyBrackets\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
