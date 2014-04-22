@@ -692,7 +692,9 @@
     <Content Include="Scripts\Backend\x-editable\bootstrap-editable.min.js" />
     <Content Include="Content\backend\template.css" />
     <Content Include="Global.asax" />
-    <Content Include="Areas\Admin\Views\Web.config" />
+    <Content Include="Areas\Admin\Views\Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Areas\Admin\Views\Home\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_Layout.cshtml" />
     <Content Include="Content\backend\font\cJZKeOuBrn4kERxqtaUH3T8E0i7KZn-EPnyo3HZu7kw.woff" />

@@ -382,8 +382,8 @@ namespace PX.Business.Services.PageTemplates
                 template = CurlyBracketParser.ParseProperties(template);
                 template = CurlyBracketParser.ParseRenderBody(template);
 
-                var layout = TemplateServices.GetTemplateCacheName(pageTemplate.Name, pageTemplate.Created,
-                                                                   pageTemplate.Updated);
+                var layout = TemplateServices.GetTemplateCacheName(defaultTemplate.Name, defaultTemplate.Created,
+                                                                   defaultTemplate.Updated);
                 if (Razor.Resolve(layout) == null)
                 {
                     templateService.Compile(template, typeof(PageRenderModel), layout);
