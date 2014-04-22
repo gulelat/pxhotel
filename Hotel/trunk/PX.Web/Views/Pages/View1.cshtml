@@ -1,167 +1,56 @@
-﻿<div class="navbar navbar-static-top navbar-default" role="navigation">
-    <div class="navbar-header">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-        </button>
-    </div>
-    <div class="navbar-collapse collapse">
-        <ul class="nav navbar-nav myNavbarNav">
-            <li class="dropdown parentDropdownMenu hidden-xs">
-                <a class="dropdown-submenu" data-toggle="dropdown" href="Test">Test</a>
-
+﻿<ul class="menuItemContainerLevel@(Model.First().Level - 1)OnMobile">
+    @foreach(var item in Model){
+        if(item.ChildMenus.Any()){
+            <li class="subMenuWithImage">
+                <div class="linkItemLevel@(item.Level)OnMobile">@item.Name</div>
+                @Raw(item.ChildMenusString)
             </li>
+        }
+        else{
             <li class="visible-xs menuItemOnMobileWithoutChildren">
-                <div class="linkItemLevel1OnMobile">Test</div>
+                <a href="@item.Url">@item.Name</a>
+            </li>
+        }
+    }
+</ul>
 
-            </li>
-            <li class="dropdown parentDropdownMenu hidden-xs">
-                <a class="dropdown-submenu" data-toggle="dropdown" href="Test-123">Test 1.1</a>
 
-            </li>
-            <li class="visible-xs menuItemOnMobileWithoutChildren">
-                <div class="linkItemLevel1OnMobile">Test 1.1</div>
+<ul class="dropdown-menu">
+    @foreach(var item in Model){
+        <li class="dropdown-submenu">
+            <a href="@item.Url" tabindex="-1">@item.Name </a>
+            @Raw(item.ChildMenusString)
+        </li>
+    }
+</ul>
 
-            </li>
-            <li class="dropdown parentDropdownMenu hidden-xs">
-                <a class="dropdown-submenu" data-toggle="dropdown" href="Test-1-1-1">Test 1.1.1</a>
 
-            </li>
-            <li class="visible-xs menuItemOnMobileWithoutChildren">
-                <div class="linkItemLevel1OnMobile">Test 1.1.1</div>
-
-            </li>
-            <li class="dropdown parentDropdownMenu hidden-xs">
-                <a class="dropdown-submenu" data-toggle="dropdown" href="Test-1-2">Test 1.2</a>
-                <ul class="dropdown-menu">
-                    <li class="dropdown-submenu">
-                        <a href="Test-1-2-1" tabindex="-1">Test 1.2.1 </a>
-
-                    </li>
-                </ul>
-            </li>
-            <li class="visible-xs menuItemOnMobile">
-                <div class="linkItemLevel1OnMobile">Test 1.2</div>
-                <ul class="menuItemContainerLevel1OnMobile">
-                    <li class="visible-xs menuItemOnMobileWithoutChildren">
-                        <a href="Test-1-2-1">Test 1.2.1</a>
-                    </li>
-                </ul>
-            </li>
-            <li class="dropdown parentDropdownMenu hidden-xs">
-                <a class="dropdown-submenu" data-toggle="dropdown" href="Test-Another-Page">Test Another Page</a>
-                <ul class="dropdown-menu">
-                    <li class="dropdown-submenu">
-                        <a href="Test-2-2" tabindex="-1">Test 2.2 </a>
-
-                    </li>
-                    <li class="dropdown-submenu">
-                        <a href="Test-2-1-1" tabindex="-1">Test 2.1.1 </a>
-
-                    </li>
-                    <li class="dropdown-submenu">
-                        <a href="Test-3" tabindex="-1">Test 3 </a>
-                        <ul class="dropdown-menu">
-                            <li class="dropdown-submenu">
-                                <a href="Test-4" tabindex="-1">Test 4 </a>
-                                <ul class="dropdown-menu">
-                                    <li class="dropdown-submenu">
-                                        <a href="Test-4-1" tabindex="-1">Test 4.1 </a>
-
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-            </li>
-            <li class="visible-xs menuItemOnMobile">
-                <div class="linkItemLevel1OnMobile">Test Another Page</div>
-                <ul class="menuItemContainerLevel1OnMobile">
-                    <li class="visible-xs menuItemOnMobileWithoutChildren">
-                        <a href="Test-2-2">Test 2.2</a>
-                    </li>
-                    <li class="visible-xs menuItemOnMobileWithoutChildren">
-                        <a href="Test-2-1-1">Test 2.1.1</a>
-                    </li>
-                    <li class="subMenuWithImage">
-                        <div class="linkItemLevel2OnMobile">Test 3</div>
-                        <ul class="menuItemContainerLevel2OnMobile">
-                            <li class="subMenuWithImage">
-                                <div class="linkItemLevel3OnMobile">Test 4</div>
-                                <ul class="menuItemContainerLevel3OnMobile">
-                                    <li class="visible-xs menuItemOnMobileWithoutChildren">
-                                        <a href="Test-4-1">Test 4.1</a>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-            </li>
-            <li class="dropdown parentDropdownMenu hidden-xs">
-                <a class="dropdown-submenu" data-toggle="dropdown" href="Home">Home</a>
-                <ul class="dropdown-menu">
-                    <li class="dropdown-submenu">
-                        <a href="Test-1" tabindex="-1">Test 1 </a>
-
-                    </li>
-                </ul>
-            </li>
-            <li class="visible-xs menuItemOnMobile">
-                <div class="linkItemLevel1OnMobile">Home</div>
-                <ul class="menuItemContainerLevel1OnMobile">
-                    <li class="visible-xs menuItemOnMobileWithoutChildren">
-                        <a href="Test-1">Test 1</a>
-                    </li>
-                </ul>
-            </li>
-            <li class="dropdown parentDropdownMenu hidden-xs">
-                <a class="dropdown-submenu" data-toggle="dropdown" href="Test-curly-bracket">Test curly bracket</a>
-                <ul class="dropdown-menu">
-                    <li class="dropdown-submenu">
-                        <a href="Test-2" tabindex="-1">Test 2 </a>
-                        <ul class="dropdown-menu">
-                            <li class="dropdown-submenu">
-                                <a href="Test-2-1" tabindex="-1">Test 2.1 </a>
-                                <ul class="dropdown-menu">
-                                    <li class="dropdown-submenu">
-                                        <a href="Test-2-1-2" tabindex="-1">Test 2.1.2 </a>
-
-                                    </li>
-                                    <li class="dropdown-submenu">
-                                        <a href="Test-2-1-3" tabindex="-1">Test 2.1.3 </a>
-
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-            </li>
-            <li class="visible-xs menuItemOnMobile">
-                <div class="linkItemLevel1OnMobile">Test curly bracket</div>
-                <ul class="menuItemContainerLevel1OnMobile">
-                    <li class="subMenuWithImage">
-                        <div class="linkItemLevel2OnMobile">Test 2</div>
-                        <ul class="menuItemContainerLevel2OnMobile">
-                            <li class="subMenuWithImage">
-                                <div class="linkItemLevel3OnMobile">Test 2.1</div>
-                                <ul class="menuItemContainerLevel3OnMobile">
-                                    <li class="visible-xs menuItemOnMobileWithoutChildren">
-                                        <a href="Test-2-1-2">Test 2.1.2</a>
-                                    </li>
-                                    <li class="visible-xs menuItemOnMobileWithoutChildren">
-                                        <a href="Test-2-1-3">Test 2.1.3</a>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-            </li>
-        </ul>
-    </div>
+<div class="navbar navbar-static-top navbar-default" role="navigation">
+  <div class="navbar-header">
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+      <span class="sr-only">Toggle navigation</span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+  </div>
+  <div class="navbar-collapse collapse">
+    <ul class="nav navbar-nav myNavbarNav">
+      @foreach(var item in Model){
+      <li class="dropdown parentDropdownMenu hidden-xs">
+        <a class="dropdown-submenu" data-toggle="dropdown" href="@item.Url">@item.Name</a>
+        @Raw(item.ChildMenusString)
+      </li>
+      <li class="visible-xs @(item.ChildMenus.Any() ? "menuItemOnMobile" : "menuItemOnMobileWithoutChildren")">
+        @if(item.ChildMenus.Any()){
+        	<div class="linkItemLevel@(item.Level)OnMobile">@item.Name</div>
+        }
+        else{
+        	<a href="@item.Url">@item.Name</a>
+        }
+        @Raw(item.ChildMenusMobileString)
+      </li>
+      }
+    </ul>
+  </div>
 </div>

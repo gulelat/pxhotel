@@ -36,6 +36,7 @@ namespace PX.EntityModel
         public DbSet<News> News { get; set; }
         public DbSet<NewsCategory> NewsCategories { get; set; }
         public DbSet<NewsNewsCategory> NewsNewsCategories { get; set; }
+        public DbSet<PageAudit> PageAudits { get; set; }
         public DbSet<Page> Pages { get; set; }
         public DbSet<PageTag> PageTags { get; set; }
         public DbSet<PageTemplate> PageTemplates { get; set; }

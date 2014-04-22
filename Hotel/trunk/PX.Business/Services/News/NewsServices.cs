@@ -166,7 +166,7 @@ namespace PX.Business.Services.News
             return new ResponseModel
             {
                 Success = false,
-                Message = _localizedResourceServices.T("AdminModule:::News:::Messages:::ObjectNotFounded:::News is not founded")
+                Message = _localizedResourceServices.T("AdminModule:::News:::Messages:::ObjectNotFounded:::News is not founded.")
             };
         }
 
