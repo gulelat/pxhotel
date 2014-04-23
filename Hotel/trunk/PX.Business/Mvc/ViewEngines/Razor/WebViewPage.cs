@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
@@ -205,6 +206,23 @@ namespace PX.Business.Mvc.ViewEngines.Razor
         public string Thumbnail(string filePath, int width, int height)
         {
             return Url.Action("Thumbnail", "Media", new { area = "Admin", path = filePath, w = width, h = height });
+        }
+        #endregion
+
+        #region Helpers
+        public static MvcHtmlString Nl2Br(string text)
+        {
+            if (string.IsNullOrEmpty(text))
+                return MvcHtmlString.Create(text);
+            var builder = new StringBuilder();
+            var lines = text.Split('\n');
+            for (var i = 0; i < lines.Length; i++)
+            {
+                if (i > 0)
+                    builder.Append("<br/>");
+                builder.Append(HttpUtility.HtmlEncode(lines[i]));
+            }
+            return MvcHtmlString.Create(builder.ToString());
         }
         #endregion
 

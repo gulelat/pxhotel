@@ -66,7 +66,8 @@
                     {
                         name: 'preview', width: 50, sortable: false, search: false, align: "center",
                         formatter: function (cellvalue, options, rowObject) {
-                            return "<a href='@Url.Action("Edit")/" + options.rowId + "'><div class='ui-pg-div ui-inline-edit' title='' data-original-title='Edit Page Template'><span class='icon-edit'></span></div></a>";
+                            var logIcon = "<a class='grid-action' href='@Url.Action("Logs")/" + options.rowId + "'><div class='ui-pg-div ui-inline-edit' title='' data-original-title='View Logs'><span class='icon-book'></span></div></a>";
+                            return logIcon;
                         }
                     },
                     { name: 'Id', index: 'Id', width: 60, key: true, sorttype: "int" },

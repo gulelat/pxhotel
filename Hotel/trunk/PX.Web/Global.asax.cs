@@ -15,7 +15,7 @@ using PX.Business.Services.Media;
 using PX.Business.Services.Menus;
 using PX.Business.Services.News;
 using PX.Business.Services.NewsCategories;
-using PX.Business.Services.PageAudits;
+using PX.Business.Services.PageLogs;
 using PX.Business.Services.PageTemplates;
 using PX.Business.Services.Pages;
 using PX.Business.Services.RotatingImageGroups;
@@ -179,7 +179,7 @@ namespace PX.Web
             container.Register<ITagServices, TagServices>(Lifestyle.Singleton);
             container.Register<IClientMenuServices, ClientMenuServices>(Lifestyle.Singleton);
             container.Register<IFileTemplateServices, FileTemplateServices>(Lifestyle.Singleton);
-            container.Register<IPageAuditServices, PageAuditServices>(Lifestyle.Singleton);
+            container.Register<IPageLogServices, PageLogServices>(Lifestyle.Singleton);
         }
 
         #endregion

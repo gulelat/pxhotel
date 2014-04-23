@@ -109,7 +109,7 @@
     <Compile Include="Page.cs">
       <DependentUpon>PXHotel.tt</DependentUpon>
     </Compile>
-    <Compile Include="PageAudit.cs">
+    <Compile Include="PageLog.cs">
       <DependentUpon>PXHotel.tt</DependentUpon>
     </Compile>
     <Compile Include="PageTag.cs">
@@ -118,8 +118,13 @@
     <Compile Include="PageTemplate.cs">
       <DependentUpon>PXHotel.tt</DependentUpon>
     </Compile>
+    <Compile Include="PageTemplateLog.cs">
+      <DependentUpon>PXHotel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Repositories\ClientMenuRepository.cs" />
-    <Compile Include="Repositories\PageAuditRepository.cs" />
+    <Compile Include="Repositories\PageTemplateLogRepository.cs" />
+    <Compile Include="Repositories\TemplateLogRepository.cs" />
+    <Compile Include="Repositories\PageLogRepository.cs" />
     <Compile Include="Repositories\FileTemplateRepository.cs" />
     <Compile Include="Repositories\PageTagRepository.cs" />
     <Compile Include="Repositories\PageRepository.cs" />
@@ -184,6 +189,9 @@
       <DependentUpon>PXHotel.tt</DependentUpon>
     </Compile>
     <Compile Include="Template.cs">
+      <DependentUpon>PXHotel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TemplateLog.cs">
       <DependentUpon>PXHotel.tt</DependentUpon>
     </Compile>
     <Compile Include="Testimonial.cs">

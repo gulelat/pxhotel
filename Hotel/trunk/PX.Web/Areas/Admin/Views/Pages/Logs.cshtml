@@ -1,0 +1,90 @@
+﻿@model PX.Business.Models.Pages.PageLogModel
+
+@{
+    ViewBag.Header = "Page Logs";
+    ViewBag.Title = Model.Title;
+    ViewBag.Description = "Page Logs";
+}
+
+<div class="page-header">
+    <h1>@ViewBag.Header
+        <small>
+            <i class="icon-double-angle-right"></i>
+            @ViewBag.Title
+        </small>
+    </h1>
+</div>
+
+<div class="row">
+    <div class="col-xs-12">
+        <div class="widget-box transparent">
+            <div class="widget-header widget-header-small">
+                <h4 class="blue smaller">
+                    <i class="icon-rss orange"></i>
+                    Recent Logs
+                </h4>
+
+                <div class="widget-toolbar action-buttons">
+                    <a href="#" data-action="reload">
+                        <i class="icon-refresh blue"></i>
+                    </a>
+                    <a href="#" class="pink" style="margin-left: 4px">
+                        <i class="icon-trash"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="widget-body">
+                <div class="widget-main padding-8">
+                    <div class="page-logs">
+                        @foreach (var item in Model.Logs)
+                        {
+                            <div class="log-item clearfix">
+                                <div class="col-xs-12">
+                                    <div class="creator col-xs-3 col-sm-2 col-md-1">
+                                        <img alt="@item.CreatedBy.FullName" src="@item.CreatedBy.AvatarPath" />
+                                        <div class="creator-name col-xs-12">
+                                            <a class="user" href="@Url.Action("Profiles", "Users", new { id = item.CreatedBy.Id })">@item.CreatedBy.FullName </a>
+                                        </div>
+                                    </div>
+                                    <div class="log col-xs-9 col-sm-10 col-md-11">
+                                        @Nl2Br(item.ChangeLog)
+                                    </div>
+
+                                    <div class="time col-xs-9 col-sm-10 col-md-11">
+                                        <i class="icon-time bigger-110"></i>
+                                        @item.Created
+                                    </div>
+                                </div>
+
+                                <div class="tools action-buttons">
+                                    <a href="@Url.Action("Edit", new { logId = item.Id})" class="blue" title="Revert to this version">
+                                        <i class="icon-rotate-left bigger-125"></i>
+                                    </a>
+
+                                    <a href="#" class="red" title="Preview this version">
+                                        <i class="icon-eye-open bigger-125"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="hr hr2 hr-double"></div>
+
+        <div class="space-6"></div>
+
+        <div class="center">
+            <a href="#" class="btn btn-sm btn-primary">
+                <i class="icon-rss bigger-150 middle"></i>
+                <span class="bigger-110">View more logs</span>
+
+                <i class="icon-on-right icon-arrow-right"></i>
+            </a>
+        </div>
+    </div>
+</div>
+

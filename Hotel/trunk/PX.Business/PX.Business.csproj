@@ -74,8 +74,11 @@
     <Compile Include="Models\ClientMenus\ClientBreadCrumbModel.cs" />
     <Compile Include="Models\ClientMenus\ClientMenuModel.cs" />
     <Compile Include="Models\ClientMenus\ClientMenuManageModel.cs" />
-    <Compile Include="Models\PageAudits\PageAuditViewModel.cs" />
-    <Compile Include="Models\PageAudits\PageAuditModel.cs" />
+    <Compile Include="Models\PageTemplateLogs\PageTemplateLogViewModel.cs" />
+    <Compile Include="Models\PageTemplateLogs\PageTemplateLogModel.cs" />
+    <Compile Include="Models\PageLogs\PageLogViewModel.cs" />
+    <Compile Include="Models\PageLogs\PageLogPreviewModel.cs" />
+    <Compile Include="Models\PageLogs\PageLogModel.cs" />
     <Compile Include="Models\FileTemplates\TemplateModel.cs" />
     <Compile Include="Models\FileTemplates\FileTemplateManageModel.cs" />
     <Compile Include="Models\FileTemplates\FileTemplateModel.cs" />
@@ -112,8 +115,10 @@
     <Compile Include="Mvc\ViewEngines\VirtualPathProvider.cs" />
     <Compile Include="Services\ClientMenus\IClientMenuServices.cs" />
     <Compile Include="Services\ClientMenus\ClientMenuServices.cs" />
-    <Compile Include="Services\PageAudits\IPageAuditServices.cs" />
-    <Compile Include="Services\PageAudits\PageAuditServices.cs" />
+    <Compile Include="Services\PageTemplateLogs\IPageTemplateLogServices.cs" />
+    <Compile Include="Services\PageTemplateLogs\PageTemplateServices.cs" />
+    <Compile Include="Services\PageLogs\IPageLogServices.cs" />
+    <Compile Include="Services\PageLogs\PageLogServices.cs" />
     <Compile Include="Services\CurlyBrackets\CurlyBracketParser.cs" />
     <Compile Include="Services\FileTemplates\IFileTemplateServices.cs" />
     <Compile Include="Services\FileTemplates\FileTemplateServices.cs" />

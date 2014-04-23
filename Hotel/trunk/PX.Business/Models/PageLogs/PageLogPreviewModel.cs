@@ -4,10 +4,46 @@ using PX.Core.Framework.Enums;
 using PX.Core.Ultilities;
 using PX.EntityModel;
 
-namespace PX.Business.Models.PageAudits
+namespace PX.Business.Models.PageLogs
 {
-    public class PageAuditViewModel : BaseModel
+    public class PageLogPreviewModel : BaseModel
     {
+        #region Constructors
+
+        public PageLogPreviewModel()
+        {
+            
+        }
+
+        public PageLogPreviewModel(Page page)
+        {
+            PageId = page.Id;
+            Title = page.Title;
+            Caption = page.Caption;
+            CaptionWorking = page.CaptionWorking;
+            Content = page.Content;
+            ContentWorking = page.ContentWorking;
+
+            var pageTags = page.PageTags.Select(t => t.Id);
+            var tags = pageTags as int[] ?? pageTags.ToArray();
+            Tags = tags.Any() ? string.Join(",", tags.ToList()) : string.Empty;
+
+            FileTemplateId = page.FileTemplateId;
+            FileTemplateName = page.FileTemplateId.HasValue ? page.FileTemplate.Name : string.Empty;
+
+            Keywords = page.Keywords;
+            IncludeInSiteNavigation = page.IncludeInSiteNavigation;
+            StartPublishingDate = page.StartPublishingDate;
+            EndPublishingDate = page.EndPublishingDate;
+            PageTemplateId = page.PageTemplateId;
+            PageTemplateName = page.PageTemplateId.HasValue ? page.PageTemplate.Name : string.Empty;
+            Status = page.Status;
+            FriendlyUrl = page.FriendlyUrl;
+            ParentId = page.ParentId;
+            ParentName = page.ParentId.HasValue ? page.Page1.Title : string.Empty;
+        }
+        #endregion
+
         #region Public Properties
         public int Id { get; set; }
 
@@ -64,33 +100,5 @@ namespace PX.Business.Models.PageAudits
         public string ParentName { get; set; }
 
         #endregion
-
-        public PageAuditViewModel(Page page)
-        {
-            PageId = page.Id;
-            Title = page.Title;
-            Caption = page.Caption;
-            CaptionWorking = page.CaptionWorking;
-            Content = page.Content;
-            ContentWorking = page.ContentWorking;
-
-            var pageTags = page.PageTags.Select(t => t.Id);
-            var tags = pageTags as int[] ?? pageTags.ToArray();
-            Tags = tags.Any() ? string.Join(",", tags.ToList()) : string.Empty;
-
-            FileTemplateId = page.FileTemplateId;
-            FileTemplateName = page.FileTemplateId.HasValue ? page.FileTemplate.Name : string.Empty;
-
-            Keywords = page.Keywords;
-            IncludeInSiteNavigation = page.IncludeInSiteNavigation;
-            StartPublishingDate = page.StartPublishingDate;
-            EndPublishingDate = page.EndPublishingDate;
-            PageTemplateId = page.PageTemplateId;
-            PageTemplateName = page.PageTemplateId.HasValue ?  page.PageTemplate.Name : string.Empty;
-            Status = page.Status;
-            FriendlyUrl = page.FriendlyUrl;
-            ParentId = page.ParentId;
-            ParentName = page.ParentId.HasValue ? page.Page1.Title : string.Empty;
-        }
     }
 }

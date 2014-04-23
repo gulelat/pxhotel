@@ -17,7 +17,7 @@ namespace PX.EntityModel
         public Page()
         {
             this.ClientMenus = new HashSet<ClientMenu>();
-            this.PageAudits = new HashSet<PageAudit>();
+            this.PageLogs = new HashSet<PageLog>();
             this.Pages1 = new HashSet<Page>();
             this.PageTags = new HashSet<PageTag>();
         }
@@ -48,7 +48,7 @@ namespace PX.EntityModel
     
         public virtual ICollection<ClientMenu> ClientMenus { get; set; }
         public virtual FileTemplate FileTemplate { get; set; }
-        public virtual ICollection<PageAudit> PageAudits { get; set; }
+        public virtual ICollection<PageLog> PageLogs { get; set; }
         public virtual ICollection<Page> Pages1 { get; set; }
         public virtual Page Page1 { get; set; }
         public virtual PageTemplate PageTemplate { get; set; }

@@ -193,7 +193,8 @@
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\AccountController.cs" />
     <Compile Include="Areas\Admin\Controllers\ClientMenusController.cs" />
-    <Compile Include="Areas\Admin\Controllers\PageAuditsController.cs" />
+    <Compile Include="Areas\Admin\Controllers\PageTemplateLogsController.cs" />
+    <Compile Include="Areas\Admin\Controllers\PageLogsController.cs" />
     <Compile Include="Areas\Admin\Controllers\FileTemplatesController.cs" />
     <Compile Include="Areas\Admin\Controllers\TagsController.cs" />
     <Compile Include="Areas\Admin\Controllers\RotatingImageGroupsController.cs" />
@@ -1095,8 +1096,9 @@
     <Content Include="Areas\Admin\Views\ClientMenus\EditorTemplates\ClientMenuManageModel.cshtml" />
     <Content Include="Areas\Admin\Views\ClientMenus\Create.cshtml" />
     <Content Include="Areas\Admin\Views\ClientMenus\Edit.cshtml" />
-    <Content Include="Areas\Admin\Views\PageAudits\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\Pages\Log.cshtml" />
+    <Content Include="Areas\Admin\Views\PageLogs\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Pages\Logs.cshtml" />
+    <Content Include="Areas\Admin\Views\PageTemplateLogs\Index.cshtml" />
     <None Include="Properties\PublishProfiles\Hotel.pubxml" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <None Include="Scripts\jquery-1.8.3.intellisense.js" />
