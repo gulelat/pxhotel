@@ -16,7 +16,6 @@ namespace PX.EntityModel
     {
         public int Id { get; set; }
         public int PageId { get; set; }
-        public string SessionId { get; set; }
         public string Title { get; set; }
         public string Caption { get; set; }
         public string CaptionWorking { get; set; }

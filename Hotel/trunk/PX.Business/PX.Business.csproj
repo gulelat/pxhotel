@@ -79,6 +79,7 @@
     <Compile Include="Models\FileTemplates\TemplateModel.cs" />
     <Compile Include="Models\FileTemplates\FileTemplateManageModel.cs" />
     <Compile Include="Models\FileTemplates\FileTemplateModel.cs" />
+    <Compile Include="Models\Pages\PageLogModel.cs" />
     <Compile Include="Models\RotatingImageGroups\GroupImageSortingModel.cs" />
     <Compile Include="Models\RotatingImageGroups\GroupGalleryModel.cs" />
     <Compile Include="Models\Tags\TestimonialModel.cs" />

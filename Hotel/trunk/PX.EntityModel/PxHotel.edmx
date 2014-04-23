@@ -302,7 +302,6 @@
           </Key>
           <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="PageId" Type="int" Nullable="false" />
-          <Property Name="SessionId" Type="nvarchar" Nullable="false" MaxLength="512" />
           <Property Name="Title" Type="nvarchar" Nullable="false" MaxLength="512" />
           <Property Name="Caption" Type="nvarchar(max)" />
           <Property Name="CaptionWorking" Type="nvarchar(max)" />
@@ -1133,7 +1132,6 @@
           </Key>
           <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="Int32" Name="PageId" Nullable="false" />
-          <Property Type="String" Name="SessionId" Nullable="false" MaxLength="512" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="Title" Nullable="false" MaxLength="512" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="Caption" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="CaptionWorking" MaxLength="Max" FixedLength="false" Unicode="true" />
@@ -1887,7 +1885,6 @@
                 <ScalarProperty Name="CaptionWorking" ColumnName="CaptionWorking" />
                 <ScalarProperty Name="Caption" ColumnName="Caption" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
-                <ScalarProperty Name="SessionId" ColumnName="SessionId" />
                 <ScalarProperty Name="PageId" ColumnName="PageId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>

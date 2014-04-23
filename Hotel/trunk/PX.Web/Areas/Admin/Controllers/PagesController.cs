@@ -160,5 +160,10 @@ namespace PX.Web.Areas.Admin.Controllers
         {
             return Json(_pageServices.GetRelativePages(id, parentId));
         }
+
+        public ActionResult Log(int id)
+        {
+            return View();
+        }
     }
 }

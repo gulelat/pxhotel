@@ -116,8 +116,11 @@ namespace PX.Web.Areas.Admin.Controllers
         public ActionResult LogOut()
         {
             FormsAuthentication.SignOut();
+            Session.Clear();
             Session.Abandon();
-            return RedirectToAction("Login");
+
+            var returnUrl = System.Web.HttpContext.Current.Request.UrlReferrer != null ? System.Web.HttpContext.Current.Request.UrlReferrer.AbsolutePath : string.Empty;
+            return RedirectToAction("Login", new { returnUrl });
         }
 
         #endregion
