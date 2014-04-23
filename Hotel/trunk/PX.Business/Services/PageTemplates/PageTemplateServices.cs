@@ -4,9 +4,11 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Web.Mvc;
 using AutoMapper;
+using PX.Business.Models.PageTemplateLogs;
 using PX.Business.Models.PageTemplates;
 using PX.Business.Models.Pages;
 using PX.Business.Services.CurlyBrackets;
+using PX.Business.Services.PageTemplateLogs;
 using PX.Business.Services.Templates;
 using PX.Core.Configurations;
 using PX.Core.Framework.Mvc.Environments;
@@ -28,9 +30,11 @@ namespace PX.Business.Services.PageTemplates
         public const string DBTemplate = "DBTemplate";
         private const string DefaultTemplateName = "DefaultMasterTemplateWithRenderContentOnly";
         private readonly ILocalizedResourceServices _localizedResourceServices;
+        private readonly IPageTemplateLogServices _pageTemplateLogServices;
         public PageTemplateServices()
         {
             _localizedResourceServices = HostContainer.GetInstance<ILocalizedResourceServices>();
+            _pageTemplateLogServices = HostContainer.GetInstance<IPageTemplateLogServices>();
         }
 
         #region Initialize
@@ -173,21 +177,18 @@ namespace PX.Business.Services.PageTemplates
         public PageTemplateManageModel GetTemplateManageModel(int? id = null)
         {
             var template = GetById(id);
-            if (template != null)
-            {
-                return new PageTemplateManageModel
-                {
-                    Id = template.Id,
-                    Name = template.Name,
-                    Content = template.Content,
-                    ParentId = template.ParentId,
-                    Parents = GetPossibleParents(template.Id)
-                };
-            }
-            return new PageTemplateManageModel
-            {
-                Parents = GetPossibleParents()
-            };
+            return template != null ? new PageTemplateManageModel(template) : new PageTemplateManageModel();
+        }
+
+        /// <summary>
+        /// Get page template manage model for edit/create
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public PageTemplateManageModel GetTemplateManageModelByLogId(int? id = null)
+        {
+            var log = PageTemplateLogRepository.GetById(id);
+            return log != null ? new PageTemplateManageModel(log) : new PageTemplateManageModel();
         }
 
         /// <summary>
@@ -201,7 +202,8 @@ namespace PX.Business.Services.PageTemplates
             var pageTemplate = GetById(model.Id);
             if (pageTemplate != null)
             {
-                List<PageTemplate> childTemplates = new List<PageTemplate>();
+                var log = new PageTemplateLogManageModel(pageTemplate);
+                var childTemplates = new List<PageTemplate>();
                 if(pageTemplate.Name.Equals(DefaultTemplateName))
                 {
                     childTemplates = GetAll().Where(t => !t.Name.Equals(DefaultTemplateName)).ToList();
@@ -225,6 +227,11 @@ namespace PX.Business.Services.PageTemplates
 
                 response = HierarchyUpdate(pageTemplate);
 
+                if(response.Success)
+                {
+                    _pageTemplateLogServices.SavePageTemplateLog(log);
+                }
+
                 return response.SetMessage(response.Success ?
                     _localizedResourceServices.T("AdminModule:::PageTemplates:::Messages:::UpdateSuccessfully:::Update page template successfully.")
                     : _localizedResourceServices.T("AdminModule:::PageTemplates:::Messages:::UpdateFailure:::Update page template failed. Please try again later."));
@@ -237,6 +244,24 @@ namespace PX.Business.Services.PageTemplates
                 : _localizedResourceServices.T("AdminModule:::PageTemplates:::Messages:::CreateFailure:::Create page template failed. Please try again later."));
         }
 
+        #endregion
+
+        #region Logs
+        /// <summary>
+        /// Get page log model
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public PageTemplateLogsModel GetLogs(int id)
+        {
+            var page = GetById(id);
+            if (page != null)
+            {
+                var model = new PageTemplateLogsModel(page);
+                return model;
+            }
+            return null;
+        }
         #endregion
 
         /// <summary>

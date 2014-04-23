@@ -1,5 +1,4 @@
 ﻿using System;
-using PX.Business.Services.Pages;
 using PX.Business.Services.Users;
 using PX.Core.Framework.Enums;
 using PX.Core.Framework.Mvc.Attributes;
@@ -22,7 +21,7 @@ namespace PX.Business.Models.PageLogs
         public PageLogViewModel(PageLog pageLog): this()
         {
             Id = pageLog.Id;
-            PageId = pageLog.Id;
+            PageId = pageLog.PageId;
             Title = pageLog.Title;
             ChangeLog = pageLog.ChangeLog;
             FileTemplateId = pageLog.FileTemplateId;
@@ -31,7 +30,7 @@ namespace PX.Business.Models.PageLogs
             FriendlyUrl = pageLog.FriendlyUrl;
             ParentId = pageLog.ParentId;
             Created = pageLog.Created;
-            CreatedBy = _userServices.GetUser(pageLog.CreatedBy);
+            Creator = _userServices.GetUser(pageLog.CreatedBy);
         }
         #endregion
 
@@ -71,7 +70,7 @@ namespace PX.Business.Models.PageLogs
         [DefaultOrder]
         public DateTime? Created { get; set; }
 
-        public User CreatedBy { get; set; }
+        public User Creator { get; set; }
 
         #endregion
     }

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
@@ -69,7 +68,7 @@ namespace PX.Business.Services.PageLogs
             var pageLogs = GetAll().Select(audit => new PageLogModel
                 {
                     Id = audit.Id,
-                    PageId = audit.Id,
+                    PageId = audit.PageId,
                     Title = audit.Title,
                     ChangeLog = audit.ChangeLog,
                     FileTemplateId = audit.FileTemplateId,
@@ -91,35 +90,35 @@ namespace PX.Business.Services.PageLogs
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public ResponseModel SavePageLog(PageLogPreviewModel model)
+        public ResponseModel SavePageLog(PageLogManageModel model)
         {
             var page = PageRepository.GetById(model.PageId);
             if (page != null)
             {
                 /*
-                 * Map page audit model to audit entity
-                 * Get last updated version of audit page
+                 * Map page log model to log entity
+                 * Get last updated version of page log
                  * Create Change Log
                  * If there are nothing change then do not do anything
-                 * Otherwise insert audit
+                 * Otherwise insert log
                  */
-                Mapper.CreateMap<PageLogPreviewModel, PageLog>();
-                var audit = Mapper.Map<PageLogPreviewModel, PageLog>(model);
+                Mapper.CreateMap<PageLogManageModel, PageLog>();
+                var log = Mapper.Map<PageLogManageModel, PageLog>(model);
 
                 var pageLog = GetAll().Where(a => a.PageId == page.Id).OrderByDescending(a => a.Id).FirstOrDefault();
 
-                audit.ChangeLog = pageLog != null
+                log.ChangeLog = pageLog != null
                                       ? ChangeLog(pageLog, model)
                                       : string.Format("** Create Page **");
 
-                if (string.IsNullOrEmpty(audit.ChangeLog))
+                if (string.IsNullOrEmpty(log.ChangeLog))
                 {
                     return new ResponseModel
                     {
                         Success = true
                     };
                 }
-                return Insert(audit);
+                return Insert(log);
             }
             return new ResponseModel
                 {
@@ -134,7 +133,7 @@ namespace PX.Business.Services.PageLogs
         /// <param name="pageLog"></param>
         /// <param name="pageLogModel"></param>
         /// <returns></returns>
-        private string ChangeLog(PageLog pageLog, PageLogPreviewModel pageLogModel)
+        private string ChangeLog(PageLog pageLog, PageLogManageModel pageLogModel)
         {
             var changeLog = new StringBuilder();
             const string format = "- Update field: {0}\n";

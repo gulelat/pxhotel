@@ -5,15 +5,15 @@ using PX.EntityModel;
 
 namespace PX.Business.Models.Pages
 {
-    public class PageLogModel
+    public class PageLogsModel
     {
         #region Constructors
-        public PageLogModel()
+        public PageLogsModel()
         {
 
         }
 
-        public PageLogModel(Page page)
+        public PageLogsModel(Page page)
         {
             Id = page.Id;
             Title = page.Title;
