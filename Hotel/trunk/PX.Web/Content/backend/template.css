@@ -1,8 +1,7 @@
 ﻿/* Validation */
 input.input-validation-error,
 select.input-validation-error,
-textarea.input-validation-error
-{
+textarea.input-validation-error {
     border-color: #f09784;
     color: #d68273;
     -webkit-box-shadow: none;
@@ -11,28 +10,24 @@ textarea.input-validation-error
 
     input.input-validation-error:focus,
     select.input-validation-error:focus,
-    textarea.input-validation-error:focus
-    {
+    textarea.input-validation-error:focus {
         -webkit-box-shadow: 0px 0px 0px 2px rgba(219, 137, 120, 0.3);
         box-shadow: 0px 0px 0px 2px rgba(219, 137, 120, 0.3);
         color: #886666;
         border-color: #db8978;
     }
 
-.field-validation-error, .field-validation-error span
-{
+.field-validation-error, .field-validation-error span {
     color: #D16E6C;
     line-height: 27px;
     margin-left: 10px;
 }
 
 /* Inline editing*/
-.editable-text
-{
+.editable-text {
 }
 
-.editable-textarea
-{
+.editable-textarea {
 }
 
 /* Code Mirror*/
@@ -41,7 +36,6 @@ textarea.input-validation-error
 
 /* Message */
 #gritter-notice-wrapper {
-    
 }
 
 
@@ -59,8 +53,7 @@ textarea.input-validation-error
 
 
 /*Google map*/
-.controls
-{
+.controls {
     margin-top: 16px;
     border: 1px solid transparent;
     border-radius: 2px 0 0 2px;
@@ -71,8 +64,7 @@ textarea.input-validation-error
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
 }
 
-#address-input
-{
+#address-input {
     background-color: #fff;
     padding: 0 11px 0 13px;
     width: 400px;
@@ -82,31 +74,27 @@ textarea.input-validation-error
     text-overflow: ellipsis;
 }
 
-    #address-input:focus
-    {
+    #address-input:focus {
         border-color: #4d90fe;
         margin-left: -1px;
         padding-left: 14px; /* Regular padding-left + 1. */
         width: 401px;
     }
 
-#address-buttons
-{
+#address-buttons {
     color: #fff;
     background-color: #4d90fe;
     padding: 3px 11px 0px 11px;
 }
 
-#type-selector label
-{
+#type-selector label {
     font-family: Roboto;
     font-size: 13px;
     font-weight: 300;
 }
 
 /* Site css*/
-#loading-wrapper
-{
+#loading-wrapper {
     width: 100%;
     height: 100%;
     background: rgb(54, 25, 25);
@@ -116,41 +104,35 @@ textarea.input-validation-error
     left: 0;
 }
 
-.loading
-{
+.loading {
     position: absolute;
     left: 50%;
     top: 50%;
 }
 
-#overlay
-{
+#overlay {
     width: 100%;
     background: url('/Images/Shared/loading.gif') repeat;
     position: relative;
 }
 
 
-    #overlay img.loading_circle
-    {
+    #overlay img.loading_circle {
         position: absolute;
         top: 50%;
         left: 50%;
     }
 
-.profile-info-name
-{
+.profile-info-name {
     width: 145px;
 }
 
-.profile-info-value
-{
+.profile-info-value {
     margin-left: 150px;
     min-height: 30px;
 }
 
-.gritter-center
-{
+.gritter-center {
     position: fixed;
     left: 33%;
     right: 33%;
@@ -166,3 +148,91 @@ textarea.input-validation-error
     height: 100px;
     min-width: 120px;
 }
+
+/* Page Logs*/
+.log-item {
+    padding: 10px 4px;
+    border-bottom: 1px dotted #D0D8E0;
+    position: relative;
+    border-left: 1px dotted #FFF;
+    border-right: 1px dotted #FFF;
+}
+
+    .log-item:first-child {
+        border-top: 1px dotted transparent;
+    }
+
+        .log-item:first-child:hover {
+            border-top-color: #D0D8E0;
+        }
+
+    .log-item:hover {
+        background-color: #F4F9FD;
+        border-left: 1px dotted #D0D8E0;
+        border-right: 1px dotted #D0D8E0;
+    }
+
+    .log-item img {
+        border: 2px solid #C9D6E5;
+        border-radius: 100%;
+        max-width: 40px;
+        box-shadow: none;
+    }
+
+    .log-item .thumbicon {
+        background-color: #74ABD7;
+        display: inline-block;
+        border-radius: 100%;
+        width: 38px;
+        height: 38px;
+        color: #FFF;
+        font-size: 18px;
+        text-align: center;
+        line-height: 38px;
+        margin-right: 10px;
+        margin-left: 0px;
+        text-shadow: none !important;
+    }
+
+    .log-item .creator {
+        padding: 0;
+        display: block;
+        float: left;
+        text-align: center;
+    }
+
+        .log-item .creator .creator-name {
+            padding: 0;
+            float: left;
+            width: 100%;
+        }
+
+    .log-item .log {
+        float: right;
+        display: block;
+        margin-top: 4px;
+        color: #777;
+    }
+
+    .log-item .time {
+        float: right;
+        display: block;
+        margin-top: 4px;
+        color: #777;
+    }
+
+    .log-item a.user {
+        font-weight: bold;
+        color: #9585BF;
+    }
+
+    .log-item .tools {
+        position: absolute;
+        right: 12px;
+        bottom: 8px;
+        display: none;
+    }
+
+    .log-item:hover .tools {
+        display: block;
+    }

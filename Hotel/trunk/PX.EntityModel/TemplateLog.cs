@@ -12,25 +12,13 @@ namespace PX.EntityModel
     using System;
     using System.Collections.Generic;
     
-    public partial class PageAudit
+    public partial class TemplateLog
     {
         public int Id { get; set; }
-        public int PageId { get; set; }
-        public string Title { get; set; }
-        public string Caption { get; set; }
-        public string CaptionWorking { get; set; }
+        public int TemplateId { get; set; }
+        public string Name { get; set; }
         public string Content { get; set; }
-        public string ContentWorking { get; set; }
-        public string FriendlyUrl { get; set; }
-        public Nullable<int> PageTemplateId { get; set; }
-        public Nullable<int> FileTemplateId { get; set; }
-        public int Status { get; set; }
-        public Nullable<int> ParentId { get; set; }
-        public bool IncludeInSiteNavigation { get; set; }
-        public Nullable<System.DateTime> StartPublishingDate { get; set; }
-        public Nullable<System.DateTime> EndPublishingDate { get; set; }
-        public string Keywords { get; set; }
-        public string ChangeLog { get; set; }
+        public string DataType { get; set; }
         public int RecordOrder { get; set; }
         public bool RecordActive { get; set; }
         public System.DateTime Created { get; set; }
@@ -38,6 +26,6 @@ namespace PX.EntityModel
         public Nullable<System.DateTime> Updated { get; set; }
         public string UpdatedBy { get; set; }
     
-        public virtual Page Page { get; set; }
+        public virtual Template Template { get; set; }
     }
 }

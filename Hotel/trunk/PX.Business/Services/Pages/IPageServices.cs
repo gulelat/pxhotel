@@ -39,6 +39,8 @@ namespace PX.Business.Services.Pages
 
         PageManageModel GetPageManageModel(int? id = null);
 
+        PageManageModel GetPageManageModelByLogId(int? id = null);
+
         ResponseModel SavePageManageModel(PageManageModel model);
         #endregion
 

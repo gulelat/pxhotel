@@ -1,7 +1,6 @@
 ﻿using System.Web.Mvc;
 using Newtonsoft.Json;
 using PX.Business.Models.Pages;
-using PX.Business.Mvc.Attributes;
 using PX.Business.Mvc.Attributes.Authorize;
 using PX.Business.Mvc.Controllers;
 using PX.Business.Services.PageTemplates;
@@ -11,7 +10,6 @@ using PX.Core.Framework.Mvc.Attributes;
 using PX.Core.Framework.Mvc.Models;
 using PX.Core.Framework.Mvc.Models.JqGrid;
 using PX.Core.Ultilities;
-using PX.EntityModel;
 
 namespace PX.Web.Areas.Admin.Controllers
 {
@@ -118,9 +116,22 @@ namespace PX.Web.Areas.Admin.Controllers
         #endregion
 
         #region Edit
-        public ActionResult Edit(int id)
+        public ActionResult Edit(int? id, int? logId)
         {
-            var model = _pageServices.GetPageManageModel(id);
+            PageManageModel model = null;
+            if (id.HasValue)
+            {
+                model = _pageServices.GetPageManageModel(id.Value);
+            }
+            else if(logId.HasValue)
+            {
+                model = _pageServices.GetPageManageModelByLogId(logId.Value);
+            }
+            if (model == null)
+            {
+                SetErrorMessage(LocalizedResourceServices.T("AdminModule:::Pages:::Messages:::ObjectNotFounded:::Page is not founded."));
+                return RedirectToAction("Index");
+            }
             return View(model);
         }
 
@@ -161,9 +172,15 @@ namespace PX.Web.Areas.Admin.Controllers
             return Json(_pageServices.GetRelativePages(id, parentId));
         }
 
-        public ActionResult Log(int id)
+        public ActionResult Logs(int id)
         {
-            return View();
+            var model = _pageServices.GetLogs(id);
+            if (model == null)
+            {
+                SetErrorMessage(LocalizedResourceServices.T("AdminModule:::Pages:::Messages:::ObjectNotFounded:::Page is not founded."));
+                return RedirectToAction("Index");
+            }
+            return View(model);
         }
     }
 }

@@ -12,20 +12,12 @@ namespace PX.EntityModel
     using System;
     using System.Collections.Generic;
     
-    public partial class PageTemplate
+    public partial class PageTemplateLog
     {
-        public PageTemplate()
-        {
-            this.FileTemplates = new HashSet<FileTemplate>();
-            this.Pages = new HashSet<Page>();
-            this.PageTemplateLogs = new HashSet<PageTemplateLog>();
-            this.PageTemplates1 = new HashSet<PageTemplate>();
-        }
-    
         public int Id { get; set; }
+        public int PageTemplateId { get; set; }
         public string Name { get; set; }
         public string Content { get; set; }
-        public string Hierarchy { get; set; }
         public Nullable<int> ParentId { get; set; }
         public int RecordOrder { get; set; }
         public bool RecordActive { get; set; }
@@ -34,10 +26,6 @@ namespace PX.EntityModel
         public Nullable<System.DateTime> Updated { get; set; }
         public string UpdatedBy { get; set; }
     
-        public virtual ICollection<FileTemplate> FileTemplates { get; set; }
-        public virtual ICollection<Page> Pages { get; set; }
-        public virtual ICollection<PageTemplateLog> PageTemplateLogs { get; set; }
-        public virtual ICollection<PageTemplate> PageTemplates1 { get; set; }
-        public virtual PageTemplate PageTemplate1 { get; set; }
+        public virtual PageTemplate PageTemplate { get; set; }
     }
 }

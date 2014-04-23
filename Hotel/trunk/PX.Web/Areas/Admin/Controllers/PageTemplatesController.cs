@@ -1,7 +1,6 @@
 ﻿using System.Web.Mvc;
 using Newtonsoft.Json;
 using PX.Business.Models.PageTemplates;
-using PX.Business.Mvc.Attributes;
 using PX.Business.Mvc.Attributes.Authorize;
 using PX.Business.Mvc.Controllers;
 using PX.Business.Services.PageTemplates;
@@ -9,7 +8,6 @@ using PX.Core.Framework.Enums;
 using PX.Core.Framework.Mvc.Attributes;
 using PX.Core.Framework.Mvc.Models;
 using PX.Core.Framework.Mvc.Models.JqGrid;
-using PX.EntityModel;
 
 namespace PX.Web.Areas.Admin.Controllers
 {
@@ -130,5 +128,16 @@ namespace PX.Web.Areas.Admin.Controllers
         }
 
         #endregion
+
+        public ActionResult Logs(int id)
+        {
+            var model = _pageTemplateServices.GetLogs(id);
+            if (model == null)
+            {
+                SetErrorMessage(LocalizedResourceServices.T("AdminModule:::Pages:::Messages:::ObjectNotFounded:::Page is not founded."));
+                return RedirectToAction("Index");
+            }
+            return View(model);
+        }
     }
 }

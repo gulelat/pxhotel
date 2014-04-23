@@ -17,21 +17,20 @@ namespace PX.Business.Models.Pages
     public class PageManageModel : BaseModel, IValidatableObject
     {
         private readonly IPageServices _pageServices;
-        private readonly IPageTemplateServices _pageTemplateServices;
-        private readonly IFileTemplateServices _fileTemplateServices;
+
         public PageManageModel()
         {
             _pageServices = HostContainer.GetInstance<IPageServices>();
-            _pageTemplateServices = HostContainer.GetInstance<IPageTemplateServices>();
-            _fileTemplateServices = HostContainer.GetInstance<IFileTemplateServices>();
+            var pageTemplateServices = HostContainer.GetInstance<IPageTemplateServices>();
+            var fileTemplateServices = HostContainer.GetInstance<IFileTemplateServices>();
 
             int position;
             int relativePageId;
             var relativePages = _pageServices.GetRelativePages(out position, out relativePageId);
             StatusList = _pageServices.GetStatus();
             Parents = _pageServices.GetPossibleParents();
-            PageTemplates = _pageTemplateServices.GetPageTemplateSelectList();
-            FileTemplates = _fileTemplateServices.GetFileTemplateSelectList();
+            PageTemplates = pageTemplateServices.GetPageTemplateSelectList();
+            FileTemplates = fileTemplateServices.GetFileTemplateSelectList();
             Positions = EnumUtilities.GetAllItemsFromEnum<PageEnums.PositionEnums>();
             TagList = _pageServices.GetPageTags();
             Position = position;
@@ -43,8 +42,8 @@ namespace PX.Business.Models.Pages
         public PageManageModel(Page page)
         {
             _pageServices = HostContainer.GetInstance<IPageServices>();
-            _pageTemplateServices = HostContainer.GetInstance<IPageTemplateServices>();
-            _fileTemplateServices = HostContainer.GetInstance<IFileTemplateServices>();
+            var pageTemplateServices = HostContainer.GetInstance<IPageTemplateServices>();
+            var fileTemplateServices = HostContainer.GetInstance<IFileTemplateServices>();
             int position;
             int relativePageId;
             var relativePages = _pageServices.GetRelativePages(out position, out relativePageId, page.Id, page.ParentId);
@@ -59,9 +58,9 @@ namespace PX.Business.Models.Pages
             ParentId = page.ParentId;
             Parents = _pageServices.GetPossibleParents(page.Id);
             FileTemplateId = page.FileTemplateId;
-            FileTemplates = _fileTemplateServices.GetFileTemplateSelectList(page.FileTemplateId);
+            FileTemplates = fileTemplateServices.GetFileTemplateSelectList(page.FileTemplateId);
             PageTemplateId = page.PageTemplateId;
-            PageTemplates = _pageTemplateServices.GetPageTemplateSelectList(page.PageTemplateId);
+            PageTemplates = pageTemplateServices.GetPageTemplateSelectList(page.PageTemplateId);
             Position = position;
             Positions = EnumUtilities.GetAllItemsFromEnum<PageEnums.PositionEnums>();
             RelativePageId = relativePageId;
@@ -73,6 +72,20 @@ namespace PX.Business.Models.Pages
             EndPublishingDate = page.EndPublishingDate;
             RecordOrder = page.RecordOrder;
             RecordActive = page.RecordActive;
+        }
+
+        public PageManageModel(PageLog log) : this(log.Page)
+        {
+            Content = log.Content;
+            Title = log.Title;
+            FriendlyUrl = log.FriendlyUrl;
+            Caption = log.Caption;
+            Status = log.Status;
+            FileTemplateId = log.FileTemplateId;
+            PageTemplateId = log.PageTemplateId;
+            IncludeInSiteNavigation = log.IncludeInSiteNavigation;
+            StartPublishingDate = log.StartPublishingDate;
+            EndPublishingDate = log.EndPublishingDate;
         }
 
         #region Public Properties

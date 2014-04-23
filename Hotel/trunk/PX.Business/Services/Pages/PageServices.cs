@@ -6,10 +6,10 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Web.Mvc;
 using AutoMapper;
-using PX.Business.Models.PageAudits;
+using PX.Business.Models.PageLogs;
 using PX.Business.Models.Pages;
 using PX.Business.Services.ClientMenus;
-using PX.Business.Services.PageAudits;
+using PX.Business.Services.PageLogs;
 using PX.Business.Services.PageTemplates;
 using PX.Core.Configurations;
 using PX.Core.Framework.Mvc.Environments;
@@ -23,6 +23,7 @@ using PX.EntityModel;
 using PX.EntityModel.Repositories;
 using PX.EntityModel.Repositories.RepositoryBase.Models;
 using RazorEngine.Templating;
+using PageLogModel = PX.Business.Models.Pages.PageLogModel;
 
 namespace PX.Business.Services.Pages
 {
@@ -30,7 +31,7 @@ namespace PX.Business.Services.Pages
     {
         private readonly ILocalizedResourceServices _localizedResourceServices;
         private readonly IPageTemplateServices _pageTemplateServices;
-        private readonly IPageAuditServices _pageAuditServices;
+        private readonly IPageLogServices _pageLogServices;
         private readonly ICurlyBracketServices _curlyBracketServices;
         private readonly IClientMenuServices _clientMenuServices;
         public PageServices()
@@ -39,7 +40,7 @@ namespace PX.Business.Services.Pages
             _pageTemplateServices = HostContainer.GetInstance<IPageTemplateServices>();
             _curlyBracketServices = HostContainer.GetInstance<ICurlyBracketServices>();
             _clientMenuServices = HostContainer.GetInstance<IClientMenuServices>();
-            _pageAuditServices = HostContainer.GetInstance<IPageAuditServices>();
+            _pageLogServices = HostContainer.GetInstance<IPageLogServices>();
         }
 
         #region Base
@@ -216,6 +217,17 @@ namespace PX.Business.Services.Pages
         }
 
         /// <summary>
+        /// Get page manage model by id
+        /// </summary>
+        /// <param name="id">the page id</param>
+        /// <returns></returns>
+        public PageManageModel GetPageManageModelByLogId(int? id = null)
+        {
+            var log = PageLogRepository.GetById(id);
+            return log != null ? new PageManageModel(log) : new PageManageModel();
+        }
+
+        /// <summary>
         /// Save page manage model
         /// </summary>
         /// <param name="model"></param>
@@ -229,7 +241,7 @@ namespace PX.Business.Services.Pages
             #region Edit Page
             if (page != null)
             {
-                var pageAudit = new PageAuditViewModel(page);
+                var pageLog = new PageLogPreviewModel(page);
                 page.Title = model.Title;
 
                 page.PageTemplateId = model.PageTemplateId;
@@ -330,7 +342,7 @@ namespace PX.Business.Services.Pages
                 if (response.Success)
                 {
                     _clientMenuServices.SavePageToClientMenu(page);
-                    _pageAuditServices.SaveAuditPage(pageAudit);
+                    _pageLogServices.SavePageLog(pageLog);
                 }
 
                 return response.SetMessage(response.Success ?
@@ -399,15 +411,18 @@ namespace PX.Business.Services.Pages
         #endregion
 
         #region Logs
+        /// <summary>
+        /// Get page log model
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public PageLogModel GetLogs(int id)
         {
             var page = GetById(id);
             if(page != null)
             {
-                var model = new PageLogModel
-                    {
-
-                    };
+                var model = new PageLogModel(page);
+                return model;
             }
             return null;
         }

@@ -12,21 +12,25 @@ namespace PX.EntityModel
     using System;
     using System.Collections.Generic;
     
-    public partial class PageTemplate
+    public partial class PageLog
     {
-        public PageTemplate()
-        {
-            this.FileTemplates = new HashSet<FileTemplate>();
-            this.Pages = new HashSet<Page>();
-            this.PageTemplateLogs = new HashSet<PageTemplateLog>();
-            this.PageTemplates1 = new HashSet<PageTemplate>();
-        }
-    
         public int Id { get; set; }
-        public string Name { get; set; }
+        public int PageId { get; set; }
+        public string Title { get; set; }
+        public string Caption { get; set; }
+        public string CaptionWorking { get; set; }
         public string Content { get; set; }
-        public string Hierarchy { get; set; }
+        public string ContentWorking { get; set; }
+        public string FriendlyUrl { get; set; }
+        public Nullable<int> PageTemplateId { get; set; }
+        public Nullable<int> FileTemplateId { get; set; }
+        public int Status { get; set; }
         public Nullable<int> ParentId { get; set; }
+        public bool IncludeInSiteNavigation { get; set; }
+        public Nullable<System.DateTime> StartPublishingDate { get; set; }
+        public Nullable<System.DateTime> EndPublishingDate { get; set; }
+        public string Keywords { get; set; }
+        public string ChangeLog { get; set; }
         public int RecordOrder { get; set; }
         public bool RecordActive { get; set; }
         public System.DateTime Created { get; set; }
@@ -34,10 +38,6 @@ namespace PX.EntityModel
         public Nullable<System.DateTime> Updated { get; set; }
         public string UpdatedBy { get; set; }
     
-        public virtual ICollection<FileTemplate> FileTemplates { get; set; }
-        public virtual ICollection<Page> Pages { get; set; }
-        public virtual ICollection<PageTemplateLog> PageTemplateLogs { get; set; }
-        public virtual ICollection<PageTemplate> PageTemplates1 { get; set; }
-        public virtual PageTemplate PageTemplate1 { get; set; }
+        public virtual Page Page { get; set; }
     }
 }

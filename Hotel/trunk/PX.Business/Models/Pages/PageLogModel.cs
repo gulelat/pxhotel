@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using PX.Business.Models.PageAudits;
+using PX.Business.Models.PageLogs;
 using PX.EntityModel;
 
 namespace PX.Business.Models.Pages
@@ -18,8 +18,8 @@ namespace PX.Business.Models.Pages
             Id = page.Id;
             Title = page.Title;
             Url = page.FriendlyUrl;
-            Logs = page.PageAudits.OrderByDescending(l => l.Created)
-                .Select(l => new PageAuditModel(l));
+            Logs = page.PageLogs.OrderByDescending(l => l.Created)
+                .Select(l => new PageLogViewModel(l)).ToList();
         }
         #endregion
 
@@ -31,7 +31,7 @@ namespace PX.Business.Models.Pages
 
         public string Url { get; set; }
 
-        public List<PageAuditModel> Logs { get; set; }
+        public List<PageLogViewModel> Logs { get; set; }
 
         #endregion
     }
