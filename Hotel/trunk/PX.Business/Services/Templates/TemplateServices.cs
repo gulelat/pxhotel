@@ -153,7 +153,7 @@ namespace PX.Business.Services.Templates
             return new ResponseModel
             {
                 Success = false,
-                Message = _localizedResourceServices.T("AdminModule:::Templates:::Messages:::ObjectNotFounded:::Template is not founded")
+                Message = _localizedResourceServices.T("AdminModule:::Templates:::Messages:::ObjectNotFounded:::Template is not founded.")
             };
         }
 

@@ -398,6 +398,21 @@ namespace PX.Business.Services.Pages
 
         #endregion
 
+        #region Logs
+        public PageLogModel GetLogs(int id)
+        {
+            var page = GetById(id);
+            if(page != null)
+            {
+                var model = new PageLogModel
+                    {
+
+                    };
+            }
+            return null;
+        }
+        #endregion
+
         /// <summary>
         /// Render page content by friendly url
         /// </summary>

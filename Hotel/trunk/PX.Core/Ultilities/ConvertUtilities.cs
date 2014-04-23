@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace PX.Core.Ultilities
 {
@@ -236,6 +237,11 @@ namespace PX.Core.Ultilities
         public static DateTime StringToShortDate(string value, string shortDatePattern)
         {
             return StringToShortDate(value, shortDatePattern, new DateTime(0));
+        }
+
+        public static bool Compare<T>(T object1, T object2)
+        {
+            return EqualityComparer<T>.Default.Equals(object1, object2);
         }
     }
 }

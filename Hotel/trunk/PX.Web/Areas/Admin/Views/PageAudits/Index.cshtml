@@ -52,7 +52,7 @@
                 ondblClickRow: function (rowId) {
                     jQuery(gridSelector).editRow(rowId, true);
                 },
-                colNames: ['', 'Id', 'PageId', 'Title', 'Parent Name', 'Page Template', 'File Template', 'Created', 'CreatedBy', 'Updated', 'UpdatedBy'],
+                colNames: ['', 'Id', 'PageId', 'Title', 'Updated', 'Updated By', 'Change Log', 'Friendly Url' ],
                 colModel: [
                     {
                         name: 'preview',
@@ -65,16 +65,13 @@
                             return previewIcon;
                         }
                     },
-                    { name: 'Id', index: 'Id', width: 60, key: true, sorttype: "int" },
-                    { name: 'PageId', index: 'PageId', width: 60, sorttype: "int" },
+                    { name: 'Id', index: 'Id', width: 60, key: true, sorttype: "int", hidden: true },
+                    { name: 'PageId', index: 'PageId', width: 60, sorttype: "int", align: "center" },
                     { name: 'Title', index: 'Title', width: 250 },
-                    { name: 'ParentName', index: 'ParentName', width: 150 },
-                    { name: 'PageTemplate', index: 'PageTemplate', width: 150 },
-                    { name: 'FileTemplate', index: 'FileTemplate', width: 150 },
-                    { name: 'Created', index: 'Created', formatter: "date", width: 100 },
-                    { name: 'CreatedBy', index: 'CreatedBy', width: 150 },
-                    { name: 'Updated', index: 'Updated', formatter: "date" },
-                    { name: 'UpdatedBy', index: 'UpdatedBy', width: 150 }
+                    { name: 'Updated', index: 'Updated', width: 120, formatter: "date" },
+                    { name: 'UpdatedBy', index: 'UpdatedBy', width: 150 },
+                    { name: 'ChangeLog', index: 'ChangeLog', width: 350 },
+                    { name: 'Url', index: 'ParentName', width: 150 }
                 ],
                 pager: pagerSelector,
                 rowList: [10, 20, 30],

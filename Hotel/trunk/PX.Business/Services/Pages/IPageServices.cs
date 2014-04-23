@@ -57,6 +57,11 @@ namespace PX.Business.Services.Pages
 
         #endregion
 
+        #region Logs
+
+        PageLogModel GetLogs(int id);
+        #endregion
+
         Page GetPage(string friendlyUrl);
 
         ResponseModel ChangeHomePage(int id);
