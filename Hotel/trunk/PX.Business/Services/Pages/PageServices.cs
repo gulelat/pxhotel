@@ -23,7 +23,6 @@ using PX.EntityModel;
 using PX.EntityModel.Repositories;
 using PX.EntityModel.Repositories.RepositoryBase.Models;
 using RazorEngine.Templating;
-using PageLogModel = PX.Business.Models.Pages.PageLogModel;
 
 namespace PX.Business.Services.Pages
 {
@@ -241,7 +240,7 @@ namespace PX.Business.Services.Pages
             #region Edit Page
             if (page != null)
             {
-                var pageLog = new PageLogPreviewModel(page);
+                var pageLog = new PageLogManageModel(page);
                 page.Title = model.Title;
 
                 page.PageTemplateId = model.PageTemplateId;
@@ -416,12 +415,12 @@ namespace PX.Business.Services.Pages
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public PageLogModel GetLogs(int id)
+        public PageLogsModel GetLogs(int id)
         {
             var page = GetById(id);
             if(page != null)
             {
-                var model = new PageLogModel(page);
+                var model = new PageLogsModel(page);
                 return model;
             }
             return null;

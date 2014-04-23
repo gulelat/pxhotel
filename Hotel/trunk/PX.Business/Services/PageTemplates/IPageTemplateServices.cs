@@ -45,8 +45,15 @@ namespace PX.Business.Services.PageTemplates
 
         PageTemplateManageModel GetTemplateManageModel(int? id = null);
 
+        PageTemplateManageModel GetTemplateManageModelByLogId(int? id = null);
+
         ResponseModel SavePageTemplate(PageTemplateManageModel model);
 
+        #endregion
+
+        #region Logs
+
+        PageTemplateLogsModel GetLogs(int id);
         #endregion
 
         PageTemplate FindTemplate(string filePath);

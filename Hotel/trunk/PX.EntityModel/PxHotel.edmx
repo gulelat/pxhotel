@@ -378,6 +378,7 @@
           <Property Name="PageTemplateId" Type="int" Nullable="false" />
           <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="512" />
           <Property Name="Content" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="ChangeLog" Type="nvarchar(max)" Nullable="false" />
           <Property Name="ParentId" Type="int" />
           <Property Name="RecordOrder" Type="int" Nullable="false" />
           <Property Name="RecordActive" Type="bit" Nullable="false" />
@@ -513,6 +514,7 @@
           <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="512" />
           <Property Name="Content" Type="nvarchar(max)" Nullable="false" />
           <Property Name="DataType" Type="nvarchar" Nullable="false" MaxLength="512" />
+          <Property Name="ChangeLog" Type="nvarchar(max)" Nullable="false" />
           <Property Name="RecordOrder" Type="int" Nullable="false" />
           <Property Name="RecordActive" Type="bit" Nullable="false" />
           <Property Name="Created" Type="datetime" Nullable="false" />
@@ -1284,6 +1286,7 @@
           <Property Type="Int32" Name="PageTemplateId" Nullable="false" />
           <Property Type="String" Name="Name" Nullable="false" MaxLength="512" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="Content" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="ChangeLog" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Type="Int32" Name="ParentId" />
           <Property Type="Int32" Name="RecordOrder" Nullable="false" />
           <Property Type="Boolean" Name="RecordActive" Nullable="false" />
@@ -1434,6 +1437,7 @@
           <Property Type="String" Name="Name" Nullable="false" MaxLength="512" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="Content" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="DataType" Nullable="false" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="ChangeLog" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Type="Int32" Name="RecordOrder" Nullable="false" />
           <Property Type="Boolean" Name="RecordActive" Nullable="false" />
           <Property Type="DateTime" Name="Created" Nullable="false" Precision="3" />
@@ -2074,6 +2078,7 @@
                 <ScalarProperty Name="RecordActive" ColumnName="RecordActive" />
                 <ScalarProperty Name="RecordOrder" ColumnName="RecordOrder" />
                 <ScalarProperty Name="ParentId" ColumnName="ParentId" />
+                <ScalarProperty Name="ChangeLog" ColumnName="ChangeLog" />
                 <ScalarProperty Name="Content" ColumnName="Content" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="PageTemplateId" ColumnName="PageTemplateId" />
@@ -2216,6 +2221,7 @@
                 <ScalarProperty Name="Created" ColumnName="Created" />
                 <ScalarProperty Name="RecordActive" ColumnName="RecordActive" />
                 <ScalarProperty Name="RecordOrder" ColumnName="RecordOrder" />
+                <ScalarProperty Name="ChangeLog" ColumnName="ChangeLog" />
                 <ScalarProperty Name="DataType" ColumnName="DataType" />
                 <ScalarProperty Name="Content" ColumnName="Content" />
                 <ScalarProperty Name="Name" ColumnName="Name" />

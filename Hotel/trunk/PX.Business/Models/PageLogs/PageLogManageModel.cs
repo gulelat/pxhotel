@@ -6,19 +6,20 @@ using PX.EntityModel;
 
 namespace PX.Business.Models.PageLogs
 {
-    public class PageLogPreviewModel : BaseModel
+    public class PageLogManageModel : BaseModel
     {
         #region Constructors
 
-        public PageLogPreviewModel()
+        public PageLogManageModel()
         {
             
         }
 
-        public PageLogPreviewModel(Page page)
+        public PageLogManageModel(Page page)
         {
             PageId = page.Id;
             Title = page.Title;
+            FriendlyUrl = page.FriendlyUrl;
             Caption = page.Caption;
             CaptionWorking = page.CaptionWorking;
             Content = page.Content;
@@ -29,18 +30,14 @@ namespace PX.Business.Models.PageLogs
             Tags = tags.Any() ? string.Join(",", tags.ToList()) : string.Empty;
 
             FileTemplateId = page.FileTemplateId;
-            FileTemplateName = page.FileTemplateId.HasValue ? page.FileTemplate.Name : string.Empty;
+            PageTemplateId = page.PageTemplateId;
+            ParentId = page.ParentId;
 
             Keywords = page.Keywords;
             IncludeInSiteNavigation = page.IncludeInSiteNavigation;
             StartPublishingDate = page.StartPublishingDate;
             EndPublishingDate = page.EndPublishingDate;
-            PageTemplateId = page.PageTemplateId;
-            PageTemplateName = page.PageTemplateId.HasValue ? page.PageTemplate.Name : string.Empty;
             Status = page.Status;
-            FriendlyUrl = page.FriendlyUrl;
-            ParentId = page.ParentId;
-            ParentName = page.ParentId.HasValue ? page.Page1.Title : string.Empty;
         }
         #endregion
 
@@ -96,8 +93,6 @@ namespace PX.Business.Models.PageLogs
         public string FriendlyUrl { get; set; }
 
         public int? ParentId { get; set; }
-
-        public string ParentName { get; set; }
 
         #endregion
     }

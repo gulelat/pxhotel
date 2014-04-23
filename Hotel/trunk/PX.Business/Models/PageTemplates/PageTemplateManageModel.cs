@@ -6,14 +6,40 @@ using PX.Core.Framework.Mvc.Environments;
 using PX.Business.Services.CurlyBrackets;
 using PX.Business.Services.Localizes;
 using PX.Business.Services.PageTemplates;
+using PX.EntityModel;
 
 namespace PX.Business.Models.PageTemplates
 {
     public class PageTemplateManageModel : BaseModel, IValidatableObject
     {
+        private readonly IPageTemplateServices _pageTemplateServices;
+
         public PageTemplateManageModel()
         {
+            _pageTemplateServices = HostContainer.GetInstance<IPageTemplateServices>();
             Content = Configurations.RenderBody;
+            Parents = _pageTemplateServices.GetPossibleParents();
+        }
+
+        public PageTemplateManageModel(PageTemplate template)
+            : this()
+        {
+
+            Id = template.Id;
+            Name = template.Name;
+            Content = template.Content;
+            ParentId = template.ParentId;
+            Parents = _pageTemplateServices.GetPossibleParents(template.Id);
+        }
+
+        public PageTemplateManageModel(PageTemplateLog log)
+            : this()
+        {
+            Id = log.PageTemplateId;
+            Name = log.Name;
+            Content = log.Content;
+            ParentId = log.ParentId;
+            Parents = _pageTemplateServices.GetPossibleParents(log.PageTemplateId);
         }
 
         #region Public Properties
@@ -37,10 +63,9 @@ namespace PX.Business.Models.PageTemplates
         /// <returns></returns>
         public IEnumerable<ValidationResult> Validate(ValidationContext context)
         {
-            var pageTemplateServices = HostContainer.GetInstance<IPageTemplateServices>();
             var curlyBracketServices = HostContainer.GetInstance<ICurlyBracketServices>();
             var localizedResourceServices = HostContainer.GetInstance<ILocalizedResourceServices>();
-            if (pageTemplateServices.IsPageTemplateNameExisted(Id, Name))
+            if (_pageTemplateServices.IsPageTemplateNameExisted(Id, Name))
             {
                 yield return new ValidationResult(localizedResourceServices.T("AdminModule:::PageTemplates:::ValidationMessages:::ExistingName:::Name is existed."), new[] { "Name" });
             }

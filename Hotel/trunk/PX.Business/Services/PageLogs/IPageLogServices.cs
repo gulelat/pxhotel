@@ -29,6 +29,6 @@ namespace PX.Business.Services.PageLogs
 
         #endregion
 
-        ResponseModel SavePageLog(PageLogPreviewModel model);
+        ResponseModel SavePageLog(PageLogManageModel model);
     }
 }

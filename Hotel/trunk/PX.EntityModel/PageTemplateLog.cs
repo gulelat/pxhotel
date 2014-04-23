@@ -18,6 +18,7 @@ namespace PX.EntityModel
         public int PageTemplateId { get; set; }
         public string Name { get; set; }
         public string Content { get; set; }
+        public string ChangeLog { get; set; }
         public Nullable<int> ParentId { get; set; }
         public int RecordOrder { get; set; }
         public bool RecordActive { get; set; }

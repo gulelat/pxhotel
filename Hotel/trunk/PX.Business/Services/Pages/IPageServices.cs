@@ -61,7 +61,7 @@ namespace PX.Business.Services.Pages
 
         #region Logs
 
-        PageLogModel GetLogs(int id);
+        PageLogsModel GetLogs(int id);
         #endregion
 
         Page GetPage(string friendlyUrl);

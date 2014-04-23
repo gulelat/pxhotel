@@ -16,6 +16,7 @@ using PX.Business.Services.Menus;
 using PX.Business.Services.News;
 using PX.Business.Services.NewsCategories;
 using PX.Business.Services.PageLogs;
+using PX.Business.Services.PageTemplateLogs;
 using PX.Business.Services.PageTemplates;
 using PX.Business.Services.Pages;
 using PX.Business.Services.RotatingImageGroups;
@@ -180,6 +181,7 @@ namespace PX.Web
             container.Register<IClientMenuServices, ClientMenuServices>(Lifestyle.Singleton);
             container.Register<IFileTemplateServices, FileTemplateServices>(Lifestyle.Singleton);
             container.Register<IPageLogServices, PageLogServices>(Lifestyle.Singleton);
+            container.Register<IPageTemplateLogServices, PageTemplateLogServices>(Lifestyle.Singleton);
         }
 
         #endregion
