@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using PX.Business.Models.Templates;
 using PX.Core.Framework.Enums;
 using PX.Core.Framework.Mvc.Models;
@@ -43,8 +42,15 @@ namespace PX.Business.Services.Templates
 
         TemplateRenderModel GetTemplateByName(string name);
 
-        ResponseModel SaveTemplate(TemplateManageModel model);
+        ResponseModel SaveTemplateManageModel(TemplateManageModel model);
 
+        ResponseModel DeleteTemplate(int id);
+
+        #endregion
+
+        #region Logs
+
+        TemplateLogsModel GetLogs(int id, int index = 1);
         #endregion
 
         string RenderTemplate(string template, dynamic model, string cacheName = "");

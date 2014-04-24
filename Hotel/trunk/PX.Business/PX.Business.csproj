@@ -74,6 +74,9 @@
     <Compile Include="Models\ClientMenus\ClientBreadCrumbModel.cs" />
     <Compile Include="Models\ClientMenus\ClientMenuModel.cs" />
     <Compile Include="Models\ClientMenus\ClientMenuManageModel.cs" />
+    <Compile Include="Models\TemplateLogs\TemplateLogModel.cs" />
+    <Compile Include="Models\TemplateLogs\TemplateLogManageModel.cs" />
+    <Compile Include="Models\TemplateLogs\TemplateLogViewModel.cs" />
     <Compile Include="Models\PageTemplateLogs\PageTemplateLogManageModel.cs" />
     <Compile Include="Models\PageTemplateLogs\PageTemplateLogViewModel.cs" />
     <Compile Include="Models\PageTemplateLogs\PageTemplateLogModel.cs" />
@@ -99,6 +102,7 @@
     <Compile Include="Models\News\NewsManageModel.cs" />
     <Compile Include="Models\Settings\SettingTypes\ImageUploadSettings.cs" />
     <Compile Include="Models\Settings\SiteSettingManageModel.cs" />
+    <Compile Include="Models\Templates\TemplateLogsModel.cs" />
     <Compile Include="Models\Templates\TemplateRenderModel.cs" />
     <Compile Include="Models\Templates\TemplateManageModel.cs" />
     <Compile Include="Models\Templates\TemplateModel.cs" />
@@ -117,6 +121,8 @@
     <Compile Include="Mvc\ViewEngines\VirtualPathProvider.cs" />
     <Compile Include="Services\ClientMenus\IClientMenuServices.cs" />
     <Compile Include="Services\ClientMenus\ClientMenuServices.cs" />
+    <Compile Include="Services\TemplateLogs\ITemplateLogServices.cs" />
+    <Compile Include="Services\TemplateLogs\TemplateLogServices.cs" />
     <Compile Include="Services\PageTemplateLogs\IPageTemplateLogServices.cs" />
     <Compile Include="Services\PageTemplateLogs\PageTemplateLogServices.cs" />
     <Compile Include="Services\PageLogs\IPageLogServices.cs" />

@@ -1100,6 +1100,10 @@
     <Content Include="Areas\Admin\Views\Pages\Logs.cshtml" />
     <Content Include="Areas\Admin\Views\PageTemplateLogs\Index.cshtml" />
     <Content Include="Areas\Admin\Views\PageTemplates\Logs.cshtml" />
+    <Content Include="Areas\Admin\Views\Pages\_GetLogs.cshtml" />
+    <Content Include="Areas\Admin\Views\PageTemplates\_GetLogs.cshtml" />
+    <Content Include="Areas\Admin\Views\Templates\_GetLogs.cshtml" />
+    <Content Include="Areas\Admin\Views\Templates\Logs.cshtml" />
     <None Include="Properties\PublishProfiles\Hotel.pubxml" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <None Include="Scripts\jquery-1.8.3.intellisense.js" />

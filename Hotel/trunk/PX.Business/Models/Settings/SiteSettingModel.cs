@@ -6,7 +6,6 @@ namespace PX.Business.Models.Settings
     {
         public int Id { get; set; }
 
-        [Required]
         public string Name { get; set; }
 
         [Required]

@@ -148,5 +148,22 @@ namespace PX.Web.Areas.Admin.Controllers
             }
             return View(model);
         }
+
+        [HttpPost]
+        public JsonResult GetLogs(int id, int index)
+        {
+            var model = _pageTemplateServices.GetLogs(id, index);
+            var content = RenderPartialViewToString("_GetLogs", model);
+            var response = new ResponseModel
+            {
+                Success = true,
+                Data = new
+                {
+                    model.LoadComplete,
+                    content = content
+                }
+            };
+            return Json(response);
+        }
     }
 }

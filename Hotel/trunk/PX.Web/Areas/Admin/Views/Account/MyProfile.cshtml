@@ -1,4 +1,5 @@
-﻿@using PX.Core.Ultilities
+﻿@using PX.Core.Configurations
+@using PX.Core.Ultilities
 @{
     ViewBag.Title = T("My Profiles");
     ViewBag.Description = T("Manage my profile");
@@ -278,7 +279,7 @@
 
                         //and a few extra ones here
                         name: 'avatar',//put the field name here as well, will be used inside the custom plugin
-                        max_size: @(SValue<int>("MaxSizeUploaded")),
+                        max_size: @(SValue<int>(SettingNames.MaxSizeUploaded)),
                         on_error: function(code) { //on_error function will be called when the selected file has a problem
                             if (lastGritter) $.gritter.remove(lastGritter);
                             if (code == 1) { //file format error

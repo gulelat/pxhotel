@@ -24,6 +24,7 @@ using PX.Business.Services.RotatingImages;
 using PX.Business.Services.SettingTypes;
 using PX.Business.Services.Settings;
 using PX.Business.Services.Tags;
+using PX.Business.Services.TemplateLogs;
 using PX.Business.Services.Templates;
 using PX.Business.Services.Testimonials;
 using PX.Business.Services.UserGroups;
@@ -82,6 +83,9 @@ namespace PX.Web
 
         public void InitializeProcess()
         {
+            //Setting Initialize
+            SettingInitialize();
+
             //Load localize resources
             LocalizedResourcesInitialize();
 
@@ -93,6 +97,15 @@ namespace PX.Web
 
             //Initialize default template for curly bracket
             TemplatesInitialize();
+        }
+
+        /// <summary>
+        /// Initialize localized resources
+        /// </summary>
+        public void SettingInitialize()
+        {
+            var settingServices = HostContainer.GetInstance<ISettingServices>();
+            settingServices.Initialize();
         }
 
         /// <summary>
@@ -182,6 +195,7 @@ namespace PX.Web
             container.Register<IFileTemplateServices, FileTemplateServices>(Lifestyle.Singleton);
             container.Register<IPageLogServices, PageLogServices>(Lifestyle.Singleton);
             container.Register<IPageTemplateLogServices, PageTemplateLogServices>(Lifestyle.Singleton);
+            container.Register<ITemplateLogServices, TemplateLogServices>(Lifestyle.Singleton);
         }
 
         #endregion

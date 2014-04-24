@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
-using PX.Business.Models.PageTemplateLogs;
+using PX.Business.Models.TemplateLogs;
 
-namespace PX.Business.Models.PageTemplates
+namespace PX.Business.Models.Templates
 {
-    public class PageTemplateLogsModel
+    public class TemplateLogsModel
     {
         #region Constructors
-        public PageTemplateLogsModel()
+        public TemplateLogsModel()
         {
 
         }
@@ -20,7 +20,7 @@ namespace PX.Business.Models.PageTemplates
 
         public bool LoadComplete { get; set; }
 
-        public List<PageTemplateLogViewModel> Logs { get; set; }
+        public List<TemplateLogViewModel> Logs { get; set; }
 
         #endregion
     }

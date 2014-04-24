@@ -172,6 +172,12 @@ namespace PX.Web.Areas.Admin.Controllers
             return Json(_pageServices.GetRelativePages(id, parentId));
         }
 
+        #region Logs
+        /// <summary>
+        /// Manage page logs
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public ActionResult Logs(int id)
         {
             var model = _pageServices.GetLogs(id);
@@ -182,5 +188,24 @@ namespace PX.Web.Areas.Admin.Controllers
             }
             return View(model);
         }
+
+        [HttpPost]
+        public JsonResult GetLogs(int id, int index)
+        {
+            var model = _pageServices.GetLogs(id, index);
+            var content = RenderPartialViewToString("_GetLogs", model);
+            var response = new ResponseModel
+            {
+                Success = true,
+                Data = new
+                {
+                    model.LoadComplete,
+                    content = content
+                }
+            };
+            return Json(response);
+        }
+
+        #endregion
     }
 }

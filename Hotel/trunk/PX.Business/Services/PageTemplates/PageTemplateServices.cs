@@ -9,6 +9,7 @@ using PX.Business.Models.PageTemplates;
 using PX.Business.Models.Pages;
 using PX.Business.Services.CurlyBrackets;
 using PX.Business.Services.PageTemplateLogs;
+using PX.Business.Services.Settings;
 using PX.Business.Services.Templates;
 using PX.Core.Configurations;
 using PX.Core.Framework.Mvc.Environments;
@@ -31,10 +32,12 @@ namespace PX.Business.Services.PageTemplates
         private const string DefaultTemplateName = "DefaultMasterTemplateWithRenderContentOnly";
         private readonly ILocalizedResourceServices _localizedResourceServices;
         private readonly IPageTemplateLogServices _pageTemplateLogServices;
+        private readonly ISettingServices _settingServices;
         public PageTemplateServices()
         {
             _localizedResourceServices = HostContainer.GetInstance<ILocalizedResourceServices>();
             _pageTemplateLogServices = HostContainer.GetInstance<IPageTemplateLogServices>();
+            _settingServices = HostContainer.GetInstance<ISettingServices>();
         }
 
         #region Initialize
@@ -116,7 +119,7 @@ namespace PX.Business.Services.PageTemplates
 
             return si.Search(pageTemplates);
         }
-        
+
         #endregion
 
         #region Grid Manage
@@ -204,15 +207,15 @@ namespace PX.Business.Services.PageTemplates
             {
                 var log = new PageTemplateLogManageModel(pageTemplate);
                 var childTemplates = new List<PageTemplate>();
-                if(pageTemplate.Name.Equals(DefaultTemplateName))
+                if (pageTemplate.Name.Equals(DefaultTemplateName))
                 {
                     childTemplates = GetAll().Where(t => !t.Name.Equals(DefaultTemplateName)).ToList();
                 }
-                else if(!pageTemplate.Content.Equals(model.Content) || pageTemplate.ParentId != model.ParentId)
+                else if (!pageTemplate.Content.Equals(model.Content) || pageTemplate.ParentId != model.ParentId)
                 {
                     childTemplates = PageTemplateRepository.GetHierarcies(pageTemplate).ToList();
                 }
-                if(childTemplates.Any())
+                if (childTemplates.Any())
                 {
                     foreach (var childTemplate in childTemplates)
                     {
@@ -221,13 +224,13 @@ namespace PX.Business.Services.PageTemplates
                 }
 
                 pageTemplate.Name = model.Name;
-                    pageTemplate.Content = model.Content;
+                pageTemplate.Content = model.Content;
 
                 pageTemplate.ParentId = model.ParentId;
 
                 response = HierarchyUpdate(pageTemplate);
 
-                if(response.Success)
+                if (response.Success)
                 {
                     _pageTemplateLogServices.SavePageTemplateLog(log);
                 }
@@ -247,17 +250,28 @@ namespace PX.Business.Services.PageTemplates
         #endregion
 
         #region Logs
+
         /// <summary>
         /// Get page log model
         /// </summary>
         /// <param name="id"></param>
+        /// <param name="index"></param>
         /// <returns></returns>
-        public PageTemplateLogsModel GetLogs(int id)
+        public PageTemplateLogsModel GetLogs(int id, int index = 1)
         {
-            var page = GetById(id);
-            if (page != null)
+            var pageSize = _settingServices.GetSetting<int>(SettingNames.LogsPageSize);
+            var pageTemplate = GetById(id);
+            if (pageTemplate != null)
             {
-                var model = new PageTemplateLogsModel(page);
+                var model = new PageTemplateLogsModel
+                {
+
+                    Id = pageTemplate.Id,
+                    Name = pageTemplate.Name,
+                    Logs = pageTemplate.PageTemplateLogs.OrderByDescending(l => l.Created)
+                        .Skip((index - 1) * pageSize).Take(pageSize).Select(l => new PageTemplateLogViewModel(l)).ToList(),
+                    LoadComplete = (pageTemplate.PageTemplateLogs.Count <= index * pageSize)
+                };
                 return model;
             }
             return null;

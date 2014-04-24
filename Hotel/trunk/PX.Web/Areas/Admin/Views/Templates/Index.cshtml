@@ -51,21 +51,50 @@
             enableView: true
         };
         
+        $(".delete-icon").click(function () {
+            var data = { id: $(this).data("id") };
+            bootbox.confirm('@T("AdminModule:::Templates:::Messages:::ConfirmDelete:::Are you sure you want to delete this template? This action cannot be undone.")', function (ok) {
+                if (ok) {
+                    $.ajax({
+                        type: 'POST',
+                        url: "@Url.Action("Delete")",
+                            data: data,
+                            success: function (response) {
+                                ShowMessage(response);
+                                if (response.Success) {
+                                    $(gridSelector).trigger("reloadGrid");
+                                }
+                            }
+                        });
+                    }
+            });
+        });
+        
         jQuery(function ($) {
             jQuery(gridSelector).jqGrid({
                 datatype: "json",
                 url: "@Url.Action("_AjaxBinding")",
-                caption: "Page Template Management",
+                caption: "Template Management",
                 height: 370,
                 colNames: ['', 'Id', 'Name', 'Created', 'CreatedBy', 'Updated', 'UpdatedBy'],
                 colModel: [
                     {
-                        name: 'preview', width: 50, sortable: false, search: false, align: "center",
+                        name: 'actions', width: 90, sortable: false, search: false,
                         formatter: function (cellvalue, options, rowObject) {
-                            return "<a href='@Url.Action("Edit")/" + options.rowId + "'><div class='ui-pg-div ui-inline-edit' title='' data-original-title='Edit Page Template'><span class='icon-edit'></span></div></a>";
+                            var editIcon = "<a class='grid-action' href='@Url.Action("Edit")/" + options.rowId + "'><div class='ui-pg-div ui-inline-edit' title='' data-original-title='Edit Template'><span class='icon-edit'></span></div></a>";
+
+                            var logIcon = "<a class='grid-action' href='@Url.Action("Logs")/" + options.rowId + "'><div class='ui-pg-div ui-inline-edit' title='' data-original-title='View Logs'><span class='icon-book'></span></div></a>";
+
+                            var deleteIcon = "<a class='delete-icon' href='javascript:void(0)' data-id='" + options.rowId + "'><div class='ui-pg-div ui-inline-edit' title='' data-original-title='Delete Template'><span class='icon-delete'></span></div></a>";
+                            var isDefaultTemplate = rowObject["IsDefaultTemplate"];
+                            if (isDefaultTemplate) {
+                                deleteIcon = '';
+                            }
+                            
+                            return editIcon + logIcon + deleteIcon;
                         }
                     },
-                    { name: 'Id', index: 'Id', width: 60, key: true, sorttype: "int" },
+                    { name: 'Id', index: 'Id', width: 50, key: true, sorttype: "int" },
                     { name: 'Name', index: 'Name', width: 300, editable: true, editrules: { required: true } },
                     { name: 'Created', index: 'Created', formatter: "date", width: 80, editable: false, sorttype: "datetime", unformat: pickDate },
                     { name: 'CreatedBy', index: 'CreatedBy', width: 180, editable: false, editoptions: { size: "20", maxlength: "30" } },
@@ -76,7 +105,6 @@
                 rowNum: 10,
                 rowList: [10, 20, 30],
                 shrinkToFit: false,
-                editurl: '@Url.Action("Manage")',
                 //Default Value
                 altRows: true,
                 multiboxonly: true,
@@ -98,5 +126,4 @@
         });
     </script>
     <script src="/Scripts/Shared/grid.js"></script>
-
 }
