@@ -38,22 +38,6 @@ namespace PX.Web.Areas.Admin.Controllers
         {
             return JsonConvert.SerializeObject(_templateServices.SearchTemplates(si));
         }
-
-        [HttpPost]
-        [HandleJsonException]
-        public JsonResult Manage(TemplateModel model, GridManagingModel manageModel)
-        {
-            if (ModelState.IsValid || manageModel.Operation == GridOperationEnums.Del)
-            {
-                return Json(_templateServices.ManageTemplate(manageModel.Operation, model));
-            }
-
-            return Json(new ResponseModel
-            {
-                Success = false,
-                Message = GetFirstValidationResults(ModelState).Message
-            });
-        }
         #endregion
         
         #endregion
@@ -77,7 +61,7 @@ namespace PX.Web.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                var response = _templateServices.SaveTemplate(model);
+                var response = _templateServices.SaveTemplateManageModel(model);
                 if (response.Success)
                 {
                     var templateId = (int)response.Data;
@@ -114,7 +98,7 @@ namespace PX.Web.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                var response = _templateServices.SaveTemplate(model);
+                var response = _templateServices.SaveTemplateManageModel(model);
                 if (response.Success)
                 {
                     SetSuccessMessage(response.Message);
@@ -129,6 +113,43 @@ namespace PX.Web.Areas.Admin.Controllers
                 SetErrorMessage(response.Message);
             }
             return View(model);
+        }
+
+        #endregion
+
+        [HttpPost]
+        public JsonResult Delete(int id)
+        {
+            return Json(_templateServices.DeleteTemplate(id));
+        }
+
+        #region Logs
+        public ActionResult Logs(int id)
+        {
+            var model = _templateServices.GetLogs(id);
+            if (model == null)
+            {
+                SetErrorMessage(LocalizedResourceServices.T("AdminModule:::Pages:::Messages:::ObjectNotFounded:::Page is not founded."));
+                return RedirectToAction("Index");
+            }
+            return View(model);
+        }
+
+        [HttpPost]
+        public JsonResult GetLogs(int id, int index)
+        {
+            var model = _templateServices.GetLogs(id, index);
+            var content = RenderPartialViewToString("_GetLogs", model);
+            var response = new ResponseModel
+            {
+                Success = true,
+                Data = new
+                {
+                    model.LoadComplete,
+                    content = content
+                }
+            };
+            return Json(response);
         }
 
         #endregion

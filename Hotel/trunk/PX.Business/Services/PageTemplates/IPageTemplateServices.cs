@@ -53,7 +53,7 @@ namespace PX.Business.Services.PageTemplates
 
         #region Logs
 
-        PageTemplateLogsModel GetLogs(int id);
+        PageTemplateLogsModel GetLogs(int id, int index = 1);
         #endregion
 
         PageTemplate FindTemplate(string filePath);

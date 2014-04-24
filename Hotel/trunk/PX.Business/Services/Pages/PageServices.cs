@@ -11,6 +11,7 @@ using PX.Business.Models.Pages;
 using PX.Business.Services.ClientMenus;
 using PX.Business.Services.PageLogs;
 using PX.Business.Services.PageTemplates;
+using PX.Business.Services.Settings;
 using PX.Core.Configurations;
 using PX.Core.Framework.Mvc.Environments;
 using PX.Business.Services.CurlyBrackets;
@@ -33,6 +34,7 @@ namespace PX.Business.Services.Pages
         private readonly IPageLogServices _pageLogServices;
         private readonly ICurlyBracketServices _curlyBracketServices;
         private readonly IClientMenuServices _clientMenuServices;
+        private readonly ISettingServices _settingServices;
         public PageServices()
         {
             _localizedResourceServices = HostContainer.GetInstance<ILocalizedResourceServices>();
@@ -40,6 +42,7 @@ namespace PX.Business.Services.Pages
             _curlyBracketServices = HostContainer.GetInstance<ICurlyBracketServices>();
             _clientMenuServices = HostContainer.GetInstance<IClientMenuServices>();
             _pageLogServices = HostContainer.GetInstance<IPageLogServices>();
+            _settingServices = HostContainer.GetInstance<ISettingServices>();
         }
 
         #region Base
@@ -410,17 +413,28 @@ namespace PX.Business.Services.Pages
         #endregion
 
         #region Logs
+
         /// <summary>
         /// Get page log model
         /// </summary>
         /// <param name="id"></param>
+        /// <param name="index"></param>
         /// <returns></returns>
-        public PageLogsModel GetLogs(int id)
+        public PageLogsModel GetLogs(int id, int index = 1)
         {
+            var pageSize = _settingServices.GetSetting<int>(SettingNames.LogsPageSize);
             var page = GetById(id);
-            if(page != null)
+            if (page != null)
             {
-                var model = new PageLogsModel(page);
+                var model = new PageLogsModel
+                {
+                    Id = page.Id,
+                    Title = page.Title,
+                    Url = page.FriendlyUrl,
+                    Logs = page.PageLogs.OrderByDescending(l => l.Created)
+                        .Skip((index - 1) * pageSize).Take(pageSize).Select(l => new PageLogViewModel(l)).ToList(),
+                    LoadComplete = (page.PageLogs.Count <= index * pageSize)
+                };
                 return model;
             }
             return null;

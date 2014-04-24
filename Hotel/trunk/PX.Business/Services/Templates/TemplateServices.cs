@@ -1,9 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Web.Mvc;
+using PX.Business.Models.TemplateLogs;
 using PX.Business.Models.Templates;
+using PX.Business.Services.Settings;
+using PX.Business.Services.TemplateLogs;
 using PX.Core.Configurations;
 using PX.Core.Framework.Mvc.Environments;
 using PX.Business.Mvc.WorkContext;
@@ -25,7 +26,9 @@ namespace PX.Business.Services.Templates
     {
         #region Private Properties
         private readonly ILocalizedResourceServices _localizedResourceServices;
+        private readonly ITemplateLogServices _templateLogServices;
         private readonly ICurlyBracketServices _curlyBracketServices;
+        private readonly ISettingServices _settingServices;
 
         #endregion
 
@@ -33,7 +36,9 @@ namespace PX.Business.Services.Templates
         public TemplateServices()
         {
             _localizedResourceServices = HostContainer.GetInstance<ILocalizedResourceServices>();
+            _templateLogServices = HostContainer.GetInstance<ITemplateLogServices>();
             _curlyBracketServices = HostContainer.GetInstance<ICurlyBracketServices>();
+            _settingServices = HostContainer.GetInstance<ISettingServices>();
         }
         #endregion
 
@@ -210,29 +215,98 @@ namespace PX.Business.Services.Templates
             return model;
         }
 
-        public ResponseModel SaveTemplate(TemplateManageModel model)
+        /// <summary>
+        /// Save template
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public ResponseModel SaveTemplateManageModel(TemplateManageModel model)
         {
             ResponseModel response;
-            var pageTemplate = GetById(model.Id);
-            if (pageTemplate != null)
+            var template = GetById(model.Id);
+            if (template != null)
             {
-                pageTemplate.Name = model.Name;
-                pageTemplate.Content = model.Content;
-                pageTemplate.DataType = model.DataType;
+                var log = new TemplateLogManageModel(template);
+                template.Name = model.Name;
+                template.Content = model.Content;
+                template.DataType = model.DataType;
 
-                response = Update(pageTemplate);
+                response = Update(template);
+                if (response.Success)
+                {
+                    _templateLogServices.SaveTemplateLog(log);
+                }
                 return response.SetMessage(response.Success ?
                     _localizedResourceServices.T("AdminModule:::Templates:::Messages:::UpdateSuccessfully:::Update template successfully.")
                     : _localizedResourceServices.T("AdminModule:::Templates:::Messages:::UpdateFailure:::Update template failed. Please try again later."));
             }
             Mapper.CreateMap<TemplateManageModel, Template>();
-            pageTemplate = Mapper.Map<TemplateManageModel, Template>(model);
-            response = Insert(pageTemplate);
+            template = Mapper.Map<TemplateManageModel, Template>(model);
+            response = Insert(template);
             return response.SetMessage(response.Success ?
                 _localizedResourceServices.T("AdminModule:::Templates:::Messages:::CreateSuccessfully:::Create template successfully.")
                 : _localizedResourceServices.T("AdminModule:::Templates:::Messages:::CreateFailure:::Create template failed. Please try again later."));
         }
 
+        /// <summary>
+        /// Delete template
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public ResponseModel DeleteTemplate(int id)
+        {
+            var template = GetById(id);
+            if (template != null)
+            {
+                if (template.IsDefaultTemplate)
+                {
+                    return new ResponseModel
+                    {
+                        Success = false,
+                        Message = _localizedResourceServices.T("AdminModule:::Templates:::ValidationMessages:::DeleteDefaultTemplate:::Cannot delete default template.")
+                    };
+                }
+                var response = Delete(template);
+                return response.SetMessage(response.Success ?
+                    _localizedResourceServices.T("AdminModule:::Templates:::Messages:::DeleteSuccessfully:::Delete template successfully.")
+                    : _localizedResourceServices.T("AdminModule:::Templates:::Messages:::DeleteFailure:::Delete template failed. Please try again later."));
+            }
+            return new ResponseModel
+            {
+                Success = false,
+                Message = _localizedResourceServices.T("AdminModule:::Templates:::Messages:::ObjectNotFounded:::Template is not founded.")
+            };
+        }
+
+        #endregion
+
+        #region Logs
+
+        /// <summary>
+        /// Get page log model
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        public TemplateLogsModel GetLogs(int id, int index = 1)
+        {
+            var pageSize = _settingServices.GetSetting<int>(SettingNames.LogsPageSize);
+            var template = GetById(id);
+            if (template != null)
+            {
+                var model = new TemplateLogsModel
+                {
+
+                    Id = template.Id,
+                    Name = template.Name,
+                    Logs = template.TemplateLogs.OrderByDescending(l => l.Created)
+                        .Skip((index - 1) * pageSize).Take(pageSize).Select(l => new TemplateLogViewModel(l)).ToList(),
+                    LoadComplete = (template.TemplateLogs.Count <= index * pageSize)
+                };
+                return model;
+            }
+            return null;
+        }
         #endregion
 
         /// <summary>

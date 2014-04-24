@@ -24,6 +24,11 @@ namespace PX.Business.Services.Settings
 
         #endregion
 
+        #region Initialize
+
+        void Initialize();
+        #endregion
+
         #region Grid Search
         JqGridSearchOut SearchSiteSettings(JqSearchIn si);
 

@@ -62,7 +62,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configurations\Configurations.cs" />
+    <Compile Include="Configurations\SettingNames.cs" />
     <Compile Include="Framework\Enums\ClientMenuEnums.cs" />
+    <Compile Include="Framework\Enums\SettingEnums.cs" />
     <Compile Include="Framework\Enums\GridEnums.cs" />
     <Compile Include="Framework\Enums\MediaEnums.cs" />
     <Compile Include="Framework\Enums\NewsEnums.cs" />

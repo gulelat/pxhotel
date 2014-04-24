@@ -1,15 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.Data;
-using System.Data.Objects;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Reflection;
 using AutoMapper;
 using PX.Business.Models.Settings;
-using PX.Business.Models.Settings.SettingTypes;
 using PX.Business.Models.Settings.SettingTypes.Base;
 using PX.Business.Services.SettingTypes;
+using PX.Core.Configurations;
 using PX.Core.Framework.Mvc.Environments;
 using PX.Business.Services.Localizes;
 using PX.Core.Framework.Enums;
@@ -66,6 +64,27 @@ namespace PX.Business.Services.Settings
         }
         #endregion
 
+        #region Initialize
+
+        public void Initialize()
+        {
+            var initializeSettings = new List<SiteSetting>
+            {
+                new SiteSetting { Name = SettingNames.CurlyBracketMaxLoop, Value = "5", SettingTypeId = (int)SettingEnums.TypeEnums.System },
+                new SiteSetting { Name = SettingNames.MaxSizeUploaded, Value = "10485760", SettingTypeId = (int)SettingEnums.TypeEnums.System },
+                new SiteSetting { Name = SettingNames.LogsPageSize, Value = "10", SettingTypeId = (int)SettingEnums.TypeEnums.BackEnd },
+            };
+
+            foreach (var setting in initializeSettings)
+            {
+                if (!GetAll().Any(s => s.Name.Equals(setting.Name)))
+                {
+                    Insert(setting);
+                }
+            }
+        }
+        #endregion
+
         #region Grid Search
         /// <summary>
         /// search the SiteSettings.
@@ -109,11 +128,7 @@ namespace PX.Business.Services.Settings
             {
                 case GridOperationEnums.Edit:
                     siteSetting = GetById(model.Id);
-                    siteSetting.Name = model.Name;
                     siteSetting.Value = model.Value;
-                    siteSetting.RecordActive = model.RecordActive;
-                    siteSetting.RecordOrder = model.RecordOrder;
-
                     if (int.TryParse(model.SettingTypeName, out settingTypeId))
                     {
                         siteSetting.SettingTypeId = settingTypeId;

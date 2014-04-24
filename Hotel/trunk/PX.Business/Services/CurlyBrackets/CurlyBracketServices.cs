@@ -63,7 +63,7 @@ namespace PX.Business.Services.CurlyBrackets
         public string Render(string content)
         {
             var render = new CurlyBracketRenderer();
-            var maxLoop = _settingServices.GetSetting<int>("CurlyBracket.MaxLoop");
+            var maxLoop = _settingServices.GetSetting<int>(SettingNames.CurlyBracketMaxLoop);
             return render.ResolverContent(content, maxLoop);
         }
 
