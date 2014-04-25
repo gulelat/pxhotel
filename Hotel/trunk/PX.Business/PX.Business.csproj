@@ -79,7 +79,6 @@
     <Compile Include="Models\SQLTool\DataTablesDataResult.cs" />
     <Compile Include="Models\SQLTool\DataTablesParamModel.cs" />
     <Compile Include="Models\SQLTool\FieldInfo.cs" />
-    <Compile Include="Models\SQLTool\HistoryViewModel.cs" />
     <Compile Include="Models\SQLTool\SQLRequest.cs" />
     <Compile Include="Models\SQLTool\SQLResult.cs" />
     <Compile Include="Models\TemplateLogs\TemplateLogModel.cs" />

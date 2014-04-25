@@ -38,8 +38,14 @@
                 </li>
 
                 <li>
+                    <a data-toggle="tab" href="#settings">
+                        <i class="purple icon-cog bigger-110"></i>Settings
+                    </a>
+                </li>
+
+                <li>
                     <a data-toggle="tab" href="#change-password">
-                        <i class="green icon-lock bigger-110"></i>Change Password
+                        <i class="blue icon-key bigger-110"></i>Change Password
                     </a>
                 </li>
             </ul>
@@ -156,8 +162,11 @@
                     </div>
                 </div>
 
+                <div id="settings" class="tab-pane">
+                </div>
+
                 <div id="change-password" class="tab-pane">
-                    @Html.Action("ChangePassword")
+                    @Html.Action("ChangePassword", "Users", new { id = CurrentUser.Id})
                 </div>
             </div>
         </div>
@@ -166,8 +175,8 @@
     <!-- /.col -->
 </div>
 <!-- /.row -->
-@section scripts{
-
+@section scripts
+{
     <script src="/Scripts/BackEnd/jquery-ui-1.10.3.custom.min.js"></script>
     <script src="/Scripts/BackEnd/jquery.ui.touch-punch.min.js"></script>
     <script src="/Scripts/BackEnd/bootstrap-wysiwyg.min.js"></script>
@@ -230,7 +239,6 @@
                         return response.Message;
                 }
             });
-            
 
             $('.date').editable({
                 type: 'date',

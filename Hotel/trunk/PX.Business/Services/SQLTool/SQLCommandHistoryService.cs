@@ -8,6 +8,7 @@ using PX.Business.Models.SQLTool;
 using PX.Business.Services.Localizes;
 using PX.Core.Framework.Mvc.Environments;
 using PX.Core.Framework.Mvc.Models;
+using PX.Core.Framework.Mvc.Models.JqGrid;
 using PX.EntityModel;
 using PX.EntityModel.Repositories;
 
@@ -50,6 +51,31 @@ namespace PX.Business.Services.SQLTool
         {
             return SQLCommandHistoryRepository.Delete(id);
         }
+        #endregion
+
+        #region Grid Search
+
+        /// <summary>
+        /// search the testimonials.
+        /// </summary>
+        /// <returns></returns>
+        public JqGridSearchOut SearchCommands(JqSearchIn si)
+        {
+            var testimonials = GetAll().Select(c => new CommandHistory
+            {
+                Id = c.Id,
+                Query = c.Query,
+                RecordActive = c.RecordActive,
+                RecordOrder = c.RecordOrder,
+                Created = c.Created,
+                CreatedBy = c.CreatedBy,
+                Updated = c.Updated,
+                UpdatedBy = c.UpdatedBy
+            });
+
+            return si.Search(testimonials);
+        }
+
         #endregion
 
         /// <summary>

@@ -164,12 +164,12 @@ namespace PX.Web.Areas.Admin.Controllers
         }
 
         [ChildActionOnly]
-        public PartialViewResult ChangePassword()
+        public PartialViewResult ChangePassword(int id)
         {
             var model = new ChangePasswordModel
-                {
-                    UserId = WorkContext.CurrentUser.Id
-                };
+            {
+                UserId = id
+            };
             return PartialView("_ChangePassword", model);
         }
 

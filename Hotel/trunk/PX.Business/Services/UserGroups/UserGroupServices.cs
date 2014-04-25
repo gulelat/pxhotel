@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Objects.SqlClient;
-using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Web.Mvc;
@@ -135,13 +134,13 @@ namespace PX.Business.Services.UserGroups
         /// Gets the user groups.
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<SelectListItem> GetUserGroups(int? userGroupId)
+        public IEnumerable<SelectListItem> GetUserGroups(int? userId)
         {
             return GetAll().Select(g => new SelectListItem
             {
                 Text = g.Name,
                 Value = SqlFunctions.StringConvert((double)g.Id),
-                Selected = userGroupId.HasValue && g.Id == userGroupId
+                Selected = g.UserInGroups.Any(ug => ug.UserId == userId)
             });
         }
 

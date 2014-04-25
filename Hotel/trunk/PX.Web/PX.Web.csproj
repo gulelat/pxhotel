@@ -699,7 +699,7 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Areas\Admin\Views\Home\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\_Layout.Administrator.cshtml" />
     <Content Include="Content\backend\font\cJZKeOuBrn4kERxqtaUH3T8E0i7KZn-EPnyo3HZu7kw.woff" />
     <Content Include="Content\backend\font\DXI1ORHCpsQm3Vp6mXoaTXhCUOGz7vYGh680lGh-uXM.woff" />
     <Content Include="Content\backend\font\fontawesome-webfont.eot" />
@@ -710,7 +710,7 @@
     <Content Include="Areas\Admin\Views\_ViewStart.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_Menu.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_Header.cshtml" />
-    <Content Include="Areas\Admin\Views\Shared\_Layout.Blank.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\Admin\Views\Users\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Account\Login.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_Head.Scripts.cshtml" />
@@ -732,7 +732,7 @@
     <Content Include="Areas\Admin\Views\LocalizedResources\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Languages\Index.cshtml" />
     <Content Include="Areas\Admin\Views\UserGroups\Permissions.cshtml" />
-    <Content Include="Areas\Admin\Views\Account\_ChangePassword.cshtml" />
+    <Content Include="Areas\Admin\Views\Users\_ChangePassword.cshtml" />
     <Content Include="Areas\Admin\Views\Pages\Index.cshtml" />
     <Content Include="Areas\Admin\Views\PageTemplates\Index.cshtml" />
     <Content Include="Areas\Admin\Views\FileTemplates\Edit.cshtml" />
@@ -1106,7 +1106,7 @@
     <Content Include="Areas\Admin\Views\Templates\_GetLogs.cshtml" />
     <Content Include="Areas\Admin\Views\Templates\Logs.cshtml" />
     <Content Include="Areas\Admin\Views\SQLTool\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\SQLTool\History.cshtml" />
+    <Content Include="Areas\Admin\Views\SQLTool\Histories.cshtml" />
     <None Include="Properties\PublishProfiles\Hotel.pubxml" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <None Include="Scripts\jquery-1.8.3.intellisense.js" />

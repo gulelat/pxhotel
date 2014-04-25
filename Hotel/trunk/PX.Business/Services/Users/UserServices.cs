@@ -64,26 +64,6 @@ namespace PX.Business.Services.Users
         }
         #endregion
 
-        /// <summary>
-        /// Get user
-        /// </summary>
-        /// <param name="email"></param>
-        /// <returns></returns>
-        public User GetUser(string email)
-        {
-            return GetAll().FirstOrDefault(u => u.Email.Equals(email));
-        }
-
-        /// <summary>
-        /// Get active user by email
-        /// </summary>
-        /// <param name="email">user email</param>
-        /// <returns></returns>
-        public User GetActiveUser(string email)
-        {
-            return GetAll().FirstOrDefault(u => u.Email.Equals(email) && u.Status == (int)UserEnums.UserStatusEnums.Active);
-        }
-
         #region Grid Search
 
         /// <summary>
@@ -92,7 +72,7 @@ namespace PX.Business.Services.Users
         /// <returns></returns>
         public JqGridSearchOut SearchUsers(JqSearchIn si)
         {
-            var users = GetAll().Select(u => new UserModel
+            var users = GetAll().ToList().Select(u => new UserModel
             {
                 Id = u.Id,
                 Email = u.Email,
@@ -104,15 +84,14 @@ namespace PX.Business.Services.Users
                 Phone = u.Phone,
                 IdentityNumber = u.IdentityNumber,
                 Status = u.Status,
-                UserGroupId = u.UserGroupId,
-                UserGroupName = u.UserGroup.Name,
+                UserGroups = u.UserInGroups.Any() ? string.Join(",", u.UserInGroups.Select(g => g.UserGroup.Name)) : string.Empty,
                 RecordActive = u.RecordActive,
                 RecordOrder = u.RecordOrder,
                 Created = u.Created,
                 CreatedBy = u.CreatedBy,
                 Updated = u.Updated,
                 UpdatedBy = u.UpdatedBy
-            });
+            }).AsQueryable();
 
             return si.Search(users);
         }
@@ -138,13 +117,9 @@ namespace PX.Business.Services.Users
                     user = GetById(model.Id);
                     user.FirstName = model.FirstName;
                     user.LastName = model.LastName;
-                    user.Email = model.Email;
-                    user.Password = model.Password;
                     user.Phone = model.Phone;
                     user.Status = model.Status;
 
-                    // Convert post data from jqGrid post
-                    user.UserGroupId = int.Parse(model.UserGroupName);
                     user.IdentityNumber = model.IdentityNumber;
                     user.RecordActive = model.RecordActive;
                     user.RecordOrder = 0;
@@ -153,16 +128,15 @@ namespace PX.Business.Services.Users
                         _localizedResourceServices.T("AdminModule:::Users:::Messages:::UpdateSuccessfully:::Update user successfully.")
                         : _localizedResourceServices.T("AdminModule:::Users:::Messages:::UpdateFailure:::Update user failed. Please try again later."));
 
-                case GridOperationEnums.Add:
-                    user = Mapper.Map<UserModel, User>(model);
-                    user.Status = model.Status;
-                    // Convert post data from jqGrid post
-                    user.UserGroupId = int.Parse(model.UserGroupName);
-                    user.RecordOrder = 0;
-                    response = Insert(user);
-                    return response.SetMessage(response.Success ?
-                        _localizedResourceServices.T("AdminModule:::Users:::Messages:::CreateSuccessfully:::Create user successfully.")
-                        : _localizedResourceServices.T("AdminModule:::Users:::Messages:::CreateFailure:::Create user failed. Please try again later."));
+                //case GridOperationEnums.Add:
+                //    user = Mapper.Map<UserModel, User>(model);
+                //    user.Status = model.Status;
+
+                //    user.RecordOrder = 0;
+                //    response = Insert(user);
+                //    return response.SetMessage(response.Success ?
+                //        _localizedResourceServices.T("AdminModule:::Users:::Messages:::CreateSuccessfully:::Create user successfully.")
+                //        : _localizedResourceServices.T("AdminModule:::Users:::Messages:::CreateFailure:::Create user failed. Please try again later."));
 
                 case GridOperationEnums.Del:
                     response = Delete(model.Id);
@@ -189,11 +163,11 @@ namespace PX.Business.Services.Users
         public ResponseModel Login(LoginModel model)
         {
             var user = GetUser(model.Email);
-            if(user != null)
+            if (user != null)
             {
-                if(user.StatusEnums == UserEnums.UserStatusEnums.Active && user.Password.Equals(model.Password))
+                if (user.StatusEnums == UserEnums.UserStatusEnums.Active && user.Password.Equals(model.Password))
                 {
-                    if(model.RememberMe)
+                    if (model.RememberMe)
                     {
                         var authenticationTicket = new FormsAuthenticationTicket(
                             1,
@@ -201,7 +175,7 @@ namespace PX.Business.Services.Users
                             DateTime.Now,
                             DateTime.Now.AddYears(1),
                             model.RememberMe,
-                            user.UserGroup.Name,
+                            user.Email,
                             "/"
                             );
 
@@ -243,7 +217,7 @@ namespace PX.Business.Services.Users
         public ResponseModel UploadAvatar(int userId, HttpPostedFileBase avatar)
         {
             var user = GetById(userId);
-            if(user == null)
+            if (user == null)
             {
                 return new ResponseModel
                     {
@@ -264,7 +238,7 @@ namespace PX.Business.Services.Users
                 WorkContext.CurrentUser = user;
             }
 
-            if(response.Success)
+            if (response.Success)
             {
                 avatar.SaveAs(path);
                 response.Data = returnPath;
@@ -274,6 +248,48 @@ namespace PX.Business.Services.Users
                 : _localizedResourceServices.T("AdminModule:::Users:::Messages:::UploadAvatarFailure:::Upload avatar failed. Please try again later."));
         }
         #endregion
+
+        public List<int> GetUserPermissions(int? userId = null)
+        {
+            var user = userId.HasValue ? GetById(userId) : WorkContext.CurrentUser;
+            if (user == null)
+                return new List<int>();
+
+            var uPermissions = user.UserInGroups
+                .Select(ug => ug.UserGroup.GroupPermissions.Where(gp => gp.HasPermission).Select(gp => gp.PermissionId)).Distinct().ToList();
+            var userPermissions = new List<int>();
+            foreach (var uPermission in uPermissions)
+            {
+                foreach (var i in uPermission)
+                {
+                    if (!userPermissions.Contains(i))
+                    {
+                        userPermissions.Add(i);
+                    }
+                }
+            }
+            return userPermissions;
+        }
+
+        /// <summary>
+        /// Get user
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns></returns>
+        public User GetUser(string email)
+        {
+            return GetAll().FirstOrDefault(u => u.Email.Equals(email));
+        }
+
+        /// <summary>
+        /// Get active user by email
+        /// </summary>
+        /// <param name="email">user email</param>
+        /// <returns></returns>
+        public User GetActiveUser(string email)
+        {
+            return GetAll().FirstOrDefault(u => u.Email.Equals(email) && u.Status == (int)UserEnums.UserStatusEnums.Active);
+        }
 
         /// <summary>
         /// Gets the user status.
@@ -292,10 +308,10 @@ namespace PX.Business.Services.Users
         public ResponseModel UpdateUserData(XEditableModel model)
         {
             var user = GetById(model.Pk);
-            if(user != null)
+            if (user != null)
             {
                 object value = model.Value;
-                if(model.Name.Equals("BirthDay"))
+                if (model.Name.Equals("BirthDay"))
                 {
                     value = model.Value.ToDate();
                 }
@@ -322,7 +338,7 @@ namespace PX.Business.Services.Users
         public ResponseModel ChangePassword(ChangePasswordModel model)
         {
             var user = GetById(model.UserId);
-            if(user != null)
+            if (user != null)
             {
                 user.Password = model.Password;
                 var response = Update(user);

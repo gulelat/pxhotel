@@ -23,6 +23,7 @@ using PX.Business.Services.RotatingImageGroups;
 using PX.Business.Services.RotatingImages;
 using PX.Business.Services.SettingTypes;
 using PX.Business.Services.Settings;
+using PX.Business.Services.SQLTool;
 using PX.Business.Services.Tags;
 using PX.Business.Services.TemplateLogs;
 using PX.Business.Services.Templates;
@@ -196,6 +197,7 @@ namespace PX.Web
             container.Register<IPageLogServices, PageLogServices>(Lifestyle.Singleton);
             container.Register<IPageTemplateLogServices, PageTemplateLogServices>(Lifestyle.Singleton);
             container.Register<ITemplateLogServices, TemplateLogServices>(Lifestyle.Singleton);
+            container.Register<ISQLCommandServices, SQLCommandServices>(Lifestyle.Singleton);
         }
 
         #endregion

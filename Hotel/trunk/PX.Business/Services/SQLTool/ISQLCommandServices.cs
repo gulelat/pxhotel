@@ -3,6 +3,7 @@ using System.Data.Common;
 using System.Linq;
 using PX.Business.Models.SQLTool;
 using PX.Core.Framework.Mvc.Models;
+using PX.Core.Framework.Mvc.Models.JqGrid;
 using PX.EntityModel;
 
 namespace PX.Business.Services.SQLTool
@@ -17,6 +18,12 @@ namespace PX.Business.Services.SQLTool
         ResponseModel Update(SQLCommandHistory sqlCommandHistory);
         ResponseModel Delete(SQLCommandHistory sqlCommandHistory);
         ResponseModel Delete(object id);
+
+        #endregion
+
+        #region Grid Search
+
+        JqGridSearchOut SearchCommands(JqSearchIn si);
 
         #endregion
 

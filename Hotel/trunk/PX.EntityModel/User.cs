@@ -14,6 +14,11 @@ namespace PX.EntityModel
     
     public partial class User
     {
+        public User()
+        {
+            this.UserInGroups = new HashSet<UserInGroup>();
+        }
+    
         public int Id { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
@@ -25,7 +30,6 @@ namespace PX.EntityModel
         public string About { get; set; }
         public string AvatarFileName { get; set; }
         public string Address { get; set; }
-        public int UserGroupId { get; set; }
         public int Status { get; set; }
         public Nullable<System.DateTime> LastLogin { get; set; }
         public int RecordOrder { get; set; }
@@ -35,6 +39,6 @@ namespace PX.EntityModel
         public Nullable<System.DateTime> Updated { get; set; }
         public string UpdatedBy { get; set; }
     
-        public virtual UserGroup UserGroup { get; set; }
+        public virtual ICollection<UserInGroup> UserInGroups { get; set; }
     }
 }
