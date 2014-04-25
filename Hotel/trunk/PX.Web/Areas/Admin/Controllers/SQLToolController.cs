@@ -6,7 +6,9 @@ using PX.Business.Mvc.Attributes.Authorize;
 using PX.Business.Mvc.Controllers;
 using PX.Business.Services.SQLTool;
 using PX.Core.Framework.Enums;
+using PX.Core.Framework.Mvc.Attributes;
 using PX.Core.Framework.Mvc.Environments;
+using PX.Core.Framework.Mvc.Models;
 using PX.Core.Framework.Mvc.Models.JqGrid;
 
 namespace PX.Web.Areas.Admin.Controllers
@@ -20,14 +22,14 @@ namespace PX.Web.Areas.Admin.Controllers
         {
             _sqlCommandServices = HostContainer.GetInstance<ISQLCommandServices>();
         }
+
         public ActionResult Index()
         {
             var executor = new SQLExecutor();
             var model = new SQLResult
             {
                 ConnectionString = _sqlCommandServices.GetConnectionString(),
-                History = _sqlCommandServices.GetHistories(SQLExecutor.DefaultHistoryStart,
-                                                        SQLExecutor.DefaultHistoryLength),
+                Histories = _sqlCommandServices.GetHistories(),
                 ReadOnly = true,
                 Tables = executor.GetTableNames()
             };
@@ -60,10 +62,31 @@ namespace PX.Web.Areas.Admin.Controllers
             return JsonConvert.SerializeObject(_sqlCommandServices.SearchCommands(si));
         }
 
+        [HttpPost]
+        [HandleJsonException]
+        public JsonResult Manage(SQLCommandHistoryModel model, GridManagingModel manageModel)
+        {
+            if (ModelState.IsValid || manageModel.Operation == GridOperationEnums.Del)
+            {
+                return Json(_sqlCommandServices.ManageSQLCommandHistory(manageModel.Operation, model));
+            }
+
+            return Json(new ResponseModel
+            {
+                Success = false,
+                Message = GetFirstValidationResults(ModelState).Message
+            });
+        }
+
         public JsonResult GenerateSelectStatement(string tablename)
         {
             var executor = new SQLExecutor();
             return Json(executor.GenerateSelectCommand(tablename));
+        }
+
+        public JsonResult GetHistories()
+        {
+            return Json(_sqlCommandServices.GetHistories());
         }
 
         #region Methods

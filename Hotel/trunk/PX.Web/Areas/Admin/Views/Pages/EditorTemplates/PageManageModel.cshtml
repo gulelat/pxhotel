@@ -5,7 +5,7 @@
     <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
         @MText(Tags.Label, "AdminModule:::Pages:::Forms:::Title", "Title", new { @class = "col-xs-12 no-padding-right", @for = "Title" })
         <div class="space-4"></div>
-        @Html.TextBoxFor(m => m.Title, new { @class = "col-xs-12", placeholder = T("AdminModule:::Pages:::Form:::Title place holder", "Please input page title") })
+        @Html.TextBoxFor(m => m.Title, new { @class = "col-xs-12", placeholder = T("AdminModule:::Pages:::Forms:::Title place holder", "Please input page title") })
         @Html.ValidationMessageFor(m => m.Title)
     </div>
     <div class="col-xs-12 col-sm-9 col-md-4 col-lg-4">
@@ -46,7 +46,7 @@
     <div class="col-xs-12">
         @MText(Tags.Label, "AdminModule:::Pages:::Forms:::Caption", "Caption", new { @class = "col-xs-12 no-padding-right", @for = "Caption" })
         <div class="space-4"></div>
-        @Html.TextAreaFor(m => m.Caption, new { @class = "col-xs-12", placeholder = T("AdminModule:::Pages:::Form:::Caption place holder", "Please input page caption") })
+        @Html.TextAreaFor(m => m.Caption, new { @class = "col-xs-12", placeholder = T("AdminModule:::Pages:::Forms:::Caption place holder", "Please input page caption") })
         @Html.ValidationMessageFor(m => m.Caption)
     </div>
 </div>
@@ -224,12 +224,6 @@
         $('.chosen-container').each(function () {
             $(this).css('width', '100%');
             $(this).find('input').css('height', 'auto');
-        });
-
-        $('.date-picker').datepicker({
-            autoclose: true, dateonly: true
-        }).next().on(ace.click_event, function () {
-            $(this).prev().focus();
         });
     });
     function printCurlybracket(curlyBracket) {

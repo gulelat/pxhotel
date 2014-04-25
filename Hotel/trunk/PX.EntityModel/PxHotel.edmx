@@ -613,11 +613,15 @@
           <Property Name="Phone" Type="nvarchar" Nullable="false" MaxLength="50" />
           <Property Name="IdentityNumber" Type="nvarchar" MaxLength="50" />
           <Property Name="BirthDay" Type="datetime" />
+          <Property Name="Gender" Type="int" />
           <Property Name="About" Type="nvarchar(max)" />
           <Property Name="AvatarFileName" Type="nvarchar" MaxLength="512" />
           <Property Name="Address" Type="nvarchar" MaxLength="1024" />
           <Property Name="Status" Type="int" Nullable="false" />
           <Property Name="LastLogin" Type="datetime" />
+          <Property Name="Facebook" Type="nvarchar" MaxLength="512" />
+          <Property Name="Twitter" Type="nvarchar" MaxLength="512" />
+          <Property Name="Google" Type="nvarchar" MaxLength="512" />
           <Property Name="RecordOrder" Type="int" Nullable="false" />
           <Property Name="RecordActive" Type="bit" Nullable="false" />
           <Property Name="Created" Type="datetime" Nullable="false" />
@@ -1586,11 +1590,15 @@
           <Property Type="String" Name="Phone" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="IdentityNumber" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="DateTime" Name="BirthDay" Precision="3" />
+          <Property Type="Int32" Name="Gender" />
           <Property Type="String" Name="About" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="AvatarFileName" MaxLength="512" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="Address" MaxLength="1024" FixedLength="false" Unicode="true" />
           <Property Type="Int32" Name="Status" Nullable="false" />
           <Property Type="DateTime" Name="LastLogin" Precision="3" />
+          <Property Type="String" Name="Facebook" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Twitter" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Google" MaxLength="512" FixedLength="false" Unicode="true" />
           <Property Type="Int32" Name="RecordOrder" Nullable="false" />
           <Property Type="Boolean" Name="RecordActive" Nullable="false" />
           <Property Type="DateTime" Name="Created" Nullable="false" Precision="3" />
@@ -2407,11 +2415,15 @@
                 <ScalarProperty Name="Created" ColumnName="Created" />
                 <ScalarProperty Name="RecordActive" ColumnName="RecordActive" />
                 <ScalarProperty Name="RecordOrder" ColumnName="RecordOrder" />
+                <ScalarProperty Name="Google" ColumnName="Google" />
+                <ScalarProperty Name="Twitter" ColumnName="Twitter" />
+                <ScalarProperty Name="Facebook" ColumnName="Facebook" />
                 <ScalarProperty Name="LastLogin" ColumnName="LastLogin" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="Address" ColumnName="Address" />
                 <ScalarProperty Name="AvatarFileName" ColumnName="AvatarFileName" />
                 <ScalarProperty Name="About" ColumnName="About" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
                 <ScalarProperty Name="BirthDay" ColumnName="BirthDay" />
                 <ScalarProperty Name="IdentityNumber" ColumnName="IdentityNumber" />
                 <ScalarProperty Name="Phone" ColumnName="Phone" />

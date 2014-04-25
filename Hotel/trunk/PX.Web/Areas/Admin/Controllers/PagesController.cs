@@ -107,7 +107,7 @@ namespace PX.Web.Areas.Admin.Controllers
                 SetErrorMessage(response.Message);
             }
             model.Parents = _pageTemplateServices.GetPossibleParents();
-            model.Positions = EnumUtilities.GetAllItemsFromEnum<PageEnums.PositionEnums>();
+            model.Positions = EnumUtilities.GetSelectListFromEnum<PageEnums.PositionEnums>();
             model.RelativePages = _pageServices.GetRelativePages(model.Id, model.ParentId);
             model.StatusList = _pageServices.GetStatus();
             model.PageTemplates = _pageTemplateServices.GetPageTemplateSelectList(model.PageTemplateId);
@@ -157,7 +157,7 @@ namespace PX.Web.Areas.Admin.Controllers
                 SetErrorMessage(response.Message);
             }
             model.Parents = _pageTemplateServices.GetPossibleParents();
-            model.Positions = EnumUtilities.GetAllItemsFromEnum<PageEnums.PositionEnums>();
+            model.Positions = EnumUtilities.GetSelectListFromEnum<PageEnums.PositionEnums>();
             //TODO: check position to use here
             model.RelativePages = _pageServices.GetRelativePages(model.Id, model.ParentId);
             model.StatusList = _pageServices.GetStatus();

@@ -39,7 +39,7 @@
                     <div class="col-xs-2">
                         <div class="btn-group">
                             <button class="btn btn-primary" onclick="ShowHistory(); return false;">History</button>
-                            @if (Model.History != null && Model.History.Any())
+                            @if (Model.Histories != null && Model.Histories.Any())
                             {
                                 <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
                                     <span class="icon-angle-down icon-on-right bigger-110"></span>
@@ -47,7 +47,7 @@
                                 <ul class="dropdown-menu">
                                     @{ 
                                 var count = 0;
-                                foreach (CommandHistory cmd in Model.History)
+                                foreach (SQLCommandHistoryModel cmd in Model.Histories)
                                 {
                                     count++;
                                         <li><a href="javascript:void(0)" id="history_@count" onclick="SelectHistory('history_@count')">@cmd.Query</a></li>
@@ -234,9 +234,11 @@
             $.fancybox({
                 href: "@Url.Action("Histories")",
                 type: 'iframe',
-                width: '90%'
+                width: '90%',
+                'onClosed': function () {
+                    
+                }
             });
-            return false;
         }
 
         function ToggleVisibility(id) {

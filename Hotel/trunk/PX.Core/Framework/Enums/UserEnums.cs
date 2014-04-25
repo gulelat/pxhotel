@@ -2,11 +2,18 @@
 {
     public class UserEnums
     {
-        public enum UserStatusEnums
+        public enum StatusEnums
         {
             Active = 1,
             Inactive = 2,
             Locked = 3
+        }
+
+        public enum GenderEnums
+        {
+            Male = 1,
+            Feemale = 2,
+            None = 3
         }
     }
 }

@@ -37,7 +37,7 @@ namespace PX.Business.Services.UserGroups
 
         #endregion
         
-        IEnumerable<SelectListItem> GetUserGroups(int? userGroupId);
+        IEnumerable<SelectListItem> GetUserGroups(int? userId = null);
 
         GroupPermissionsModel GetPermissionSettings(int id);
 

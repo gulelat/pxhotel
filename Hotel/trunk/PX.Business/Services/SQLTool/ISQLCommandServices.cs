@@ -2,6 +2,7 @@
 using System.Data.Common;
 using System.Linq;
 using PX.Business.Models.SQLTool;
+using PX.Core.Framework.Enums;
 using PX.Core.Framework.Mvc.Models;
 using PX.Core.Framework.Mvc.Models.JqGrid;
 using PX.EntityModel;
@@ -27,11 +28,14 @@ namespace PX.Business.Services.SQLTool
 
         #endregion
 
+        #region Grid Manage
+
+        ResponseModel ManageSQLCommandHistory(GridOperationEnums operation, SQLCommandHistoryModel model);
+        #endregion
+
         ResponseModel SaveCommand(SQLRequest request);
 
-        IEnumerable<SQLCommandHistory> GetHistories();
-
-        IEnumerable<CommandHistory> GetHistories(int index, int pageSize);
+        IEnumerable<SQLCommandHistoryModel> GetHistories(int? index = null, int? pageSize = null);
 
         DbConnection GetConnection();
 

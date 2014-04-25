@@ -74,7 +74,7 @@
     <Compile Include="Models\ClientMenus\ClientBreadCrumbModel.cs" />
     <Compile Include="Models\ClientMenus\ClientMenuModel.cs" />
     <Compile Include="Models\ClientMenus\ClientMenuManageModel.cs" />
-    <Compile Include="Models\SQLTool\CommandHistory.cs" />
+    <Compile Include="Models\SQLTool\SQLCommandHistoryModel.cs" />
     <Compile Include="Models\SQLTool\DataResult.cs" />
     <Compile Include="Models\SQLTool\DataTablesDataResult.cs" />
     <Compile Include="Models\SQLTool\DataTablesParamModel.cs" />
@@ -120,6 +120,7 @@
     <Compile Include="Models\Testimonials\TestimonialModel.cs" />
     <Compile Include="Models\CurlyBrackets\CurlyBracketModel.cs" />
     <Compile Include="Models\Pages\PageManageModel.cs" />
+    <Compile Include="Models\Users\UserManageModel.cs" />
     <Compile Include="Mvc\Attributes\ActionFilters\MasterChooserAttribute.cs" />
     <Compile Include="Mvc\Attributes\TemplateAttribute.cs" />
     <Compile Include="Mvc\Attributes\ErrorHandle\PxHandleErrorAttribute.cs" />

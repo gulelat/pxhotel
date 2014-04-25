@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Security.Cryptography.X509Certificates;
 using System.Web;
 using System.Web.Mvc;
 using PX.Business.Models.Users;
@@ -42,6 +41,10 @@ namespace PX.Business.Services.Users
         #endregion
 
         #region Manage
+
+        UserManageModel GetUserManageModel(int? id);
+
+        ResponseModel SaveUserManageModel(UserManageModel model, HttpPostedFileBase avatar);
 
         ResponseModel ChangePassword(ChangePasswordModel model);
 

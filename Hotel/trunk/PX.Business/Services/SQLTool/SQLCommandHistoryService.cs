@@ -6,6 +6,9 @@ using System.Linq.Expressions;
 using System.Web;
 using PX.Business.Models.SQLTool;
 using PX.Business.Services.Localizes;
+using PX.Business.Services.Settings;
+using PX.Core.Configurations;
+using PX.Core.Framework.Enums;
 using PX.Core.Framework.Mvc.Environments;
 using PX.Core.Framework.Mvc.Models;
 using PX.Core.Framework.Mvc.Models.JqGrid;
@@ -17,8 +20,10 @@ namespace PX.Business.Services.SQLTool
     public class SQLCommandServices : ISQLCommandServices
     {
         private readonly ILocalizedResourceServices _localizedResourceServices;
+        private readonly ISettingServices _settingServices;
         public SQLCommandServices()
         {
+            _settingServices = HostContainer.GetInstance<ISettingServices>();
             _localizedResourceServices = HostContainer.GetInstance<ILocalizedResourceServices>();
         }
 
@@ -61,7 +66,7 @@ namespace PX.Business.Services.SQLTool
         /// <returns></returns>
         public JqGridSearchOut SearchCommands(JqSearchIn si)
         {
-            var testimonials = GetAll().Select(c => new CommandHistory
+            var testimonials = GetAll().Select(c => new SQLCommandHistoryModel
             {
                 Id = c.Id,
                 Query = c.Query,
@@ -74,6 +79,53 @@ namespace PX.Business.Services.SQLTool
             });
 
             return si.Search(testimonials);
+        }
+
+        #endregion
+
+        #region Grid Manage
+
+        /// <summary>
+        /// Manage user group
+        /// </summary>
+        /// <param name="operation">the operation</param>
+        /// <param name="model">the user group model</param>
+        /// <returns></returns>
+        public ResponseModel ManageSQLCommandHistory(GridOperationEnums operation, SQLCommandHistoryModel model)
+        {
+            ResponseModel response;
+            AutoMapper.Mapper.CreateMap<SQLCommandHistoryModel, SQLCommandHistory>();
+            SQLCommandHistory sqlCommandHistory;
+            switch (operation)
+            {
+                case GridOperationEnums.Edit:
+                    sqlCommandHistory = SQLCommandHistoryRepository.GetById(model.Id);
+                    sqlCommandHistory.Query = model.Query;
+                    sqlCommandHistory.RecordOrder = model.RecordOrder;
+                    sqlCommandHistory.RecordActive = model.RecordActive;
+                    response = Update(sqlCommandHistory);
+                    return response.SetMessage(response.Success ?
+                        _localizedResourceServices.T("AdminModule:::SQLCommandHistorys:::Messages:::UpdateSuccessfully:::Update command successfully.")
+                        : _localizedResourceServices.T("AdminModule:::SQLCommandHistorys:::Messages:::UpdateFailure:::Update command failed. Please try again later."));
+
+                case GridOperationEnums.Add:
+                    sqlCommandHistory = AutoMapper.Mapper.Map<SQLCommandHistoryModel, SQLCommandHistory>(model);
+                    response = Insert(sqlCommandHistory);
+                    return response.SetMessage(response.Success ?
+                        _localizedResourceServices.T("AdminModule:::SQLCommandHistorys:::Messages:::CreateSuccessfully:::Create command successfully.")
+                        : _localizedResourceServices.T("AdminModule:::SQLCommandHistorys:::Messages:::CreateFailure:::Create command failed. Please try again later."));
+
+                case GridOperationEnums.Del:
+                    response = Delete(model.Id);
+                    return response.SetMessage(response.Success ?
+                        _localizedResourceServices.T("AdminModule:::SQLCommandHistorys:::Messages:::DeleteSuccessfully:::Delete command successfully.")
+                        : _localizedResourceServices.T("AdminModule:::SQLCommandHistorys:::Messages:::DeleteFailure:::Delete command failed. Please try again later."));
+            }
+            return new ResponseModel
+            {
+                Success = false,
+                Message = _localizedResourceServices.T("AdminModule:::SQLCommandHistorys:::Messages:::ObjectNotFounded:::Command is not founded.")
+            };
         }
 
         #endregion
@@ -96,15 +148,11 @@ namespace PX.Business.Services.SQLTool
             return SQLCommandHistoryRepository.Connection().ConnectionString;
         }
 
-        public ResponseModel Insert(CommandHistory history)
+        public ResponseModel Insert(SQLCommandHistoryModel historyModel)
         {
             var commandHistory = new SQLCommandHistory
                 {
-                    Created = DateTime.Now,
-                    CreatedBy = HttpContext.Current.User.Identity.Name,
-                    Updated = DateTime.Now,
-                    UpdatedBy = HttpContext.Current.User.Identity.Name,
-                    Query = history.Query,
+                    Query = historyModel.Query,
                     RecordActive = true
                 };
             return Insert(commandHistory);
@@ -123,7 +171,7 @@ namespace PX.Business.Services.SQLTool
                         Success = true
                     };
             }
-            var last = GetLastCommand(HttpContext.Current.User.Identity.Name);
+            var last = GetLastCommand();
             if (last != null && last.Query == request.Query)
             {
                 return new ResponseModel
@@ -131,7 +179,7 @@ namespace PX.Business.Services.SQLTool
                     Success = true
                 };
             }
-            var history = new CommandHistory
+            var history = new SQLCommandHistoryModel
             {
                 Query = request.Query
             };
@@ -148,41 +196,25 @@ namespace PX.Business.Services.SQLTool
         /// <param name="index"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        public IEnumerable<CommandHistory> GetHistories(int index, int pageSize)
+        public IEnumerable<SQLCommandHistoryModel> GetHistories(int? index, int? pageSize)
         {
+            if(!index.HasValue)
+                index = _settingServices.GetSetting<int>(SettingNames.DefaultHistoryLength);
+            if(!pageSize.HasValue)
+                pageSize = _settingServices.GetSetting<int>(SettingNames.DefaultHistoryStart);
+
             var username = HttpContext.Current.User.Identity.Name;
             return Fetch(i => i.CreatedBy.Equals(username))
-                .OrderByDescending(i => i.Updated)
-                .Skip(index)
-                .Take(pageSize)
+                .OrderByDescending(i => i.Created)
+                .Skip(index.Value)
+                .Take(pageSize.Value)
                 .Select(
-                    i => new CommandHistory { Id = i.Id, Query = i.Query, CreatedBy = i.CreatedBy, Updated = i.Updated });
+                    i => new SQLCommandHistoryModel { Id = i.Id, Query = i.Query, CreatedBy = i.CreatedBy });
         }
 
-        public IEnumerable<SQLCommandHistory> GetHistories()
+        public SQLCommandHistoryModel GetLastCommand()
         {
-            string user = HttpContext.Current.User.Identity.Name;
-            return Fetch(i => i.CreatedBy == user).OrderByDescending(i => i.Updated);
-        }
-
-        public IQueryable<CommandHistory> GetHistories(string username, int start, int length)
-        {
-            return Fetch(i => i.CreatedBy == username)
-                            .OrderByDescending(i => i.Updated)
-                            .Skip(start)
-                            .Take(length)
-                            .Select(i => new CommandHistory
-                            {
-                                Id = i.Id,
-                                Query = i.Query,
-                                CreatedBy = i.CreatedBy,
-                                Updated = i.Updated
-                            });
-        }
-
-        public CommandHistory GetLastCommand(string username)
-        {
-            return GetHistories(username, 0, 1).FirstOrDefault();
+            return GetHistories(0, 1).FirstOrDefault();
         }
     }
 }

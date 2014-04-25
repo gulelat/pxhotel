@@ -8,6 +8,7 @@ using System.Web.Mvc;
 using System.Web.Security;
 using PX.Business.Models.Users;
 using PX.Business.Models.Users.Logins;
+using PX.Business.Services.UserGroups;
 using PX.Core.Configurations;
 using PX.Core.Framework.Mvc.Environments;
 using PX.Business.Mvc.WorkContext;
@@ -27,10 +28,12 @@ namespace PX.Business.Services.Users
     public class UserServices : IUserServices
     {
         private readonly ILocalizedResourceServices _localizedResourceServices;
+        private readonly IUserGroupServices _userGroupServices;
 
         public UserServices()
         {
             _localizedResourceServices = HostContainer.GetInstance<ILocalizedResourceServices>();
+            _userGroupServices = HostContainer.GetInstance<IUserGroupServices>();
         }
 
         #region Base
@@ -153,6 +156,150 @@ namespace PX.Business.Services.Users
 
         #endregion
 
+        #region Manage
+        public UserManageModel GetUserManageModel(int? id)
+        {
+            var user = GetById(id);
+            if (user != null)
+            {
+                return new UserManageModel
+                    {
+                        Id = user.Id,
+                        FirstName = user.FirstName,
+                        LastName = user.LastName,
+                        Email = user.Email,
+                        Password = user.Password,
+                        ConfirmPassword = user.Password,
+                        Status = user.Status,
+                        StatusList = GetStatus(),
+                        Phone = user.Phone,
+                        Gender = user.Gender,
+                        Genders = EnumUtilities.GetSelectListFromEnum<UserEnums.GenderEnums>(),
+                        About = user.About,
+                        Address = user.Address,
+                        IdentityNumber = user.IdentityNumber,
+                        LastLogin = user.LastLogin,
+                        Facebook = user.Facebook,
+                        Twitter = user.Twitter,
+                        Google = user.Google,
+                        AvatarFileName = user.AvatarFileName,
+                        BirthDay = user.BirthDay,
+                        Created = user.Created,
+                        CreatedBy = user.CreatedBy,
+                        Updated = user.Updated,
+                        UpdatedBy = user.UpdatedBy,
+                        UserGroupIds = user.UserInGroups.Select(g => g.UserGroupId),
+                        UserGroups = _userGroupServices.GetUserGroups(user.Id)
+                    };
+            }
+            return new UserManageModel
+                {
+                    UserGroups = _userGroupServices.GetUserGroups()
+                };
+        }
+
+        public ResponseModel SaveUserManageModel(UserManageModel model, HttpPostedFileBase avatar)
+        {
+            ResponseModel response;
+            var user = GetById(model.Id);
+            #region Edit News
+            if (user != null)
+            {
+                user.FirstName = model.FirstName;
+                user.LastName = model.LastName;
+                user.Email = model.Email;
+                user.Status = model.Status;
+                user.Phone = model.Phone;
+                user.Gender = model.Gender;
+                user.About = model.About;
+                user.Address = model.Address;
+                user.IdentityNumber = model.IdentityNumber;
+                user.LastLogin = model.LastLogin;
+                user.Facebook = model.Facebook;
+                user.Twitter = model.Twitter;
+                user.Google = model.Google;
+                user.AvatarFileName = model.AvatarFileName;
+                user.BirthDay = model.BirthDay;
+                var currentGroups = user.UserInGroups.Select(nc => nc.UserGroupId).ToList();
+                foreach (var id in model.UserGroupIds)
+                {
+                    if (!model.UserGroupIds.Contains(id))
+                    {
+                        UserInGroupRepository.Delete(id);
+                    }
+                }
+                foreach (var groupId in model.UserGroupIds)
+                {
+                    if (currentGroups.All(n => n != groupId))
+                    {
+                        var userInGroup = new UserInGroup
+                        {
+                            UserId = user.Id,
+                            UserGroupId = groupId
+                        };
+                        UserInGroupRepository.Insert(userInGroup);
+                    }
+                }
+
+                //Get page record order
+                response = Update(user);
+                if (response.Success && avatar != null)
+                {
+                    UploadAvatar(user.Id, avatar);
+                }
+                return response.SetMessage(response.Success ?
+                    _localizedResourceServices.T("AdminModule:::Users:::Messages:::UpdateSuccessfully:::Update user successfully.")
+                    : _localizedResourceServices.T("AdminModule:::Users:::Messages:::UpdateFailure:::Update user failed. Please try again later."));
+            }
+            #endregion
+
+            user = new User
+            {
+                Id = model.Id,
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                Email = model.Email,
+                Password = model.Password,
+                Status = model.Status,
+                Phone = model.Phone,
+                Gender = model.Gender,
+                About = model.About,
+                Address = model.Address,
+                IdentityNumber = model.IdentityNumber,
+                LastLogin = model.LastLogin,
+                Facebook = model.Facebook,
+                Twitter = model.Twitter,
+                Google = model.Google,
+                AvatarFileName = model.AvatarFileName,
+                BirthDay = model.BirthDay,
+                Created = model.Created,
+                CreatedBy = model.CreatedBy,
+                Updated = model.Updated,
+                UpdatedBy = model.UpdatedBy,
+            };
+
+            response = Insert(user);
+            foreach (var groupId in model.UserGroupIds)
+            {
+                var userInGroup = new UserInGroup
+                {
+                    UserId = user.Id,
+                    UserGroupId = groupId
+                };
+                UserInGroupRepository.Insert(userInGroup);
+            }
+            if (response.Success && avatar != null)
+            {
+                UploadAvatar(user.Id, avatar);
+            }
+            return response.SetMessage(response.Success ?
+                _localizedResourceServices.T("AdminModule:::Users:::Messages:::CreateSuccessfully:::Create user successfully.")
+                : _localizedResourceServices.T("AdminModule:::Users:::Messages:::CreateFailure:::Create user failed. Please try again later."));
+
+        }
+
+        #endregion
+
         #region Login/ Register / Forgot Password
 
         /// <summary>
@@ -165,7 +312,7 @@ namespace PX.Business.Services.Users
             var user = GetUser(model.Email);
             if (user != null)
             {
-                if (user.StatusEnums == UserEnums.UserStatusEnums.Active && user.Password.Equals(model.Password))
+                if (user.StatusEnums == UserEnums.StatusEnums.Active && user.Password.Equals(model.Password))
                 {
                     if (model.RememberMe)
                     {
@@ -249,6 +396,11 @@ namespace PX.Business.Services.Users
         }
         #endregion
 
+        /// <summary>
+        /// Get user permissions
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
         public List<int> GetUserPermissions(int? userId = null)
         {
             var user = userId.HasValue ? GetById(userId) : WorkContext.CurrentUser;
@@ -288,7 +440,7 @@ namespace PX.Business.Services.Users
         /// <returns></returns>
         public User GetActiveUser(string email)
         {
-            return GetAll().FirstOrDefault(u => u.Email.Equals(email) && u.Status == (int)UserEnums.UserStatusEnums.Active);
+            return GetAll().FirstOrDefault(u => u.Email.Equals(email) && u.Status == (int)UserEnums.StatusEnums.Active);
         }
 
         /// <summary>
@@ -297,7 +449,7 @@ namespace PX.Business.Services.Users
         /// <returns></returns>
         public IEnumerable<SelectListItem> GetStatus()
         {
-            return EnumUtilities.GetAllItemsFromEnum<UserEnums.UserStatusEnums>();
+            return EnumUtilities.GetSelectListFromEnum<UserEnums.StatusEnums>();
         }
 
         /// <summary>

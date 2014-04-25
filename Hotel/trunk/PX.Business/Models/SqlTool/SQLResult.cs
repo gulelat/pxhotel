@@ -32,7 +32,7 @@ namespace PX.Business.Models.SQLTool
         /// <summary>
         /// Recent requests
         /// </summary>
-        public IEnumerable<CommandHistory> History { get; set; }
+        public IEnumerable<SQLCommandHistoryModel> Histories { get; set; }
         /// <summary>
         /// List of tables in current DB
         /// </summary>

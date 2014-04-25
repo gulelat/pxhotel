@@ -79,6 +79,7 @@
     <script src="/Scripts/BackEnd/bootstrap.min.js"></script>
     <script src="/Scripts/BackEnd/typeahead-bs2.min.js"></script>
     <script src="~/Scripts/Backend/bootbox.min.js"></script>
+    <script src="/Scripts/BackEnd/jquery.maskedinput.min.js"></script>
 
     <script type="text/javascript" src="/Scripts/fancybox/jquery.fancybox.js"></script>
     <script type="text/javascript">
@@ -92,6 +93,12 @@
             });
         });
         $('[data-rel=tooltip]').tooltip({ container: 'body' });
+        $('.date-picker').datepicker({
+            autoclose: true, dateonly: true
+        }).next().on(ace.click_event, function () {
+            $(this).prev().focus();
+        });
+        $('.input-mask-phone').mask('(999) 999-9999');
     </script>
 
     <!-- page specific plugin scripts -->

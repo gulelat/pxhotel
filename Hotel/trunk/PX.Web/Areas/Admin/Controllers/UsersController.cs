@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System.Web;
+using System.Web.Mvc;
 using Newtonsoft.Json;
 using PX.Business.Models.Users;
 using PX.Business.Mvc.Attributes.Authorize;
@@ -20,7 +21,7 @@ namespace PX.Web.Areas.Admin.Controllers
             _userServices = userServices;
         }
 
-        #region Listing & Manage User
+        #region Listing
 
         public ActionResult Index()
         {
@@ -60,8 +61,20 @@ namespace PX.Web.Areas.Admin.Controllers
 
         public ActionResult Edit(int id)
         {
-            var model = _userServices.GetById(id);
+            var model = _userServices.GetUserManageModel(id);
             return View(model);
+        }
+
+        [HttpPost]
+        public JsonResult Edit(UserManageModel user, HttpPostedFileBase avatar)
+        {
+            if(ModelState.IsValid)
+                return Json(_userServices.SaveUserManageModel(user, avatar));
+            return Json(new ResponseModel
+            {
+                Success = false,
+                Message = GetFirstValidationResults(ModelState).Message
+            });
         }
 
         #region Profiles

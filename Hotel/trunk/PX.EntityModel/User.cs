@@ -27,11 +27,15 @@ namespace PX.EntityModel
         public string Phone { get; set; }
         public string IdentityNumber { get; set; }
         public Nullable<System.DateTime> BirthDay { get; set; }
+        public Nullable<int> Gender { get; set; }
         public string About { get; set; }
         public string AvatarFileName { get; set; }
         public string Address { get; set; }
         public int Status { get; set; }
         public Nullable<System.DateTime> LastLogin { get; set; }
+        public string Facebook { get; set; }
+        public string Twitter { get; set; }
+        public string Google { get; set; }
         public int RecordOrder { get; set; }
         public bool RecordActive { get; set; }
         public System.DateTime Created { get; set; }

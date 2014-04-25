@@ -1,0 +1,388 @@
+﻿@using PX.Core.Configurations
+@model PX.Business.Models.Users.UserManageModel
+<div class="tabbable">
+    <ul class="nav nav-tabs padding-16">
+        <li class="active">
+            <a data-toggle="tab" href="#edit-basic">
+                <i class="green icon-edit bigger-125"></i>
+                Basic Info
+            </a>
+        </li>
+        <li>
+            <a data-toggle="tab" href="#edit-settings">
+                <i class="purple icon-cog bigger-125"></i>
+                Settings
+            </a>
+        </li>
+    </ul>
+
+    <div class="tab-content profile-edit-tab-content">
+        <div id="edit-basic" class="tab-pane in active">
+            <h4 class="header blue bolder smaller">General</h4>
+            @Html.HiddenFor(m => m.Id)
+            <div class="row">
+                <div class="col-xs-12 col-sm-4">
+                    <img id="avatarImage" class="img-responsive" src="@Model.AvatarPath"/>
+                    <input id="avatar" type="file" name="avatar" />
+                </div>
+
+                <div class="vspace-xs"></div>
+
+                <div class="col-xs-12 col-sm-8">
+                    <div class="form-group">
+                        @MText(Tags.Label, "AdminModule:::Users:::Forms:::Email", "Email", new { @class = "col-sm-4 control-label no-padding-right", @for = "Email" })
+                        <div class="col-sm-8">
+                            <span class="input-icon input-icon-right">
+                                @Html.TextBoxFor(m => m.Email, new { placeholder = T("AdminModule:::Users:::Forms:::Email place holder", "Email") })
+                                <i class="icon-envelope"></i>
+                            </span>
+                            @Html.ValidationMessageFor(m => m.Email)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @MText(Tags.Label, "AdminModule:::Users:::Forms:::FullName", "Name", new { @class = "col-sm-4 control-label no-padding-right", @for = "FirstName" })
+                        <div class="col-sm-8">
+                            @Html.TextBoxFor(m => m.FirstName, new { @class = "input-small", placeholder = T("AdminModule:::Users:::Forms:::FirstNamePlaceHolder", "First Name") })
+                            @Html.TextBoxFor(m => m.LastName, new { @class = "input-small", placeholder = T("AdminModule:::Users:::Forms:::LastNamePlaceHolder", "Last Name") })
+                        </div>
+                        @Html.ValidationMessageFor(m => m.FirstName)
+                        @Html.ValidationMessageFor(m => m.LastName)
+                    </div>
+                    <div class="space-4"></div>
+                    <div class="form-group">
+                        @MText(Tags.Label, "AdminModule:::Users:::Forms:::Status", "Status", new { @class = "col-sm-4 control-label no-padding-right", @for = "Status" })
+                        <div class="col-sm-8">
+                            @Html.DropDownListFor(m => m.Status, Model.StatusList)
+                            @Html.ValidationMessageFor(m => m.Status)
+                        </div>
+                    </div>
+                    <div class="space-4"></div>
+                    <div class="form-group">
+                        @MText(Tags.Label, "AdminModule:::Users:::Forms:::UserGroups", "User Groups", new { @class = "col-sm-4 control-label no-padding-right", @for = "UserGroupIds" })
+                        <div class="col-sm-8">
+                            @Html.ListBoxFor(m => m.UserGroupIds, Model.UserGroups, new { @class = "form-control chosen-select tag-input-style", multiple = "multiple" })
+                            @Html.ValidationMessageFor(m => m.UserGroupIds)
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr />
+            <div class="form-group">
+                @MText(Tags.Label, "AdminModule:::Users:::Forms:::BirthDate", "Birth Date", new { @class = "col-sm-3 control-label no-padding-right", @for = "BirthDate" })
+                <div class="col-sm-9">
+                    <div class="input-medium">
+                        <div class="input-group">
+                            @Html.TextBoxFor(m => m.BirthDay, new { @class = "input-medium date-picker", placeholder = "dd/mm/yyyy" })
+                            <span class="input-group-addon">
+                                <i class="icon-calendar"></i>
+                            </span>
+                        </div>
+                        @Html.ValidationMessageFor(m => m.BirthDay)
+                    </div>
+                </div>
+            </div>
+            <div class="space-4"></div>
+            <div class="form-group">
+                @MText(Tags.Label, "AdminModule:::Users:::Forms:::Gender", "Gender", new { @class = "col-sm-3 control-label no-padding-right", @for = "Gender" })
+
+                <div class="col-sm-9">
+                    @foreach (var item in Model.Genders)
+                    {
+                        <label class="inline" style="margin-right: 10px">
+                            <input name="Gender" value="@item.Value" type="radio" class="ace" />
+                            <span class="lbl">@item.Text</span>
+                        </label>
+                    }
+                </div>
+            </div>
+            <div class="space-4"></div>
+            <div class="form-group">
+                @MText(Tags.Label, "AdminModule:::Users:::Forms:::About", "About Me", new { @class = "col-sm-3 control-label no-padding-right", @for = "About" })
+                <div class="col-sm-9">
+                    @Html.TextAreaFor(m => m.About)
+                    @Html.ValidationMessageFor(m => m.About)
+                </div>
+            </div>
+            <div class="space"></div>
+            <h4 class="header blue bolder smaller">Password</h4>
+            <div class="form-group">
+                @MText(Tags.Label, "AdminModule:::Users:::Forms:::Password", "New Password", new { @class = "col-sm-3 control-label no-padding-right", @for = "Password" })
+                <div class="col-sm-9">
+                    @Html.PasswordFor(m => m.Password, new { value = Model.Password })
+                    @Html.ValidationMessageFor(m => m.Password)
+                </div>
+            </div>
+            <div class="space-4"></div>
+            <div class="form-group">
+                @MText(Tags.Label, "AdminModule:::Users:::Forms:::ConfirmPassword", "Confirm Password", new { @class = "col-sm-3 control-label no-padding-right", @for = "ConfirmPassword" })
+
+                <div class="col-sm-9">
+                    @Html.PasswordFor(m => m.ConfirmPassword, new { value = Model.Password })
+                    @Html.ValidationMessageFor(m => m.ConfirmPassword)
+                </div>
+            </div>
+            <div class="space"></div>
+            <h4 class="header blue bolder smaller">Contact</h4>
+            <div class="form-group">
+                @MText(Tags.Label, "AdminModule:::Users:::Forms:::IdentityNumber", "Identity Number", new { @class = "col-sm-3 control-label no-padding-right", @for = "IdentityNumber" })
+
+                <div class="col-sm-9">
+                    <span class="input-icon input-icon-right">
+                        @Html.TextBoxFor(m => m.IdentityNumber)
+                        <i class="icon-user"></i>
+                    </span>
+                    @Html.ValidationMessageFor(m => m.IdentityNumber)
+                </div>
+            </div>
+            <div class="space-4"></div>
+            <div class="form-group">
+                @MText(Tags.Label, "AdminModule:::Users:::Forms:::Phone", "Phone", new { @class = "col-sm-3 control-label no-padding-right", @for = "Phone" })
+                <div class="col-sm-9">
+                    <span class="input-icon input-icon-right">
+                        @Html.TextBoxFor(m => m.Phone, new { @class = "input-mask-phone" })
+                        <i class="icon-phone icon-flip-horizontal"></i>
+                    </span>
+                    @Html.ValidationMessageFor(m => m.Phone)
+                </div>
+            </div>
+            <div class="space-4"></div>
+            <div class="form-group">
+                @MText(Tags.Label, "AdminModule:::Users:::Forms:::Address", "Address", new { @class = "col-sm-3 control-label no-padding-right", @for = "Phone" })
+                <div class="col-sm-9">
+                    <div class="col-xs-12 no-padding">
+                        @Html.TextBoxFor(m => m.Address, new { id = "address-input", @class = "controls", placeholder = T("AdminModule:::Users:::Forms:::AddressPlaceHolder:::Enter a location") })
+                        <div id="map-canvas"></div>
+                    </div>
+                    @Html.ValidationMessageFor(m => m.Address)
+                </div>
+            </div>
+
+            <div class="space"></div>
+            <h4 class="header blue bolder smaller">Social</h4>
+
+            <div class="form-group">
+                @MText(Tags.Label, "AdminModule:::Users:::Forms:::Facebook", "Facebook", new { @class = "col-sm-3 control-label no-padding-right", @for = "Facebook" })
+                <div class="col-sm-9">
+                    <span class="input-icon">
+                        @Html.TextBoxFor(m => m.Facebook)
+                        <i class="icon-facebook blue"></i>
+                    </span>
+                    @Html.ValidationMessageFor(m => m.Facebook)
+                </div>
+            </div>
+
+            <div class="space-4"></div>
+
+            <div class="form-group">
+                @MText(Tags.Label, "AdminModule:::Users:::Forms:::Facebook", "Twitter", new { @class = "col-sm-3 control-label no-padding-right", @for = "Twitter" })
+                <div class="col-sm-9">
+                    <span class="input-icon">
+                        @Html.TextBoxFor(m => m.Twitter)
+                        <i class="icon-twitter light-blue"></i>
+                    </span>
+                    @Html.ValidationMessageFor(m => m.Twitter)
+                </div>
+            </div>
+
+            <div class="space-4"></div>
+
+            <div class="form-group">
+                @MText(Tags.Label, "AdminModule:::Users:::Forms:::Google", "Google+", new { @class = "col-sm-3 control-label no-padding-right", @for = "Google" })
+                <div class="col-sm-9">
+                    <span class="input-icon">
+                        @Html.TextBoxFor(m => m.Google)
+                        <i class="icon-google-plus red"></i>
+                    </span>
+                    @Html.ValidationMessageFor(m => m.Google)
+                </div>
+            </div>
+        </div>
+
+        <div id="edit-settings" class="tab-pane">
+        </div>
+    </div>
+</div>
+
+<div class="clearfix form-actions">
+    <div class="col-md-offset-3 col-md-9">
+        <button id="btn-save" class="btn btn-info" type="submit">
+            <i class="icon-ok bigger-110"></i>
+            Save
+        </button>
+
+        &nbsp; &nbsp;
+														<button class="btn" type="reset">
+                                                            <i class="icon-undo bigger-110"></i>
+                                                            Reset
+                                                        </button>
+    </div>
+</div>
+
+<style type="text/css">
+    #map-canvas
+    {
+        width: 100%;
+        height: 300px;
+    }
+</style>
+<link rel="stylesheet" href="@Url.Content("~/Content/backend/css/chosen.css")" />
+
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places"></script>
+<script src="/Scripts/Shared/googleMapApi.js"></script>
+<script src="/Scripts/BackEnd/jquery.maskedinput.min.js"></script>
+<script src="/Scripts/BackEnd/jquery.ui.touch-punch.min.js"></script>
+<script src="/Scripts/BackEnd/date-time/bootstrap-datepicker.min.js"></script>
+<script src="@Url.Content("~/Scripts/Backend/chosen.jquery.min.js")"></script>
+<script type="text/javascript">
+    jQuery(function ($) {
+        $('.input-mask-phone').mask('(999) 999-9999');
+        $(".chosen-select").chosen();
+        $('.chosen-container').each(function () {
+            $(this).css('width', '100%');
+            $(this).find('input').css('height', 'auto');
+        });
+
+        var $form = $('#user-form');
+        var fileInput = $('#avatar');
+        var uploadInProgress = false;
+
+        fileInput.ace_file_input({
+            style: 'well',
+            btn_choose: 'Click to choose avatar',
+            btn_change: null,
+            no_icon: 'none',
+            thumbnail: 'large',
+
+            before_remove: function () {
+                if (uploadInProgress)
+                    return false;//if we are in the middle of uploading a file, don't allow resetting file input
+                return true;
+            },
+
+            before_change: function (files, dropped) {
+                var file = files[0];
+                if (typeof file == "string") {//files is just a file name here (in browsers that don't support FileReader API)
+                    if (!(/\.(jpe?g|png|gif)$/i).test(file)) {
+                        alert('Please select an image file!');
+                        return false;
+                    }
+                }
+                else {
+                    var type = $.trim(file.type);
+                    if ((type.length > 0 && !(/^image\/(jpe?g|png|gif)$/i).test(type))
+                            || (type.length == 0 && !(/\.(jpe?g|png|gif)$/i).test(file.name))//for android's default browser!
+                        ) {
+                        alert('Please select an image file!');
+                        return false;
+                    }
+                    var maxFileSize = parseInt('@(SValue<int>(SettingNames.MaxSizeUploaded))');
+                    var maxFileSizeAsMb = maxFileSize / (1024 * 1024);
+                    if (file.size > maxFileSize) {
+                        ShowErrorMessage('File size should not exceed ' + maxFileSizeAsMb + 'MB!');
+                        return false;
+                    }
+                }
+                $("#avatarImage").hide();
+                return true;
+            }
+        });
+
+        $form.on('submit', function () {
+            if (!$(this).valid()) {
+                return false;
+            }
+            showLoading();
+            var submitUrl = '@Url.Action("Edit")';
+            var deferred;
+            if ("FormData" in window) {
+                //for modern browsers that support FormData and uploading files via ajax
+                var fd = new FormData($form.get(0));
+
+                //if file has been drag&dropped , append it to FormData
+                if (fileInput.data('ace_input_method') == 'drop') {
+                    var files = fileInput.data('ace_input_files');
+                    if (files && files.length > 0) {
+                        fd.append(fileInput.attr('name'), files[0]);
+                        //to upload multiple files, the 'name' attribute should be something like this: myfile[]
+                    }
+                }
+
+                uploadInProgress = true;
+                deferred = $.ajax({
+                    url: submitUrl,
+                    type: 'POST',
+                    processData: false,
+                    contentType: false,
+                    data: fd,
+                    xhr: function () {
+                        var req = $.ajaxSettings.xhr();
+                        if (req && req.upload) {
+                            req.upload.addEventListener('progress', function (e) {
+                                if (e.lengthComputable) {
+                                    var done = e.loaded || e.position, total = e.total || e.totalSize;
+                                    var percent = parseInt((done / total) * 100) + '%';
+                                    //percentage of uploaded file
+                                }
+                            }, false);
+                        }
+                        return req;
+                    },
+                    beforeSend: function () {
+                    },
+                    success: function () {
+
+                    }
+                });
+            }
+            else {
+                //for older browsers that don't support FormData and uploading files via ajax
+                //we use an iframe to upload the form(file) without leaving the page
+                uploadInProgress = true;
+                deferred = new $.Deferred;
+
+                var iframeId = 'temporary-iframe-' + (new Date()).getTime() + '-' + (parseInt(Math.random() * 1000));
+                $form.after('<iframe id="' + iframeId + '" name="' + iframeId + '" frameborder="0" width="0" height="0" src="about:blank" style="position:absolute;z-index:-1;"></iframe>');
+                $form.append('<input type="hidden" name="temporary-iframe-id" value="' + iframeId + '" />');
+                $form.next().data('deferrer', deferred);//save the deferred object to the iframe
+                $form.attr({
+                    'method': 'POST', 'enctype': 'multipart/form-data',
+                    'target': iframeId, 'action': submitUrl
+                });
+
+                $form.get(0).submit();
+
+                //if we don't receive the response after 60 seconds, declare it as failed!
+                setTimeout(function () {
+                    var iframe = document.getElementById(iframeId);
+                    if (iframe != null) {
+                        iframe.src = "about:blank";
+                        $(iframe).remove();
+
+                        deferred.reject({ 'status': 'fail', 'message': 'Timeout!' });
+                    }
+                }, 60000);
+            }
+
+            deferred.done(function (response) {
+                uploadInProgress = false;
+                hideLoading();
+                ShowMessage(response);
+            }).fail(function (res) {
+                uploadInProgress = false;
+                hideLoading();
+                ShowErrorMessage("There was an error while processing your request. Please try again.");
+            });
+
+            deferred.promise();
+            return false;
+        });
+
+        $form.on('reset', function () {
+            fileInput.ace_file_input('reset_input');
+        });
+
+        $(".remove").click(function () {
+            fileInput.ace_file_input('reset_input');
+        });
+    });
+</script>
