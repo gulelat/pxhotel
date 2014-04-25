@@ -1,0 +1,324 @@
+@using PX.Business.Models.SQLTool
+@model PX.Business.Models.SQLTool.SQLResult
+<html>
+<head>
+    <title>SQL Tool</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/Styles/Bootstrap/css/bootstrap.min.css")"/>
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/Styles/Bootstrap/css/bootstrap-responsive.min.css")"/>
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/Styles/fancybox/jquery.fancybox.css")"/>
+</head>
+<body>
+    <h2>SQL Tool</h2>
+    @Html.DisplayFor(m => m.ConnectionString)
+    @using (Html.BeginForm("Index", "SQLTool", FormMethod.Post, new { @class = "form-horizontal", id = "queryForm" }))
+    {
+        <fieldset>
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(m => m.Query)
+                </div>
+                <div class="controls">
+                    @Html.TextAreaFor(m => m.Query, 7, 20, new { @class = "span10" })
+                </div>
+            </div>
+            <div class="row-fluid">
+                <div class="control-group span2">
+                    <div class="control-label">
+                        @Html.LabelFor(m => m.ReadOnly)
+                    </div>
+                    <div class="controls">
+                        @Html.EditorFor(m => m.ReadOnly)
+                        @Html.ValidationMessageFor(m => m.ReadOnly)
+                    </div>
+                </div>
+                <div class="control-group span2">
+                    <div class="control-label">
+                        @Html.LabelFor(m => m.HtmlEncode)
+                    </div>
+                    <div class="controls">
+                        @Html.EditorFor(m => m.HtmlEncode)
+                        @Html.ValidationMessageFor(m => m.HtmlEncode)
+                    </div>
+                </div>
+                <div class="control-group span2">
+                    <div class="control-label">
+                        @Html.LabelFor(m => m.SaveToHistory)
+                    </div>
+                    <div class="controls">
+                        @Html.EditorFor(m => m.SaveToHistory)
+                        @Html.ValidationMessageFor(m => m.SaveToHistory)
+                    </div>
+                </div>
+                <div class="control-group span1">
+                    <div class="btn-group">
+                        <button class="btn btn-primary" onclick="ShowHistory(); return false;">History</button>
+                        @if (Model.History != null && Model.History.Any())
+                        {
+                            <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" style="height: 30px; padding-bottom: 10px">
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                @{ int count = 0;}
+                                @foreach (CommandHistory cmd in Model.History)
+                                {
+                                    count++;
+                                    <li><a href="javascript:void(0)" id="history_@count" onclick="SelectHistory('history_@count')">@cmd.Query</a></li>
+                                }
+                                <li class="divider"></li>
+                                <li><a href="javascript:void(0)" onclick="ShowHistory()">More ...</a></li>
+                            </ul>
+                        }
+                    </div>
+                </div>
+                <div class="control-group span1">
+                    <div class="btn-group">
+                        <a class="btn dropdown-toggle btn-danger" data-toggle="dropdown" href="#">Select
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            @foreach (string table in Model.Tables)
+                            {
+                                <li><a href="javascript:void(0)" onclick="SelectCommand('@table')">@table</a></li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+                <div class="control-group span2">
+                    <div class="control-label">
+                        <label>Show SQL Templates</label>
+                    </div>
+                    <div class="controls">
+                        @Html.CheckBox("chkSqlGenerators", false, new { onclick = "ToggleVisibility('SqlGenerators')" })
+                    </div>
+                </div>
+            </div>
+            <div class="row-fluid" id="SqlGenerators" style="display: none">
+                <div class="controls">
+                    <div>
+                        <div class="control-group span1">
+                            <div class="btn-group">
+                                <a class="btn dropdown-toggle btn-danger" data-toggle="dropdown" href="#">Insert
+                                    <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    @foreach (string table in Model.Tables)
+                                    {
+                                        <li><a href="javascript:void(0)" onclick="InsertCommand('@table')">@table</a></li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="control-group span1">
+                            <div class="btn-group">
+                                <a class="btn dropdown-toggle btn-danger" data-toggle="dropdown" href="#">Update
+                                    <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    @foreach (string table in Model.Tables)
+                                    {
+                                        <li><a href="javascript:void(0)" onclick="UpdateCommand('@table')">@table</a></li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="control-group span1">
+                            <div class="btn-group">
+                                <a class="btn dropdown-toggle btn-danger" data-toggle="dropdown" href="#">Delete
+                                    <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    @foreach (string table in Model.Tables)
+                                    {
+                                        <li><a href="javascript:void(0)" onclick="DeleteCommand('@table')">@table</a></li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="control-group span1">
+                            <div class="btn-group">
+                                <a class="btn dropdown-toggle btn-danger" data-toggle="dropdown" href="#">Create
+                                    <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    @foreach (string table in Model.Tables)
+                                    {
+                                        <li><a href="javascript:void(0)" onclick="CreateCommand('@table')">@table</a></li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="control-group span1">
+                            <div class="btn-group">
+                                <a class="btn dropdown-toggle btn-danger" data-toggle="dropdown" href="#">Alter
+                                    <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    @foreach (string table in Model.Tables)
+                                    {
+                                        <li><a href="javascript:void(0)" onclick="AlterCommand('@table')">@table</a></li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="controls">
+                <input type="hidden" id="exportToFile" name="exportToFile" value="false" />
+                <input type="submit" value="Run Query" class="btn btn-primary" onclick="$('#exportToFile').val('false'); return true;" />
+                <input type="submit" value="Run & Save" class="btn btn-primary" onclick="$('#exportToFile').val('true'); return true;" />
+            </div>
+        </fieldset>
+    }
+    <hr />
+    @if (Model.Error != null)
+    {
+        <div class="alert alert-error">
+            @Model.Error.Message
+        </div>
+    }
+    @if (Model.RecordsAffected > 0 && Model.ReadOnly)
+    {
+        <div class="alert alert-warning">
+            Since you are in Read only mode, your changes are not persist to Database.
+        </div>
+    }
+    @if (Model.ReturnData != null)
+    {
+        foreach (DataResult set in Model.ReturnData)
+        {
+            int count = 0;
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Count</th>
+                    @foreach (string col in set.ColumnNames)
+                    {
+                        <th>@col</th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (List<object> row in set.Data)
+                {
+                    <tr>
+                        <td>@(++count)</td>
+                        @foreach (object item in row)
+                        {
+                            if (Model.HtmlEncode)
+                            {
+                            <td>@item</td>
+                            }
+                            else
+                            {
+                            <td>@(new MvcHtmlString(item == null ? "" : item.ToString()))</td>
+                            }
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <hr />
+        }
+    }
+    <span class="label label-success">Process Time: @Model.ProcessTime ms
+    </span>
+    <span class="label label-success">Affected Records @Model.RecordsAffected
+    </span>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery-1.10.2.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/Bootstrap/bootstrap.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/fancybox/jquery.fancybox.js")"></script>
+    <script type="text/javascript">
+        function SelectHistory(id) {
+            $("#Query").val($("#" + id).text());
+        }
+
+        function ShowHistory() {
+            $.fancybox({
+                href: "@Url.Action("History", new { inFancybox = true })",
+                type: 'iframe',
+                width: '50%',
+                beforeClose: function () {
+                    return true;
+                },
+            });
+            return false;
+        }
+
+        function ToggleVisibility(id) {
+            $("#" + id).toggle();
+        }
+
+        function ValueSelected(query) {
+            $("#Query").val(query);
+        }
+
+        function SelectCommand(table) {
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("GenerateSelectStatement")",
+                data: { tablename: table },
+                success: function (data) {
+                    $("#Query").val(data);
+                }
+            });
+        }
+
+        function InsertCommand(table) {
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("GenerateInsertStatement")",
+                data: { tablename: table },
+                success: function (data) {
+                    $("#Query").val(data);
+                }
+            });
+        }
+
+        function UpdateCommand(table) {
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("GenerateUpdateStatement")",
+                data: { tablename: table },
+                success: function (data) {
+                    $("#Query").val(data);
+                }
+            });
+        }
+
+        function DeleteCommand(table) {
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("GenerateDeleteStatement")",
+                data: { tablename: table },
+                success: function (data) {
+                    $("#Query").val(data);
+                }
+            });
+        }
+
+        function CreateCommand(table) {
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("GenerateCreateStatement")",
+                data: { tablename: table },
+                success: function (data) {
+                    $("#Query").val(data);
+                }
+            });
+        }
+
+        function AlterCommand(table) {
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("GenerateAlterStatement")",
+                data: { tablename: table },
+                success: function (data) {
+                    $("#Query").val(data);
+                }
+            });
+        }
+    </script>
+</body>
+</html>

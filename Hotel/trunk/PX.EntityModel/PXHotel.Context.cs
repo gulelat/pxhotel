@@ -47,6 +47,7 @@ namespace PX.EntityModel
         public DbSet<RotatingImage> RotatingImages { get; set; }
         public DbSet<SettingType> SettingTypes { get; set; }
         public DbSet<SiteSetting> SiteSettings { get; set; }
+        public DbSet<SQLCommandHistory> SQLCommandHistories { get; set; }
         public DbSet<Tag> Tags { get; set; }
         public DbSet<TemplateLog> TemplateLogs { get; set; }
         public DbSet<Template> Templates { get; set; }

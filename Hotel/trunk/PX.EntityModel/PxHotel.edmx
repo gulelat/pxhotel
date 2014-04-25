@@ -28,10 +28,11 @@
           <EntitySet Name="RotatingImages" EntityType="PXHotelModel.Store.RotatingImages" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="SettingTypes" EntityType="PXHotelModel.Store.SettingTypes" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="SiteSettings" EntityType="PXHotelModel.Store.SiteSettings" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="SQLCommandHistories" EntityType="PXHotelModel.Store.SQLCommandHistories" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Tags" EntityType="PXHotelModel.Store.Tags" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="TemplateLogs" EntityType="PXHotelModel.Store.TemplateLogs" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Templates" EntityType="PXHotelModel.Store.Templates" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Testimonial" EntityType="PXHotelModel.Store.Testimonial" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Testimonials" EntityType="PXHotelModel.Store.Testimonials" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="UserGroups" EntityType="PXHotelModel.Store.UserGroups" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Users" EntityType="PXHotelModel.Store.Users" store:Type="Tables" Schema="dbo" />
           <AssociationSet Name="FK_FileTemplates_FileTemplates" Association="PXHotelModel.Store.FK_FileTemplates_FileTemplates">
@@ -492,6 +493,19 @@
           <Property Name="Updated" Type="datetime" />
           <Property Name="UpdatedBy" Type="nvarchar" MaxLength="512" />
         </EntityType>
+        <EntityType Name="SQLCommandHistories">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Query" Type="nvarchar" Nullable="false" MaxLength="512" />
+          <Property Name="RecordOrder" Type="int" Nullable="false" />
+          <Property Name="RecordActive" Type="bit" Nullable="false" />
+          <Property Name="Created" Type="datetime" Nullable="false" />
+          <Property Name="CreatedBy" Type="nvarchar" Nullable="false" MaxLength="512" />
+          <Property Name="Updated" Type="datetime" />
+          <Property Name="UpdatedBy" Type="nvarchar" MaxLength="512" />
+        </EntityType>
         <EntityType Name="Tags">
           <Key>
             <PropertyRef Name="Id" />
@@ -538,7 +552,7 @@
           <Property Name="Updated" Type="datetime" />
           <Property Name="UpdatedBy" Type="nvarchar" MaxLength="512" />
         </EntityType>
-        <EntityType Name="Testimonial">
+        <EntityType Name="Testimonials">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
@@ -908,6 +922,7 @@
           <EntitySet Name="RotatingImages" EntityType="PXHotelModel.RotatingImage" />
           <EntitySet Name="SettingTypes" EntityType="PXHotelModel.SettingType" />
           <EntitySet Name="SiteSettings" EntityType="PXHotelModel.SiteSetting" />
+          <EntitySet Name="SQLCommandHistories" EntityType="PXHotelModel.SQLCommandHistory" />
           <EntitySet Name="Tags" EntityType="PXHotelModel.Tag" />
           <EntitySet Name="TemplateLogs" EntityType="PXHotelModel.TemplateLog" />
           <EntitySet Name="Templates" EntityType="PXHotelModel.Template" />
@@ -1411,6 +1426,19 @@
           <Property Type="DateTime" Name="Updated" Precision="3" />
           <Property Type="String" Name="UpdatedBy" MaxLength="512" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="SettingType" Relationship="PXHotelModel.FK_SiteSettings_SettingTypes" FromRole="SiteSetting" ToRole="SettingType" />
+        </EntityType>
+        <EntityType Name="SQLCommandHistory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Query" Nullable="false" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="RecordOrder" Nullable="false" />
+          <Property Type="Boolean" Name="RecordActive" Nullable="false" />
+          <Property Type="DateTime" Name="Created" Nullable="false" Precision="3" />
+          <Property Type="String" Name="CreatedBy" Nullable="false" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Type="DateTime" Name="Updated" Precision="3" />
+          <Property Type="String" Name="UpdatedBy" MaxLength="512" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Tag">
           <Key>
@@ -2198,6 +2226,20 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="SQLCommandHistories">
+            <EntityTypeMapping TypeName="PXHotelModel.SQLCommandHistory">
+              <MappingFragment StoreEntitySet="SQLCommandHistories">
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="Updated" ColumnName="Updated" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+                <ScalarProperty Name="RecordActive" ColumnName="RecordActive" />
+                <ScalarProperty Name="RecordOrder" ColumnName="RecordOrder" />
+                <ScalarProperty Name="Query" ColumnName="Query" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Tags">
             <EntityTypeMapping TypeName="PXHotelModel.Tag">
               <MappingFragment StoreEntitySet="Tags">
@@ -2249,7 +2291,7 @@
           </EntitySetMapping>
           <EntitySetMapping Name="Testimonials">
             <EntityTypeMapping TypeName="PXHotelModel.Testimonial">
-              <MappingFragment StoreEntitySet="Testimonial">
+              <MappingFragment StoreEntitySet="Testimonials">
                 <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
                 <ScalarProperty Name="Updated" ColumnName="Updated" />
                 <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
