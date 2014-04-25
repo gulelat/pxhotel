@@ -122,6 +122,7 @@
       <DependentUpon>PXHotel.tt</DependentUpon>
     </Compile>
     <Compile Include="Repositories\ClientMenuRepository.cs" />
+    <Compile Include="Repositories\SQLCommandHistoryRepository.cs" />
     <Compile Include="Repositories\PageTemplateLogRepository.cs" />
     <Compile Include="Repositories\TemplateLogRepository.cs" />
     <Compile Include="Repositories\PageLogRepository.cs" />
@@ -183,6 +184,9 @@
       <DependentUpon>PXHotel.tt</DependentUpon>
     </Compile>
     <Compile Include="SiteSetting.cs">
+      <DependentUpon>PXHotel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SQLCommandHistory.cs">
       <DependentUpon>PXHotel.tt</DependentUpon>
     </Compile>
     <Compile Include="Tag.cs">

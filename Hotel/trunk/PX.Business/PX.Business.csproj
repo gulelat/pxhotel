@@ -74,6 +74,14 @@
     <Compile Include="Models\ClientMenus\ClientBreadCrumbModel.cs" />
     <Compile Include="Models\ClientMenus\ClientMenuModel.cs" />
     <Compile Include="Models\ClientMenus\ClientMenuManageModel.cs" />
+    <Compile Include="Models\SQLTool\CommandHistory.cs" />
+    <Compile Include="Models\SQLTool\DataResult.cs" />
+    <Compile Include="Models\SQLTool\DataTablesDataResult.cs" />
+    <Compile Include="Models\SQLTool\DataTablesParamModel.cs" />
+    <Compile Include="Models\SQLTool\FieldInfo.cs" />
+    <Compile Include="Models\SQLTool\HistoryViewModel.cs" />
+    <Compile Include="Models\SQLTool\SQLRequest.cs" />
+    <Compile Include="Models\SQLTool\SQLResult.cs" />
     <Compile Include="Models\TemplateLogs\TemplateLogModel.cs" />
     <Compile Include="Models\TemplateLogs\TemplateLogManageModel.cs" />
     <Compile Include="Models\TemplateLogs\TemplateLogViewModel.cs" />
@@ -121,6 +129,9 @@
     <Compile Include="Mvc\ViewEngines\VirtualPathProvider.cs" />
     <Compile Include="Services\ClientMenus\IClientMenuServices.cs" />
     <Compile Include="Services\ClientMenus\ClientMenuServices.cs" />
+    <Compile Include="Services\SQLTool\ISQLCommandServices.cs" />
+    <Compile Include="Services\SQLTool\SQLCommandHistoryService.cs" />
+    <Compile Include="Services\SQLTool\SQLExecutor.cs" />
     <Compile Include="Services\TemplateLogs\ITemplateLogServices.cs" />
     <Compile Include="Services\TemplateLogs\TemplateLogServices.cs" />
     <Compile Include="Services\PageTemplateLogs\IPageTemplateLogServices.cs" />
