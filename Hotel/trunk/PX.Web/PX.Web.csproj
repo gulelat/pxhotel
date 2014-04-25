@@ -732,7 +732,7 @@
     <Content Include="Areas\Admin\Views\LocalizedResources\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Languages\Index.cshtml" />
     <Content Include="Areas\Admin\Views\UserGroups\Permissions.cshtml" />
-    <Content Include="Areas\Admin\Views\Users\_ChangePassword.cshtml" />
+    <Content Include="Areas\Admin\Views\Account\_ChangePassword.cshtml" />
     <Content Include="Areas\Admin\Views\Pages\Index.cshtml" />
     <Content Include="Areas\Admin\Views\PageTemplates\Index.cshtml" />
     <Content Include="Areas\Admin\Views\FileTemplates\Edit.cshtml" />

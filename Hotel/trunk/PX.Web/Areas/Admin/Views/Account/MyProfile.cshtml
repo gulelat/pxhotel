@@ -166,7 +166,7 @@
                 </div>
 
                 <div id="change-password" class="tab-pane">
-                    @Html.Action("ChangePassword", "Users", new { id = CurrentUser.Id})
+                    @Html.Action("ChangePassword", new { id = CurrentUser.Id})
                 </div>
             </div>
         </div>
