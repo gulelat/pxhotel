@@ -25,7 +25,7 @@ namespace PX.Core.Ultilities
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        public static IEnumerable<SelectListItem> GetAllItemsFromEnum<T>() where T : struct
+        public static IEnumerable<SelectListItem> GetSelectListFromEnum<T>() where T : struct
         {
             return GetAllItems<T>().Select(e => new SelectListItem
                 {
@@ -39,7 +39,7 @@ namespace PX.Core.Ultilities
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        public static IEnumerable<SelectListItem> GetAllItemsFromEnumExcept<T>(int value) where T : struct
+        public static IEnumerable<SelectListItem> GetSelectListFromEnumExcept<T>(int value) where T : struct
         {
             return GetAllItems<T>().Where(c => Convert.ToInt32(c) != value).Select(e => new SelectListItem
                 {

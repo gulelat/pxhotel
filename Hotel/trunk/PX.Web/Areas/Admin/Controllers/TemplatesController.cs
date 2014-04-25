@@ -1,16 +1,12 @@
 ﻿using System.Web.Mvc;
 using Newtonsoft.Json;
 using PX.Business.Models.Templates;
-using PX.Business.Mvc.Attributes;
 using PX.Business.Mvc.Attributes.Authorize;
 using PX.Business.Mvc.Controllers;
-using PX.Business.Services.CurlyBrackets;
 using PX.Business.Services.Templates;
 using PX.Core.Framework.Enums;
-using PX.Core.Framework.Mvc.Attributes;
 using PX.Core.Framework.Mvc.Models;
 using PX.Core.Framework.Mvc.Models.JqGrid;
-using PX.EntityModel;
 
 namespace PX.Web.Areas.Admin.Controllers
 {
@@ -18,11 +14,9 @@ namespace PX.Web.Areas.Admin.Controllers
     public class TemplatesController : AdminController
     {
         private readonly ITemplateServices _templateServices;
-        private readonly ICurlyBracketServices _curlyBracketServices;
-        public TemplatesController(ITemplateServices templateServices, ICurlyBracketServices curlyBracketServices)
+        public TemplatesController(ITemplateServices templateServices)
         {
             _templateServices = templateServices;
-            _curlyBracketServices = curlyBracketServices;
         }
 
         #region Listing Page
@@ -146,7 +140,7 @@ namespace PX.Web.Areas.Admin.Controllers
                 Data = new
                 {
                     model.LoadComplete,
-                    content = content
+                    content
                 }
             };
             return Json(response);

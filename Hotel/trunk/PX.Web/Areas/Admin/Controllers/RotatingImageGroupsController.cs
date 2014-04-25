@@ -1,12 +1,12 @@
 ﻿using System.Web.Mvc;
 using Newtonsoft.Json;
 using PX.Business.Models.RotatingImageGroups;
-using PX.Business.Mvc.Attributes;
 using PX.Business.Mvc.Attributes.Authorize;
 using PX.Business.Mvc.Controllers;
 using PX.Business.Services.RotatingImageGroups;
 using PX.Core.Framework.Enums;
 using PX.Core.Framework.Mvc.Attributes;
+using PX.Core.Framework.Mvc.Models;
 using PX.Core.Framework.Mvc.Models.JqGrid;
 
 namespace PX.Web.Areas.Admin.Controllers
@@ -41,7 +41,16 @@ namespace PX.Web.Areas.Admin.Controllers
         [HandleJsonException]
         public JsonResult Manage(RotatingImageGroupModel model, GridManagingModel manageModel)
         {
-            return Json(_rotatingImageGroupServices.ManageRotatingImageGroup(manageModel.Operation, model));
+            if (ModelState.IsValid || manageModel.Operation == GridOperationEnums.Del)
+            {
+                return Json(_rotatingImageGroupServices.ManageRotatingImageGroup(manageModel.Operation, model));
+            }
+
+            return Json(new ResponseModel
+            {
+                Success = false,
+                Message = GetFirstValidationResults(ModelState).Message
+            });
         }
 
         #region Edit Settings

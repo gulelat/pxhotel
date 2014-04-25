@@ -8,6 +8,7 @@ using PX.Business.Mvc.Controllers;
 using PX.Business.Services.NewsCategories;
 using PX.Core.Framework.Enums;
 using PX.Core.Framework.Mvc.Attributes;
+using PX.Core.Framework.Mvc.Models;
 using PX.Core.Framework.Mvc.Models.JqGrid;
 
 namespace PX.Web.Areas.Admin.Controllers
@@ -47,7 +48,16 @@ namespace PX.Web.Areas.Admin.Controllers
         [HandleJsonException]
         public JsonResult Manage(NewsCategoryModel model, GridManagingModel manageModel)
         {
-            return Json(_newsCategorieservices.ManageNewsCategory(manageModel.Operation, model));
+            if (ModelState.IsValid || manageModel.Operation == GridOperationEnums.Del)
+            {
+                return Json(_newsCategorieservices.ManageNewsCategory(manageModel.Operation, model));
+            }
+
+            return Json(new ResponseModel
+            {
+                Success = false,
+                Message = GetFirstValidationResults(ModelState).Message
+            });
         }
     }
 }

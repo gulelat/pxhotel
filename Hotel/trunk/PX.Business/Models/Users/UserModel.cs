@@ -48,7 +48,7 @@ namespace PX.Business.Models.Users
         {
             get
             {
-                return EnumUtilities.GetName((UserEnums.UserStatusEnums)Status);
+                return EnumUtilities.GetName((UserEnums.StatusEnums)Status);
             }
             set
             {

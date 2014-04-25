@@ -134,12 +134,12 @@ namespace PX.Business.Services.UserGroups
         /// Gets the user groups.
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<SelectListItem> GetUserGroups(int? userId)
+        public IEnumerable<SelectListItem> GetUserGroups(int? userId = null)
         {
             return GetAll().Select(g => new SelectListItem
             {
                 Text = g.Name,
-                Value = SqlFunctions.StringConvert((double)g.Id),
+                Value = SqlFunctions.StringConvert((double)g.Id).Trim(),
                 Selected = g.UserInGroups.Any(ug => ug.UserId == userId)
             });
         }

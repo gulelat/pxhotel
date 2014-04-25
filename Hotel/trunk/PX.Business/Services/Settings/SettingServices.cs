@@ -73,6 +73,8 @@ namespace PX.Business.Services.Settings
                 new SiteSetting { Name = SettingNames.CurlyBracketMaxLoop, Value = "5", SettingTypeId = (int)SettingEnums.TypeEnums.System },
                 new SiteSetting { Name = SettingNames.MaxSizeUploaded, Value = "10485760", SettingTypeId = (int)SettingEnums.TypeEnums.System },
                 new SiteSetting { Name = SettingNames.LogsPageSize, Value = "10", SettingTypeId = (int)SettingEnums.TypeEnums.BackEnd },
+                new SiteSetting { Name = SettingNames.DefaultHistoryLength, Value = "5", SettingTypeId = (int)SettingEnums.TypeEnums.BackEnd },
+                new SiteSetting { Name = SettingNames.DefaultHistoryStart, Value = "0", SettingTypeId = (int)SettingEnums.TypeEnums.BackEnd },
             };
 
             foreach (var setting in initializeSettings)

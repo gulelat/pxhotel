@@ -1,8 +1,9 @@
 ﻿@model PX.EntityModel.User
 @using PX.Core.Ultilities
 @{
-    ViewBag.Title = T("My Profiles");
-    ViewBag.Description = T("Manage my profile");
+    ViewBag.Header = "User Management";
+    ViewBag.Title = "User Profile";
+    ViewBag.Description = "User Management Page";
 }
 
 @section styles
@@ -20,8 +21,11 @@
 }
 
 <div class="page-header">
-    <h1>
-        @ViewBag.Title
+    <h1>@ViewBag.Header
+        <small>
+            <i class="icon-double-angle-right"></i>
+            @ViewBag.Title
+        </small>
     </h1>
 </div>
 <div class="row">
@@ -42,7 +46,7 @@
                 </li>
                 <li>
                     <a href="@Url.Action("Edit", new { id = Model.Id })" class="btn btn-primary btn-minier">
-                        <i class="icon-edit align-top bigger-170"></i>
+                        <i class="icon-edit bigger-110"></i>
                         Edit this user
                     </a>
                 </li>

@@ -33,8 +33,8 @@
         var pagerSelector = "#grid-pager";
         var navButtonsSetup = {
             enableEdit: true,
-            enableCreate: false,
-            enableDelete: false,
+            enableCreate: true,
+            enableDelete: true,
             enableSearch: true,
             enableRefresh: true,
             enableView: true
@@ -70,6 +70,7 @@
                 pager: pagerSelector,
                 rowList: [10, 20, 30],
                 shrinkToFit: true,
+                editurl: '@Url.Action("Manage")',
 
                 //Default Value
                 altRows: true,

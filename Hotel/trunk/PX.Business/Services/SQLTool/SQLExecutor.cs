@@ -2,24 +2,26 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using PX.Business.Models.SQLTool;
+using PX.Business.Services.Settings;
+using PX.Core.Configurations;
 using PX.Core.Framework.Mvc.Environments;
 
 namespace PX.Business.Services.SQLTool
 {
     public class SQLExecutor
     {
-        public const int DefaultHistoryLength = 5;
-        public const int DefaultHistoryStart = 0;
-
+        private readonly ISettingServices _settingServices;
         private readonly ISQLCommandServices _sqlCommandServices;
         private readonly IDbConnection _connection;
 
         public SQLExecutor()
         {
             _sqlCommandServices = HostContainer.GetInstance<ISQLCommandServices>();
+            _settingServices = HostContainer.GetInstance<ISettingServices>();
             _connection = _sqlCommandServices.GetConnection();
         }
 
@@ -153,7 +155,11 @@ namespace PX.Business.Services.SQLTool
             long endTime = DateTime.Now.Ticks;
             result.ReturnData = returnData;
             result.ProcessTime = (long)new TimeSpan(endTime - startTime).TotalMilliseconds;
-            result.History = _sqlCommandServices.GetHistories(DefaultHistoryStart, DefaultHistoryLength);
+
+            var defaultHistoryLength = _settingServices.GetSetting<int>(SettingNames.DefaultHistoryLength);
+            var defaultHistoryStart = _settingServices.GetSetting<int>(SettingNames.DefaultHistoryStart);
+
+            result.Histories = _sqlCommandServices.GetHistories(defaultHistoryStart, defaultHistoryLength);
             return result;
         }
 
@@ -214,7 +220,7 @@ namespace PX.Business.Services.SQLTool
         public List<FieldInfo> GetSchema(string tablename)
         {
             var fields = new List<FieldInfo>();
-            bool openConnection = false;
+            var openConnection = false;
             try
             {
                 //Open connectino if needed
@@ -523,7 +529,7 @@ namespace PX.Business.Services.SQLTool
                 }
                 else if (field.FieldType == typeof(string))
                 {
-                    statement.Append(field.FieldName + " nvarchar(" + (field.Size == int.MaxValue ? "max" : field.Size.ToString()) + ") ");
+                    statement.Append(field.FieldName + " nvarchar(" + (field.Size == int.MaxValue ? "max" : field.Size.ToString(CultureInfo.InvariantCulture)) + ") ");
                 }
                 else if (field.FieldType == typeof(double))
                 {
@@ -578,7 +584,7 @@ namespace PX.Business.Services.SQLTool
                 }
                 else if (field.FieldType == typeof(string))
                 {
-                    statement.Append(field.FieldName + " nvarchar(" + (field.Size == int.MaxValue ? "max" : field.Size.ToString()) + ") ");
+                    statement.Append(field.FieldName + " nvarchar(" + (field.Size == int.MaxValue ? "max" : field.Size.ToString(CultureInfo.InvariantCulture)) + ") ");
                 }
                 else if (field.FieldType == typeof(double))
                 {

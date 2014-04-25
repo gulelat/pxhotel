@@ -270,6 +270,9 @@
                     };
 
                 var lastGritter;
+                
+                var maxFileSize = parseInt('@(SValue<int>(SettingNames.MaxSizeUploaded))');
+                var maxFileSizeAsMb = maxFileSize / (1024 * 1024);
                 $('#avatar').editable({
                     type: 'image',
                     name: 'avatar',
@@ -287,7 +290,7 @@
 
                         //and a few extra ones here
                         name: 'avatar',//put the field name here as well, will be used inside the custom plugin
-                        max_size: @(SValue<int>(SettingNames.MaxSizeUploaded)),
+                        max_size: maxFileSize,
                         on_error: function(code) { //on_error function will be called when the selected file has a problem
                             if (lastGritter) $.gritter.remove(lastGritter);
                             if (code == 1) { //file format error
@@ -299,7 +302,7 @@
                             } else if (code == 2) { //file size rror
                                 lastGritter = $.gritter.add({
                                     title: 'File too big!',
-                                    text: 'Image size should not exceed' +  @(SValue<int>("MaxSizeUploaded") / (1024 * 1024)) + ' MB!',
+                                    text: 'Image size should not exceed' + maxFileSizeAsMb + ' MB!',
                                     class_name: 'gritter-error gritter-center'
                                 });
                             } else { //other error

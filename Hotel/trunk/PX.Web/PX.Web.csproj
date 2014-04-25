@@ -713,8 +713,6 @@
     <Content Include="Areas\Admin\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\Admin\Views\Users\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Account\Login.cshtml" />
-    <Content Include="Areas\Admin\Views\Shared\_Head.Scripts.cshtml" />
-    <Content Include="Areas\Admin\Views\Shared\_Head.Styles.cshtml" />
     <Content Include="Areas\Admin\Views\Menus\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_Breadcrumb.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\DisplayTemplates\Menu.cshtml" />
@@ -1107,6 +1105,7 @@
     <Content Include="Areas\Admin\Views\Templates\Logs.cshtml" />
     <Content Include="Areas\Admin\Views\SQLTool\Index.cshtml" />
     <Content Include="Areas\Admin\Views\SQLTool\Histories.cshtml" />
+    <Content Include="Areas\Admin\Views\Users\EditorTemplates\UserManageModel.cshtml" />
     <None Include="Properties\PublishProfiles\Hotel.pubxml" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <None Include="Scripts\jquery-1.8.3.intellisense.js" />

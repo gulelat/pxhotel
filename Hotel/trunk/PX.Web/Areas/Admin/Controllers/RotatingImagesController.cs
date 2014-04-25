@@ -1,13 +1,10 @@
 ﻿using System.Web.Mvc;
 using Newtonsoft.Json;
 using PX.Business.Models.RotatingImages;
-using PX.Business.Models.Settings;
-using PX.Business.Mvc.Attributes;
 using PX.Business.Mvc.Attributes.Authorize;
 using PX.Business.Mvc.Controllers;
 using PX.Business.Services.RotatingImageGroups;
 using PX.Business.Services.RotatingImages;
-using PX.Business.Services.Settings;
 using PX.Core.Framework.Enums;
 using PX.Core.Framework.Mvc.Attributes;
 using PX.Core.Framework.Mvc.Models;

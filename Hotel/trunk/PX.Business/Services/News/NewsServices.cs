@@ -223,7 +223,7 @@ namespace PX.Business.Services.News
                 news.Description = model.Description;
                 news.Content = model.Content;
                 news.ImageUrl = model.ImageUrl;
-                var currentCategories = news.NewsNewsCategories.Select(nc => nc.Id).ToList();
+                var currentCategories = news.NewsNewsCategories.Select(nc => nc.NewsCategoryId).ToList();
                 foreach (var id in currentCategories)
                 {
                     if (!model.NewsCategoryIds.Contains(id))
@@ -283,7 +283,7 @@ namespace PX.Business.Services.News
         /// <returns></returns>
         public IEnumerable<SelectListItem> GetStatus()
         {
-            return EnumUtilities.GetAllItemsFromEnum<NewsEnums.NewsStatusEnums>();
+            return EnumUtilities.GetSelectListFromEnum<NewsEnums.NewsStatusEnums>();
         }
 
         /// <summary>

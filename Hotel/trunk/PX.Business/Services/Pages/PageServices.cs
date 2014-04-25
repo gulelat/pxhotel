@@ -524,7 +524,7 @@ namespace PX.Business.Services.Pages
         /// <returns></returns>
         public IEnumerable<SelectListItem> GetStatus()
         {
-            return EnumUtilities.GetAllItemsFromEnum<PageEnums.PageStatusEnums>();
+            return EnumUtilities.GetSelectListFromEnum<PageEnums.PageStatusEnums>();
         }
 
         /// <summary>
