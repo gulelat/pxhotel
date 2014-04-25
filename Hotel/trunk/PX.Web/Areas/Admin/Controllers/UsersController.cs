@@ -1,10 +1,8 @@
 ﻿using System.Web.Mvc;
 using Newtonsoft.Json;
 using PX.Business.Models.Users;
-using PX.Business.Mvc.Attributes;
 using PX.Business.Mvc.Attributes.Authorize;
 using PX.Business.Mvc.Controllers;
-using PX.Business.Services.UserGroups;
 using PX.Business.Services.Users;
 using PX.Core.Framework.Enums;
 using PX.Core.Framework.Mvc.Attributes;
@@ -17,11 +15,9 @@ namespace PX.Web.Areas.Admin.Controllers
     public class UsersController : AdminController
     {
         private readonly IUserServices _userServices;
-        private readonly IUserGroupServices _userGroupServices;
-        public UsersController(IUserServices userServices, IUserGroupServices userGroupServices)
+        public UsersController(IUserServices userServices)
         {
             _userServices = userServices;
-            _userGroupServices = userGroupServices;
         }
 
         #region Listing & Manage User
@@ -38,10 +34,6 @@ namespace PX.Web.Areas.Admin.Controllers
         }
 
         #region Ajax Methods
-        public JsonResult GetUserGroups(int? id)
-        {
-            return Json(_userGroupServices.GetUserGroups(id), JsonRequestBehavior.AllowGet);
-        }
 
         public JsonResult GetStatus()
         {
@@ -66,9 +58,10 @@ namespace PX.Web.Areas.Admin.Controllers
         }
         #endregion
 
-        public ActionResult Edit()
+        public ActionResult Edit(int id)
         {
-            return View();
+            var model = _userServices.GetById(id);
+            return View(model);
         }
 
         #region Profiles

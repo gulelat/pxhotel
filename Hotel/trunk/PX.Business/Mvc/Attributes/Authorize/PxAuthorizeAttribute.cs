@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -7,6 +8,7 @@ using PX.Core.Framework.Mvc.Environments;
 using PX.Business.Services.Localizes;
 using PX.Business.Services.Users;
 using PX.Core.Framework.Enums;
+using PX.EntityModel;
 
 namespace PX.Business.Mvc.Attributes.Authorize
 {
@@ -84,7 +86,7 @@ namespace PX.Business.Mvc.Attributes.Authorize
                 return true;
             }
             var permissions = Permissions.Select(p => (int) p);
-            var userPermissions = currentUser.UserGroup.GroupPermissions.Where(p => p.HasPermission).Select(p => p.PermissionId).ToList();
+            var userPermissions = userServices.GetUserPermissions();
             return userPermissions.Intersect(permissions).Count() == Permissions.Count();
         }
     }

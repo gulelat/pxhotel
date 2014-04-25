@@ -2,7 +2,6 @@
 using System.Data;
 using System.Data.Common;
 using System.Data.Entity.Validation;
-using System.Data.EntityClient;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Web;
@@ -44,7 +43,7 @@ namespace PX.EntityModel.Repositories.RepositoryBase
 
         public static DbConnection Connection()
         {
-            return ((EntityConnection)DataContext.Database.Connection).StoreConnection;
+            return DataContext.Database.Connection;
         }
 
         public static IQueryable<T> GetAll()

@@ -1,20 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Common;
-using System.Data.EntityClient;
-using System.Linq;
-using System.Text;
-using System.Web;
+﻿using System.Text;
 using System.Web.Mvc;
+using Newtonsoft.Json;
 using PX.Business.Models.SQLTool;
+using PX.Business.Mvc.Attributes.Authorize;
+using PX.Business.Mvc.Controllers;
 using PX.Business.Services.SQLTool;
+using PX.Core.Framework.Enums;
 using PX.Core.Framework.Mvc.Environments;
+using PX.Core.Framework.Mvc.Models.JqGrid;
 
 namespace PX.Web.Areas.Admin.Controllers
 {
-    public class SQLToolController : Controller
+    [PxAuthorize(Permissions = new[] { PermissionEnums.ManageContent })]
+    public class SQLToolController : AdminController
     {
-
         private readonly ISQLCommandServices _sqlCommandServices;
 
         public SQLToolController()
@@ -51,60 +50,53 @@ namespace PX.Web.Areas.Admin.Controllers
             return View(result);
         }
 
-        public ActionResult History(bool inFancybox = false)
+        public ActionResult Histories()
         {
-            return View(new HistoryViewModel { InFancybox = inFancybox });
+            return View();
         }
 
-        public JsonResult AjaxHistory(DataTablesParamModel param)
+        public string _AjaxHistory(JqSearchIn si)
         {
-            var result = new DataTablesDataResult { sEcho = param.sEcho };
-
-            var histories = _sqlCommandServices.GetHistories();
-            result.iTotalRecords = histories.Count();
-            result.iTotalDisplayRecords = result.iTotalRecords;
-
-            var data = histories.Skip(param.iDisplayStart)
-                                .Take(param.iDisplayLength)
-                                .ToArray();
-            result.aaData = data;
-            return Json(result);
+            return JsonConvert.SerializeObject(_sqlCommandServices.SearchCommands(si));
         }
 
-        public ActionResult GenerateSelectStatement(string tablename)
+        public JsonResult GenerateSelectStatement(string tablename)
         {
             var executor = new SQLExecutor();
             return Json(executor.GenerateSelectCommand(tablename));
         }
 
-        public ActionResult GenerateInsertStatement(string tablename)
+        #region Methods
+        public JsonResult GenerateInsertStatement(string tablename)
         {
             var executor = new SQLExecutor();
             return Json(executor.GenerateInsertCommand(tablename));
         }
 
-        public ActionResult GenerateUpdateStatement(string tablename)
+        public JsonResult GenerateUpdateStatement(string tablename)
         {
             var executor = new SQLExecutor();
             return Json(executor.GenerateUpdateCommand(tablename));
         }
 
-        public ActionResult GenerateDeleteStatement(string tablename)
+        public JsonResult GenerateDeleteStatement(string tablename)
         {
             var executor = new SQLExecutor();
             return Json(executor.GenerateDeleteCommand(tablename));
         }
 
-        public ActionResult GenerateCreateStatement(string tablename)
+        public JsonResult GenerateCreateStatement(string tablename)
         {
             var executor = new SQLExecutor();
             return Json(executor.GenerateCreateCommand(tablename));
         }
 
-        public ActionResult GenerateAlterStatement(string tablename)
+        public JsonResult GenerateAlterStatement(string tablename)
         {
             var executor = new SQLExecutor();
             return Json(executor.GenerateAlterCommand(tablename));
         }
+
+        #endregion
     }
 }

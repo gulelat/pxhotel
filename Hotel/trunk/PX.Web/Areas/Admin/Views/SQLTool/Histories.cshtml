@@ -1,23 +1,19 @@
 ﻿@{
-    ViewBag.Header = "Testimonials";
-    ViewBag.Title = "Testimonial Management";
-    ViewBag.Description = "Testimonial Management Page";
+    Layout = "../Shared/_Layout.cshtml";
+    ViewBag.Header = "Command Histories";
+    ViewBag.Title = "Command History Management";
+    ViewBag.Description = "Command History Management Page";
 }
 @section styles{
-    <link rel="stylesheet" href="/Content/backend/css/jquery-ui-1.10.3.full.min.css" />
     <link rel="stylesheet" href="/Content/backend/css/datepicker.css" />
     <link rel="stylesheet" href="/Content/backend/css/ui.jqgrid.css" />
 }
 <div class="page-header">
     <h1>@ViewBag.Header
-        <small>
-            <i class="icon-double-angle-right"></i>
-            @ViewBag.Title
-        </small>
     </h1>
 </div>
-<div class="row">
-    <div class="col-xs-12">
+<div style="display: table">
+    <div class="col-xs-11">
         <!-- PAGE CONTENT BEGINS -->
 
         <table id="grid-table"></table>
@@ -37,42 +33,48 @@
         var pagerSelector = "#grid-pager";
         var navButtonsSetup = {
             enableEdit: true,
-            enableCreate: true,
-            enableDelete: true,
+            enableCreate: false,
+            enableDelete: false,
             enableSearch: true,
             enableRefresh: true,
             enableView: true
         };
+        function selectVersion(query) {
+            window.parent.ValueSelected(query);
+            parent.$.fancybox.close();
+        }
         jQuery(function ($) {
             jQuery(gridSelector).jqGrid({
                 datatype: "json",
-                url: "@Url.Action("_AjaxBinding")",
-                caption: "Testimonial Management",
-                height: 370,
+                url: "@Url.Action("_AjaxHistory")",
+                caption: "Command History Management",
+                height: 340,
                 ondblClickRow: function (rowId) {
                     jQuery(gridSelector).editRow(rowId, true);
                 },
-                colNames: ['Id', 'Author', 'Content', 'Author Description', 'Active', 'Created', 'CreatedBy', 'Updated', 'UpdatedBy'],
+                colNames: ['', 'Id', 'Query', 'Updated', 'UpdatedBy'],
                 colModel: [
-                    { name: 'Id', index: 'Id', width: 60, key: true, sorttype: "int" },
-                    { name: 'Author', index: 'Author', width: 150, editable: true, editrules: { required: true } },
-                    { name: 'Content', index: 'Content', edittype: "textarea", width: 350, editable: true },
-                    { name: 'AuthorDescription', index: 'AuthorDescription', width: 150, editable: true },
-                    { name: 'Active', index: 'Active', width: 100, editable: true, edittype: "checkbox",  align:"center", editoptions: { value: "Yes:No", defaultValue: 'Yes' }, unformat: aceSwitch },
-                    { name: 'Created', index: 'Created', formatter: "date", width: 80, editable: false, sorttype: "datetime", unformat: pickDate },
-                    { name: 'CreatedBy', index: 'CreatedBy', width: 180, editable: false, editoptions: { size: "20", maxlength: "30" } },
+                    {
+                        name: 'actions', width: 60, sortable: false, search: false, align: "center",
+                        formatter: function (cellvalue, options, rowObject) {
+                            var query = rowObject["Query"];
+                            var selectIcon = "<a class='select-query' href='javascript:selectVersion(\"" + query + "\")'><div class='ui-pg-div ui-inline-edit' title='' data-original-title='Select this'><span class='icon-check'></span></div></a>";
+                            return selectIcon;
+                        }
+                    },
+                    { name: 'Id', index: 'Id', width: 50, key: true, sorttype: "int", align: "center" },
+                    { name: 'Query', index: 'Query', width: 850, editable: true, editrules: { required: true } },
                     { name: 'Updated', index: 'Updated', formatter: "date", width: 80, editable: false, sorttype: "datetime", unformat: pickDate },
                     { name: 'UpdatedBy', index: 'UpdatedBy', width: 180, editable: false, editoptions: { size: "20", maxlength: "30" } }
                 ],
                 pager: pagerSelector,
                 rowList: [10, 20, 30],
-                shrinkToFit: false,
-                editurl: '@Url.Action("Manage")',
+                shrinkToFit: true,
 
                 //Default Value
                 altRows: true,
                 multiboxonly: true,
-                autowidth: true,
+                autowidth: false,
                 viewrecords: true,
                 loadComplete: function () {
                     var table = this;

@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using PX.Business.Models.Menus;
 using PX.Business.Mvc.Attributes;
 using PX.Business.Mvc.Attributes.Authorize;
+using PX.Business.Services.Users;
 using PX.Core.Framework.Mvc.Environments;
 using PX.Business.Mvc.WorkContext;
 using PX.Business.Services.Localizes;
@@ -260,10 +261,12 @@ namespace PX.Business.Services.Menus
         /// <returns></returns>
         public List<Menu> GetMenus(int? parentId = null)
         {
-            var permissions = WorkContext.CurrentUser.UserGroup.GroupPermissions.Where(p => p.HasPermission).Select(p => p.PermissionId);
+            var userServices = HostContainer.GetInstance<IUserServices>();
+            var userPermissions = userServices.GetUserPermissions();
+
             var memus = Fetch(m => m.Visible && parentId.HasValue ? m.ParentId == parentId : !m.ParentId.HasValue).ToList();
 
-            return memus.Where(m => string.IsNullOrEmpty(m.Permissions) || m.Permissions.Split(',').Select(int.Parse).Intersect(permissions).Count() == m.Permissions.Split(',').Count()).OrderBy(m => m.RecordOrder).ToList();
+            return memus.Where(m => string.IsNullOrEmpty(m.Permissions) || m.Permissions.Split(',').Select(int.Parse).Intersect(userPermissions).Count() == m.Permissions.Split(',').Count()).OrderBy(m => m.RecordOrder).ToList();
         }
 
         /// <summary>

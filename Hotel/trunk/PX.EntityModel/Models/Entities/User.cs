@@ -9,16 +9,10 @@ using PX.Core.Framework.Mvc.Attributes;
 
 namespace PX.EntityModel
 {
-
     [MetadataType(typeof(UserMetaData))]
     [Table(Name = "Users")]
     public partial class User
     {
-        public string RoleName
-        {
-            get { return UserGroup.Name; }
-        }
-
         public string FullName
         {
             get { return string.Format("{0} {1}", FirstName, LastName); }
@@ -103,9 +97,6 @@ namespace PX.EntityModel
         public string IdentityNumber { get; set; }
 
         public string AvatarFileName { get; set; }
-
-        [Required]
-        public int UserGroupId { get; set; }
 
         public DateTime? LastLogin { get; set; }
 

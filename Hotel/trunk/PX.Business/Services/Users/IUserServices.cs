@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Security.Cryptography.X509Certificates;
 using System.Web;
 using System.Web.Mvc;
 using PX.Business.Models.Users;
@@ -49,6 +50,8 @@ namespace PX.Business.Services.Users
         ResponseModel UpdateUserData(XEditableModel model);
 
         #endregion
+
+        List<int> GetUserPermissions(int? userId = null);
 
         User GetUser(string email);
 

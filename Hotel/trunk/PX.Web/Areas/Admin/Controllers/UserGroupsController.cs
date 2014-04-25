@@ -63,5 +63,10 @@ namespace PX.Web.Areas.Admin.Controllers
 
             return Json(_userGroupServices.SavePermissions(ids, id));
         }
+
+        public JsonResult GetUserGroups(int? id)
+        {
+            return Json(_userGroupServices.GetUserGroups(id), JsonRequestBehavior.AllowGet);
+        }
     }
 }

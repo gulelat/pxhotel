@@ -53,6 +53,7 @@ namespace PX.EntityModel
         public DbSet<Template> Templates { get; set; }
         public DbSet<Testimonial> Testimonials { get; set; }
         public DbSet<UserGroup> UserGroups { get; set; }
+        public DbSet<UserInGroup> UserInGroups { get; set; }
         public DbSet<User> Users { get; set; }
     }
 }
