@@ -17,47 +17,49 @@ namespace PX.Business.Services.PageTemplateLogs
     public class PageTemplateLogServices : IPageTemplateLogServices
     {
         private readonly ILocalizedResourceServices _localizedResourceServices;
+        private readonly PageTemplateLogRepository _pageTemplateLogRepository;
         public PageTemplateLogServices()
         {
             _localizedResourceServices = HostContainer.GetInstance<ILocalizedResourceServices>();
+            _pageTemplateLogRepository = new PageTemplateLogRepository();
         }
 
         #region Base
         public IQueryable<PageTemplateLog> GetAll()
         {
-            return PageTemplateLogRepository.GetAll();
+            return _pageTemplateLogRepository.GetAll();
         }
         public IQueryable<PageTemplateLog> Fetch(Expression<Func<PageTemplateLog, bool>> expression)
         {
-            return PageTemplateLogRepository.Fetch(expression);
+            return _pageTemplateLogRepository.Fetch(expression);
         }
         public PageTemplateLog FetchFirst(Expression<Func<PageTemplateLog, bool>> expression)
         {
-            return PageTemplateLogRepository.FetchFirst(expression);
+            return _pageTemplateLogRepository.FetchFirst(expression);
         }
         public PageTemplateLog GetById(object id)
         {
-            return PageTemplateLogRepository.GetById(id);
+            return _pageTemplateLogRepository.GetById(id);
         }
         public ResponseModel Insert(PageTemplateLog pageTemplateLog)
         {
-            return PageTemplateLogRepository.Insert(pageTemplateLog);
+            return _pageTemplateLogRepository.Insert(pageTemplateLog);
         }
         public ResponseModel Update(PageTemplateLog pageTemplateLog)
         {
-            return PageTemplateLogRepository.Update(pageTemplateLog);
+            return _pageTemplateLogRepository.Update(pageTemplateLog);
         }
         public ResponseModel Delete(PageTemplateLog pageTemplateLog)
         {
-            return PageTemplateLogRepository.Delete(pageTemplateLog);
+            return _pageTemplateLogRepository.Delete(pageTemplateLog);
         }
         public ResponseModel Delete(object id)
         {
-            return PageTemplateLogRepository.Delete(id);
+            return _pageTemplateLogRepository.Delete(id);
         }
         public ResponseModel InactiveRecord(int id)
         {
-            return PageTemplateLogRepository.InactiveRecord(id);
+            return _pageTemplateLogRepository.InactiveRecord(id);
         }
         #endregion
 
@@ -95,7 +97,8 @@ namespace PX.Business.Services.PageTemplateLogs
         /// <returns></returns>
         public ResponseModel SavePageTemplateLog(PageTemplateLogManageModel model)
         {
-            var pageTemplate = PageTemplateRepository.GetById(model.PageTemplateId);
+            var pageTemplateRepository= new PageTemplateRepository();
+            var pageTemplate = pageTemplateRepository.GetById(model.PageTemplateId);
             if (pageTemplate != null)
             {
                 /*

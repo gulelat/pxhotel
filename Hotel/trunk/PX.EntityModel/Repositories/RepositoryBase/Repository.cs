@@ -15,58 +15,43 @@ namespace PX.EntityModel.Repositories.RepositoryBase
     {
         #region Protected Properties
 
-        public static PXHotelEntities StaticContext
-        {
-            get;
-            set;
-        }
-
-        protected static PXHotelEntities DataContext
-        {
-            get
-            {
-                if (HttpContext.Current == null)
-                {
-                    return StaticContext ?? (StaticContext = new PXHotelEntities());
-                }
-
-                if (HttpContext.Current.Items["PXHotelEntities"] == null)
-                    HttpContext.Current.Items["PXHotelEntities"] = new PXHotelEntities();
-
-                return (PXHotelEntities)HttpContext.Current.Items["PXHotelEntities"];
-            }
-        }
+        protected PXHotelEntities DataContext { get; set; }
 
         #endregion
 
+        public Repository()
+        {
+            DataContext = new PXHotelEntities();
+        }
+
         #region Public Methods
 
-        public static DbConnection Connection()
+        public DbConnection Connection()
         {
             return DataContext.Database.Connection;
         }
 
-        public static IQueryable<T> GetAll()
+        public IQueryable<T> GetAll()
         {
             return DataContext.Set<T>();
         }
 
-        public static IQueryable<T> Fetch(Expression<Func<T, bool>> expression)
+        public IQueryable<T> Fetch(Expression<Func<T, bool>> expression)
         {
             return DataContext.Set<T>().Where(expression);
         }
 
-        public static T FetchFirst(Expression<Func<T, bool>> expression)
+        public T FetchFirst(Expression<Func<T, bool>> expression)
         {
             return DataContext.Set<T>().FirstOrDefault(expression);
         }
 
-        public static T GetById(object id)
+        public T GetById(object id)
         {
             return DataContext.Set<T>().Find(id);
         }
 
-        public static ResponseModel ExcuteSql(string sql)
+        public ResponseModel ExcuteSql(string sql)
         {
             var response = new ResponseModel();
             try
@@ -87,7 +72,7 @@ namespace PX.EntityModel.Repositories.RepositoryBase
             return response;
         }
 
-        public static ResponseModel Update(T entity)
+        public ResponseModel Update(T entity)
         {
             var response = new ResponseModel();
             entity.SetProperty("Updated", DateTime.Now);
@@ -117,7 +102,7 @@ namespace PX.EntityModel.Repositories.RepositoryBase
             return response;
         }
 
-        public static ResponseModel Insert(T entity)
+        public ResponseModel Insert(T entity)
         {
             entity.SetProperty("Created", DateTime.Now);
             entity.SetProperty("CreatedBy", HttpContext.Current.User == null
@@ -144,10 +129,14 @@ namespace PX.EntityModel.Repositories.RepositoryBase
                 response.Success = false;
                 response.Message = exception.Message;
             }
+            finally
+            {
+                DataContext.Dispose();
+            }
             return response;
         }
 
-        public static ResponseModel Delete(T entity)
+        public ResponseModel Delete(T entity)
         {
             var response = new ResponseModel();
             try
@@ -170,7 +159,7 @@ namespace PX.EntityModel.Repositories.RepositoryBase
             return response;
         }
 
-        public static ResponseModel Delete(object id)
+        public ResponseModel Delete(object id)
         {
             var response = new ResponseModel();
             try
@@ -194,7 +183,7 @@ namespace PX.EntityModel.Repositories.RepositoryBase
             return response;
         }
 
-        public static ResponseModel InactiveRecord(int id)
+        public ResponseModel InactiveRecord(int id)
         {
             var response = new ResponseModel();
             try
@@ -216,7 +205,7 @@ namespace PX.EntityModel.Repositories.RepositoryBase
             return response;
         }
 
-        private static string BuildEntityValidationError(DbEntityValidationException exception)
+        private string BuildEntityValidationError(DbEntityValidationException exception)
         {
             var message = string.Empty;
             foreach (var eve in exception.EntityValidationErrors)
@@ -233,6 +222,6 @@ namespace PX.EntityModel.Repositories.RepositoryBase
 
         #endregion
 
-        public static IFormatProvider DefaultFormat { get; set; }
+        public IFormatProvider DefaultFormat { get; set; }
     }
 }

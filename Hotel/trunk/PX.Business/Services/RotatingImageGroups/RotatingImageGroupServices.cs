@@ -20,47 +20,48 @@ namespace PX.Business.Services.RotatingImageGroups
     public class RotatingImageGroupServices : IRotatingImageGroupServices
     {
         private readonly ILocalizedResourceServices _localizedResourceServices;
-
+        private readonly RotatingImageGroupRepository _rotatingImageGroupRepository;
         public RotatingImageGroupServices()
         {
             _localizedResourceServices = HostContainer.GetInstance<ILocalizedResourceServices>();
+            _rotatingImageGroupRepository = new RotatingImageGroupRepository();
         }
 
         #region Base
 
         public IQueryable<RotatingImageGroup> GetAll()
         {
-            return RotatingImageGroupRepository.GetAll();
+            return _rotatingImageGroupRepository.GetAll();
         }
 
         public IQueryable<RotatingImageGroup> Fetch(Expression<Func<RotatingImageGroup, bool>> expression)
         {
-            return RotatingImageGroupRepository.Fetch(expression);
+            return _rotatingImageGroupRepository.Fetch(expression);
         }
 
         public RotatingImageGroup GetById(object id)
         {
-            return RotatingImageGroupRepository.GetById(id);
+            return _rotatingImageGroupRepository.GetById(id);
         }
 
         public ResponseModel Insert(RotatingImageGroup rotatingImageGroup)
         {
-            return RotatingImageGroupRepository.Insert(rotatingImageGroup);
+            return _rotatingImageGroupRepository.Insert(rotatingImageGroup);
         }
 
         public ResponseModel Update(RotatingImageGroup rotatingImageGroup)
         {
-            return RotatingImageGroupRepository.Update(rotatingImageGroup);
+            return _rotatingImageGroupRepository.Update(rotatingImageGroup);
         }
 
         public ResponseModel Delete(RotatingImageGroup rotatingImageGroup)
         {
-            return RotatingImageGroupRepository.Delete(rotatingImageGroup);
+            return _rotatingImageGroupRepository.Delete(rotatingImageGroup);
         }
 
         public ResponseModel Delete(object id)
         {
-            return RotatingImageGroupRepository.Delete(id);
+            return _rotatingImageGroupRepository.Delete(id);
         }
 
         #endregion
@@ -107,7 +108,7 @@ namespace PX.Business.Services.RotatingImageGroups
             switch (operation)
             {
                 case GridOperationEnums.Edit:
-                    rotatingImageGroup = RotatingImageGroupRepository.GetById(model.Id);
+                    rotatingImageGroup = _rotatingImageGroupRepository.GetById(model.Id);
                     rotatingImageGroup.Name = model.Name;
                     rotatingImageGroup.RecordOrder = model.RecordOrder;
                     rotatingImageGroup.RecordActive = model.RecordActive;
@@ -217,6 +218,7 @@ namespace PX.Business.Services.RotatingImageGroups
                             {
                                 Id = i.Id,
                                 ImageUrl = i.ImageUrl,
+                                Text = i.Text,
                                 Url = i.Url,
                                 RecordOrder = i.RecordOrder
                             }).ToList()
@@ -227,6 +229,7 @@ namespace PX.Business.Services.RotatingImageGroups
 
         public ResponseModel SortImages(GroupImageSortingModel model)
         {
+            var rotatingImageRepository =new RotatingImageRepository();
             var group = GetById(model.GroupId);
             if(group != null)
             {
@@ -238,7 +241,7 @@ namespace PX.Business.Services.RotatingImageGroups
                     if (image.Id != dictionary[index].Id)
                     {
                         image.RecordOrder = dictionary[index].RecordOrder;
-                        RotatingImageRepository.Update(image);
+                        rotatingImageRepository.Update(image);
                     }
                     index++;
                 }

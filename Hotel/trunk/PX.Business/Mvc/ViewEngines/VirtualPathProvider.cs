@@ -136,7 +136,7 @@ namespace PX.Business.Mvc.ViewEngines
             var pageTemplateServices = HostContainer.GetInstance<IPageTemplateServices>();
             var pageServices = HostContainer.GetInstance<IPageServices>();
 
-            var pageId = HttpContext.Current.Request["pageId"].ToNullableInt();
+            var pageId = HttpContext.Current.Request["activePageId"].ToNullableInt();
             var page = pageServices.GetById(pageId);
             var model = page != null ? new PageRenderModel(page) : new PageRenderModel();
             var content = pageTemplateServices.RenderPageTemplate(template.Id, model);

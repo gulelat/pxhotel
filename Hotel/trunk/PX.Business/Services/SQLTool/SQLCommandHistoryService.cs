@@ -21,40 +21,42 @@ namespace PX.Business.Services.SQLTool
     {
         private readonly ILocalizedResourceServices _localizedResourceServices;
         private readonly ISettingServices _settingServices;
+        private readonly SQLCommandHistoryRepository _sqlCommandHistoryRepository;
         public SQLCommandServices()
         {
             _settingServices = HostContainer.GetInstance<ISettingServices>();
             _localizedResourceServices = HostContainer.GetInstance<ILocalizedResourceServices>();
+            _sqlCommandHistoryRepository = new SQLCommandHistoryRepository();
         }
 
         #region Base
         public IQueryable<SQLCommandHistory> GetAll()
         {
-            return SQLCommandHistoryRepository.GetAll();
+            return _sqlCommandHistoryRepository.GetAll();
         }
         public IQueryable<SQLCommandHistory> Fetch(Expression<Func<SQLCommandHistory, bool>> expression)
         {
-            return SQLCommandHistoryRepository.Fetch(expression);
+            return _sqlCommandHistoryRepository.Fetch(expression);
         }
         public SQLCommandHistory GetById(object id)
         {
-            return SQLCommandHistoryRepository.GetById(id);
+            return _sqlCommandHistoryRepository.GetById(id);
         }
         public ResponseModel Insert(SQLCommandHistory sqlCommandHistory)
         {
-            return SQLCommandHistoryRepository.Insert(sqlCommandHistory);
+            return _sqlCommandHistoryRepository.Insert(sqlCommandHistory);
         }
         public ResponseModel Update(SQLCommandHistory sqlCommandHistory)
         {
-            return SQLCommandHistoryRepository.Update(sqlCommandHistory);
+            return _sqlCommandHistoryRepository.Update(sqlCommandHistory);
         }
         public ResponseModel Delete(SQLCommandHistory sqlCommandHistory)
         {
-            return SQLCommandHistoryRepository.Delete(sqlCommandHistory);
+            return _sqlCommandHistoryRepository.Delete(sqlCommandHistory);
         }
         public ResponseModel Delete(object id)
         {
-            return SQLCommandHistoryRepository.Delete(id);
+            return _sqlCommandHistoryRepository.Delete(id);
         }
         #endregion
 
@@ -99,7 +101,7 @@ namespace PX.Business.Services.SQLTool
             switch (operation)
             {
                 case GridOperationEnums.Edit:
-                    sqlCommandHistory = SQLCommandHistoryRepository.GetById(model.Id);
+                    sqlCommandHistory = _sqlCommandHistoryRepository.GetById(model.Id);
                     sqlCommandHistory.Query = model.Query;
                     sqlCommandHistory.RecordOrder = model.RecordOrder;
                     sqlCommandHistory.RecordActive = model.RecordActive;
@@ -136,7 +138,7 @@ namespace PX.Business.Services.SQLTool
         /// <returns></returns>
         public DbConnection GetConnection()
         {
-            return SQLCommandHistoryRepository.Connection();
+            return _sqlCommandHistoryRepository.Connection();
         }
 
         /// <summary>
@@ -145,7 +147,7 @@ namespace PX.Business.Services.SQLTool
         /// <returns></returns>
         public string GetConnectionString()
         {
-            return SQLCommandHistoryRepository.Connection().ConnectionString;
+            return _sqlCommandHistoryRepository.Connection().ConnectionString;
         }
 
         public ResponseModel Insert(SQLCommandHistoryModel historyModel)

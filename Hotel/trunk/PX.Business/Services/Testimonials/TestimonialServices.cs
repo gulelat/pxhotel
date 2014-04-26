@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using PX.Business.Models.Testimonials;
+using PX.Business.Models.Testimonials.CurlyBrackets;
 using PX.Core.Framework.Mvc.Environments;
 using PX.Business.Services.Localizes;
 using PX.Core.Framework.Enums;
@@ -17,39 +18,41 @@ namespace PX.Business.Services.Testimonials
     public class TestimonialServices : ITestimonialServices
     {
         private readonly ILocalizedResourceServices _localizedResourceServices;
+        private readonly TestimonialRepository _testimonialRepository;
         public TestimonialServices()
         {
             _localizedResourceServices = HostContainer.GetInstance<ILocalizedResourceServices>();
+            _testimonialRepository = new TestimonialRepository();
         }
 
         #region Base
         public IQueryable<Testimonial> GetAll()
         {
-            return TestimonialRepository.GetAll();
+            return _testimonialRepository.GetAll();
         }
         public IQueryable<Testimonial> Fetch(Expression<Func<Testimonial, bool>> expression)
         {
-            return TestimonialRepository.Fetch(expression);
+            return _testimonialRepository.Fetch(expression);
         }
         public Testimonial GetById(object id)
         {
-            return TestimonialRepository.GetById(id);
+            return _testimonialRepository.GetById(id);
         }
         public ResponseModel Insert(Testimonial testimonial)
         {
-            return TestimonialRepository.Insert(testimonial);
+            return _testimonialRepository.Insert(testimonial);
         }
         public ResponseModel Update(Testimonial testimonial)
         {
-            return TestimonialRepository.Update(testimonial);
+            return _testimonialRepository.Update(testimonial);
         }
         public ResponseModel Delete(Testimonial testimonial)
         {
-            return TestimonialRepository.Delete(testimonial);
+            return _testimonialRepository.Delete(testimonial);
         }
         public ResponseModel Delete(object id)
         {
-            return TestimonialRepository.Delete(id);
+            return _testimonialRepository.Delete(id);
         }
         #endregion
 
@@ -97,7 +100,7 @@ namespace PX.Business.Services.Testimonials
             switch (operation)
             {
                 case GridOperationEnums.Edit:
-                    testimonial = TestimonialRepository.GetById(model.Id);
+                    testimonial = _testimonialRepository.GetById(model.Id);
                     testimonial.Author = model.Author;
                     testimonial.Content = model.Content;
                     testimonial.AuthorDescription = model.AuthorDescription;
@@ -135,20 +138,22 @@ namespace PX.Business.Services.Testimonials
         /// </summary>
         /// <param name="count"></param>
         /// <returns></returns>
-        public List<TestimonialModel> GetRandom(int count)
+        public List<TestimonialCurlyBracket> GetRandom(int count)
         {
-            var data = new List<TestimonialModel>();
-            var testimonials = GetAll().Select(t => new TestimonialModel
+            var data = new List<TestimonialCurlyBracket>();
+            var testimonials = GetAll().Select(t => new TestimonialCurlyBracket
             {
                 Author = t.Author,
-                Content = t.Content
+                Content = t.Content,
+                AuthorImageUrl = t.AuthorImageUrl,
+                AuthorDescription = t.AuthorDescription,
             }).ToList();
 
             for (var i = 0; i < count; i++)
             {
                 if(testimonials.Count == 0)
                     break;
-                var index = new Random(testimonials.Count).Next();
+                var index = new Random().Next(0, testimonials.Count);
                 data.Add(testimonials[index]);
                 testimonials.Remove(testimonials[index]);
             }

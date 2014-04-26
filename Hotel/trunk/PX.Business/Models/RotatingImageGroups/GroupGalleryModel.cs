@@ -4,6 +4,11 @@ namespace PX.Business.Models.RotatingImageGroups
 {
     public class GroupGalleryModel
     {
+        public GroupGalleryModel()
+        {
+            GalleryItems = new List<GalleryItemModel>();
+        }
+
         public int Id { get; set; }
 
         public string GroupName { get; set; }
@@ -16,6 +21,8 @@ namespace PX.Business.Models.RotatingImageGroups
         public int Id { get; set; }
 
         public string ImageUrl { get; set; }
+
+        public string Text { get; set; }
 
         public string Url { get; set; }
 

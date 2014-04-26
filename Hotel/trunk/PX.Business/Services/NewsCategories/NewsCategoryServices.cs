@@ -20,51 +20,53 @@ namespace PX.Business.Services.NewsCategories
     public class NewsCategorieservices : INewsCategoryServices
     {
         private readonly ILocalizedResourceServices _localizedResourceServices;
+        private readonly NewsCategoryRepository _newsCategoryRepository;
         public NewsCategorieservices()
         {
             _localizedResourceServices = HostContainer.GetInstance<ILocalizedResourceServices>();
+            _newsCategoryRepository = new NewsCategoryRepository();
         }
 
         #region Base
         public IQueryable<NewsCategory> GetAll()
         {
-            return NewsCategoryRepository.GetAll();
+            return _newsCategoryRepository.GetAll();
         }
         public IQueryable<NewsCategory> Fetch(Expression<Func<NewsCategory, bool>> expression)
         {
-            return NewsCategoryRepository.Fetch(expression);
+            return _newsCategoryRepository.Fetch(expression);
         }
         public NewsCategory GetById(object id)
         {
-            return NewsCategoryRepository.GetById(id);
+            return _newsCategoryRepository.GetById(id);
         }
         public ResponseModel Insert(NewsCategory newsCategory)
         {
-            return NewsCategoryRepository.Insert(newsCategory);
+            return _newsCategoryRepository.Insert(newsCategory);
         }
         public ResponseModel Update(NewsCategory newsCategory)
         {
-            return NewsCategoryRepository.Update(newsCategory);
+            return _newsCategoryRepository.Update(newsCategory);
         }
         public ResponseModel HierarchyUpdate(NewsCategory newsCategory)
         {
-            return NewsCategoryRepository.HierarchyUpdate(newsCategory);
+            return _newsCategoryRepository.HierarchyUpdate(newsCategory);
         }
         public ResponseModel HierarchyInsert(NewsCategory newsCategory)
         {
-            return NewsCategoryRepository.HierarchyInsert(newsCategory);
+            return _newsCategoryRepository.HierarchyInsert(newsCategory);
         }
         public ResponseModel Delete(NewsCategory newsCategory)
         {
-            return NewsCategoryRepository.Delete(newsCategory);
+            return _newsCategoryRepository.Delete(newsCategory);
         }
         public ResponseModel Delete(object id)
         {
-            return NewsCategoryRepository.Delete(id);
+            return _newsCategoryRepository.Delete(id);
         }
         public ResponseModel InactiveRecord(int id)
         {
-            return NewsCategoryRepository.InactiveRecord(id);
+            return _newsCategoryRepository.InactiveRecord(id);
         }
         #endregion
 
@@ -155,7 +157,7 @@ namespace PX.Business.Services.NewsCategories
             if (category != null)
             {
                 parentId = category.ParentId;
-                newsCategories = NewsCategoryRepository.GetPossibleParents(category);
+                newsCategories = _newsCategoryRepository.GetPossibleParents(category);
             }
             var data = newsCategories.Select(m => new HierarchyModel
             {
@@ -165,7 +167,7 @@ namespace PX.Business.Services.NewsCategories
                 RecordOrder = m.RecordOrder,
                 Selected = parentId.HasValue && parentId.Value == m.Id
             }).ToList();
-            return NewsCategoryRepository.BuildSelectList(data);
+            return _newsCategoryRepository.BuildSelectList(data);
         }
 
         /// <summary>
@@ -183,7 +185,7 @@ namespace PX.Business.Services.NewsCategories
                     RecordOrder = c.RecordOrder,
                     Selected = newsId.HasValue && c.NewsNewsCategories.Any(nc => nc.NewsId == newsId)
                 }).ToList();
-            return NewsCategoryRepository.BuildSelectList(data);
+            return _newsCategoryRepository.BuildSelectList(data);
         }
 
         /// <summary>

@@ -4,10 +4,12 @@ using System.Data.Objects.SqlClient;
 using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Web;
 using System.Web.Mvc;
 using AutoMapper;
 using PX.Business.Models.PageLogs;
 using PX.Business.Models.Pages;
+using PX.Business.Mvc.WorkContext;
 using PX.Business.Services.ClientMenus;
 using PX.Business.Services.PageLogs;
 using PX.Business.Services.PageTemplates;
@@ -35,6 +37,7 @@ namespace PX.Business.Services.Pages
         private readonly ICurlyBracketServices _curlyBracketServices;
         private readonly IClientMenuServices _clientMenuServices;
         private readonly ISettingServices _settingServices;
+        private readonly PageRepository _pageRepository;
         public PageServices()
         {
             _localizedResourceServices = HostContainer.GetInstance<ILocalizedResourceServices>();
@@ -43,48 +46,49 @@ namespace PX.Business.Services.Pages
             _clientMenuServices = HostContainer.GetInstance<IClientMenuServices>();
             _pageLogServices = HostContainer.GetInstance<IPageLogServices>();
             _settingServices = HostContainer.GetInstance<ISettingServices>();
+            _pageRepository = new PageRepository();
         }
 
         #region Base
         public IQueryable<Page> GetAll()
         {
-            return PageRepository.GetAll();
+            return _pageRepository.GetAll();
         }
         public IQueryable<Page> Fetch(Expression<Func<Page, bool>> expression)
         {
-            return PageRepository.Fetch(expression);
+            return _pageRepository.Fetch(expression);
         }
         public Page GetById(object id)
         {
-            return PageRepository.GetById(id);
+            return _pageRepository.GetById(id);
         }
         public ResponseModel Insert(Page page)
         {
-            return PageRepository.Insert(page);
+            return _pageRepository.Insert(page);
         }
         public ResponseModel Update(Page page)
         {
-            return PageRepository.Update(page);
+            return _pageRepository.Update(page);
         }
         public ResponseModel HierarchyUpdate(Page page)
         {
-            return PageRepository.HierarchyUpdate(page);
+            return _pageRepository.HierarchyUpdate(page);
         }
         public ResponseModel HierarchyInsert(Page page)
         {
-            return PageRepository.HierarchyInsert(page);
+            return _pageRepository.HierarchyInsert(page);
         }
         public ResponseModel Delete(Page page)
         {
-            return PageRepository.Delete(page);
+            return _pageRepository.Delete(page);
         }
         public ResponseModel Delete(object id)
         {
-            return PageRepository.Delete(id);
+            return _pageRepository.Delete(id);
         }
         public ResponseModel InactiveRecord(int id)
         {
-            return PageRepository.InactiveRecord(id);
+            return _pageRepository.InactiveRecord(id);
         }
         #endregion
 
@@ -186,7 +190,7 @@ namespace PX.Business.Services.Pages
 
                     response = HierarchyUpdate(page);
 
-                    _clientMenuServices.SavePageToClientMenu(page);
+                    _clientMenuServices.SavePageToClientMenu(page.Id);
                     return response.SetMessage(response.Success ?
                         _localizedResourceServices.T("AdminModule:::Pages:::Messages:::UpdateSuccessfully:::Update page successfully.")
                         : _localizedResourceServices.T("AdminModule:::Pages:::Messages:::UpdateFailure:::Update page failed. Please try again later.. Please try again later."));
@@ -225,7 +229,8 @@ namespace PX.Business.Services.Pages
         /// <returns></returns>
         public PageManageModel GetPageManageModelByLogId(int? id = null)
         {
-            var log = PageLogRepository.GetById(id);
+            var pageLogRepository = new PageLogRepository();
+            var log = pageLogRepository.GetById(id);
             return log != null ? new PageManageModel(log) : new PageManageModel();
         }
 
@@ -236,6 +241,7 @@ namespace PX.Business.Services.Pages
         /// <returns></returns>
         public ResponseModel SavePageManageModel(PageManageModel model)
         {
+            var pageTagRepository = new PageTagRepository();
             Page relativePage;
             ResponseModel response;
             var page = GetById(model.Id);
@@ -265,7 +271,7 @@ namespace PX.Business.Services.Pages
                 var currentTags = page.PageTags.Select(t => t.TagId).ToList();
                 foreach (var id in currentTags.Where(id => !model.Tags.Contains(id)))
                 {
-                    PageTagRepository.Delete(page.Id, id);
+                    pageTagRepository.Delete(page.Id, id);
                 }
                 if (model.Tags != null && model.Tags.Any())
                 {
@@ -278,7 +284,7 @@ namespace PX.Business.Services.Pages
                                 PageId = page.Id,
                                 TagId = tagId
                             };
-                            PageTagRepository.Insert(pageTag);
+                            pageTagRepository.Insert(pageTag);
                         }
                     }
                 }
@@ -312,7 +318,7 @@ namespace PX.Business.Services.Pages
                                 string.Format(
                                     "Update Pages set RecordOrder = RecordOrder + 1 Where {0} And RecordOrder >= {1}",
                                     relativePage.ParentId.HasValue ? string.Format(" ParentId = {0}", relativePage.ParentId) : "ParentId Is NULL", relativePage.RecordOrder);
-                            PageRepository.ExcuteSql(query);
+                            _pageRepository.ExcuteSql(query);
                         }
                     }
                     else
@@ -326,24 +332,16 @@ namespace PX.Business.Services.Pages
                                     relativePage.ParentId.HasValue
                                         ? string.Format(" ParentId = {0}", relativePage.ParentId)
                                         : "ParentId Is NULL", relativePage.RecordOrder);
-                            PageRepository.ExcuteSql(query);
+                            _pageRepository.ExcuteSql(query);
                         }
                     }
                 }
 
-                if (page.ParentId != model.ParentId)
-                {
-                    page.ParentId = model.ParentId;
-                    response = HierarchyUpdate(page);
-                }
-                else
-                {
-                    response = Update(page);
-                }
-
+                page.ParentId = model.ParentId;
+                response = HierarchyUpdate(page);
                 if (response.Success)
                 {
-                    _clientMenuServices.SavePageToClientMenu(page);
+                    _clientMenuServices.SavePageToClientMenu(page.Id);
                     _pageLogServices.SavePageLog(pageLog);
                 }
 
@@ -386,7 +384,7 @@ namespace PX.Business.Services.Pages
                         string.Format(
                             "Update Pages set RecordOrder = RecordOrder + 1 Where {0} And RecordOrder >= {1}",
                             relativePage.ParentId.HasValue ? string.Format(" ParentId = {0}", relativePage.ParentId) : "ParentId Is NULL", relativePage.RecordOrder);
-                    PageRepository.ExcuteSql(query);
+                    _pageRepository.ExcuteSql(query);
                 }
                 else
                 {
@@ -395,7 +393,7 @@ namespace PX.Business.Services.Pages
                         string.Format(
                             "Update Pages set RecordOrder = RecordOrder + 1 Where {0} And RecordOrder > {1}",
                             relativePage.ParentId.HasValue ? string.Format(" ParentId = {0}", relativePage.ParentId) : "ParentId Is NULL", relativePage.RecordOrder);
-                    PageRepository.ExcuteSql(query);
+                    _pageRepository.ExcuteSql(query);
                 }
             }
 
@@ -403,7 +401,7 @@ namespace PX.Business.Services.Pages
 
             if (response.Success)
             {
-                _clientMenuServices.SavePageToClientMenu(page);
+                _clientMenuServices.SavePageToClientMenu(response.Data.ToInt());
             }
             return response.SetMessage(response.Success ?
                 _localizedResourceServices.T("AdminModule:::Pages:::Messages:::CreateSuccessfully:::Create page successfully.")
@@ -451,6 +449,7 @@ namespace PX.Business.Services.Pages
             var page = GetPage(url);
             if (page != null)
             {
+                WorkContext.ActivePageId = page.Id;
                 var model = new PageRenderModel(page);
                 if (model.IsFileTemplate) return model;
                 using (var templateService = new TemplateService())
@@ -478,13 +477,14 @@ namespace PX.Business.Services.Pages
         /// <returns></returns>
         public IEnumerable<SelectListItem> GetPageTags(int? pageId = null)
         {
+            var tagRepository = new TagRepository();
             var pageTagIds = new List<int>();
             var page = GetById(pageId);
             if (page != null)
             {
                 pageTagIds = page.PageTags.Select(t => t.TagId).ToList();
             }
-            return TagRepository.GetAll().Select(t => new SelectListItem
+            return tagRepository.GetAll().Select(t => new SelectListItem
             {
                 Text = t.Name,
                 Value = SqlFunctions.StringConvert((double)t.Id).Trim(),
@@ -505,7 +505,7 @@ namespace PX.Business.Services.Pages
             if (page != null)
             {
                 parentId = page.ParentId;
-                pages = PageRepository.GetPossibleParents(page);
+                pages = _pageRepository.GetPossibleParents(page);
             }
             var data = pages.Select(m => new HierarchyModel
             {
@@ -515,7 +515,7 @@ namespace PX.Business.Services.Pages
                 RecordOrder = m.RecordOrder,
                 Selected = parentId.HasValue && parentId.Value == m.Id
             }).ToList();
-            return PageRepository.BuildSelectList(data);
+            return _pageRepository.BuildSelectList(data);
         }
 
         /// <summary>
@@ -610,7 +610,11 @@ namespace PX.Business.Services.Pages
             {
                 return GetHomePage();
             }
-            return GetAll().FirstOrDefault(p => p.FriendlyUrl.Equals(friendlyUrl, StringComparison.InvariantCultureIgnoreCase));
+
+            return GetAll().FirstOrDefault(m => m.IncludeInSiteNavigation
+                                       && (!m.StartPublishingDate.HasValue || DateTime.Now > m.StartPublishingDate)
+                                       && (!m.EndPublishingDate.HasValue || DateTime.Now < m.StartPublishingDate)
+                                       && m.FriendlyUrl.Equals(friendlyUrl, StringComparison.InvariantCultureIgnoreCase));
         }
 
         /// <summary>
@@ -619,7 +623,7 @@ namespace PX.Business.Services.Pages
         /// <returns></returns>
         public Page GetHomePage()
         {
-            return PageRepository.FetchFirst(p => p.IsHomePage);
+            return _pageRepository.FetchFirst(p => p.IsHomePage);
         }
 
         /// <summary>

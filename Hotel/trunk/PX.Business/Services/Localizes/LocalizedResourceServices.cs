@@ -16,39 +16,45 @@ namespace PX.Business.Services.Localizes
     public class LocalizedResourceServices : ILocalizedResourceServices
     {
         private const string LocalizedSerperator = ":::";
+        private readonly LocalizedResourceRepository _localizedResourceRepository;
+
+        public LocalizedResourceServices()
+        {
+            _localizedResourceRepository = new LocalizedResourceRepository();
+        }
 
         #region Base
         public IQueryable<LocalizedResource> GetAll()
         {
-            return LocalizedResourceRepository.GetAll();
+            return _localizedResourceRepository.GetAll();
         }
         public IQueryable<LocalizedResource> Fetch(Expression<Func<LocalizedResource, bool>> expression)
         {
-            return LocalizedResourceRepository.Fetch(expression);
+            return _localizedResourceRepository.Fetch(expression);
         }
         public LocalizedResource GetById(object id)
         {
-            return LocalizedResourceRepository.GetById(id);
+            return _localizedResourceRepository.GetById(id);
         }
         public ResponseModel Insert(LocalizedResource localizedResource)
         {
-            return LocalizedResourceRepository.Insert(localizedResource);
+            return _localizedResourceRepository.Insert(localizedResource);
         }
         public ResponseModel Update(LocalizedResource localizedResource)
         {
-            return LocalizedResourceRepository.Update(localizedResource);
+            return _localizedResourceRepository.Update(localizedResource);
         }
         public ResponseModel Delete(LocalizedResource localizedResource)
         {
-            return LocalizedResourceRepository.Delete(localizedResource);
+            return _localizedResourceRepository.Delete(localizedResource);
         }
         public ResponseModel Delete(object id)
         {
-            return LocalizedResourceRepository.Delete(id);
+            return _localizedResourceRepository.Delete(id);
         }
         public ResponseModel InactiveRecord(int id)
         {
-            return LocalizedResourceRepository.InactiveRecord(id);
+            return _localizedResourceRepository.InactiveRecord(id);
         }
         #endregion
 
@@ -126,7 +132,7 @@ namespace PX.Business.Services.Localizes
                     localizedResource.RecordActive = model.RecordActive;
 
                     response = Update(localizedResource);
-                    if(response.Success)
+                    if (response.Success)
                         RefreshDictionary();
                     return response.SetMessage(response.Success ?
                         T("AdminModule:::LocalizedResources:::Messages:::UpdateSuccessfully:::Update localized resource successfully.")
@@ -136,7 +142,7 @@ namespace PX.Business.Services.Localizes
                     localizedResource = Mapper.Map<LocalizedResourceModel, LocalizedResource>(model);
                     localizedResource.DefaultValue = model.TranslatedValue;
                     response = Insert(localizedResource);
-                    if(response.Success)
+                    if (response.Success)
                         RefreshDictionary();
                     return response.SetMessage(response.Success ?
                         T("AdminModule:::LocalizedResources:::Messages:::CreateSuccessfully:::Create localized resource successfully.")
@@ -144,7 +150,7 @@ namespace PX.Business.Services.Localizes
 
                 case GridOperationEnums.Del:
                     response = Delete(model.Id);
-                    if(response.Success)
+                    if (response.Success)
                         RefreshDictionary();
                     return response.SetMessage(response.Success ?
                         T("AdminModule:::LocalizedResources:::Messages:::DeleteSuccessfully:::Delete localized resource successfully.")
@@ -168,8 +174,8 @@ namespace PX.Business.Services.Localizes
         /// <returns></returns>
         public string T(string textKey)
         {
-            var values = textKey.Split(new[] {LocalizedSerperator}, StringSplitOptions.RemoveEmptyEntries);
-            if(values.Count() < 2)
+            var values = textKey.Split(new[] { LocalizedSerperator }, StringSplitOptions.RemoveEmptyEntries);
+            if (values.Count() < 2)
             {
                 return textKey;
             }
@@ -223,7 +229,7 @@ namespace PX.Business.Services.Localizes
         /// <returns></returns>
         private string GetDefaultValue(string langKey, string textKey, string defaultValue = null, params object[] parameters)
         {
-            var localizeResource = LocalizedResourceRepository.Get(langKey, textKey);
+            var localizeResource = _localizedResourceRepository.Get(langKey, textKey);
 
             if (localizeResource != null)
             {
@@ -239,10 +245,11 @@ namespace PX.Business.Services.Localizes
         /// <param name="textKey"></param>
         /// <param name="defaultValue"></param>
         /// <param name="parameters"> </param>
-        private string UpdateDictionaryToDb(string textKey, string defaultValue , params object[] parameters)
+        private string UpdateDictionaryToDb(string textKey, string defaultValue, params object[] parameters)
         {
-            var existedResourceIds = Fetch(l => l.TextKey.Equals(textKey)).Select(l => l.LanguageId);
-            var languages = LanguageRepository.Fetch(l => !existedResourceIds.Contains(l.Id)).Select(l => l.Id).ToList();
+            var languageRepository = new LanguageRepository();
+            var existedResourceIds = Fetch(l => l.TextKey.Equals(textKey)).Select(l => l.LanguageId).ToList();
+            var languages = languageRepository.Fetch(l => !existedResourceIds.Contains(l.Id)).Select(l => l.Id).ToList();
             foreach (var language in languages)
             {
                 var localizeResource = new LocalizedResource

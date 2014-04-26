@@ -129,6 +129,7 @@
     <Compile Include="Mvc\ViewEngines\VirtualPathProvider.cs" />
     <Compile Include="Services\ClientMenus\IClientMenuServices.cs" />
     <Compile Include="Services\ClientMenus\ClientMenuServices.cs" />
+    <Compile Include="Services\RotatingImageGroups\CurlyBracketResolvers\RotatingImageResolver.cs" />
     <Compile Include="Services\SQLTool\ISQLCommandServices.cs" />
     <Compile Include="Services\SQLTool\SQLCommandHistoryService.cs" />
     <Compile Include="Services\SQLTool\SQLExecutor.cs" />
@@ -233,9 +234,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Models\Pages\CurlyBrackets\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

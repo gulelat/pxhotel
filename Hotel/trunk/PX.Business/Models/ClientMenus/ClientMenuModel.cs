@@ -7,6 +7,8 @@ namespace PX.Business.Models.ClientMenus
     {
         public int Id { get; set; }
 
+        public int? PageId { get; set; }
+
         [Required]
         public string Name { get; set; }
 

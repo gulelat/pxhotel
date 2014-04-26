@@ -6,6 +6,7 @@ using PX.Business.Models.ClientMenus;
 using PX.Business.Models.ClientMenus.CurlyBrackets;
 using PX.Business.Models.Templates;
 using PX.Business.Mvc.Attributes;
+using PX.Business.Mvc.WorkContext;
 using PX.Core.Framework.Mvc.Environments;
 using PX.Business.Services.CurlyBrackets.CurlyBracketResolver;
 using PX.Business.Services.Templates;
@@ -75,6 +76,10 @@ namespace PX.Business.Services.ClientMenus.CurlyBracketResolvers
              * * Children Template
              */
 
+            ParentTemplateName = DefaultTemplate;
+            ChildTemplateName = DefaultChildTemplate;
+            ChildMobileTemplateName = DefaultChildMobileTemplate;
+
             //ParentId
             if (parameters.Length > 1 && !string.IsNullOrEmpty(parameters[1]))
             {
@@ -104,6 +109,23 @@ namespace PX.Business.Services.ClientMenus.CurlyBracketResolvers
             {
                 ChildMobileTemplateName = parameters[5];
             }
+
+            _parentTemplate = _templateServices.GetTemplateByName(ParentTemplateName);
+            if (_parentTemplate == null)
+            {
+                throw new Exception(string.Format("Template {0} is not founded.", ParentTemplateName));
+            }
+            _childTemplate = _templateServices.GetTemplateByName(ChildTemplateName);
+            if (_childTemplate == null)
+            {
+                throw new Exception(string.Format("Template {0} is not founded.", ChildTemplateName));
+            }
+            _childMobileTemplate = _templateServices.GetTemplateByName(ChildMobileTemplateName);
+            if (_childMobileTemplate == null)
+            {
+                throw new Exception(string.Format("Template {0} is not founded.", ChildMobileTemplateName));
+            }
+            
         }
         #endregion
 
@@ -117,7 +139,7 @@ namespace PX.Business.Services.ClientMenus.CurlyBracketResolvers
                 var template = new Template
                 {
                     Name = DefaultTemplate,
-                    DataType = typeof(DynamicMenuCurlyBracket).FullName,
+                    DataType = typeof(List<DynamicMenuCurlyBracket>).AssemblyQualifiedName,
                     Content = string.Empty,
                     IsDefaultTemplate = true
                 };
@@ -129,7 +151,7 @@ namespace PX.Business.Services.ClientMenus.CurlyBracketResolvers
                 var template = new Template
                 {
                     Name = DefaultChildTemplate,
-                    DataType = typeof(DynamicMenuCurlyBracket).FullName,
+                    DataType = typeof(List<DynamicMenuCurlyBracket>).AssemblyQualifiedName,
                     Content = string.Empty,
                     IsDefaultTemplate = true
                 };
@@ -141,7 +163,7 @@ namespace PX.Business.Services.ClientMenus.CurlyBracketResolvers
                 var template = new Template
                 {
                     Name = DefaultChildMobileTemplate,
-                    DataType = typeof(DynamicMenuCurlyBracket).FullName,
+                    DataType = typeof(List<DynamicMenuCurlyBracket>).AssemblyQualifiedName,
                     Content = string.Empty,
                     IsDefaultTemplate = true
                 };
@@ -156,9 +178,15 @@ namespace PX.Business.Services.ClientMenus.CurlyBracketResolvers
         /// <returns></returns>
         public string Render(string[] parameters)
         {
-            var lastCreated = _templateServices.GetAll().Max(t => t.Created);
-            var lastUpdated = _templateServices.GetAll().Max(t => t.Updated) ?? DateTime.MinValue;
-            var lastTime = lastCreated > lastUpdated ? lastCreated : lastUpdated;
+            //Initialize parameter
+            ParseParams(parameters);
+
+            var templateList = new List<string>
+            {
+                ParentTemplateName,
+                ChildMobileTemplateName,
+                ChildTemplateName
+            };
 
             /*
              * Check storing menu result in cache
@@ -167,22 +195,23 @@ namespace PX.Business.Services.ClientMenus.CurlyBracketResolvers
              */
             CacheMenu cacheMenu;
             var cacheName = string.Join("_", parameters);
+
+            var lastCreated = _clientMenuServices.GetAll().Max(t => t.Created);
+            var lastUpdated = _clientMenuServices.GetAll().Max(t => t.Updated) ?? DateTime.MinValue;
+            var dataCacheTime = lastCreated > lastUpdated ? lastCreated : lastUpdated;
+
+            lastCreated = _templateServices.Fetch(t => templateList.Contains(t.Name)).Max(t => t.Created);
+            lastUpdated = _templateServices.Fetch(t => templateList.Contains(t.Name)).Max(t => t.Updated) ?? DateTime.MinValue;
+            var templateCacheTime = lastCreated > lastUpdated ? lastCreated : lastUpdated;
             if (HttpContext.Current.Application[cacheName] != null)
             {
                 cacheMenu = (CacheMenu)HttpContext.Current.Application[cacheName];
-                if (cacheMenu.LastTime == lastTime)
+                if (cacheMenu.DataCacheTime == dataCacheTime && cacheMenu.TemplateCacheTime == templateCacheTime)
                 {
                     return cacheMenu.Content;
                 }
             }
 
-            //Initialize parameter
-            ParseParams(parameters);
-
-            _parentTemplate = _templateServices.GetTemplateByName(ParentTemplateName) ?? _templateServices.GetTemplateByName(DefaultTemplate);
-            _childTemplate = _templateServices.GetTemplateByName(ChildTemplateName) ?? _templateServices.GetTemplateByName(DefaultChildTemplate);
-            _childMobileTemplate = _templateServices.GetTemplateByName(ChildMobileTemplateName) ?? _templateServices.GetTemplateByName(DefaultChildMobileTemplate);
-            
             /*
              * Get tree data
              * Recursive to get all the html of dynamic menu
@@ -194,6 +223,7 @@ namespace PX.Business.Services.ClientMenus.CurlyBracketResolvers
                 .Select(m => new ClientMenuModel
                 {
                     Id = m.Id,
+                    PageId = m.PageId,
                     Name = m.Name,
                     RecordOrder = m.RecordOrder,
                     Url = m.Url,
@@ -212,7 +242,8 @@ namespace PX.Business.Services.ClientMenus.CurlyBracketResolvers
             cacheMenu = new CacheMenu
             {
                 Content = _templateServices.RenderTemplate(_parentTemplate.Content, data, _parentTemplate.CacheName),
-                LastTime = lastTime
+                DataCacheTime = dataCacheTime,
+                TemplateCacheTime = templateCacheTime
             };
             HttpContext.Current.Application[cacheName] = cacheMenu;
 
@@ -260,6 +291,7 @@ namespace PX.Business.Services.ClientMenus.CurlyBracketResolvers
         /// </summary>
         /// <param name="list"></param>
         /// <param name="parent"></param>
+        /// <param name="level"></param>
         /// <returns></returns>
         private List<DynamicMenuCurlyBracket> GetTree(List<ClientMenuModel> list, int? parent, int level)
         {
@@ -273,6 +305,7 @@ namespace PX.Business.Services.ClientMenus.CurlyBracketResolvers
                     .Select(p => new DynamicMenuCurlyBracket
                         {
                             Id = p.Id,
+                            PageId = p.PageId,
                             Name = p.Name,
                             Order = p.RecordOrder,
                             Level = level + 1,
@@ -288,8 +321,10 @@ namespace PX.Business.Services.ClientMenus.CurlyBracketResolvers
 
     public class CacheMenu
     {
-        public string Content { get; set; }
+        public DateTime TemplateCacheTime { get; set; }
 
-        public DateTime LastTime { get; set; }
+        public DateTime DataCacheTime { get; set; }
+
+        public string Content { get; set; }
     }
 }

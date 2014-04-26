@@ -17,47 +17,49 @@ namespace PX.Business.Services.TemplateLogs
     public class TemplateLogServices : ITemplateLogServices
     {
         private readonly ILocalizedResourceServices _localizedResourceServices;
+        private readonly TemplateLogRepository _templateLogRepository;
         public TemplateLogServices()
         {
             _localizedResourceServices = HostContainer.GetInstance<ILocalizedResourceServices>();
+            _templateLogRepository = new TemplateLogRepository();
         }
 
         #region Base
         public IQueryable<TemplateLog> GetAll()
         {
-            return TemplateLogRepository.GetAll();
+            return _templateLogRepository.GetAll();
         }
         public IQueryable<TemplateLog> Fetch(Expression<Func<TemplateLog, bool>> expression)
         {
-            return TemplateLogRepository.Fetch(expression);
+            return _templateLogRepository.Fetch(expression);
         }
         public TemplateLog FetchFirst(Expression<Func<TemplateLog, bool>> expression)
         {
-            return TemplateLogRepository.FetchFirst(expression);
+            return _templateLogRepository.FetchFirst(expression);
         }
         public TemplateLog GetById(object id)
         {
-            return TemplateLogRepository.GetById(id);
+            return _templateLogRepository.GetById(id);
         }
         public ResponseModel Insert(TemplateLog templateLog)
         {
-            return TemplateLogRepository.Insert(templateLog);
+            return _templateLogRepository.Insert(templateLog);
         }
         public ResponseModel Update(TemplateLog templateLog)
         {
-            return TemplateLogRepository.Update(templateLog);
+            return _templateLogRepository.Update(templateLog);
         }
         public ResponseModel Delete(TemplateLog templateLog)
         {
-            return TemplateLogRepository.Delete(templateLog);
+            return _templateLogRepository.Delete(templateLog);
         }
         public ResponseModel Delete(object id)
         {
-            return TemplateLogRepository.Delete(id);
+            return _templateLogRepository.Delete(id);
         }
         public ResponseModel InactiveRecord(int id)
         {
-            return TemplateLogRepository.InactiveRecord(id);
+            return _templateLogRepository.InactiveRecord(id);
         }
         #endregion
 
@@ -94,7 +96,8 @@ namespace PX.Business.Services.TemplateLogs
         /// <returns></returns>
         public ResponseModel SaveTemplateLog(TemplateLogManageModel model)
         {
-            var template = TemplateRepository.GetById(model.TemplateId);
+            var templateRepository = new TemplateRepository();
+            var template = templateRepository.GetById(model.TemplateId);
             if (template != null)
             {
                 /*

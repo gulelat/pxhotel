@@ -19,44 +19,46 @@ namespace PX.Business.Services.RotatingImages
     {
         private readonly ILocalizedResourceServices _localizedResourceServices;
         private readonly IRotatingImageGroupServices _rotatingImageGroupServices;
+        private readonly RotatingImageRepository _rotatingImageRepository;
         public RotatingImageServices()
         {
             _localizedResourceServices = HostContainer.GetInstance<ILocalizedResourceServices>();
             _rotatingImageGroupServices = HostContainer.GetInstance<IRotatingImageGroupServices>();
+            _rotatingImageRepository = new RotatingImageRepository();
         }
 
         #region Base
         public IQueryable<RotatingImage> GetAll()
         {
-            return RotatingImageRepository.GetAll();
+            return _rotatingImageRepository.GetAll();
         }
         public IQueryable<RotatingImage> Fetch(Expression<Func<RotatingImage, bool>> expression)
         {
-            return RotatingImageRepository.Fetch(expression);
+            return _rotatingImageRepository.Fetch(expression);
         }
         public RotatingImage GetById(object id)
         {
-            return RotatingImageRepository.GetById(id);
+            return _rotatingImageRepository.GetById(id);
         }
         public ResponseModel Insert(RotatingImage rotatingImage)
         {
-            return RotatingImageRepository.Insert(rotatingImage);
+            return _rotatingImageRepository.Insert(rotatingImage);
         }
         public ResponseModel Update(RotatingImage rotatingImage)
         {
-            return RotatingImageRepository.Update(rotatingImage);
+            return _rotatingImageRepository.Update(rotatingImage);
         }
         public ResponseModel Delete(RotatingImage rotatingImage)
         {
-            return RotatingImageRepository.Delete(rotatingImage);
+            return _rotatingImageRepository.Delete(rotatingImage);
         }
         public ResponseModel Delete(object id)
         {
-            return RotatingImageRepository.Delete(id);
+            return _rotatingImageRepository.Delete(id);
         }
         public ResponseModel InactiveRecord(int id)
         {
-            return RotatingImageRepository.InactiveRecord(id);
+            return _rotatingImageRepository.InactiveRecord(id);
         }
         #endregion
 

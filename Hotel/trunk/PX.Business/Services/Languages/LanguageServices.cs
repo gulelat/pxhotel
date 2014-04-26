@@ -16,43 +16,49 @@ namespace PX.Business.Services.Languages
     public class LanguageServices : ILanguageServices
     {
         private readonly ILocalizedResourceServices _localizedResourceServices;
+        private readonly LanguageRepository _languageRepository;
         public LanguageServices()
         {
             _localizedResourceServices = HostContainer.GetInstance<ILocalizedResourceServices>();
+            _languageRepository = new LanguageRepository();
         }
 
         #region Base
         public IQueryable<Language> GetAll()
         {
-            return LanguageRepository.GetAll();
+            return _languageRepository.GetAll();
         }
         public IQueryable<Language> Fetch(Expression<Func<Language, bool>> expression)
         {
-            return LanguageRepository.Fetch(expression);
+            return _languageRepository.Fetch(expression);
+        }
+        public Language FetchFirst(Expression<Func<Language, bool>> expression)
+        {
+            return _languageRepository.FetchFirst(expression);
         }
         public Language GetById(object id)
         {
-            return LanguageRepository.GetById(id);
+            return _languageRepository.GetById(id);
         }
         public ResponseModel Insert(Language language)
         {
-            return LanguageRepository.Insert(language);
+            return _languageRepository.Insert(language);
         }
         public ResponseModel Update(Language language)
         {
-            return LanguageRepository.Update(language);
+            return _languageRepository.Update(language);
         }
         public ResponseModel Delete(Language language)
         {
-            return LanguageRepository.Delete(language);
+            return _languageRepository.Delete(language);
         }
         public ResponseModel Delete(object id)
         {
-            return LanguageRepository.Delete(id);
+            return _languageRepository.Delete(id);
         }
         public ResponseModel InactiveRecord(int id)
         {
-            return LanguageRepository.InactiveRecord(id);
+            return _languageRepository.InactiveRecord(id);
         }
         #endregion
 

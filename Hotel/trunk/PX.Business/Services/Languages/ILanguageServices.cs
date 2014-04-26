@@ -15,6 +15,7 @@ namespace PX.Business.Services.Languages
 
         IQueryable<Language> GetAll();
         IQueryable<Language> Fetch(Expression<Func<Language, bool>> expression);
+        Language FetchFirst(Expression<Func<Language, bool>> expression);
         Language GetById(object id);
         ResponseModel Insert(Language language);
         ResponseModel Update(Language language);

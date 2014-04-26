@@ -25,7 +25,7 @@ namespace PX.EntityModel.Repositories.RepositoryBase
         /// </summary>
         /// <param name="entity">the input entity</param>
         /// <returns></returns>
-        public static ResponseModel HierarchyInsert(T entity)
+        public ResponseModel HierarchyInsert(T entity)
         {
             entity.SetProperty(HierarchyPropertyName, string.Empty);
             var response = Insert(entity);
@@ -54,7 +54,7 @@ namespace PX.EntityModel.Repositories.RepositoryBase
         /// </summary>
         /// <param name="entity">the input entity</param>
         /// <returns></returns>
-        public static ResponseModel HierarchyUpdate(T entity)
+        public ResponseModel HierarchyUpdate(T entity)
         {
             var entry = DataContext.Entry(entity);
             if (!Equals(entry.OriginalValues[ParentIdPropertyName], entry.CurrentValues[ParentIdPropertyName]))
@@ -81,7 +81,7 @@ namespace PX.EntityModel.Repositories.RepositoryBase
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
-        public static ResponseModel HierarchyDelete(T entity)
+        public ResponseModel HierarchyDelete(T entity)
         {
             var response = new ResponseModel();
             return response;
@@ -92,7 +92,7 @@ namespace PX.EntityModel.Repositories.RepositoryBase
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
-        public static IQueryable<T> GetPossibleParents(T entity)
+        public IQueryable<T> GetPossibleParents(T entity)
         {
             if (entity == null)
             {
@@ -107,7 +107,7 @@ namespace PX.EntityModel.Repositories.RepositoryBase
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
-        public static IQueryable<T> GetHierarcies(T entity)
+        public IQueryable<T> GetHierarcies(T entity)
         {
             if (entity == null)
             {
@@ -124,7 +124,7 @@ namespace PX.EntityModel.Repositories.RepositoryBase
         /// <param name="levelPrefix">the prefix level</param>
         /// <param name="needReorder"> </param>
         /// <returns></returns>
-        public static List<SelectListItem> BuildSelectList(List<HierarchyModel> data, bool needReorder = true, string levelPrefix = Configurations.HierarchyLevelPrefix)
+        public List<SelectListItem> BuildSelectList(List<HierarchyModel> data, bool needReorder = true, string levelPrefix = Configurations.HierarchyLevelPrefix)
         {
             if (needReorder)
             {

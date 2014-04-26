@@ -1,8 +1,4 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using PX.Core.Framework.Mvc.Environments;
-using PX.Business.Services.Localizes;
-using PX.Business.Services.Templates;
+﻿using PX.Business.Services.Templates;
 using PX.EntityModel;
 
 namespace PX.Business.Models.Templates

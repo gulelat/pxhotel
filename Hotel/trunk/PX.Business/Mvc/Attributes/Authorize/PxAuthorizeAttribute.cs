@@ -86,7 +86,7 @@ namespace PX.Business.Mvc.Attributes.Authorize
                 return true;
             }
             var permissions = Permissions.Select(p => (int) p);
-            var userPermissions = userServices.GetUserPermissions();
+            var userPermissions = userServices.GetUserPermissions(currentUser.Id);
             return userPermissions.Intersect(permissions).Count() == Permissions.Count();
         }
     }

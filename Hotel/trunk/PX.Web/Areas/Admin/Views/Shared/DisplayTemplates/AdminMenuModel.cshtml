@@ -1,14 +1,9 @@
-﻿@using PX.Business.Services.Menus
-@using PX.Core.Framework.Mvc.Environments
-@model PX.EntityModel.Menu
+﻿@model PX.Business.Models.Menus.AdminMenuModel
 @{
     var hierarchy = (string)ViewBag.Hierarchy;
     var isSelected = hierarchy.Equals(Model.Hierarchy);
     var isOpen = hierarchy.Contains(Model.Hierarchy);
-
-    var menusServices = HostContainer.GetInstance<IMenuServices>();
-    var childMenus = menusServices.GetMenus(Model.Id);
-
+    
     var cClass = string.Empty;
     if (isSelected)
     {
@@ -18,8 +13,12 @@
     {
         cClass = "open active";
     }
-    var url = !string.IsNullOrEmpty(Model.Url) ? Model.Url : (string.IsNullOrEmpty(Model.Controller) ? "#" : Url.Action(Model.Action, Model.Controller));
-    if(url.Equals("#") && !childMenus.Any())
+    var url = !string.IsNullOrEmpty(Model.Url) ?
+        Model.Url
+        : (string.IsNullOrEmpty(Model.Controller) || string.IsNullOrEmpty(Model.Action) ?
+            "#"
+            : Url.Action(Model.Action, Model.Controller));
+    if(url.Equals("#") && !Model.ChildMenus.Any())
     {
         return;
     }
@@ -28,15 +27,15 @@
     <a href="@url" class="dropdown-toggle">
         <i class="@Model.MenuIcon"></i>
         <span class="menu-text">@Model.Name </span>
-        @if (childMenus.Any())
+        @if (Model.ChildMenus.Any())
         {
             <b class="arrow icon-angle-down"></b>
         }
     </a>
-    @if (childMenus.Any())
+    @if (Model.ChildMenus.Any())
     {
         <ul class="submenu" style="@(isOpen ? "display: block" : "")">
-            @foreach (var item in childMenus.OrderBy(m => m.RecordOrder))
+            @foreach (var item in Model.ChildMenus.OrderBy(m => m.RecordOrder))
             {
                 @Html.DisplayFor(m => item)             
             }

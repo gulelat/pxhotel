@@ -23,44 +23,46 @@ namespace PX.Business.Services.Settings
     {
         private readonly ILocalizedResourceServices _localizedResourceServices;
         private readonly ISettingTypeServices _settingTypeServices;
+        private readonly SiteSettingRepository _siteSettingRepository;
         public SettingServices()
         {
             _localizedResourceServices = HostContainer.GetInstance<ILocalizedResourceServices>();
             _settingTypeServices = HostContainer.GetInstance<ISettingTypeServices>();
+            _siteSettingRepository = new SiteSettingRepository();
         }
 
         #region Base
         public IQueryable<SiteSetting> GetAll()
         {
-            return SiteSettingRepository.GetAll();
+            return _siteSettingRepository.GetAll();
         }
         public IQueryable<SiteSetting> Fetch(Expression<Func<SiteSetting, bool>> expression)
         {
-            return SiteSettingRepository.Fetch(expression);
+            return _siteSettingRepository.Fetch(expression);
         }
         public SiteSetting GetById(object id)
         {
-            return SiteSettingRepository.GetById(id);
+            return _siteSettingRepository.GetById(id);
         }
         public ResponseModel Insert(SiteSetting siteSetting)
         {
-            return SiteSettingRepository.Insert(siteSetting);
+            return _siteSettingRepository.Insert(siteSetting);
         }
         public ResponseModel Update(SiteSetting siteSetting)
         {
-            return SiteSettingRepository.Update(siteSetting);
+            return _siteSettingRepository.Update(siteSetting);
         }
         public ResponseModel Delete(SiteSetting siteSetting)
         {
-            return SiteSettingRepository.Delete(siteSetting);
+            return _siteSettingRepository.Delete(siteSetting);
         }
         public ResponseModel Delete(object id)
         {
-            return SiteSettingRepository.Delete(id);
+            return _siteSettingRepository.Delete(id);
         }
         public ResponseModel InactiveRecord(int id)
         {
-            return SiteSettingRepository.InactiveRecord(id);
+            return _siteSettingRepository.InactiveRecord(id);
         }
         #endregion
 
@@ -211,7 +213,7 @@ namespace PX.Business.Services.Settings
 
         public ResponseModel SaveSettingManageModel(SiteSettingManageModel model, NameValueCollection data)
         {
-            var setting = SiteSettingRepository.GetByKey(model.SettingName);
+            var setting = _siteSettingRepository.GetByKey(model.SettingName);
             if (setting != null)
             {
                 setting.SettingTypeId = model.SettingTypeId;
@@ -254,7 +256,7 @@ namespace PX.Business.Services.Settings
         /// <returns></returns>
         public T GetSetting<T>(string key, T defaultValue)
         {
-            var setting = SiteSettingRepository.GetByKey(key);
+            var setting = _siteSettingRepository.GetByKey(key);
             if (setting == null)
             {
                 setting = new SiteSetting
@@ -276,7 +278,7 @@ namespace PX.Business.Services.Settings
         /// <returns></returns>
         public T GetSetting<T>(int id)
         {
-            var setting = SiteSettingRepository.GetById(id);
+            var setting = _siteSettingRepository.GetById(id);
             if (setting == null)
             {
                 return default(T);
@@ -292,7 +294,7 @@ namespace PX.Business.Services.Settings
         /// <returns></returns>
         public T GetSetting<T>(string key)
         {
-            var setting = SiteSettingRepository.GetByKey(key);
+            var setting = _siteSettingRepository.GetByKey(key);
             if (setting == null)
             {
                 return default(T);
