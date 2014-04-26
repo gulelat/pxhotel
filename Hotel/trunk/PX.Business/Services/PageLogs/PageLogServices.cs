@@ -17,43 +17,45 @@ namespace PX.Business.Services.PageLogs
     public class PageLogServices : IPageLogServices
     {
         private readonly ILocalizedResourceServices _localizedResourceServices;
+        private readonly PageLogRepository _pageLogRepository;
         public PageLogServices()
         {
             _localizedResourceServices = HostContainer.GetInstance<ILocalizedResourceServices>();
+            _pageLogRepository = new PageLogRepository();
         }
 
         #region Base
         public IQueryable<PageLog> GetAll()
         {
-            return PageLogRepository.GetAll();
+            return _pageLogRepository.GetAll();
         }
         public IQueryable<PageLog> Fetch(Expression<Func<PageLog, bool>> expression)
         {
-            return PageLogRepository.Fetch(expression);
+            return _pageLogRepository.Fetch(expression);
         }
         public PageLog FetchFirst(Expression<Func<PageLog, bool>> expression)
         {
-            return PageLogRepository.FetchFirst(expression);
+            return _pageLogRepository.FetchFirst(expression);
         }
         public PageLog GetById(object id)
         {
-            return PageLogRepository.GetById(id);
+            return _pageLogRepository.GetById(id);
         }
         public ResponseModel Insert(PageLog pageLog)
         {
-            return PageLogRepository.Insert(pageLog);
+            return _pageLogRepository.Insert(pageLog);
         }
         public ResponseModel Update(PageLog pageLog)
         {
-            return PageLogRepository.Update(pageLog);
+            return _pageLogRepository.Update(pageLog);
         }
         public ResponseModel Delete(PageLog pageLog)
         {
-            return PageLogRepository.Delete(pageLog);
+            return _pageLogRepository.Delete(pageLog);
         }
         public ResponseModel Delete(object id)
         {
-            return PageLogRepository.Delete(id);
+            return _pageLogRepository.Delete(id);
         }
         #endregion
 
@@ -92,7 +94,8 @@ namespace PX.Business.Services.PageLogs
         /// <returns></returns>
         public ResponseModel SavePageLog(PageLogManageModel model)
         {
-            var page = PageRepository.GetById(model.PageId);
+            var pageRepository = new PageRepository();
+            var page = pageRepository.GetById(model.PageId);
             if (page != null)
             {
                 /*

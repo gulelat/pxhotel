@@ -22,51 +22,57 @@ namespace PX.Business.Services.ClientMenus
     public class ClientMenuServices : IClientMenuServices
     {
         private readonly ILocalizedResourceServices _localizedResourceServices;
+        private readonly ClientMenuRepository _clientMenuRepository;
         public ClientMenuServices()
         {
             _localizedResourceServices = HostContainer.GetInstance<ILocalizedResourceServices>();
+            _clientMenuRepository = new ClientMenuRepository();
         }
 
         #region Base
         public IQueryable<ClientMenu> GetAll()
         {
-            return ClientMenuRepository.GetAll();
+            return _clientMenuRepository.GetAll();
         }
         public IQueryable<ClientMenu> Fetch(Expression<Func<ClientMenu, bool>> expression)
         {
-            return ClientMenuRepository.Fetch(expression);
+            return _clientMenuRepository.Fetch(expression);
+        }
+        public ClientMenu FetchFirst(Expression<Func<ClientMenu, bool>> expression)
+        {
+            return _clientMenuRepository.FetchFirst(expression);
         }
         public ClientMenu GetById(object id)
         {
-            return ClientMenuRepository.GetById(id);
+            return _clientMenuRepository.GetById(id);
         }
         public ResponseModel Insert(ClientMenu clientMenu)
         {
-            return ClientMenuRepository.Insert(clientMenu);
+            return _clientMenuRepository.Insert(clientMenu);
         }
         public ResponseModel Update(ClientMenu clientMenu)
         {
-            return ClientMenuRepository.Update(clientMenu);
+            return _clientMenuRepository.Update(clientMenu);
         }
         public ResponseModel HierarchyUpdate(ClientMenu clientMenu)
         {
-            return ClientMenuRepository.HierarchyUpdate(clientMenu);
+            return _clientMenuRepository.HierarchyUpdate(clientMenu);
         }
         public ResponseModel HierarchyInsert(ClientMenu clientMenu)
         {
-            return ClientMenuRepository.HierarchyInsert(clientMenu);
+            return _clientMenuRepository.HierarchyInsert(clientMenu);
         }
         public ResponseModel Delete(ClientMenu clientMenu)
         {
-            return ClientMenuRepository.Delete(clientMenu);
+            return _clientMenuRepository.Delete(clientMenu);
         }
         public ResponseModel Delete(object id)
         {
-            return ClientMenuRepository.Delete(id);
+            return _clientMenuRepository.Delete(id);
         }
         public ResponseModel InactiveRecord(int id)
         {
-            return ClientMenuRepository.InactiveRecord(id);
+            return _clientMenuRepository.InactiveRecord(id);
         }
         #endregion
 
@@ -174,6 +180,7 @@ namespace PX.Business.Services.ClientMenus
         {
             ClientMenu relativeMenu;
             ResponseModel response;
+            var pageRepository = new PageRepository();
             var clientMenu = GetById(model.Id);
 
             #region Edit ClientMenu
@@ -201,7 +208,7 @@ namespace PX.Business.Services.ClientMenus
                             string.Format(
                                 "Update ClientMenus set RecordOrder = RecordOrder + 1 Where {0} And RecordOrder >= {1}",
                                 relativeMenu.ParentId.HasValue ? string.Format(" ParentId = {0}", relativeMenu.ParentId) : "ParentId Is NULL", relativeMenu.RecordOrder);
-                        PageRepository.ExcuteSql(query);
+                        pageRepository.ExcuteSql(query);
                     }
                     else
                     {
@@ -210,20 +217,12 @@ namespace PX.Business.Services.ClientMenus
                             string.Format(
                                 "Update ClientMenus set RecordOrder = RecordOrder + 1 Where {0} And RecordOrder > {1}",
                                 relativeMenu.ParentId.HasValue ? string.Format(" ParentId = {0}", relativeMenu.ParentId) : "ParentId Is NULL", relativeMenu.RecordOrder);
-                        PageRepository.ExcuteSql(query);
+                        pageRepository.ExcuteSql(query);
                     }
                 }
 
-
-                if (clientMenu.ParentId != model.ParentId)
-                {
-                    clientMenu.ParentId = model.ParentId;
-                    response = HierarchyUpdate(clientMenu);
-                }
-                else
-                {
-                    response = Update(clientMenu);
-                }
+                clientMenu.ParentId = model.ParentId;
+                response = HierarchyUpdate(clientMenu);
 
                 return response.SetMessage(response.Success ?
                     _localizedResourceServices.T("AdminModule:::ClientMenus:::Messages:::UpdateSuccessfully:::Update client menu successfully.")
@@ -264,11 +263,13 @@ namespace PX.Business.Services.ClientMenus
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="page"></param>
+        /// <param name="pageId"></param>
         /// <returns></returns>
-        public ResponseModel SavePageToClientMenu(Page page)
+        public ResponseModel SavePageToClientMenu(int pageId)
         {
-            var clientMenu = page.ClientMenus.FirstOrDefault();
+            var pageRepository = new PageRepository();
+            var page = pageRepository.GetById(pageId);
+            var clientMenu = FetchFirst(c => c.PageId == pageId);
             if (clientMenu != null)
             {
                 clientMenu.Name = page.Title;
@@ -287,7 +288,7 @@ namespace PX.Business.Services.ClientMenus
                 clientMenu.EndPublishingDate = page.EndPublishingDate;
                 if(page.RecordOrder * 10 != clientMenu.RecordOrder)
                 {
-                    var relativePages = PageRepository.Fetch(p => (page.ParentId.HasValue ? p.ParentId == page.ParentId : !p.ParentId.HasValue) && p.Id != page.Id);
+                    var relativePages = pageRepository.Fetch(p => (page.ParentId.HasValue ? p.ParentId == page.ParentId : !p.ParentId.HasValue) && p.Id != page.Id);
                     foreach (var relativePage in relativePages)
                     {
                         var relativeMenu = relativePage.ClientMenus.First();
@@ -387,7 +388,7 @@ namespace PX.Business.Services.ClientMenus
             if (clientMenu != null)
             {
                 parentId = clientMenu.ParentId;
-                clientMenus = ClientMenuRepository.GetPossibleParents(clientMenu);
+                clientMenus = _clientMenuRepository.GetPossibleParents(clientMenu);
             }
             var data = clientMenus.Select(m => new HierarchyModel
                 {
@@ -397,7 +398,7 @@ namespace PX.Business.Services.ClientMenus
                     RecordOrder = m.RecordOrder,
                     Selected = parentId.HasValue && parentId.Value == m.Id
                 }).ToList();
-            return ClientMenuRepository.BuildSelectList(data);
+            return _clientMenuRepository.BuildSelectList(data);
         }
 
         /// <summary>

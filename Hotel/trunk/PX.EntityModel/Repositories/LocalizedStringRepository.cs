@@ -12,7 +12,7 @@ namespace PX.EntityModel.Repositories
         /// <param name="languageKey">the language</param>
         /// <param name="textKey">the text</param>
         /// <returns></returns>
-        public static LocalizedResource Get(string languageKey, string textKey)
+        public LocalizedResource Get(string languageKey, string textKey)
         {
             return FetchFirst(l => l.TextKey.Equals(textKey) && l.LanguageId.Equals(languageKey));
         }
@@ -25,7 +25,7 @@ namespace PX.EntityModel.Repositories
         /// <param name="overrideText">Text to override</param>
         /// <param name="languageKey">Language id for the text</param>
         /// <returns>True if successful, otherwise false</returns>
-        public static ResponseModel Insert(string textKey, string defaultText, string overrideText, string languageKey)
+        public ResponseModel Insert(string textKey, string defaultText, string overrideText, string languageKey)
         {
             var textToEdit = GetAll().FirstOrDefault(x => x.LanguageId.Equals(languageKey) && x.TextKey.Equals(textKey));
             if (textToEdit == null)

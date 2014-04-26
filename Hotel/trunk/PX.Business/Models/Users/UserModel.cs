@@ -19,7 +19,6 @@ namespace PX.Business.Models.Users
 
         public string Email { get; set; }
 
-        [Required]
         public string Password { get; set; }
 
         [Required]

@@ -25,7 +25,7 @@ namespace PX.Business.Models.Pages
                     Name = page.FileTemplate.Name,
                     Action = page.FileTemplate.Action,
                     Controller = page.FileTemplate.Controller,
-                    Parameters = string.Format("pageId={0}&{1}", page.Id, page.FileTemplate.Parameters),
+                    Parameters = string.Format("activePageId={0}&{1}", page.Id, page.FileTemplate.Parameters),
                 };
             }
             Id = page.Id;

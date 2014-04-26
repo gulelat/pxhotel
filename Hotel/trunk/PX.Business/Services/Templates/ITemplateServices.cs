@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using System.Linq.Expressions;
 using PX.Business.Models.Templates;
 using PX.Core.Framework.Enums;
 using PX.Core.Framework.Mvc.Models;
@@ -13,6 +15,8 @@ namespace PX.Business.Services.Templates
 
         IQueryable<Template> GetAll();
         Template GetById(object id);
+        IQueryable<Template> Fetch(Expression<Func<Template, bool>> expression);
+        Template FetchFirst(Expression<Func<Template, bool>> expression);
         ResponseModel Insert(Template template);
         ResponseModel Update(Template template);
         ResponseModel Delete(Template template);

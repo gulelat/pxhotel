@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using PX.Core.Framework.Mvc.Environments;
 using PX.Business.Services.Localizes;
 using PX.Business.Services.Templates;
+using RazorEngine.Templating;
 
 namespace PX.Business.Models.Templates
 {
@@ -32,6 +34,24 @@ namespace PX.Business.Models.Templates
             if (templateServices.IsTemplateNameExisted(Id, Name))
             {
                 yield return new ValidationResult(localizedResourceServices.T("AdminModule:::PageTemplates:::ValidationMessages:::ExistingName:::Name is existed."), new[]{ "Name"});
+            }
+            
+            var razorEngineServices = new TemplateService();
+            var type = Type.GetType(DataType);
+            if (type != null)
+            {
+                var instance = Activator.CreateInstance(type);
+                var razorValidMessage = string.Empty;
+                try
+                {
+                    razorEngineServices.Parse(Content, instance, null, null);
+                }
+                catch (Exception exception)
+                {
+                    razorValidMessage = exception.Message;
+                }
+                if (!string.IsNullOrEmpty(razorValidMessage))
+                    yield return new ValidationResult(string.Format(localizedResourceServices.T("AdminModule:::PageTemplates:::ValidationMessages:::TemplateCompileFailure:::Content is invalid. Error message: {0}."), razorValidMessage), new[] { "Content" });
             }
         }
         #endregion

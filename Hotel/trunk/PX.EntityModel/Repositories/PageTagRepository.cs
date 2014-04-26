@@ -5,7 +5,7 @@ namespace PX.EntityModel.Repositories
 {
     public class PageTagRepository : HierarchyRepository<PageTag>
     {
-        public static ResponseModel Delete(int pageId, int tagId)
+        public ResponseModel Delete(int pageId, int tagId)
         {
             var entity = FetchFirst(t => t.PageId == pageId && t.TagId == tagId);
             if(entity != null)

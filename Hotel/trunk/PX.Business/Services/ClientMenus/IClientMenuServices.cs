@@ -43,7 +43,7 @@ namespace PX.Business.Services.ClientMenus
 
         ResponseModel SaveClientMenuManageModel(ClientMenuManageModel model);
 
-        ResponseModel SavePageToClientMenu(Page page);
+        ResponseModel SavePageToClientMenu(int pageId);
 
         IEnumerable<SelectListItem> GetRelativeMenus(out int position, out int relativeClientMenuId,
                                                      int? clientMenuId = null, int? parentId = null);

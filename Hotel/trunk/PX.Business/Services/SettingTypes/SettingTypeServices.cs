@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Objects.SqlClient;
-using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Web.Mvc;
@@ -14,46 +13,47 @@ using PX.Core.Framework.Mvc.Models.JqGrid;
 using PX.EntityModel;
 using AutoMapper;
 using PX.EntityModel.Repositories;
-using PX.Core.Ultilities;
 
 namespace PX.Business.Services.SettingTypes
 {
     public class SettingTypeServices : ISettingTypeServices
     {
         private readonly ILocalizedResourceServices _localizedResourceServices;
+        private readonly SettingTypeRepository _settingTypeRepository;
         public SettingTypeServices()
         {
             _localizedResourceServices = HostContainer.GetInstance<ILocalizedResourceServices>();
+            _settingTypeRepository = new SettingTypeRepository();
         }
 
         #region Base
         public IQueryable<SettingType> GetAll()
         {
-            return SettingTypeRepository.GetAll();
+            return _settingTypeRepository.GetAll();
         }
         public IQueryable<SettingType> Fetch(Expression<Func<SettingType, bool>> expression)
         {
-            return SettingTypeRepository.Fetch(expression);
+            return _settingTypeRepository.Fetch(expression);
         }
         public SettingType GetById(object id)
         {
-            return SettingTypeRepository.GetById(id);
+            return _settingTypeRepository.GetById(id);
         }
         public ResponseModel Insert(SettingType settingType)
         {
-            return SettingTypeRepository.Insert(settingType);
+            return _settingTypeRepository.Insert(settingType);
         }
         public ResponseModel Update(SettingType settingType)
         {
-            return SettingTypeRepository.Update(settingType);
+            return _settingTypeRepository.Update(settingType);
         }
         public ResponseModel Delete(SettingType settingType)
         {
-            return SettingTypeRepository.Delete(settingType);
+            return _settingTypeRepository.Delete(settingType);
         }
         public ResponseModel Delete(object id)
         {
-            return SettingTypeRepository.Delete(id);
+            return _settingTypeRepository.Delete(id);
         }
         #endregion
 
@@ -98,7 +98,7 @@ namespace PX.Business.Services.SettingTypes
             switch (operation)
             {
                 case GridOperationEnums.Edit:
-                    settingType = SettingTypeRepository.GetById(model.Id);
+                    settingType = _settingTypeRepository.GetById(model.Id);
                     settingType.Name = model.Name;
                     settingType.RecordOrder = model.RecordOrder;
                     settingType.RecordActive = model.RecordActive;

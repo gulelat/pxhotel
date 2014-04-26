@@ -2,11 +2,12 @@
 using System.Web;
 using PX.Business.Models.CurlyBrackets;
 using PX.Business.Models.LocalizedResources;
+using PX.Core.Ultilities;
 using PX.EntityModel;
 
 namespace PX.Business.Mvc.WorkContext
 {
-    public static class WorkContext
+    public class WorkContext
     {
         /// <summary>
         /// Get current session cuture
@@ -15,6 +16,28 @@ namespace PX.Business.Mvc.WorkContext
         {
             get { return (string)HttpContext.Current.Session["CurrentCuture"]; }
             set { HttpContext.Current.Session["CurrentCuture"] = value; }
+        }
+
+        /// <summary>
+        /// Get current user stored in cuture
+        /// </summary>
+        public static int? ActivePageId
+        {
+            get
+            {
+                if (HttpContext.Current != null)
+                    return HttpContext.Current.Items["activePageId"].ToNullableInt();
+                return null;
+            }
+            set
+            {
+                if (HttpContext.Current.Items["activePageId"] == null)
+                    HttpContext.Current.Items.Add("activePageId", value);
+                else
+                {
+                    HttpContext.Current.Items["activePageId"] = value;
+                }
+            }
         }
 
         /// <summary>

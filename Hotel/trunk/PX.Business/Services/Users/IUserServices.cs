@@ -54,7 +54,7 @@ namespace PX.Business.Services.Users
 
         #endregion
 
-        List<int> GetUserPermissions(int? userId = null);
+        List<int> GetUserPermissions(int userId);
 
         User GetUser(string email);
 

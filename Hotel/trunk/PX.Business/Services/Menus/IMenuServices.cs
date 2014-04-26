@@ -36,7 +36,7 @@ namespace PX.Business.Services.Menus
 
         IEnumerable<SelectListItem> GetPossibleParents(int? id = null);
 
-        List<Menu> GetMenus(int? parentId = null);
+        List<AdminMenuModel> GetRenderMenus(int? parentId = null);
 
         BreadCrumbModel GetBreadCrumbs(string controller, string action);
     }

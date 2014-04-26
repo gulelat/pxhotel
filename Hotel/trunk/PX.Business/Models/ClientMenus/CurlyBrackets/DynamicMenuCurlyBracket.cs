@@ -6,6 +6,8 @@ namespace PX.Business.Models.ClientMenus.CurlyBrackets
     {
         public int Id { get; set; }
 
+        public int? PageId { get; set; }
+
         public string Name { get; set; }
 
         public string Url { get; set; }

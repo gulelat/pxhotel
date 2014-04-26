@@ -5,11 +5,10 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Web.Mvc;
 using PX.Business.Models.Menus;
-using PX.Business.Mvc.Attributes;
 using PX.Business.Mvc.Attributes.Authorize;
+using PX.Business.Mvc.WorkContext;
 using PX.Business.Services.Users;
 using PX.Core.Framework.Mvc.Environments;
-using PX.Business.Mvc.WorkContext;
 using PX.Business.Services.Localizes;
 using PX.Core.Framework.Enums;
 using PX.Core.Framework.Mvc.Models;
@@ -25,51 +24,53 @@ namespace PX.Business.Services.Menus
     public class MenuServices : IMenuServices
     {
         private readonly ILocalizedResourceServices _localizedResourceServices;
+        private readonly MenuRepository _menuRepository;
         public MenuServices()
         {
             _localizedResourceServices = HostContainer.GetInstance<ILocalizedResourceServices>();
+            _menuRepository = new MenuRepository();
         }
 
         #region Base
         public IQueryable<Menu> GetAll()
         {
-            return MenuRepository.GetAll();
+            return _menuRepository.GetAll();
         }
         public IQueryable<Menu> Fetch(Expression<Func<Menu, bool>> expression)
         {
-            return MenuRepository.Fetch(expression);
+            return _menuRepository.Fetch(expression);
         }
         public Menu GetById(object id)
         {
-            return MenuRepository.GetById(id);
+            return _menuRepository.GetById(id);
         }
         public ResponseModel Insert(Menu menu)
         {
-            return MenuRepository.Insert(menu);
+            return _menuRepository.Insert(menu);
         }
         public ResponseModel Update(Menu menu)
         {
-            return MenuRepository.Update(menu);
+            return _menuRepository.Update(menu);
         }
         public ResponseModel HierarchyUpdate(Menu menu)
         {
-            return MenuRepository.HierarchyUpdate(menu);
+            return _menuRepository.HierarchyUpdate(menu);
         }
         public ResponseModel HierarchyInsert(Menu menu)
         {
-            return MenuRepository.HierarchyInsert(menu);
+            return _menuRepository.HierarchyInsert(menu);
         }
         public ResponseModel Delete(Menu menu)
         {
-            return MenuRepository.Delete(menu);
+            return _menuRepository.Delete(menu);
         }
         public ResponseModel Delete(object id)
         {
-            return MenuRepository.Delete(id);
+            return _menuRepository.Delete(id);
         }
         public ResponseModel InactiveRecord(int id)
         {
-            return MenuRepository.InactiveRecord(id);
+            return _menuRepository.InactiveRecord(id);
         }
         #endregion
 
@@ -240,7 +241,7 @@ namespace PX.Business.Services.Menus
             if (menu != null)
             {
                 parentId = menu.ParentId;
-                menus = MenuRepository.GetPossibleParents(menu);
+                menus = _menuRepository.GetPossibleParents(menu);
             }
             var data = menus.Select(m => new HierarchyModel
                 {
@@ -250,23 +251,48 @@ namespace PX.Business.Services.Menus
                     RecordOrder = m.RecordOrder,
                     Selected = parentId.HasValue && parentId.Value == m.Id
                 }).ToList();
-            return MenuRepository.BuildSelectList(data);
+            return _menuRepository.BuildSelectList(data);
         }
 
-
         /// <summary>
-        /// Get menu by parent id
+        /// Get menus tree by parent id
         /// </summary>
         /// <param name="parentId">the parent id</param>
         /// <returns></returns>
-        public List<Menu> GetMenus(int? parentId = null)
+        public List<AdminMenuModel> GetRenderMenus(int? parentId)
         {
             var userServices = HostContainer.GetInstance<IUserServices>();
-            var userPermissions = userServices.GetUserPermissions();
+            var userPermissions = userServices.GetUserPermissions(WorkContext.CurrentUser.Id);
+            var menus = Fetch(m => m.Visible).ToList();
+            return GetRenderMenus(menus, userPermissions, parentId);
+        }
 
-            var memus = Fetch(m => m.Visible && parentId.HasValue ? m.ParentId == parentId : !m.ParentId.HasValue).ToList();
-
-            return memus.Where(m => string.IsNullOrEmpty(m.Permissions) || m.Permissions.Split(',').Select(int.Parse).Intersect(userPermissions).Count() == m.Permissions.Split(',').Count()).OrderBy(m => m.RecordOrder).ToList();
+        public List<AdminMenuModel> GetRenderMenus(List<Menu> data, List<int> userPermissions, int? parentId = null)
+        {
+            return
+                data.Where(
+                    m =>
+                        (string.IsNullOrEmpty(m.Permissions) ||
+                         m.Permissions.Split(',').Select(int.Parse).Intersect(userPermissions).Count() ==
+                         m.Permissions.Split(',').Count())
+                        && parentId.HasValue
+                            ? m.ParentId == parentId.Value
+                            : !m.ParentId.HasValue)
+                    .OrderBy(m => m.RecordOrder)
+                    .Select(m => new AdminMenuModel
+                    {
+                        Id = m.Id,
+                        Name = m.Name,
+                        Url = m.Url,
+                        Controller = m.Controller,
+                        Action = m.Action,
+                        MenuIcon = m.MenuIcon,
+                        Hierarchy = m.Hierarchy,
+                        RecordOrder = m.RecordOrder,
+                        ChildMenus = m.Id == parentId
+                            ? new List<AdminMenuModel>()
+                            : GetRenderMenus(data, userPermissions, m.Id)
+                    }).ToList();
         }
 
         /// <summary>

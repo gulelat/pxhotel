@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using PX.Business.Models.Testimonials;
+using PX.Business.Models.Testimonials.CurlyBrackets;
 using PX.Core.Framework.Enums;
 using PX.Core.Framework.Mvc.Models;
 using PX.Core.Framework.Mvc.Models.JqGrid;
@@ -33,6 +34,6 @@ namespace PX.Business.Services.Testimonials
 
         #endregion
 
-        List<TestimonialModel> GetRandom(int count);
+        List<TestimonialCurlyBracket> GetRandom(int count);
     }
 }

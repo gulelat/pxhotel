@@ -1,8 +1,6 @@
-﻿using System;
-using PX.Business.Models.Templates;
+﻿using System.Collections.Generic;
 using PX.Business.Models.Testimonials.CurlyBrackets;
 using PX.Business.Mvc.Attributes;
-using PX.Core.Configurations;
 using PX.Core.Framework.Mvc.Environments;
 using PX.Business.Services.CurlyBrackets.CurlyBracketResolver;
 using PX.Business.Services.Templates;
@@ -11,7 +9,7 @@ using PX.EntityModel;
 
 namespace PX.Business.Services.Testimonials.CurlyBracketResolvers
 {
-    [CurlyBracket(Name = "Testimonial", CurlyBracket = "Testimonial", Descrition = "Testimonial curly bracket", Type = typeof(TestimonialCurlyBracket))]
+    [CurlyBracket(Name = "Testimonial", CurlyBracket = "Testimonials", Descrition = "Testimonial curly bracket", Type = typeof(List<TestimonialCurlyBracket>))]
     public class TestimonialResolver : ICurlyBracketResolver
     {
         #region Private Properties
@@ -50,6 +48,8 @@ namespace PX.Business.Services.Testimonials.CurlyBracketResolvers
              * * Count
              * * Template
              */
+            Count = DefaultRandomNumber;
+            Template = DefaultTemplate;
 
             //Count
             if(parameters.Length > 1)
@@ -58,7 +58,7 @@ namespace PX.Business.Services.Testimonials.CurlyBracketResolvers
             }
 
             //Template
-            if (parameters.Length > 1)
+            if (parameters.Length > 2)
             {
                 Template = parameters[2];
             }
@@ -75,7 +75,7 @@ namespace PX.Business.Services.Testimonials.CurlyBracketResolvers
                 var template = new Template
                     {
                         Name = DefaultTemplate,
-                        DataType = typeof(TestimonialCurlyBracket).FullName,
+                        DataType = typeof(List<TestimonialCurlyBracket>).AssemblyQualifiedName,
                         Content = string.Empty,
                         IsDefaultTemplate = true
                     };

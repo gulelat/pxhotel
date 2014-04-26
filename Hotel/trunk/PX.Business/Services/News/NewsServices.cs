@@ -21,40 +21,42 @@ namespace PX.Business.Services.News
     {
         private readonly ILocalizedResourceServices _localizedResourceServices;
         private readonly INewsCategoryServices _newsCategoryServices;
+        private readonly NewsRepository _newsRepository;
         public NewsServices()
         {
             _localizedResourceServices = HostContainer.GetInstance<ILocalizedResourceServices>();
             _newsCategoryServices = HostContainer.GetInstance<INewsCategoryServices>();
+            _newsRepository = new NewsRepository();
         }
 
         #region Base
         public IQueryable<EntityModel.News> GetAll()
         {
-            return NewsRepository.GetAll();
+            return _newsRepository.GetAll();
         }
         public IQueryable<EntityModel.News> Fetch(Expression<Func<EntityModel.News, bool>> expression)
         {
-            return NewsRepository.Fetch(expression);
+            return _newsRepository.Fetch(expression);
         }
         public EntityModel.News GetById(object id)
         {
-            return NewsRepository.GetById(id);
+            return _newsRepository.GetById(id);
         }
         public ResponseModel Insert(EntityModel.News news)
         {
-            return NewsRepository.Insert(news);
+            return _newsRepository.Insert(news);
         }
         public ResponseModel Update(EntityModel.News news)
         {
-            return NewsRepository.Update(news);
+            return _newsRepository.Update(news);
         }
         public ResponseModel Delete(EntityModel.News news)
         {
-            return NewsRepository.Delete(news);
+            return _newsRepository.Delete(news);
         }
         public ResponseModel Delete(object id)
         {
-            return NewsRepository.Delete(id);
+            return _newsRepository.Delete(id);
         }
         #endregion
 
@@ -98,6 +100,7 @@ namespace PX.Business.Services.News
         /// <returns></returns>
         public ResponseModel ManageNews(GridOperationEnums operation, NewsModel model)
         {
+            var newsNewsCategoryRepository = new NewsNewsCategoryRepository();
             IEnumerable<int> categoryIds;
             ResponseModel response;
             Mapper.CreateMap<NewsModel, EntityModel.News>();
@@ -105,7 +108,7 @@ namespace PX.Business.Services.News
             switch (operation)
             {
                 case GridOperationEnums.Edit:
-                    news = NewsRepository.GetById(model.Id);
+                    news = _newsRepository.GetById(model.Id);
                     news.Title = model.Title;
                     news.Status = model.Status;
                     news.RecordOrder = model.RecordOrder;
@@ -117,7 +120,7 @@ namespace PX.Business.Services.News
                     {
                         if(!categoryIds.Contains(id))
                         {
-                            NewsNewsCategoryRepository.Delete(id);
+                            newsNewsCategoryRepository.Delete(id);
                         }
                     }
                     foreach (var categoryId in categoryIds)
@@ -129,7 +132,7 @@ namespace PX.Business.Services.News
                                 NewsId = news.Id,
                                 NewsCategoryId = categoryId
                             };
-                            NewsNewsCategoryRepository.Insert(newsNewsCategory);
+                            newsNewsCategoryRepository.Insert(newsNewsCategory);
                         }
                     }
                     return response.SetMessage(response.Success ?
@@ -150,7 +153,7 @@ namespace PX.Business.Services.News
                                 NewsId = news.Id,
                                 NewsCategoryId = categoryId
                             };
-                        NewsNewsCategoryRepository.Insert(newsNewsCategory);
+                        newsNewsCategoryRepository.Insert(newsNewsCategory);
                     }
                     return response.SetMessage(response.Success ?
                         _localizedResourceServices.T("AdminModule:::News:::Messages:::CreateSuccessfully:::Create news successfully.")
@@ -211,6 +214,7 @@ namespace PX.Business.Services.News
         /// <returns></returns>
         public ResponseModel SaveNewsManageModel(NewsManageModel model)
         {
+            var newsNewsCategoryRepository = new NewsNewsCategoryRepository();
             ResponseModel response;
             var news = GetById(model.Id);
 
@@ -228,7 +232,7 @@ namespace PX.Business.Services.News
                 {
                     if (!model.NewsCategoryIds.Contains(id))
                     {
-                        NewsNewsCategoryRepository.Delete(id);
+                        newsNewsCategoryRepository.Delete(id);
                     }
                 }
                 foreach (var categoryId in model.NewsCategoryIds)
@@ -240,7 +244,7 @@ namespace PX.Business.Services.News
                             NewsId = news.Id,
                             NewsCategoryId = categoryId
                         };
-                        NewsNewsCategoryRepository.Insert(newsNewsCategory);
+                        newsNewsCategoryRepository.Insert(newsNewsCategory);
                     }
                 }
 
@@ -269,7 +273,7 @@ namespace PX.Business.Services.News
                     NewsId = news.Id,
                     NewsCategoryId = categoryId
                 };
-                NewsNewsCategoryRepository.Insert(newsNewsCategory);
+                newsNewsCategoryRepository.Insert(newsNewsCategory);
             }
             return response.SetMessage(response.Success ?
                 _localizedResourceServices.T("AdminModule:::News:::Messages:::CreateSuccessfully:::Create news successfully.")

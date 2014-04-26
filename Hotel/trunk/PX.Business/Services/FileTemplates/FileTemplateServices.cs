@@ -22,10 +22,12 @@ namespace PX.Business.Services.FileTemplates
     {
         private readonly ILocalizedResourceServices _localizedResourceServices;
         private readonly IPageTemplateServices _pageTemplateServices;
+        private readonly FileTemplateRepository _fileTemplateRepository;
         public FileTemplateServices()
         {
             _localizedResourceServices = HostContainer.GetInstance<ILocalizedResourceServices>();
             _pageTemplateServices = HostContainer.GetInstance<IPageTemplateServices>();
+            _fileTemplateRepository = new FileTemplateRepository();
         }
 
         #region Initialize
@@ -39,47 +41,47 @@ namespace PX.Business.Services.FileTemplates
         #region Base
         public IQueryable<FileTemplate> GetAll()
         {
-            return FileTemplateRepository.GetAll();
+            return _fileTemplateRepository.GetAll();
         }
         public IQueryable<FileTemplate> Fetch(Expression<Func<FileTemplate, bool>> expression)
         {
-            return FileTemplateRepository.Fetch(expression);
+            return _fileTemplateRepository.Fetch(expression);
         }
         public FileTemplate FetchFirst(Expression<Func<FileTemplate, bool>> expression)
         {
-            return FileTemplateRepository.FetchFirst(expression);
+            return _fileTemplateRepository.FetchFirst(expression);
         }
         public FileTemplate GetById(object id)
         {
-            return FileTemplateRepository.GetById(id);
+            return _fileTemplateRepository.GetById(id);
         }
         public ResponseModel Insert(FileTemplate fileTemplate)
         {
-            return FileTemplateRepository.Insert(fileTemplate);
+            return _fileTemplateRepository.Insert(fileTemplate);
         }
         public ResponseModel Update(FileTemplate fileTemplate)
         {
-            return FileTemplateRepository.Update(fileTemplate);
+            return _fileTemplateRepository.Update(fileTemplate);
         }
         public ResponseModel HierarchyUpdate(FileTemplate fileTemplate)
         {
-            return FileTemplateRepository.HierarchyUpdate(fileTemplate);
+            return _fileTemplateRepository.HierarchyUpdate(fileTemplate);
         }
         public ResponseModel HierarchyInsert(FileTemplate fileTemplate)
         {
-            return FileTemplateRepository.HierarchyInsert(fileTemplate);
+            return _fileTemplateRepository.HierarchyInsert(fileTemplate);
         }
         public ResponseModel Delete(FileTemplate fileTemplate)
         {
-            return FileTemplateRepository.Delete(fileTemplate);
+            return _fileTemplateRepository.Delete(fileTemplate);
         }
         public ResponseModel Delete(object id)
         {
-            return FileTemplateRepository.Delete(id);
+            return _fileTemplateRepository.Delete(id);
         }
         public ResponseModel InactiveRecord(int id)
         {
-            return FileTemplateRepository.InactiveRecord(id);
+            return _fileTemplateRepository.InactiveRecord(id);
         }
         #endregion
 
@@ -245,7 +247,7 @@ namespace PX.Business.Services.FileTemplates
             if (template != null)
             {
                 parentId = template.ParentId;
-                fileTemplates = FileTemplateRepository.GetPossibleParents(template);
+                fileTemplates = _fileTemplateRepository.GetPossibleParents(template);
             }
             var data = fileTemplates.Select(m => new HierarchyModel
             {
@@ -255,7 +257,7 @@ namespace PX.Business.Services.FileTemplates
                 RecordOrder = m.RecordOrder,
                 Selected = parentId.HasValue && parentId.Value == m.Id
             }).ToList();
-            return FileTemplateRepository.BuildSelectList(data, false);
+            return _fileTemplateRepository.BuildSelectList(data, false);
         }
 
         /// <summary>
@@ -264,9 +266,10 @@ namespace PX.Business.Services.FileTemplates
         /// <returns></returns>
         public IEnumerable<SelectListItem> GetFileTemplateSelectList(int? id = null)
         {
+            var pageRepository= new PageRepository();
             var fileTemplates = GetAll();
             int? templateId = null;
-            var file = PageRepository.GetById(id);
+            var file = pageRepository.GetById(id);
             if (file != null)
             {
                 templateId = file.FileTemplateId;
@@ -279,7 +282,7 @@ namespace PX.Business.Services.FileTemplates
                 RecordOrder = m.RecordOrder,
                 Selected = templateId.HasValue && templateId.Value == m.Id
             }).ToList();
-            return FileTemplateRepository.BuildSelectList(data);
+            return _fileTemplateRepository.BuildSelectList(data);
         }
 
         /// <summary>

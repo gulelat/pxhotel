@@ -380,12 +380,6 @@
     <Content Include="Content\FrontEnd\img\galleryImg8.jpg" />
     <Content Include="Content\FrontEnd\img\hotelLogo.png" />
     <Content Include="Content\FrontEnd\img\hotelLogoTest.png" />
-    <Content Include="Content\FrontEnd\img\hotelRoom1.jpg" />
-    <Content Include="Content\FrontEnd\img\hotelRoom2.jpg" />
-    <Content Include="Content\FrontEnd\img\hotelRoom3.jpg" />
-    <Content Include="Content\FrontEnd\img\hotelRoom4.jpg" />
-    <Content Include="Content\FrontEnd\img\hotelRoom5.jpg" />
-    <Content Include="Content\FrontEnd\img\hotelRoom6.jpg" />
     <Content Include="Content\FrontEnd\img\hotelWelcome.jpg" />
     <Content Include="Content\FrontEnd\img\lineDivider.png" />
     <Content Include="Content\FrontEnd\img\logo.png" />
@@ -414,7 +408,6 @@
     <Content Include="Content\FrontEnd\img\squareImg4.jpg" />
     <Content Include="Content\FrontEnd\img\squareImg5.jpg" />
     <Content Include="Content\FrontEnd\img\support1.png" />
-    <Content Include="Content\FrontEnd\img\testimonialImg1.jpg" />
     <Content Include="Content\fancybox\blank.gif" />
     <Content Include="Content\fancybox\fancybox_loading%402x.gif" />
     <Content Include="Content\fancybox\fancybox_loading.gif" />
@@ -715,7 +708,7 @@
     <Content Include="Areas\Admin\Views\Account\Login.cshtml" />
     <Content Include="Areas\Admin\Views\Menus\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_Breadcrumb.cshtml" />
-    <Content Include="Areas\Admin\Views\Shared\DisplayTemplates\Menu.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\DisplayTemplates\AdminMenuModel.cshtml" />
     <Content Include="Areas\Admin\Views\UserGroups\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Users\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Users\Profiles.cshtml" />

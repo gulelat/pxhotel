@@ -1,4 +1,5 @@
 ﻿using PX.Business.Models.Pages;
+using PX.Business.Models.RotatingImageGroups;
 using PX.Business.Mvc.Attributes;
 using PX.Business.Services.CurlyBrackets.CurlyBracketResolver;
 using PX.Business.Services.Localizes;
@@ -7,27 +8,27 @@ using PX.Core.Framework.Mvc.Environments;
 using PX.Core.Ultilities;
 using PX.EntityModel;
 
-namespace PX.Business.Services.Pages.CurlyBracketResolvers
+namespace PX.Business.Services.RotatingImageGroups.CurlyBracketResolvers
 {
-    [CurlyBracket(Name = "PageContent", CurlyBracket = "PageContent", Descrition = "Load content of page", Type = typeof(PageRenderModel))]
-    public class PageResolver : ICurlyBracketResolver
+    [CurlyBracket(Name = "Rotating Images", CurlyBracket = "RotatingImages", Descrition = "Load rotating images", Type = typeof(GroupGalleryModel))]
+    public class RotatingImageResolver : ICurlyBracketResolver
     {
         #region Private Properties
         private readonly ITemplateServices _templateServices;
-        private readonly IPageServices _pageServices;
+        private readonly IRotatingImageGroupServices _rotatingImageGroupServices;
         private readonly ILocalizedResourceServices _localizedResourceServices;
 
         #endregion
 
         public string DefaultTemplate
         {
-            get { return "Default.GetPageContentTemplate"; }
+            get { return "Default.RotatingImagesTemplate"; }
         }
 
         #region Constructor
-        public PageResolver()
+        public RotatingImageResolver()
         {
-            _pageServices = HostContainer.GetInstance<IPageServices>();
+            _rotatingImageGroupServices = HostContainer.GetInstance<IRotatingImageGroupServices>();
             _templateServices = HostContainer.GetInstance<ITemplateServices>();
             _localizedResourceServices = HostContainer.GetInstance<ILocalizedResourceServices>();
 
@@ -37,7 +38,7 @@ namespace PX.Business.Services.Pages.CurlyBracketResolvers
 
         #region Parse Params
 
-        private int PageId { get; set; }
+        private int GroupId { get; set; }
 
         private string Template { get; set; }
 
@@ -45,14 +46,14 @@ namespace PX.Business.Services.Pages.CurlyBracketResolvers
         {
             /*
              * Params:
-             * * Page Id
+             * * Group Id
              * * Template
              */
 
             //Count
             if (parameters.Length > 1)
             {
-                PageId = parameters[1].ToInt();
+                GroupId = parameters[1].ToInt(0);
             }
 
             //Template
@@ -73,7 +74,7 @@ namespace PX.Business.Services.Pages.CurlyBracketResolvers
                 var template = new Template
                 {
                     Name = DefaultTemplate,
-                    DataType = typeof(PageRenderModel).AssemblyQualifiedName,
+                    DataType = typeof(GroupGalleryModel).AssemblyQualifiedName,
                     Content = string.Empty,
                     IsDefaultTemplate = true
                 };
@@ -90,18 +91,16 @@ namespace PX.Business.Services.Pages.CurlyBracketResolvers
         {
             ParseParams(parameters);
 
-            var page = _pageServices.GetById(PageId);
+            var model = _rotatingImageGroupServices.GetGroupGallery(GroupId);
 
-            if(page == null)
+            if (model == null)
             {
-                return _localizedResourceServices.T("CurlyBracketsRendering:::Messages:::GetPageContentIdNotFounded:::Page id is invalid. Please check the data again.");
+                return _localizedResourceServices.T("CurlyBracketsRendering:::RotatingImages:::Messages:::GroupNotFounded:::Group id is invalid. Please check the data again.");
             }
-
-            var pageRenderModel = new PageRenderModel(page);
 
             var template = _templateServices.GetTemplateByName(Template) ??
                            _templateServices.GetTemplateByName(DefaultTemplate);
-            return _templateServices.RenderTemplate(template.Content, pageRenderModel, template.CacheName);
+            return _templateServices.RenderTemplate(template.Content, model, template.CacheName);
         }
     }
 }

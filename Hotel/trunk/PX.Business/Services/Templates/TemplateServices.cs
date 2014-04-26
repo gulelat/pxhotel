@@ -24,23 +24,19 @@ namespace PX.Business.Services.Templates
 {
     public class TemplateServices : ITemplateServices
     {
-        #region Private Properties
         private readonly ILocalizedResourceServices _localizedResourceServices;
         private readonly ITemplateLogServices _templateLogServices;
         private readonly ICurlyBracketServices _curlyBracketServices;
         private readonly ISettingServices _settingServices;
-
-        #endregion
-
-        #region Constructor
+        private readonly TemplateRepository _templateRepository;
         public TemplateServices()
         {
             _localizedResourceServices = HostContainer.GetInstance<ILocalizedResourceServices>();
             _templateLogServices = HostContainer.GetInstance<ITemplateLogServices>();
             _curlyBracketServices = HostContainer.GetInstance<ICurlyBracketServices>();
             _settingServices = HostContainer.GetInstance<ISettingServices>();
+            _templateRepository = new TemplateRepository();
         }
-        #endregion
 
         #region Initialize
         /// <summary>
@@ -61,31 +57,35 @@ namespace PX.Business.Services.Templates
         #region Base
         public IQueryable<Template> GetAll()
         {
-            return TemplateRepository.GetAll();
+            return _templateRepository.GetAll();
         }
         public IQueryable<Template> Fetch(Expression<Func<Template, bool>> expression)
         {
-            return TemplateRepository.Fetch(expression);
+            return _templateRepository.Fetch(expression);
+        }
+        public Template FetchFirst(Expression<Func<Template, bool>> expression)
+        {
+            return _templateRepository.FetchFirst(expression);
         }
         public Template GetById(object id)
         {
-            return TemplateRepository.GetById(id);
+            return _templateRepository.GetById(id);
         }
         public ResponseModel Insert(Template template)
         {
-            return TemplateRepository.Insert(template);
+            return _templateRepository.Insert(template);
         }
         public ResponseModel Update(Template template)
         {
-            return TemplateRepository.Update(template);
+            return _templateRepository.Update(template);
         }
         public ResponseModel Delete(Template template)
         {
-            return TemplateRepository.Delete(template);
+            return _templateRepository.Delete(template);
         }
         public ResponseModel Delete(object id)
         {
-            return TemplateRepository.Delete(id);
+            return _templateRepository.Delete(id);
         }
         #endregion
 
@@ -131,7 +131,7 @@ namespace PX.Business.Services.Templates
             switch (operation)
             {
                 case GridOperationEnums.Edit:
-                    template = TemplateRepository.GetById(model.Id);
+                    template = _templateRepository.GetById(model.Id);
                     template.Name = model.Name;
                     template.DataType = model.DataType;
                     template.RecordOrder = model.RecordOrder;
@@ -172,7 +172,7 @@ namespace PX.Business.Services.Templates
         /// <returns></returns>
         public TemplateRenderModel GetTemplateByName(string name)
         {
-            var template = TemplateRepository.FetchFirst(t => t.Name.Equals(name));
+            var template = _templateRepository.FetchFirst(t => t.Name.Equals(name));
             if (template != null)
             {
                 return new TemplateRenderModel(template);
@@ -229,7 +229,6 @@ namespace PX.Business.Services.Templates
                 var log = new TemplateLogManageModel(template);
                 template.Name = model.Name;
                 template.Content = model.Content;
-                template.DataType = model.DataType;
 
                 response = Update(template);
                 if (response.Success)

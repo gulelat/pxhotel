@@ -16,39 +16,41 @@ namespace PX.Business.Services.Tags
     public class TagServices : ITagServices
     {
         private readonly ILocalizedResourceServices _localizedResourceServices;
+        private readonly TagRepository _tagRepository;
         public TagServices()
         {
             _localizedResourceServices = HostContainer.GetInstance<ILocalizedResourceServices>();
+            _tagRepository = new TagRepository();
         }
 
         #region Base
         public IQueryable<Tag> GetAll()
         {
-            return TagRepository.GetAll();
+            return _tagRepository.GetAll();
         }
         public IQueryable<Tag> Fetch(Expression<Func<Tag, bool>> expression)
         {
-            return TagRepository.Fetch(expression);
+            return _tagRepository.Fetch(expression);
         }
         public Tag GetById(object id)
         {
-            return TagRepository.GetById(id);
+            return _tagRepository.GetById(id);
         }
         public ResponseModel Insert(Tag tag)
         {
-            return TagRepository.Insert(tag);
+            return _tagRepository.Insert(tag);
         }
         public ResponseModel Update(Tag tag)
         {
-            return TagRepository.Update(tag);
+            return _tagRepository.Update(tag);
         }
         public ResponseModel Delete(Tag tag)
         {
-            return TagRepository.Delete(tag);
+            return _tagRepository.Delete(tag);
         }
         public ResponseModel Delete(object id)
         {
-            return TagRepository.Delete(id);
+            return _tagRepository.Delete(id);
         }
         #endregion
 
@@ -93,7 +95,7 @@ namespace PX.Business.Services.Tags
             switch (operation)
             {
                 case GridOperationEnums.Edit:
-                    tag = TagRepository.GetById(model.Id);
+                    tag = _tagRepository.GetById(model.Id);
                     tag.Name = model.Name;
                     tag.RecordOrder = model.RecordOrder;
                     tag.RecordActive = model.RecordActive;

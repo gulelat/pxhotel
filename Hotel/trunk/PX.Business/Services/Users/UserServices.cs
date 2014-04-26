@@ -29,41 +29,42 @@ namespace PX.Business.Services.Users
     {
         private readonly ILocalizedResourceServices _localizedResourceServices;
         private readonly IUserGroupServices _userGroupServices;
-
+        private readonly UserRepository _userRepository;
         public UserServices()
         {
             _localizedResourceServices = HostContainer.GetInstance<ILocalizedResourceServices>();
             _userGroupServices = HostContainer.GetInstance<IUserGroupServices>();
+            _userRepository = new UserRepository();
         }
 
         #region Base
         public IQueryable<User> GetAll()
         {
-            return UserRepository.GetAll();
+            return _userRepository.GetAll();
         }
         public IQueryable<User> Fetch(Expression<Func<User, bool>> expression)
         {
-            return UserRepository.Fetch(expression);
+            return _userRepository.Fetch(expression);
         }
         public User GetById(object id)
         {
-            return UserRepository.GetById(id);
+            return _userRepository.GetById(id);
         }
         public ResponseModel Insert(User user)
         {
-            return UserRepository.Insert(user);
+            return _userRepository.Insert(user);
         }
         public ResponseModel Update(User user)
         {
-            return UserRepository.Update(user);
+            return _userRepository.Update(user);
         }
         public ResponseModel Delete(User user)
         {
-            return UserRepository.Delete(user);
+            return _userRepository.Delete(user);
         }
         public ResponseModel Delete(object id)
         {
-            return UserRepository.Delete(id);
+            return _userRepository.Delete(id);
         }
         #endregion
 
@@ -200,6 +201,7 @@ namespace PX.Business.Services.Users
 
         public ResponseModel SaveUserManageModel(UserManageModel model, HttpPostedFileBase avatar)
         {
+            var userInGroupRepository = new UserInGroupRepository();
             ResponseModel response;
             var user = GetById(model.Id);
             #region Edit News
@@ -225,7 +227,7 @@ namespace PX.Business.Services.Users
                 {
                     if (!model.UserGroupIds.Contains(id))
                     {
-                        UserInGroupRepository.Delete(id);
+                        userInGroupRepository.Delete(id);
                     }
                 }
                 foreach (var groupId in model.UserGroupIds)
@@ -237,7 +239,7 @@ namespace PX.Business.Services.Users
                             UserId = user.Id,
                             UserGroupId = groupId
                         };
-                        UserInGroupRepository.Insert(userInGroup);
+                        userInGroupRepository.Insert(userInGroup);
                     }
                 }
 
@@ -286,7 +288,7 @@ namespace PX.Business.Services.Users
                     UserId = user.Id,
                     UserGroupId = groupId
                 };
-                UserInGroupRepository.Insert(userInGroup);
+                userInGroupRepository.Insert(userInGroup);
             }
             if (response.Success && avatar != null)
             {
@@ -401,9 +403,9 @@ namespace PX.Business.Services.Users
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
-        public List<int> GetUserPermissions(int? userId = null)
+        public List<int> GetUserPermissions(int userId)
         {
-            var user = userId.HasValue ? GetById(userId) : WorkContext.CurrentUser;
+            var user = GetById(userId);
             if (user == null)
                 return new List<int>();
 

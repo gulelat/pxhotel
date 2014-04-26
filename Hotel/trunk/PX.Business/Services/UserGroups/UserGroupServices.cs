@@ -20,39 +20,43 @@ namespace PX.Business.Services.UserGroups
     public class UserGroupServices : IUserGroupServices
     {
         private readonly ILocalizedResourceServices _localizedResourceServices;
+        private readonly UserGroupRepository _userGroupRepository;
+        private readonly GroupPermissionRepository _groupPermissionRepository;
         public UserGroupServices()
         {
+            _userGroupRepository = new UserGroupRepository();
+            _groupPermissionRepository = new GroupPermissionRepository();
             _localizedResourceServices = HostContainer.GetInstance<ILocalizedResourceServices>();
         }
 
         #region Base
         public IQueryable<UserGroup> GetAll()
         {
-            return UserGroupRepository.GetAll();
+            return _userGroupRepository.GetAll();
         }
         public IQueryable<UserGroup> Fetch(Expression<Func<UserGroup, bool>> expression)
         {
-            return UserGroupRepository.Fetch(expression);
+            return _userGroupRepository.Fetch(expression);
         }
         public UserGroup GetById(object id)
         {
-            return UserGroupRepository.GetById(id);
+            return _userGroupRepository.GetById(id);
         }
         public ResponseModel Insert(UserGroup userGroup)
         {
-            return UserGroupRepository.Insert(userGroup);
+            return _userGroupRepository.Insert(userGroup);
         }
         public ResponseModel Update(UserGroup userGroup)
         {
-            return UserGroupRepository.Update(userGroup);
+            return _userGroupRepository.Update(userGroup);
         }
         public ResponseModel Delete(UserGroup userGroup)
         {
-            return UserGroupRepository.Delete(userGroup);
+            return _userGroupRepository.Delete(userGroup);
         }
         public ResponseModel Delete(object id)
         {
-            return UserGroupRepository.Delete(id);
+            return _userGroupRepository.Delete(id);
         }
         #endregion
 
@@ -98,7 +102,7 @@ namespace PX.Business.Services.UserGroups
             switch (operation)
             {
                 case GridOperationEnums.Edit:
-                    userGroup = UserGroupRepository.GetById(model.Id);
+                    userGroup = _userGroupRepository.GetById(model.Id);
                     userGroup.Name = model.Name;
                     userGroup.Description = model.Description;
                     userGroup.RecordOrder = model.RecordOrder;
@@ -157,7 +161,7 @@ namespace PX.Business.Services.UserGroups
 
             var permissionIds = Enum.GetValues(typeof(PermissionEnums)).Cast<int>();
 
-            var currentUserPermission = GroupPermissionRepository.GetByGroupId(id).ToList();
+            var currentUserPermission = _groupPermissionRepository.GetByGroupId(id).ToList();
 
             foreach (var permissionId in permissionIds)
             {
@@ -169,12 +173,12 @@ namespace PX.Business.Services.UserGroups
                         UserGroupId = id,
                         HasPermission = false
                     };
-                    GroupPermissionRepository.Insert(groupPermission);
+                    _groupPermissionRepository.Insert(groupPermission);
                 }
             }
 
             var userPermissions =
-                GroupPermissionRepository.GetByGroupId(id).ToList().Select(p => new GroupPermissionItem
+                _groupPermissionRepository.GetByGroupId(id).ToList().Select(p => new GroupPermissionItem
                     {
                         GroupPermissionId = p.Id,
                         PermissionName = ((PermissionEnums)p.PermissionId).GetEnumDescription(),
@@ -195,7 +199,7 @@ namespace PX.Business.Services.UserGroups
         /// <returns></returns>
         public ResponseModel SavePermissions(List<int> permissionIds, int userGroupId)
         {
-            var currentUserPermission = GroupPermissionRepository.GetByGroupId(userGroupId).ToList();
+            var currentUserPermission = _groupPermissionRepository.GetByGroupId(userGroupId).ToList();
             foreach (var groupPermission in currentUserPermission)
             {
                 if (permissionIds.Contains(groupPermission.Id))
@@ -203,13 +207,13 @@ namespace PX.Business.Services.UserGroups
                     if (!groupPermission.HasPermission)
                     {
                         groupPermission.HasPermission = true;
-                        GroupPermissionRepository.Update(groupPermission);
+                        _groupPermissionRepository.Update(groupPermission);
                     }
                 }
                 else if (groupPermission.HasPermission)
                 {
                     groupPermission.HasPermission = false;
-                    GroupPermissionRepository.Update(groupPermission);
+                    _groupPermissionRepository.Update(groupPermission);
                 }
             }
             return new ResponseModel

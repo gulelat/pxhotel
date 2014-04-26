@@ -33,11 +33,13 @@ namespace PX.Business.Services.PageTemplates
         private readonly ILocalizedResourceServices _localizedResourceServices;
         private readonly IPageTemplateLogServices _pageTemplateLogServices;
         private readonly ISettingServices _settingServices;
+        private readonly PageTemplateRepository _pageTemplateRepository;
         public PageTemplateServices()
         {
             _localizedResourceServices = HostContainer.GetInstance<ILocalizedResourceServices>();
             _pageTemplateLogServices = HostContainer.GetInstance<IPageTemplateLogServices>();
             _settingServices = HostContainer.GetInstance<ISettingServices>();
+            _pageTemplateRepository = new PageTemplateRepository();
         }
 
         #region Initialize
@@ -51,47 +53,47 @@ namespace PX.Business.Services.PageTemplates
         #region Base
         public IQueryable<PageTemplate> GetAll()
         {
-            return PageTemplateRepository.GetAll();
+            return _pageTemplateRepository.GetAll();
         }
         public IQueryable<PageTemplate> Fetch(Expression<Func<PageTemplate, bool>> expression)
         {
-            return PageTemplateRepository.Fetch(expression);
+            return _pageTemplateRepository.Fetch(expression);
         }
         public PageTemplate FetchFirst(Expression<Func<PageTemplate, bool>> expression)
         {
-            return PageTemplateRepository.FetchFirst(expression);
+            return _pageTemplateRepository.FetchFirst(expression);
         }
         public PageTemplate GetById(object id)
         {
-            return PageTemplateRepository.GetById(id);
+            return _pageTemplateRepository.GetById(id);
         }
         public ResponseModel Insert(PageTemplate pageTemplate)
         {
-            return PageTemplateRepository.Insert(pageTemplate);
+            return _pageTemplateRepository.Insert(pageTemplate);
         }
         public ResponseModel Update(PageTemplate pageTemplate)
         {
-            return PageTemplateRepository.Update(pageTemplate);
+            return _pageTemplateRepository.Update(pageTemplate);
         }
         public ResponseModel HierarchyUpdate(PageTemplate pageTemplate)
         {
-            return PageTemplateRepository.HierarchyUpdate(pageTemplate);
+            return _pageTemplateRepository.HierarchyUpdate(pageTemplate);
         }
         public ResponseModel HierarchyInsert(PageTemplate pageTemplate)
         {
-            return PageTemplateRepository.HierarchyInsert(pageTemplate);
+            return _pageTemplateRepository.HierarchyInsert(pageTemplate);
         }
         public ResponseModel Delete(PageTemplate pageTemplate)
         {
-            return PageTemplateRepository.Delete(pageTemplate);
+            return _pageTemplateRepository.Delete(pageTemplate);
         }
         public ResponseModel Delete(object id)
         {
-            return PageTemplateRepository.Delete(id);
+            return _pageTemplateRepository.Delete(id);
         }
         public ResponseModel InactiveRecord(int id)
         {
-            return PageTemplateRepository.InactiveRecord(id);
+            return _pageTemplateRepository.InactiveRecord(id);
         }
         #endregion
 
@@ -190,7 +192,8 @@ namespace PX.Business.Services.PageTemplates
         /// <returns></returns>
         public PageTemplateManageModel GetTemplateManageModelByLogId(int? id = null)
         {
-            var log = PageTemplateLogRepository.GetById(id);
+            var pageTemplateLogRepository = new PageTemplateLogRepository();
+            var log = pageTemplateLogRepository.GetById(id);
             return log != null ? new PageTemplateManageModel(log) : new PageTemplateManageModel();
         }
 
@@ -213,7 +216,7 @@ namespace PX.Business.Services.PageTemplates
                 }
                 else if (!pageTemplate.Content.Equals(model.Content) || pageTemplate.ParentId != model.ParentId)
                 {
-                    childTemplates = PageTemplateRepository.GetHierarcies(pageTemplate).ToList();
+                    childTemplates = _pageTemplateRepository.GetHierarcies(pageTemplate).ToList();
                 }
                 if (childTemplates.Any())
                 {
@@ -291,7 +294,7 @@ namespace PX.Business.Services.PageTemplates
             if (template != null)
             {
                 parentId = template.ParentId;
-                pageTemplates = PageTemplateRepository.GetPossibleParents(template);
+                pageTemplates = _pageTemplateRepository.GetPossibleParents(template);
             }
             var data = pageTemplates.Select(m => new HierarchyModel
             {
@@ -301,7 +304,7 @@ namespace PX.Business.Services.PageTemplates
                 RecordOrder = m.RecordOrder,
                 Selected = parentId.HasValue && parentId.Value == m.Id
             }).ToList();
-            return PageTemplateRepository.BuildSelectList(data, false);
+            return _pageTemplateRepository.BuildSelectList(data, false);
         }
 
         /// <summary>
@@ -320,9 +323,10 @@ namespace PX.Business.Services.PageTemplates
         /// <returns></returns>
         public IEnumerable<SelectListItem> GetPageTemplateSelectList(int? id = null)
         {
+            var pageRepository = new PageRepository();
             var pageTemplates = GetAll();
             int? templateId = null;
-            var page = PageRepository.GetById(id);
+            var page = pageRepository.GetById(id);
             if (page != null)
             {
                 templateId = page.PageTemplateId;
@@ -335,7 +339,7 @@ namespace PX.Business.Services.PageTemplates
                 RecordOrder = m.RecordOrder,
                 Selected = templateId.HasValue && templateId.Value == m.Id
             }).ToList();
-            return PageTemplateRepository.BuildSelectList(data);
+            return _pageTemplateRepository.BuildSelectList(data);
         }
 
         /// <summary>
@@ -345,9 +349,10 @@ namespace PX.Business.Services.PageTemplates
         /// <returns></returns>
         public IEnumerable<SelectListItem> GetPageTemplateSelectListForFileTemplate(int? id = null)
         {
+            var fileTemplateRepository = new FileTemplateRepository();
             var pageTemplates = GetAll();
             int? templateId = null;
-            var fileTemplate = FileTemplateRepository.GetById(id);
+            var fileTemplate = fileTemplateRepository.GetById(id);
             if (fileTemplate != null)
             {
                 templateId = fileTemplate.PageTemplateId;
@@ -360,7 +365,7 @@ namespace PX.Business.Services.PageTemplates
                 RecordOrder = m.RecordOrder,
                 Selected = templateId.HasValue && templateId.Value == m.Id
             }).ToList();
-            return PageTemplateRepository.BuildSelectList(data);
+            return _pageTemplateRepository.BuildSelectList(data);
         }
 
         /// <summary>
@@ -435,7 +440,7 @@ namespace PX.Business.Services.PageTemplates
                 {
                     // Using hierarchy to load all parent templates
                     var pageTemplates =
-                        PageTemplateRepository.GetAll().Where(t => pageTemplate.Hierarchy.Contains(t.Hierarchy))
+                        _pageTemplateRepository.GetAll().Where(t => pageTemplate.Hierarchy.Contains(t.Hierarchy))
                         .OrderBy(t => t.Hierarchy)
                         .Select(t => new
                         {

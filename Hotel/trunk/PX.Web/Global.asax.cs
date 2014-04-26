@@ -31,6 +31,7 @@ using PX.Business.Services.Testimonials;
 using PX.Business.Services.UserGroups;
 using PX.Business.Services.Users;
 using PX.Core.Framework.Mvc.Environments;
+using PX.EntityModel;
 using SimpleInjector;
 using SimpleInjector.Integration.Web.Mvc;
 
@@ -173,31 +174,32 @@ namespace PX.Web
         /// <param name="container"></param>
         private static void SimpleInjectorInitializeContainer(Container container)
         {
-            container.Register<ILocalizedResourceServices, LocalizedResourceServices>(Lifestyle.Singleton);
-            container.Register<IMenuServices, MenuServices>(Lifestyle.Singleton);
-            container.Register<IUserServices, UserServices>(Lifestyle.Singleton);
-            container.Register<ILanguageServices, LanguageServices>(Lifestyle.Singleton);
-            container.Register<ISettingServices, SettingServices>(Lifestyle.Singleton);
-            container.Register<IUserGroupServices, UserGroupServices>(Lifestyle.Singleton);
-            container.Register<IPageServices, PageServices>(Lifestyle.Singleton);
-            container.Register<IPageTemplateServices, PageTemplateServices>(Lifestyle.Singleton);
-            container.Register<ICurlyBracketServices, CurlyBracketServices>(Lifestyle.Singleton);
-            container.Register<ITestimonialServices, TestimonialServices>(Lifestyle.Singleton);
-            container.Register<ISettingTypeServices, SettingTypeServices>(Lifestyle.Singleton);
-            container.Register<INewsServices, NewsServices>(Lifestyle.Singleton);
-            container.Register<INewsCategoryServices, NewsCategorieservices>(Lifestyle.Singleton);
-            container.Register<ITemplateServices, TemplateServices>(Lifestyle.Singleton);
-            container.Register<IRotatingImageServices, RotatingImageServices>(Lifestyle.Singleton);
-            container.Register<IRotatingImageGroupServices, RotatingImageGroupServices>(Lifestyle.Singleton);
-            container.Register<IMediaServices, MediaServices>(Lifestyle.Singleton);
-            container.Register<IMediaFileManager, MediaFileManager>(Lifestyle.Singleton);
-            container.Register<ITagServices, TagServices>(Lifestyle.Singleton);
-            container.Register<IClientMenuServices, ClientMenuServices>(Lifestyle.Singleton);
-            container.Register<IFileTemplateServices, FileTemplateServices>(Lifestyle.Singleton);
-            container.Register<IPageLogServices, PageLogServices>(Lifestyle.Singleton);
-            container.Register<IPageTemplateLogServices, PageTemplateLogServices>(Lifestyle.Singleton);
-            container.Register<ITemplateLogServices, TemplateLogServices>(Lifestyle.Singleton);
-            container.Register<ISQLCommandServices, SQLCommandServices>(Lifestyle.Singleton);
+            //container.Register(() => new PXHotelEntities(), Lifestyle.Transient);
+            container.Register<ILocalizedResourceServices, LocalizedResourceServices>(Lifestyle.Transient);
+            container.Register<IMenuServices, MenuServices>(Lifestyle.Transient);
+            container.Register<IUserServices, UserServices>(Lifestyle.Transient);
+            container.Register<ILanguageServices, LanguageServices>(Lifestyle.Transient);
+            container.Register<ISettingServices, SettingServices>(Lifestyle.Transient);
+            container.Register<IUserGroupServices, UserGroupServices>(Lifestyle.Transient);
+            container.Register<IPageServices, PageServices>(Lifestyle.Transient);
+            container.Register<IPageTemplateServices, PageTemplateServices>(Lifestyle.Transient);
+            container.Register<ICurlyBracketServices, CurlyBracketServices>(Lifestyle.Transient);
+            container.Register<ITestimonialServices, TestimonialServices>(Lifestyle.Transient);
+            container.Register<ISettingTypeServices, SettingTypeServices>(Lifestyle.Transient);
+            container.Register<INewsServices, NewsServices>(Lifestyle.Transient);
+            container.Register<INewsCategoryServices, NewsCategorieservices>(Lifestyle.Transient);
+            container.Register<ITemplateServices, TemplateServices>(Lifestyle.Transient);
+            container.Register<IRotatingImageServices, RotatingImageServices>(Lifestyle.Transient);
+            container.Register<IRotatingImageGroupServices, RotatingImageGroupServices>(Lifestyle.Transient);
+            container.Register<IMediaServices, MediaServices>(Lifestyle.Transient);
+            container.Register<IMediaFileManager, MediaFileManager>(Lifestyle.Transient);
+            container.Register<ITagServices, TagServices>(Lifestyle.Transient);
+            container.Register<IClientMenuServices, ClientMenuServices>(Lifestyle.Transient);
+            container.Register<IFileTemplateServices, FileTemplateServices>(Lifestyle.Transient);
+            container.Register<IPageLogServices, PageLogServices>(Lifestyle.Transient);
+            container.Register<IPageTemplateLogServices, PageTemplateLogServices>(Lifestyle.Transient);
+            container.Register<ITemplateLogServices, TemplateLogServices>(Lifestyle.Transient);
+            container.Register<ISQLCommandServices, SQLCommandServices>(Lifestyle.Transient);
         }
 
         #endregion
