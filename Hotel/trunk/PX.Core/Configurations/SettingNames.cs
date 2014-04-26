@@ -7,5 +7,6 @@
         public const string LogsPageSize = "LogsPageSize";
         public const string DefaultHistoryLength = "DefaultHistoryLength";
         public const string DefaultHistoryStart = "DefaultHistoryStart";
+        public const string DefaultAddress = "DefaultAddress";
     }
 }

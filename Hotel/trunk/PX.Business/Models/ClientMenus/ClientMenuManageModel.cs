@@ -24,7 +24,7 @@ namespace PX.Business.Models.ClientMenus
             int position;
             int relativePageId;
             var relativePages = _clientMenuServices.GetRelativeMenus(out position, out relativePageId);
-            Positions = EnumUtilities.GetAllItemsFromEnum<PageEnums.PositionEnums>();
+            Positions = EnumUtilities.GetSelectListFromEnum<PageEnums.PositionEnums>();
             Position = position;
             RelativeMenuId = relativePageId;
             RelativeMenus = relativePages;
@@ -46,7 +46,7 @@ namespace PX.Business.Models.ClientMenus
             int relativePageId;
             var relativePages = _clientMenuServices.GetRelativeMenus(out position, out relativePageId, menu.Id, menu.ParentId);
             Position = position;
-            Positions = EnumUtilities.GetAllItemsFromEnum<PageEnums.PositionEnums>();
+            Positions = EnumUtilities.GetSelectListFromEnum<PageEnums.PositionEnums>();
             RelativeMenuId = relativePageId;
             RelativeMenus = relativePages;
         }

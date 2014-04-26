@@ -150,7 +150,7 @@
                 @MText(Tags.Label, "AdminModule:::Users:::Forms:::Address", "Address", new { @class = "col-sm-3 control-label no-padding-right", @for = "Phone" })
                 <div class="col-sm-9">
                     <div class="col-xs-12 no-padding">
-                        @Html.TextBoxFor(m => m.Address, new { id = "address-input", @class = "controls", placeholder = T("AdminModule:::Users:::Forms:::AddressPlaceHolder:::Enter a location") })
+                        @Html.TextBoxFor(m => m.Address, new { id = "address-input", @class = "controls", onkeypress="noEnter(event)", placeholder = T("AdminModule:::Users:::Forms:::AddressPlaceHolder:::Enter a location") })
                         <div id="map-canvas"></div>
                     </div>
                     @Html.ValidationMessageFor(m => m.Address)

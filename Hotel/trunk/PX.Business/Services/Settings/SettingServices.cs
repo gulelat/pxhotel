@@ -66,12 +66,16 @@ namespace PX.Business.Services.Settings
 
         #region Initialize
 
+        /// <summary>
+        /// Initialize default settings
+        /// </summary>
         public void Initialize()
         {
             var initializeSettings = new List<SiteSetting>
             {
                 new SiteSetting { Name = SettingNames.CurlyBracketMaxLoop, Value = "5", SettingTypeId = (int)SettingEnums.TypeEnums.System },
                 new SiteSetting { Name = SettingNames.MaxSizeUploaded, Value = "10485760", SettingTypeId = (int)SettingEnums.TypeEnums.System },
+                new SiteSetting { Name = SettingNames.DefaultAddress, Value = "Viet Nam", SettingTypeId = (int)SettingEnums.TypeEnums.System },
                 new SiteSetting { Name = SettingNames.LogsPageSize, Value = "10", SettingTypeId = (int)SettingEnums.TypeEnums.BackEnd },
                 new SiteSetting { Name = SettingNames.DefaultHistoryLength, Value = "5", SettingTypeId = (int)SettingEnums.TypeEnums.BackEnd },
                 new SiteSetting { Name = SettingNames.DefaultHistoryStart, Value = "0", SettingTypeId = (int)SettingEnums.TypeEnums.BackEnd },

@@ -43,9 +43,9 @@ namespace PX.EntityModel
             }
         }
 
-        public UserEnums.UserStatusEnums StatusEnums
+        public UserEnums.StatusEnums StatusEnums
         {
-            get { return (UserEnums.UserStatusEnums)Status; }
+            get { return (UserEnums.StatusEnums)Status; }
         }
 
         public double LastLoginHours
