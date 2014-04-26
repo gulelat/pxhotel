@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using PX.Core.Configurations
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -83,6 +84,7 @@
 
     <script type="text/javascript" src="/Scripts/fancybox/jquery.fancybox.js"></script>
     <script type="text/javascript">
+        var defaultAddress = "@(SValue<string>(SettingNames.DefaultAddress))";
         var $TargetControl;
         $(".browsefile").click(function () {
             $TargetControl = $(this).parent().find("input");

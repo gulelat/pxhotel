@@ -31,7 +31,7 @@ namespace PX.Business.Models.Pages
             Parents = _pageServices.GetPossibleParents();
             PageTemplates = pageTemplateServices.GetPageTemplateSelectList();
             FileTemplates = fileTemplateServices.GetFileTemplateSelectList();
-            Positions = EnumUtilities.GetAllItemsFromEnum<PageEnums.PositionEnums>();
+            Positions = EnumUtilities.GetSelectListFromEnum<PageEnums.PositionEnums>();
             TagList = _pageServices.GetPageTags();
             Position = position;
             RelativePageId = relativePageId;
@@ -62,7 +62,7 @@ namespace PX.Business.Models.Pages
             PageTemplateId = page.PageTemplateId;
             PageTemplates = pageTemplateServices.GetPageTemplateSelectList(page.PageTemplateId);
             Position = position;
-            Positions = EnumUtilities.GetAllItemsFromEnum<PageEnums.PositionEnums>();
+            Positions = EnumUtilities.GetSelectListFromEnum<PageEnums.PositionEnums>();
             RelativePageId = relativePageId;
             RelativePages = relativePages;
             IncludeInSiteNavigation = page.IncludeInSiteNavigation;

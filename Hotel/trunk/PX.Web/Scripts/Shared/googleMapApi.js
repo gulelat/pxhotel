@@ -1,6 +1,19 @@
-﻿function initialize() {
+﻿var defaultAddress = defaultAddress || '';
+function noEnter(event) {
+    if (event.keyCode == 13) {
+        event.preventDefault();
+        return false;
+    }
+    return true;
+}
+
+function initialize() {
     var geo = new google.maps.Geocoder;
-    geo.geocode({ 'address': $("#address-input").val() }, function (results, status) {
+    var address = $("#address-input").val();
+    if (address == '') {
+        address = defaultAddress;
+    }
+    geo.geocode({ 'address': address }, function (results, status) {
         var location = new google.maps.LatLng(-33.8688, 151.2195);
         if (status == google.maps.GeocoderStatus.OK) {
             location = results[0].geometry.location;
