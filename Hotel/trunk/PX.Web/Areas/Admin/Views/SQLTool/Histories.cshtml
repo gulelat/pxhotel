@@ -5,7 +5,6 @@
     ViewBag.Description = "Command History Management Page";
 }
 @section styles{
-    <link rel="stylesheet" href="/Content/backend/css/datepicker.css" />
     <link rel="stylesheet" href="/Content/backend/css/ui.jqgrid.css" />
 }
 <div class="page-header">
@@ -49,10 +48,7 @@
                 url: "@Url.Action("_AjaxHistory")",
                 caption: "Command History Management",
                 height: 340,
-                ondblClickRow: function (rowId) {
-                    jQuery(gridSelector).editRow(rowId, true);
-                },
-                colNames: ['', 'Id', 'Query', 'Updated', 'UpdatedBy'],
+                colNames: ['', 'Id', 'Query', 'Updated', 'Updated By'],
                 colModel: [
                     {
                         name: 'actions', width: 60, sortable: false, search: false, align: "center",

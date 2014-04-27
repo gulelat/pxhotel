@@ -94,14 +94,14 @@ namespace PX.Business.Services.Pages.CurlyBracketResolvers
 
             if(page == null)
             {
-                return _localizedResourceServices.T("CurlyBracketsRendering:::Messages:::GetPageContentIdNotFounded:::Page id is invalid. Please check the data again.");
+                return _localizedResourceServices.T("CurlyBracketsRendering:::PageContent:::Messages:::GetPageContentIdNotFounded:::Page id is invalid. Please check the data again.");
             }
 
             var pageRenderModel = new PageRenderModel(page);
 
             var template = _templateServices.GetTemplateByName(Template) ??
                            _templateServices.GetTemplateByName(DefaultTemplate);
-            return _templateServices.RenderTemplate(template.Content, pageRenderModel, template.CacheName);
+            return _templateServices.Parse(template.Content, pageRenderModel, null, template.CacheName);
         }
     }
 }

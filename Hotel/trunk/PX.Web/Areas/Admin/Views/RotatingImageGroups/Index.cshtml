@@ -3,9 +3,8 @@
     ViewBag.Title = "Rotating Image Group Management";
     ViewBag.Description = "Rotating Image Group Management Page";
 }
-@section styles{
-    <link rel="stylesheet" href="/Content/backend/css/jquery-ui-1.10.3.full.min.css" />
-    <link rel="stylesheet" href="/Content/backend/css/datepicker.css" />
+@section styles
+{
     <link rel="stylesheet" href="/Content/backend/css/ui.jqgrid.css" />
 }
 <div class="page-header">
@@ -30,7 +29,6 @@
 </div>
 @section scripts
 {
-    <script src="/Scripts/BackEnd/date-time/bootstrap-datepicker.min.js"></script>
     <script src="/Scripts/BackEnd/jqGrid/jquery.jqGrid.min.js"></script>
     <script src="/Scripts/BackEnd/jqGrid/i18n/grid.locale-en.js"></script>
     <script type="text/javascript">
@@ -50,10 +48,7 @@
                 url: "@Url.Action("_AjaxBinding")",
                 caption: "Rotating Image Group Management",
                 height: 370,
-                ondblClickRow: function (rowId) {
-                    jQuery(gridSelector).editRow(rowId, true);
-                },
-                colNames: ['', 'Id', 'Name', 'Active', 'Created', 'CreatedBy', 'Updated', 'UpdatedBy'],
+                colNames: ['', 'Id', 'Name', 'Active', 'Created', 'CreatedBy', 'Updated', 'Updated By'],
                 colModel: [
                     {
                         name: 'action', width: 80, sortable: false, search: false, align: "center",

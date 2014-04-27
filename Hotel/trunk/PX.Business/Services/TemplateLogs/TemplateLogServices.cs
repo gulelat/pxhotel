@@ -154,7 +154,7 @@ namespace PX.Business.Services.TemplateLogs
 
             if (!string.IsNullOrEmpty(changeLog.ToString()))
             {
-                changeLog.Insert(0, string.Format("** Update Page Template **\n"));
+                changeLog.Insert(0, string.Format("** Update Template **\n"));
             }
 
             return changeLog.ToString();

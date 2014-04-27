@@ -55,6 +55,21 @@ namespace PX.Web
 
             //Default route
             routes.MapRoute(
+                "NewsDetails",
+                "News/{id}/{title}",
+                new
+                {
+                    controller = "News",
+                    action = "Details",
+                    id = UrlParameter.Optional,
+                    title = UrlParameter.Optional
+                },
+                new[] { NameSpaces }
+                );
+
+
+            //Default route
+            routes.MapRoute(
                 "Default",
                 "{controller}/{action}/{id}",
                 new

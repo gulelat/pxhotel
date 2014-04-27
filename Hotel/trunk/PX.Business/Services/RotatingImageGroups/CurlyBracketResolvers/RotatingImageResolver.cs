@@ -100,7 +100,7 @@ namespace PX.Business.Services.RotatingImageGroups.CurlyBracketResolvers
 
             var template = _templateServices.GetTemplateByName(Template) ??
                            _templateServices.GetTemplateByName(DefaultTemplate);
-            return _templateServices.RenderTemplate(template.Content, model, template.CacheName);
+            return _templateServices.Parse(template.Content, model, null, template.CacheName);
         }
     }
 }

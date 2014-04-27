@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using PX.Business.Mvc.ViewEngines;
+using PX.Business.Services.Banners;
 using PX.Business.Services.ClientMenus;
 using PX.Business.Services.CurlyBrackets;
 using PX.Business.Services.FileTemplates;
@@ -21,6 +22,7 @@ using PX.Business.Services.PageTemplates;
 using PX.Business.Services.Pages;
 using PX.Business.Services.RotatingImageGroups;
 using PX.Business.Services.RotatingImages;
+using PX.Business.Services.Services;
 using PX.Business.Services.SettingTypes;
 using PX.Business.Services.Settings;
 using PX.Business.Services.SQLTool;
@@ -31,7 +33,6 @@ using PX.Business.Services.Testimonials;
 using PX.Business.Services.UserGroups;
 using PX.Business.Services.Users;
 using PX.Core.Framework.Mvc.Environments;
-using PX.EntityModel;
 using SimpleInjector;
 using SimpleInjector.Integration.Web.Mvc;
 
@@ -191,7 +192,7 @@ namespace PX.Web
             container.Register<ITemplateServices, TemplateServices>(Lifestyle.Transient);
             container.Register<IRotatingImageServices, RotatingImageServices>(Lifestyle.Transient);
             container.Register<IRotatingImageGroupServices, RotatingImageGroupServices>(Lifestyle.Transient);
-            container.Register<IMediaServices, MediaServices>(Lifestyle.Transient);
+            container.Register<IMediaServices, MediaServices>(Lifestyle.Singleton);
             container.Register<IMediaFileManager, MediaFileManager>(Lifestyle.Transient);
             container.Register<ITagServices, TagServices>(Lifestyle.Transient);
             container.Register<IClientMenuServices, ClientMenuServices>(Lifestyle.Transient);
@@ -200,6 +201,8 @@ namespace PX.Web
             container.Register<IPageTemplateLogServices, PageTemplateLogServices>(Lifestyle.Transient);
             container.Register<ITemplateLogServices, TemplateLogServices>(Lifestyle.Transient);
             container.Register<ISQLCommandServices, SQLCommandServices>(Lifestyle.Transient);
+            container.Register<IBannerServices, BannerServices>(Lifestyle.Transient);
+            container.Register<IServiceServices, ServiceServices>(Lifestyle.Transient);
         }
 
         #endregion

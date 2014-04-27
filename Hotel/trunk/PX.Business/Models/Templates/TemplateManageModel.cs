@@ -36,7 +36,6 @@ namespace PX.Business.Models.Templates
                 yield return new ValidationResult(localizedResourceServices.T("AdminModule:::PageTemplates:::ValidationMessages:::ExistingName:::Name is existed."), new[]{ "Name"});
             }
             
-            var razorEngineServices = new TemplateService();
             var type = Type.GetType(DataType);
             if (type != null)
             {
@@ -44,11 +43,11 @@ namespace PX.Business.Models.Templates
                 var razorValidMessage = string.Empty;
                 try
                 {
-                    razorEngineServices.Parse(Content, instance, null, null);
+                    templateServices.Parse(Content, instance, null, null);
                 }
-                catch (Exception exception)
+                catch (TemplateCompilationException exception)
                 {
-                    razorValidMessage = exception.Message;
+                    razorValidMessage = string.Join("\n", exception.Errors);
                 }
                 if (!string.IsNullOrEmpty(razorValidMessage))
                     yield return new ValidationResult(string.Format(localizedResourceServices.T("AdminModule:::PageTemplates:::ValidationMessages:::TemplateCompileFailure:::Content is invalid. Error message: {0}."), razorValidMessage), new[] { "Content" });

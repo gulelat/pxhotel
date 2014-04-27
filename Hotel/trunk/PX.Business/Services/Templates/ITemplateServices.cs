@@ -2,10 +2,13 @@
 using System.Linq;
 using System.Linq.Expressions;
 using PX.Business.Models.Templates;
+using PX.Business.Mvc.ViewEngines.Razor.RazorEngine;
 using PX.Core.Framework.Enums;
 using PX.Core.Framework.Mvc.Models;
 using PX.Core.Framework.Mvc.Models.JqGrid;
 using PX.EntityModel;
+using RazorEngine.Configuration;
+using RazorEngine.Templating;
 
 namespace PX.Business.Services.Templates
 {
@@ -57,7 +60,14 @@ namespace PX.Business.Services.Templates
         TemplateLogsModel GetLogs(int id, int index = 1);
         #endregion
 
-        string RenderTemplate(string template, dynamic model, string cacheName = "");
+        #region Razor Engine
+
+        TemplateServiceConfiguration GetConfig();
+
+        string Parse(string template, dynamic model, DynamicViewBag viewBag = null, string cacheName = "");
+
+        void Compile(string template, Type type, string cacheName);
+        #endregion
 
         bool IsTemplateNameExisted(int? templateId, string name);
     }

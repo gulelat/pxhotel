@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Web.Mvc;
 using PX.Business.Models.News;
+using PX.Business.Models.News.CurlyBrackets;
 using PX.Core.Framework.Enums;
 using PX.Core.Framework.Mvc.Models;
 using PX.Core.Framework.Mvc.Models.JqGrid;
@@ -45,5 +46,11 @@ namespace PX.Business.Services.News
         IEnumerable<SelectListItem> GetStatus();
 
         bool IsTitleExisted(int? newsId, string title);
+
+        NewsCurlyBracket GetNews(int id);
+
+        List<NewsCurlyBracket> GetNewsListing(int count);
+
+        NewsListingModel GetNewsListing(int index, int pageSize);
     }
 }

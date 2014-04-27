@@ -70,10 +70,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\Banners\CurlyBrackets\BannerCurlyBracket.cs" />
     <Compile Include="Models\ClientMenus\ClientMenuRenderingModel.cs" />
     <Compile Include="Models\ClientMenus\ClientBreadCrumbModel.cs" />
     <Compile Include="Models\ClientMenus\ClientMenuModel.cs" />
     <Compile Include="Models\ClientMenus\ClientMenuManageModel.cs" />
+    <Compile Include="Models\Banners\BannerManageModel.cs" />
+    <Compile Include="Models\Banners\BannerModel.cs" />
+    <Compile Include="Models\NewsCategories\CurlyBrackets\CategoryItemModel.cs" />
+    <Compile Include="Models\News\CurlyBrackets\NewsItemModel.cs" />
+    <Compile Include="Models\News\CurlyBrackets\NewsListingModel.cs" />
+    <Compile Include="Models\News\CurlyBrackets\NewsCurlyBracket.cs" />
+    <Compile Include="Models\Services\CurlyBrackets\ServiceCurlyBracket.cs" />
+    <Compile Include="Models\Services\ServiceManageModel.cs" />
+    <Compile Include="Models\Services\ServiceModel.cs" />
     <Compile Include="Models\SQLTool\SQLCommandHistoryModel.cs" />
     <Compile Include="Models\SQLTool\DataResult.cs" />
     <Compile Include="Models\SQLTool\DataTablesDataResult.cs" />
@@ -125,10 +135,20 @@
     <Compile Include="Mvc\Attributes\TemplateAttribute.cs" />
     <Compile Include="Mvc\Attributes\ErrorHandle\PxHandleErrorAttribute.cs" />
     <Compile Include="Mvc\Controllers\ClientController.cs" />
+    <Compile Include="Mvc\ViewEngines\Razor\RazorEngine\MvcHtmlStringFactory.cs" />
+    <Compile Include="Mvc\ViewEngines\Razor\RazorEngine\MvcTemplateBase.cs" />
     <Compile Include="Mvc\ViewEngines\ViewResult\MVCTransferResult.cs" />
     <Compile Include="Mvc\ViewEngines\VirtualPathProvider.cs" />
+    <Compile Include="Services\Banners\CurlyBracketResolvers\BannerResolver.cs" />
     <Compile Include="Services\ClientMenus\IClientMenuServices.cs" />
     <Compile Include="Services\ClientMenus\ClientMenuServices.cs" />
+    <Compile Include="Services\Banners\IBannerServices.cs" />
+    <Compile Include="Services\Banners\BannerServices.cs" />
+    <Compile Include="Services\News\CurlyBracketResolvers\NewsListingResolver.cs" />
+    <Compile Include="Services\News\CurlyBracketResolvers\NewsResolver.cs" />
+    <Compile Include="Services\Services\CurlyBracketResolvers\ServiceResolver.cs" />
+    <Compile Include="Services\Services\IServiceServices.cs" />
+    <Compile Include="Services\Services\ServiceServices.cs" />
     <Compile Include="Services\RotatingImageGroups\CurlyBracketResolvers\RotatingImageResolver.cs" />
     <Compile Include="Services\SQLTool\ISQLCommandServices.cs" />
     <Compile Include="Services\SQLTool\SQLCommandHistoryService.cs" />
@@ -234,7 +254,9 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Models\News\FrontEnd\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

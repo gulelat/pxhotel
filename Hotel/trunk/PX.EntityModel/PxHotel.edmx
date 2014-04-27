@@ -6,6 +6,7 @@
     <edmx:StorageModels>
     <Schema Namespace="PXHotelModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityContainer Name="PXHotelModelStoreContainer">
+          <EntitySet Name="Banners" EntityType="PXHotelModel.Store.Banners" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="BookingRequests" EntityType="PXHotelModel.Store.BookingRequests" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="ClientMenus" EntityType="PXHotelModel.Store.ClientMenus" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Countries" EntityType="PXHotelModel.Store.Countries" store:Type="Tables" Schema="dbo" />
@@ -26,6 +27,7 @@
           <EntitySet Name="RoomTypes" EntityType="PXHotelModel.Store.RoomTypes" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="RotatingImageGroups" EntityType="PXHotelModel.Store.RotatingImageGroups" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="RotatingImages" EntityType="PXHotelModel.Store.RotatingImages" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Services" EntityType="PXHotelModel.Store.Services" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="SettingTypes" EntityType="PXHotelModel.Store.SettingTypes" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="SiteSettings" EntityType="PXHotelModel.Store.SiteSettings" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="SQLCommandHistories" EntityType="PXHotelModel.Store.SQLCommandHistories" store:Type="Tables" Schema="dbo" />
@@ -137,6 +139,22 @@
             <End Role="UserInGroups" EntitySet="UserInGroups" />
           </AssociationSet>
         </EntityContainer>
+        <EntityType Name="Banners">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="ImageUrl" Type="nvarchar" Nullable="false" MaxLength="1024" />
+          <Property Name="Text" Type="nvarchar(max)" />
+          <Property Name="Url" Type="nvarchar" MaxLength="512" />
+          <Property Name="GroupName" Type="nvarchar" Nullable="false" MaxLength="512" />
+          <Property Name="RecordOrder" Type="int" Nullable="false" />
+          <Property Name="RecordActive" Type="bit" Nullable="false" />
+          <Property Name="Created" Type="datetime" Nullable="false" />
+          <Property Name="CreatedBy" Type="nvarchar" Nullable="false" MaxLength="512" />
+          <Property Name="Updated" Type="datetime" />
+          <Property Name="UpdatedBy" Type="nvarchar" MaxLength="512" />
+        </EntityType>
         <EntityType Name="BookingRequests">
           <Key>
             <PropertyRef Name="Id" />
@@ -470,6 +488,23 @@
           <Property Name="Updated" Type="datetime" />
           <Property Name="UpdatedBy" Type="nvarchar" MaxLength="512" />
         </EntityType>
+        <EntityType Name="Services">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Content" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="ImageUrl" Type="nvarchar" MaxLength="512" />
+          <Property Name="Status" Type="int" Nullable="false" />
+          <Property Name="RecordOrder" Type="int" Nullable="false" />
+          <Property Name="RecordActive" Type="bit" Nullable="false" />
+          <Property Name="Created" Type="datetime" Nullable="false" />
+          <Property Name="CreatedBy" Type="nvarchar" Nullable="false" MaxLength="512" />
+          <Property Name="Updated" Type="datetime" />
+          <Property Name="UpdatedBy" Type="nvarchar" MaxLength="512" />
+        </EntityType>
         <EntityType Name="SettingTypes">
           <Key>
             <PropertyRef Name="Id" />
@@ -490,7 +525,7 @@
           <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="512" />
           <Property Name="Value" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="SettingTypeId" Type="int" />
+          <Property Name="SettingTypeId" Type="int" Nullable="false" />
           <Property Name="RecordOrder" Type="int" Nullable="false" />
           <Property Name="RecordActive" Type="bit" Nullable="false" />
           <Property Name="Created" Type="datetime" Nullable="false" />
@@ -546,7 +581,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="512" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
           <Property Name="Content" Type="nvarchar(max)" Nullable="false" />
           <Property Name="DataType" Type="nvarchar" Nullable="false" MaxLength="512" />
           <Property Name="IsDefaultTemplate" Type="bit" Nullable="false" />
@@ -870,7 +905,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_SiteSettings_SettingTypes">
-          <End Role="SettingTypes" Type="PXHotelModel.Store.SettingTypes" Multiplicity="0..1" />
+          <End Role="SettingTypes" Type="PXHotelModel.Store.SettingTypes" Multiplicity="1" />
           <End Role="SiteSettings" Type="PXHotelModel.Store.SiteSettings" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="SettingTypes">
@@ -934,6 +969,7 @@
     <edmx:ConceptualModels>
       <Schema Namespace="PXHotelModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="PXHotelEntities" p1:LazyLoadingEnabled="true">
+          <EntitySet Name="Banners" EntityType="PXHotelModel.Banner" />
           <EntitySet Name="BookingRequests" EntityType="PXHotelModel.BookingRequest" />
           <EntitySet Name="ClientMenus" EntityType="PXHotelModel.ClientMenu" />
           <EntitySet Name="Countries" EntityType="PXHotelModel.Country" />
@@ -954,6 +990,7 @@
           <EntitySet Name="RoomTypes" EntityType="PXHotelModel.RoomType" />
           <EntitySet Name="RotatingImageGroups" EntityType="PXHotelModel.RotatingImageGroup" />
           <EntitySet Name="RotatingImages" EntityType="PXHotelModel.RotatingImage" />
+          <EntitySet Name="Services" EntityType="PXHotelModel.Service" />
           <EntitySet Name="SettingTypes" EntityType="PXHotelModel.SettingType" />
           <EntitySet Name="SiteSettings" EntityType="PXHotelModel.SiteSetting" />
           <EntitySet Name="SQLCommandHistories" EntityType="PXHotelModel.SQLCommandHistory" />
@@ -1065,6 +1102,22 @@
             <End Role="UserInGroup" EntitySet="UserInGroups" />
           </AssociationSet>
         </EntityContainer>
+        <EntityType Name="Banner">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="ImageUrl" Nullable="false" MaxLength="1024" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Text" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Url" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="GroupName" Nullable="false" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="RecordOrder" Nullable="false" />
+          <Property Type="Boolean" Name="RecordActive" Nullable="false" />
+          <Property Type="DateTime" Name="Created" Nullable="false" Precision="3" />
+          <Property Type="String" Name="CreatedBy" Nullable="false" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Type="DateTime" Name="Updated" Precision="3" />
+          <Property Type="String" Name="UpdatedBy" MaxLength="512" FixedLength="false" Unicode="true" />
+        </EntityType>
         <EntityType Name="BookingRequest">
           <Key>
             <PropertyRef Name="Id" />
@@ -1436,6 +1489,23 @@
           <Property Type="String" Name="UpdatedBy" MaxLength="512" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="RotatingImageGroup" Relationship="PXHotelModel.FK_RotatingImage_RotatingImageGroups" FromRole="RotatingImage" ToRole="RotatingImageGroup" />
         </EntityType>
+        <EntityType Name="Service">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Title" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Description" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Content" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="ImageUrl" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="Status" Nullable="false" />
+          <Property Type="Int32" Name="RecordOrder" Nullable="false" />
+          <Property Type="Boolean" Name="RecordActive" Nullable="false" />
+          <Property Type="DateTime" Name="Created" Nullable="false" Precision="3" />
+          <Property Type="String" Name="CreatedBy" Nullable="false" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Type="DateTime" Name="Updated" Precision="3" />
+          <Property Type="String" Name="UpdatedBy" MaxLength="512" FixedLength="false" Unicode="true" />
+        </EntityType>
         <EntityType Name="SettingType">
           <Key>
             <PropertyRef Name="Id" />
@@ -1457,7 +1527,7 @@
           <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="String" Name="Name" Nullable="false" MaxLength="512" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="Value" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Type="Int32" Name="SettingTypeId" />
+          <Property Type="Int32" Name="SettingTypeId" Nullable="false" />
           <Property Type="Int32" Name="RecordOrder" Nullable="false" />
           <Property Type="Boolean" Name="RecordActive" Nullable="false" />
           <Property Type="DateTime" Name="Created" Nullable="false" Precision="3" />
@@ -1518,7 +1588,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="String" Name="Name" Nullable="false" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="Content" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="DataType" Nullable="false" MaxLength="512" FixedLength="false" Unicode="true" />
           <Property Type="Boolean" Name="IsDefaultTemplate" Nullable="false" />
@@ -1848,7 +1918,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_SiteSettings_SettingTypes">
-          <End Type="PXHotelModel.SettingType" Role="SettingType" Multiplicity="0..1" />
+          <End Type="PXHotelModel.SettingType" Role="SettingType" Multiplicity="1" />
           <End Type="PXHotelModel.SiteSetting" Role="SiteSetting" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="SettingType">
@@ -1913,6 +1983,23 @@
     <edmx:Mappings>
     <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
   <EntityContainerMapping StorageEntityContainer="PXHotelModelStoreContainer" CdmEntityContainer="PXHotelEntities">
+          <EntitySetMapping Name="Banners">
+            <EntityTypeMapping TypeName="PXHotelModel.Banner">
+              <MappingFragment StoreEntitySet="Banners">
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="Updated" ColumnName="Updated" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+                <ScalarProperty Name="RecordActive" ColumnName="RecordActive" />
+                <ScalarProperty Name="RecordOrder" ColumnName="RecordOrder" />
+                <ScalarProperty Name="GroupName" ColumnName="GroupName" />
+                <ScalarProperty Name="Url" ColumnName="Url" />
+                <ScalarProperty Name="Text" ColumnName="Text" />
+                <ScalarProperty Name="ImageUrl" ColumnName="ImageUrl" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="BookingRequests">
             <EntityTypeMapping TypeName="PXHotelModel.BookingRequest">
               <MappingFragment StoreEntitySet="BookingRequests">
@@ -2262,6 +2349,24 @@
                 <ScalarProperty Name="Url" ColumnName="Url" />
                 <ScalarProperty Name="Text" ColumnName="Text" />
                 <ScalarProperty Name="ImageUrl" ColumnName="ImageUrl" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Services">
+            <EntityTypeMapping TypeName="PXHotelModel.Service">
+              <MappingFragment StoreEntitySet="Services">
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="Updated" ColumnName="Updated" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+                <ScalarProperty Name="RecordActive" ColumnName="RecordActive" />
+                <ScalarProperty Name="RecordOrder" ColumnName="RecordOrder" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="ImageUrl" ColumnName="ImageUrl" />
+                <ScalarProperty Name="Content" ColumnName="Content" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Web;
 using System.Web.Mvc;
 using PX.Business.Models.News;
+using PX.Business.Models.News.CurlyBrackets;
+using PX.Business.Mvc.WorkContext;
 using PX.Core.Framework.Mvc.Environments;
 using PX.Business.Services.Localizes;
 using PX.Business.Services.NewsCategories;
@@ -118,7 +121,7 @@ namespace PX.Business.Services.News
                     var currentCategories = news.NewsNewsCategories.Select(nc => nc.Id).ToList();
                     foreach (var id in currentCategories)
                     {
-                        if(!categoryIds.Contains(id))
+                        if (!categoryIds.Contains(id))
                         {
                             newsNewsCategoryRepository.Delete(id);
                         }
@@ -145,6 +148,8 @@ namespace PX.Business.Services.News
                     news.Status = model.Status;
                     news.Content = string.Empty;
                     news.Description = string.Empty;
+                    news.Updated = DateTime.Now;
+                    news.UpdatedBy = WorkContext.CurrentUser.Email;
                     response = Insert(news);
                     foreach (var categoryId in categoryIds)
                     {
@@ -262,7 +267,9 @@ namespace PX.Business.Services.News
                 Status = model.Status,
                 Description = model.Description,
                 Content = model.Content,
-                ImageUrl = model.ImageUrl
+                ImageUrl = model.ImageUrl,
+                Updated = DateTime.Now,
+                UpdatedBy = WorkContext.CurrentUser.Email
             };
 
             response = Insert(news);
@@ -287,7 +294,7 @@ namespace PX.Business.Services.News
         /// <returns></returns>
         public IEnumerable<SelectListItem> GetStatus()
         {
-            return EnumUtilities.GetSelectListFromEnum<NewsEnums.NewsStatusEnums>();
+            return EnumUtilities.GetSelectListFromEnum<NewsEnums.StatusEnums>();
         }
 
         /// <summary>
@@ -299,6 +306,54 @@ namespace PX.Business.Services.News
         public bool IsTitleExisted(int? newsId, string title)
         {
             return Fetch(u => u.Title.Equals(title) && u.Id != newsId).Any();
+        }
+
+        /// <summary>
+        /// Get news item
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public NewsCurlyBracket GetNews(int id)
+        {
+            var news = GetById(id);
+            if(news != null)
+            {
+                return new NewsCurlyBracket(news);
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Get news
+        /// </summary>
+        /// <param name="count"></param>
+        /// <returns></returns>
+        public List<NewsCurlyBracket> GetNewsListing(int count)
+        {
+            return Fetch(news => news.Status == (int)ServiceEnums.StatusEnums.Active)
+                .OrderByDescending(news => news.Updated)
+                .Take(count)
+                .ToList().Select(news => new NewsCurlyBracket(news)).ToList();
+        }
+
+        /// <summary>
+        /// Get news listing
+        /// </summary>
+        /// <param name="index"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
+        public NewsListingModel GetNewsListing(int index, int pageSize)
+        {
+            var model = new NewsListingModel
+                {
+                    PageIndex = index,
+                    NewsListing = Fetch(news => news.Status == (int)ServiceEnums.StatusEnums.Active)
+                        .OrderByDescending(news => news.Updated)
+                        .Skip(index * pageSize)
+                        .Take(pageSize)
+                        .ToList().Select(news => new NewsCurlyBracket(news)).ToList()
+                };
+            return model;
         }
     }
 }

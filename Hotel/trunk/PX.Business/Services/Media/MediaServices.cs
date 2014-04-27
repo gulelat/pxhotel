@@ -7,6 +7,7 @@ using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Hosting;
 using PX.Business.Models.Media;
+using PX.Core.Configurations;
 using PX.Core.Framework.Mvc.Environments;
 using PX.Business.Services.Localizes;
 using PX.Core.Framework.Enums;
@@ -187,7 +188,7 @@ namespace PX.Business.Services.Media
             var directory = new DirectoryInfo(physicalPath);
 
             //Loop through each subdirectory
-            foreach (var d in directory.GetDirectories())
+            foreach (var d in directory.GetDirectories().Where(d => !d.Name.Equals(Configurations.ResizedFolder)))
             {
                 var mediaPath = ToRelativePath(string.Format("{0}/{1}", relativePath, d.Name));
                 var t = new FileTreeModel
@@ -228,7 +229,7 @@ namespace PX.Business.Services.Media
             var physicalPath = HttpContext.Current.Server.MapPath(relativePath);
             var directory = new DirectoryInfo(physicalPath);
 
-            var children = directory.GetDirectories()
+            var children = directory.GetDirectories().Where(d => !d.Name.Equals(Configurations.ResizedFolder))
                 .Select(d => new FileTreeModel
                 {
                     attr =

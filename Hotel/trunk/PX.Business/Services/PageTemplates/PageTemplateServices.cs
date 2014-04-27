@@ -33,12 +33,14 @@ namespace PX.Business.Services.PageTemplates
         private readonly ILocalizedResourceServices _localizedResourceServices;
         private readonly IPageTemplateLogServices _pageTemplateLogServices;
         private readonly ISettingServices _settingServices;
+        private readonly ITemplateServices _templateServices;
         private readonly PageTemplateRepository _pageTemplateRepository;
         public PageTemplateServices()
         {
             _localizedResourceServices = HostContainer.GetInstance<ILocalizedResourceServices>();
             _pageTemplateLogServices = HostContainer.GetInstance<IPageTemplateLogServices>();
             _settingServices = HostContainer.GetInstance<ISettingServices>();
+            _templateServices = HostContainer.GetInstance<ITemplateServices>();
             _pageTemplateRepository = new PageTemplateRepository();
         }
 
@@ -415,7 +417,8 @@ namespace PX.Business.Services.PageTemplates
         public string RenderPageTemplate(int? pageTemplateId, PageRenderModel model)
         {
             var pageTemplate = GetById(pageTemplateId);
-            using (var templateService = new TemplateService())
+            var config = _templateServices.GetConfig();
+            using (var templateService = new TemplateService(config))
             {
                 /* 
                  * Get default master template for all content

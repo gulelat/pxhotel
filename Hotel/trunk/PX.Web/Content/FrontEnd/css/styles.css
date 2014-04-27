@@ -97,6 +97,8 @@ ul.nav li.parentDropdownMenu > ul.dropdown-menu.MenuHovered{
     -webkit-animation-delay: 0.2s;
 }
 
+.myNavbarNav{text-transform: uppercase;}
+
 .myNavbarNav .dropdown > .dropdown-menu:before {
   position: absolute;
   top: -10px;
@@ -864,7 +866,7 @@ footer{
 .divWrapperRoomBookingOnlineInfo{
   background: #FFFFFF;
 }
-  .roomBookingOnlineInfo, .testinomialBox, .contactSupportBox{
+  .roomBookingOnlineInfo, .testinomialBox, .contactSupportBox, .wrapperRoomDetail{
     border: 1px solid #CCCCCC;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.13);
     position: relative;
@@ -979,6 +981,340 @@ footer{
   .testinomialBox strong{
     font-size: 20px;
     color: #333333;
+  }
+
+  .roomDetailParameter{
+    margin-bottom: 20px;
+  }
+
+  .roomDetailParameter > div{
+    border-bottom: 1px dotted #E0E0E0;
+    border-top: 1px dotted #E0E0E0;
+    color: #666666;
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+
+  .roomDetailShortDesc{
+    margin-bottom: 20px;
+  }
+
+  .roomDetailTabble{
+    margin-bottom: 20px;
+  }
+
+  .tabbable > .tab-content{
+    border:1px solid #E0E0E0;
+    border-top-right-radius: 3px;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+    padding: 15px;
+  }
+  .tabbable > ul{border-bottom: none;}
+  .tabbable li a{outline: none;}
+  .tab-content > .tab-pane{display: none;}
+  .tab-content > .active{display: block;}
+
+  .confirmBookingText{
+    background: #F4F4F4;
+    padding: 10px;
+    margin-top: -10px;
+    border-bottom: 1px solid #F2F2F2;
+  }
+  .confirmBookingText > div{
+    color: #2F2F2F;
+    font-size: 30px;
+  }
+  .confirmBookingText > div.smallerConfirmText{font-size: 18px;}
+  .confirmBookingText > div span{
+    color: #017EBA;
+    font-weight: bold;
+  }
+
+  .wrapperConfirmBookingContent{
+    padding-top: 60px;
+    padding-bottom: 70px;
+  }
+    .wrapperConfirmBookingContent .contentConfirmBooking.withBorderRight{
+      border-right: 1px dashed #D1D1D1;
+    }
+      .wrapperConfirmBookingContent .contentConfirmBooking .bigTitle{
+        border-bottom: 1px dashed #D1D1D1;
+        color: #0F0F0F;
+        font-size: 17px;
+        margin-bottom: 15px;
+        padding-bottom: 5px;
+        text-transform: uppercase;
+        font-family: 'Roboto Slab', serif;
+      }
+      .wrapperConfirmBookingContent .contentConfirmBooking .smallTitle{
+        color: #017EBA;
+        display: inline-block;
+        font-size: 15px;
+        font-weight: bold;
+        margin-bottom: 15px;
+        margin-top: 5px;
+        text-transform: uppercase;
+      }
+      .wrapperConfirmBookingContent .contentConfirmBooking .twoColsInfoContent{
+        margin-bottom: 10px;
+        color: #5D5D5D;
+        font-size: 15px;
+      }
+        .wrapperConfirmBookingContent .contentConfirmBooking .twoColsInfoContent .highlightInfo{
+          color: #017EBA;
+          font-weight: bold;
+        }
+        .wrapperConfirmBookingContent .contentConfirmBooking .twoColsInfoContent .highlightInfo.bigHighlightInfo{
+          font-size: 26px;
+        }
+        .wrapperConfirmBookingContent .contentConfirmBooking .twoColsInfoContent .highlightInfo.bigHighlightInfo.blackColor{
+          color: #000000;
+          margin-bottom: 20px;
+        }
+        .wrapperConfirmBookingContent .contentConfirmBooking .twoColsInfoContent .highlightInfo.bigHighlightInfo.specialHighlight{
+          margin-top: 35px;
+        }
+
+.blog-list {
+  margin: 0;
+  padding: 0;
+  font-size: 15px;
+}
+  .blog-list li {
+    margin-bottom: 40px;
+    line-height: 1.7em;
+    list-style: none;
+    padding-bottom: 40px;
+    border-bottom: 1px dotted #E0E0E0;
+  }
+    .blog-list .info {
+      position: absolute;
+      width: 60px;
+    }
+    .blog-list .date {
+      padding: 10px 0;
+      text-align: center;
+      text-shadow: none;
+    }
+      .blog-list .date h4 {
+        font-size: 40px;
+        color: #333333;
+        font-family: 'Source Sans Pro', sans-serif;
+        margin-bottom: 0;
+      }
+      .blog-list .date span {
+        letter-spacing: 8px;
+        padding-left: 5px;
+        font-family: 'Source Sans Pro', sans-serif;
+      }
+    .blog-list .preview {
+      line-height: 1.6em;
+      padding-left: 80px;
+
+    }
+      .blog-list .preview img {
+        padding-bottom: 10px;
+        width: 100%;
+      }
+      .blog-list blockquote{
+        border-left: 4px solid #DE543E;
+        padding: 6px 40px;
+        margin-bottom: 25px;
+        margin-left: 30px;
+        margin-top: 25px;
+      }
+      .blog-list a{text-decoration: none;}
+        .blog-list a h3{
+          font-family: 'Source Sans Pro', sans-serif;
+          text-transform: uppercase;
+          margin-top: 10px;
+          font-weight: bold;
+          color: #333;
+        }
+    .blog-list .meta-info {
+      border-bottom: 1px dotted #CCCCCC;
+      border-top: 1px dotted #CCCCCC;
+      font-size: 14px;
+      margin: 10px 0 10px 0;
+      padding: 5px 0;
+    }
+      .blog-list .meta-info span {
+        color: #CCCCCC;
+        padding: 0 10px;
+      }
+    .blog-readmore-button{
+      background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
+      border: 2px solid #DE543E;
+      border-radius: 0;
+      color: #DE543E;
+      display: inline-block;
+      font-size: 1em;
+      font-weight: 300 !important;
+      margin-top: 8px;
+      padding: 7px 15px;
+      text-shadow: none;
+      transition: all 0.3s ease 0s;
+      width: auto;
+    }
+    .blog-readmore-button:hover {
+      background-color: #DE543E;
+      color: #FFFFFF;
+    }
+    .blog-list .blog-comments{
+      float: right;
+      font-size: 0.9em;
+      margin-top: 14px;
+      display: inline;
+      font-weight: 300;
+      margin-right: 30px;
+      text-transform: uppercase;
+    }
+    .blog-list .short-description{
+      margin-top: 10px;
+      margin-bottom: 10px;
+      font-size: 16px;
+    }
+
+    .blog-page-navigation-wrap ul{
+      list-style: none;
+      float: right;
+    }
+      .blog-page-navigation-wrap ul li {
+        border: 1px solid #E0E0E0;
+        float: left;
+        font-size: 0.9em;
+        font-weight: 300;
+        margin-right: 6px;
+        padding: 3px 8px;
+      }
+      .blog-page-navigation-wrap ul li.current{
+        background-color: #DE543E;
+        border: medium none;
+        color: #FFFFFF !important;
+        padding: 4px 9px;
+      }
+        .blog-page-navigation-wrap ul li a{
+          text-decoration: none;
+          color: #000;
+        }
+        .blog-page-navigation-wrap ul li.current a{
+          color: #FFF;
+        }
+
+.widget{margin-bottom: 40px;}
+
+.widget h4.title {
+  border-bottom: 1px dotted #DE543E;
+  color: #DE543E;
+  font-size: 1.3em;
+  font-weight: 300;
+  margin-bottom: 20px;
+  padding-bottom: 6px;
+  text-transform: uppercase;
+  font-family: "Open Sans",sans-serif;
+}
+.widget ul {
+  list-style: none outside none;
+  margin: 0;
+  padding: 0;
+}
+.list-news li {
+  list-style: none outside none;
+  margin-bottom: 20px;
+  min-height: 60px;
+}
+.list-news img {
+  position: absolute;
+}
+.list-news .text {
+    padding-left: 70px;
+}
+.widget_category table td{
+  border-top: none !important;
+  border-bottom: 1px dotted #E0E0E0;
+  font-size: 14px;
+}
+  .widget_category table td .fa{margin-right: 12px;}
+  .widget_category table td a{color: #000;}
+  .widget_category table td span.cateCount{
+    color: #BBBBBB;
+    margin-left: 4px;
+  }
+.widget_tags span{
+  display: inline-block;
+  margin-bottom: 11px;
+  margin-right: 0;
+  margin-top: 5px;
+}
+  .widget_tags span a{
+    background: #FFFFFF;
+    border: 1px solid #CCCCCC;
+    border-radius: 2px;
+    margin-bottom: 5px;
+    padding: 5px 10px;
+    text-decoration: none;
+    text-shadow: none;
+    color: #000;
+  }
+  .widget_tags span a:hover {
+    background: #D35C3A;
+    color: #FFFFFF;
+  }
+
+.blog-comment {
+  margin-left: 70px;
+}
+  .blog-comment h5 {
+    margin-bottom: 10px;
+  }
+  .blog-comment ul, .blog-comment li {
+    list-style: none outside none;
+    margin-left: -30px;
+    padding-left: 0;
+  }
+  .blog-comment li {
+    font-size: 14px;
+    line-height: 1.6em;
+    border-bottom: 1px solid #EEEEEE;
+    margin-bottom: 10px;
+    min-height: 70px;
+    padding-bottom: 20px;
+  }
+    .blog-comment li li {
+      border-bottom: medium none;
+      border-top: 1px solid #EEEEEE;
+      margin-left: 55px;
+      margin-top: 20px;
+      padding-bottom: 0;
+      padding-top: 10px;
+    }
+  .blog-comment li .avatar {
+    height: 60px;
+    margin-top: 5px;
+    position: absolute;
+    width: 60px;
+  }
+    .blog-comment li li .avatar {
+      position: absolute;
+    }
+  .comment-info {
+    margin-bottom: 5px;
+    margin-left: 85px;
+  }
+    .comment-info .c_name {
+      color: #555555;
+      display: block;
+      font-weight: 700;
+    }
+    .comment-info .c_reply {
+      border-left: 1px solid #DDDDDD;
+      font-size: 12px;
+      margin-left: 20px;
+      padding-left: 20px;
+    }
+  .blog-comment .comment {
+    margin-left: 85px;
   }
 
 @media(max-width:767px){

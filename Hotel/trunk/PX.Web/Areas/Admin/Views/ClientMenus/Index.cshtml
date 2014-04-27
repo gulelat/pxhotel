@@ -4,8 +4,6 @@
     ViewBag.Description = "Client Menu Management Page";
 }
 @section styles{
-    <link rel="stylesheet" href="/Content/backend/css/jquery-ui-1.10.3.full.min.css" />
-    <link rel="stylesheet" href="/Content/backend/css/datepicker.css" />
     <link rel="stylesheet" href="/Content/backend/css/ui.jqgrid.css" />
 }
 <div class="page-header">
@@ -61,7 +59,7 @@
                 url: "@Url.Action("_AjaxBinding")",
                 caption: "Client Menu Management",
                 height: 370,
-                colNames: ['', 'Id', 'Name', 'Url', 'Parent Menu', 'Is Page Menu', 'Order', 'Created', 'CreatedBy', 'Updated', 'UpdatedBy'],
+                colNames: ['', 'Id', 'Name', 'Url', 'Parent Menu', 'Is Page Menu', 'Order', 'Created', 'CreatedBy', 'Updated', 'Updated By'],
                 colModel: [
                     {
                         name: 'action', width: 60, sortable: false, search: false, align: "center",

@@ -1,0 +1,26 @@
+﻿@model PX.Business.Models.Services.ServiceManageModel
+
+@{
+    ViewBag.Header = "Service Management";
+    ViewBag.Title = "Edit Service";
+    ViewBag.Description = "Edit Service";
+}
+
+<div class="page-header">
+    <h1>@ViewBag.Header
+        <small>
+            <i class="icon-double-angle-right"></i>
+            @ViewBag.Title
+        </small>
+    </h1>
+</div>
+
+<div class="row">
+    <div class="col-xs-12">
+        @ShowStatusMessage()
+        @using (Html.BeginForm("Edit", "Services", null, FormMethod.Post, new { @class = "form-horizontal" }))
+        {
+            @Html.EditorForModel(Model)
+        }
+    </div>
+</div>

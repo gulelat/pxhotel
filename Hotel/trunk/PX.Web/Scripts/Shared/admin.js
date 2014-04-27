@@ -23,6 +23,10 @@ if (!('contains' in String.prototype)) {
     };
 }
 
+function imageThumbnail(filePath, width, height) {
+    return "/Thumbnail?path=" + filePath + "&w=" + width + "&h=" + height;
+}
+
 var functionExec = function (functionName) {
     var args = Array.prototype.slice.call(arguments).splice(1);
     var namespaces = functionName.split(".");

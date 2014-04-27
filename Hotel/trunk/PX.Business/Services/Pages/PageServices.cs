@@ -4,7 +4,6 @@ using System.Data.Objects.SqlClient;
 using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Web;
 using System.Web.Mvc;
 using AutoMapper;
 using PX.Business.Models.PageLogs;
@@ -14,6 +13,7 @@ using PX.Business.Services.ClientMenus;
 using PX.Business.Services.PageLogs;
 using PX.Business.Services.PageTemplates;
 using PX.Business.Services.Settings;
+using PX.Business.Services.Templates;
 using PX.Core.Configurations;
 using PX.Core.Framework.Mvc.Environments;
 using PX.Business.Services.CurlyBrackets;
@@ -25,7 +25,6 @@ using PX.Core.Ultilities;
 using PX.EntityModel;
 using PX.EntityModel.Repositories;
 using PX.EntityModel.Repositories.RepositoryBase.Models;
-using RazorEngine.Templating;
 
 namespace PX.Business.Services.Pages
 {
@@ -37,6 +36,7 @@ namespace PX.Business.Services.Pages
         private readonly ICurlyBracketServices _curlyBracketServices;
         private readonly IClientMenuServices _clientMenuServices;
         private readonly ISettingServices _settingServices;
+        private readonly ITemplateServices _templateServices;
         private readonly PageRepository _pageRepository;
         public PageServices()
         {
@@ -46,6 +46,7 @@ namespace PX.Business.Services.Pages
             _clientMenuServices = HostContainer.GetInstance<IClientMenuServices>();
             _pageLogServices = HostContainer.GetInstance<IPageLogServices>();
             _settingServices = HostContainer.GetInstance<ISettingServices>();
+            _templateServices = HostContainer.GetInstance<ITemplateServices>();
             _pageRepository = new PageRepository();
         }
 
@@ -268,8 +269,9 @@ namespace PX.Business.Services.Pages
                     page.Caption = model.Caption;
                 }
 
+                
                 var currentTags = page.PageTags.Select(t => t.TagId).ToList();
-                foreach (var id in currentTags.Where(id => !model.Tags.Contains(id)))
+                foreach (var id in currentTags.Where(id => model.Tags == null || !model.Tags.Contains(id)))
                 {
                     pageTagRepository.Delete(page.Id, id);
                 }
@@ -452,18 +454,15 @@ namespace PX.Business.Services.Pages
                 WorkContext.ActivePageId = page.Id;
                 var model = new PageRenderModel(page);
                 if (model.IsFileTemplate) return model;
-                using (var templateService = new TemplateService())
+                var template = _pageTemplateServices.RenderPageTemplate(page.PageTemplateId, model);
+                if (template.IndexOf(Configurations.RenderBody, StringComparison.Ordinal) > -1)
                 {
-                    var template = _pageTemplateServices.RenderPageTemplate(page.PageTemplateId, model);
-                    if (template.IndexOf(Configurations.RenderBody, StringComparison.Ordinal) > -1)
-                    {
-                        template = template.Replace(Configurations.RenderBody, "@Raw(Model.Content)");
-                    }
-                    template = templateService.Parse(template, model, null, page.Title);
-
-                    model.Content = _curlyBracketServices.Render(template);
-                    return model;
+                    template = template.Replace(Configurations.RenderBody, "@Raw(Model.Content)");
                 }
+                template = _templateServices.Parse(template, model, null, page.Title);
+
+                model.Content = _curlyBracketServices.Render(template);
+                return model;
             }
             return null;
         }

@@ -4,8 +4,6 @@
     ViewBag.Description = "Page Audit Management Page";
 }
 @section styles{
-    <link rel="stylesheet" href="/Content/backend/css/jquery-ui-1.10.3.full.min.css" />
-    <link rel="stylesheet" href="/Content/backend/css/datepicker.css" />
     <link rel="stylesheet" href="/Content/backend/css/ui.jqgrid.css" />
 }
 <div class="page-header">
@@ -49,9 +47,6 @@
                 url: "@Url.Action("_AjaxBinding")",
                 caption: "Page Audit Management",
                 height: 370,
-                ondblClickRow: function (rowId) {
-                    jQuery(gridSelector).editRow(rowId, true);
-                },
                 colNames: ['', 'Id', 'PageId', 'Title', 'Updated', 'Updated By', 'Change Log', 'Friendly Url' ],
                 colModel: [
                     {

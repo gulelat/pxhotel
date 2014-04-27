@@ -5,8 +5,6 @@
     ViewBag.Description = "Localized Resource Management Page";
 }
 @section styles{
-    <link rel="stylesheet" href="/Content/backend/css/jquery-ui-1.10.3.full.min.css" />
-    <link rel="stylesheet" href="/Content/backend/css/datepicker.css" />
     <link rel="stylesheet" href="/Content/backend/css/ui.jqgrid.css" />
 }
 <div class="page-header">
@@ -52,10 +50,7 @@
                 postData: { language: '@Model.Id' },
                 caption: "Localized Resource Management",
                 height: 370,
-                ondblClickRow: function (rowId) {
-                    jQuery(gridSelector).editRow(rowId, true);
-                },
-                colNames: ['Id', 'Language', 'Text Key', 'Value', 'Created', 'CreatedBy', 'Updated', 'UpdatedBy'],
+                colNames: ['Id', 'Language', 'Text Key', 'Value', 'Created', 'CreatedBy', 'Updated', 'Updated By'],
                 colModel: [
                     { name: 'Id', index: 'Id', width: 100, key: true },
                     { name: 'LanguageId', index: 'LanguageId', width: 150, editable: false },

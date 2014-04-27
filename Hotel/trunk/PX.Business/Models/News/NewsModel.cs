@@ -24,7 +24,7 @@ namespace PX.Business.Models.News
         {
             get
             {
-                return EnumUtilities.GetName((NewsEnums.NewsStatusEnums)Status);
+                return EnumUtilities.GetName((NewsEnums.StatusEnums)Status);
             }
             set
             {

@@ -12,8 +12,9 @@ using PX.Business.Services.Settings;
 using PX.Core.Configurations;
 using PX.Core.Framework.Enums;
 using PX.Core.Framework.Mvc.Models;
+using PX.Core.Framework.Mvc.MvcResults;
+using PX.Core.Framework.Mvc.MvcResults.Image;
 using PX.Core.Ultilities.Files;
-using Simple.ImageResizer.MvcExtensions;
 
 namespace PX.Web.Areas.Admin.Controllers
 {
@@ -300,7 +301,6 @@ namespace PX.Web.Areas.Admin.Controllers
             }
         }
 
-        [OutputCache(VaryByParam = "*", Duration = 60 * 60 * 24 * 365)]
         public ImageResult Thumbnail(string path, int w = 0, int h = 0)
         {
             var filepath = Path.Combine("~", path);
