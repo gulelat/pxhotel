@@ -17,6 +17,8 @@
 
         #region Media
 
+        public const string ResizedFolder = "resized";
+
         public const string NoImage = "~/Images/no-image.png";
 
         public const string NoAvatar = "noavatar.png";

@@ -5,8 +5,6 @@
 }
 
 @section styles{
-    <link rel="stylesheet" href="/Content/backend/css/jquery-ui-1.10.3.full.min.css" />
-    <link rel="stylesheet" href="/Content/backend/css/datepicker.css" />
     <link rel="stylesheet" href="/Content/backend/css/ui.jqgrid.css" />
 }
 <div class="page-header">
@@ -52,7 +50,7 @@
                 url: "@Url.Action("_AjaxBinding")",
                 caption: "User Management",
                 height: 400,
-                colNames: ['', 'Id', 'Email', 'FirstName', 'LastName', 'User Group', 'Status', 'Identity Number', 'Phone', 'Active', 'LastLogin', 'Created', 'CreatedBy', 'Updated', 'UpdatedBy'],
+                colNames: ['', 'Id', 'Email', 'FirstName', 'LastName', 'User Group', 'Status', 'Identity Number', 'Phone', 'Active', 'LastLogin', 'Created', 'CreatedBy', 'Updated', 'Updated By'],
                 colModel: [
                     {
                         name: 'preview', width: 60, sortable: false, search: false, align: "center",

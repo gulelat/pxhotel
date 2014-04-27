@@ -64,6 +64,7 @@
     <Compile Include="Configurations\Configurations.cs" />
     <Compile Include="Configurations\SettingNames.cs" />
     <Compile Include="Framework\Enums\ClientMenuEnums.cs" />
+    <Compile Include="Framework\Enums\ServiceEnums.cs" />
     <Compile Include="Framework\Enums\SettingEnums.cs" />
     <Compile Include="Framework\Enums\GridEnums.cs" />
     <Compile Include="Framework\Enums\MediaEnums.cs" />
@@ -88,6 +89,9 @@
     <Compile Include="Framework\Mvc\Models\JqGrid\WhereClauseGenerator.cs" />
     <Compile Include="Framework\Mvc\Models\ResponseModel.cs" />
     <Compile Include="Framework\Mvc\Models\ValidationResultModel.cs" />
+    <Compile Include="Framework\Mvc\MvcResults\Image\FilesystemExtensionMethods.cs" />
+    <Compile Include="Framework\Mvc\MvcResults\Image\HttpResponseExtensions.cs" />
+    <Compile Include="Framework\Mvc\MvcResults\Image\ImageResult.cs" />
     <Compile Include="Logging\ILogger.cs" />
     <Compile Include="Logging\Logger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

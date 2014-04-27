@@ -4,8 +4,6 @@
     ViewBag.Description = "Page Template Management";
 }
 @section styles{
-    <link rel="stylesheet" href="/Content/backend/css/jquery-ui-1.10.3.full.min.css" />
-    <link rel="stylesheet" href="/Content/backend/css/datepicker.css" />
     <link rel="stylesheet" href="/Content/backend/css/ui.jqgrid.css" />
 }
 <div class="page-header">
@@ -61,7 +59,7 @@
                 url: "@Url.Action("_AjaxBinding")",
                 caption: "Page Template Management",
                 height: 370,
-                colNames: ['', 'Id', 'Name', 'Parent Name', 'Created', 'CreatedBy', 'Updated', 'UpdatedBy'],
+                colNames: ['', 'Id', 'Name', 'Parent Name', 'Created', 'CreatedBy', 'Updated', 'Updated By'],
                 colModel: [
                     {
                         name: 'actions', width: 60, sortable: false, search: false, align: "center",

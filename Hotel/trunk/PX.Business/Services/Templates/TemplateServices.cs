@@ -3,6 +3,8 @@ using System.Linq;
 using System.Linq.Expressions;
 using PX.Business.Models.TemplateLogs;
 using PX.Business.Models.Templates;
+using PX.Business.Mvc.ViewEngines.Razor;
+using PX.Business.Mvc.ViewEngines.Razor.RazorEngine;
 using PX.Business.Services.Settings;
 using PX.Business.Services.TemplateLogs;
 using PX.Core.Configurations;
@@ -18,6 +20,7 @@ using PX.Core.Ultilities;
 using PX.EntityModel;
 using AutoMapper;
 using PX.EntityModel.Repositories;
+using RazorEngine.Configuration;
 using RazorEngine.Templating;
 
 namespace PX.Business.Services.Templates
@@ -306,6 +309,16 @@ namespace PX.Business.Services.Templates
             }
             return null;
         }
+
+        public TemplateServiceConfiguration GetConfig()
+        {
+            return new TemplateServiceConfiguration
+            {
+                BaseTemplateType = typeof(MvcTemplateBase<>),
+                EncodedStringFactory = new MvcHtmlStringFactory()
+            };
+        }
+
         #endregion
 
         /// <summary>
@@ -313,12 +326,32 @@ namespace PX.Business.Services.Templates
         /// </summary>
         /// <param name="template"></param>
         /// <param name="model"></param>
+        /// <param name="viewBag"> </param>
         /// <param name="cacheName"></param>
         /// <returns></returns>
-        public string RenderTemplate(string template, dynamic model, string cacheName = "")
+        public string Parse(string template, dynamic model, DynamicViewBag viewBag = null , string cacheName = "")
         {
-            var templateService = new TemplateService();
-            return templateService.Parse(template, model, null, cacheName);
+            var config = new TemplateServiceConfiguration
+            {
+                BaseTemplateType = typeof(MvcTemplateBase<>),
+                EncodedStringFactory = new MvcHtmlStringFactory()
+            };
+            using (var templateService = new TemplateService(config))
+            {
+                return templateService.Parse(template, model, viewBag, cacheName);
+            }
+            
+        }
+
+        public void Compile(string template, Type type, string cacheName)
+        {
+            var config = new TemplateServiceConfiguration
+            {
+                BaseTemplateType = typeof(MvcTemplateBase<>),
+                EncodedStringFactory = new MvcHtmlStringFactory()
+            };
+            var templateService = new TemplateService(config);
+            templateService.Compile(template, type, cacheName);
         }
 
         /// <summary>

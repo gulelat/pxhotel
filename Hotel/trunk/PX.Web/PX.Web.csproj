@@ -55,9 +55,6 @@
     <Reference Include="Simple.ImageResizer">
       <HintPath>..\packages\Simple.ImageResizer.2.0.1\lib\net40\Simple.ImageResizer.dll</HintPath>
     </Reference>
-    <Reference Include="Simple.ImageResizer.MvcExtensions">
-      <HintPath>..\packages\Simple.ImageResizer.MvcExtensions.1.0.0\lib\net45\Simple.ImageResizer.MvcExtensions.dll</HintPath>
-    </Reference>
     <Reference Include="SimpleInjector">
       <HintPath>..\packages\SimpleInjector.2.5.0\lib\net45\SimpleInjector.dll</HintPath>
     </Reference>
@@ -193,6 +190,8 @@
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\AccountController.cs" />
     <Compile Include="Areas\Admin\Controllers\ClientMenusController.cs" />
+    <Compile Include="Areas\Admin\Controllers\BannerController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ServicesController.cs" />
     <Compile Include="Areas\Admin\Controllers\PageTemplateLogsController.cs" />
     <Compile Include="Areas\Admin\Controllers\PageLogsController.cs" />
     <Compile Include="Areas\Admin\Controllers\FileTemplatesController.cs" />
@@ -217,6 +216,7 @@
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
     <Compile Include="Areas\Admin\Controllers\UsersController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\NewsController.cs" />
     <Compile Include="Controllers\PagesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -348,12 +348,14 @@
     <Content Include="Content\FrontEnd\css\bootstrap.min.css" />
     <Content Include="Content\FrontEnd\css\datepicker.css" />
     <Content Include="Content\FrontEnd\css\datepicker.date.css" />
+    <Content Include="Content\FrontEnd\css\elastislide.css" />
     <Content Include="Content\FrontEnd\css\font-awesome.min.css" />
     <Content Include="Content\FrontEnd\css\owl.carousel.css" />
     <Content Include="Content\FrontEnd\css\owl.theme.css" />
     <Content Include="Content\FrontEnd\css\owl.transitions.css" />
     <Content Include="Content\FrontEnd\css\photobox.css" />
     <Content Include="Content\FrontEnd\css\photobox.ie.css" />
+    <Content Include="Content\FrontEnd\css\rgStyle.css" />
     <Content Include="Content\FrontEnd\css\styles.css" />
     <Content Include="Content\FrontEnd\css\summernote.css" />
     <Content Include="Content\FrontEnd\fonts\allura-regular-webfont.css" />
@@ -1099,6 +1101,14 @@
     <Content Include="Areas\Admin\Views\SQLTool\Index.cshtml" />
     <Content Include="Areas\Admin\Views\SQLTool\Histories.cshtml" />
     <Content Include="Areas\Admin\Views\Users\EditorTemplates\UserManageModel.cshtml" />
+    <Content Include="Areas\Admin\Views\Banner\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Banner\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Banner\EditorTemplates\BannerManageModel.cshtml" />
+    <Content Include="Areas\Admin\Views\Banner\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Services\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Services\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Services\EditorTemplates\ServiceManageModel.cshtml" />
+    <Content Include="Areas\Admin\Views\Services\Index.cshtml" />
     <None Include="Properties\PublishProfiles\Hotel.pubxml" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <None Include="Scripts\jquery-1.8.3.intellisense.js" />
@@ -1323,6 +1333,7 @@
     <Content Include="Views\Shared\_CleanLayout.cshtml" />
     <Content Include="Scripts\Media\mediaBrowser\plugin.min.js.map" />
     <Content Include="Views\Pages\View1.cshtml" />
+    <Content Include="Views\News\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

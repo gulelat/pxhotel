@@ -105,6 +105,7 @@ namespace PX.Business.Services.Settings
                 Id = u.Id,
                 Name = u.Name,
                 Value = u.Value,
+                SettingTypeId = u.SettingTypeId,
                 SettingTypeName = u.SettingType.Name,
                 RecordActive = u.RecordActive,
                 RecordOrder = u.RecordOrder,
@@ -141,10 +142,6 @@ namespace PX.Business.Services.Settings
                     {
                         siteSetting.SettingTypeId = settingTypeId;
                     }
-                    else
-                    {
-                        siteSetting.SettingTypeId = null;
-                    }
 
                     response = Update(siteSetting);
                     return response.SetMessage(response.Success ?
@@ -156,10 +153,6 @@ namespace PX.Business.Services.Settings
                     if (int.TryParse(model.SettingTypeName, out settingTypeId))
                     {
                         siteSetting.SettingTypeId = settingTypeId;
-                    }
-                    else
-                    {
-                        siteSetting.SettingTypeId = null;
                     }
 
                     response = Insert(siteSetting);

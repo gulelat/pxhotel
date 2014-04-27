@@ -8,6 +8,7 @@ using PX.Core.Framework.Mvc.Environments;
 using PX.Business.Services.Localizes;
 using PX.Business.Services.Users;
 using PX.Core.Framework.Enums;
+using PX.Core.Ultilities;
 using PX.EntityModel;
 
 namespace PX.Business.Mvc.Attributes.Authorize
@@ -29,6 +30,12 @@ namespace PX.Business.Mvc.Attributes.Authorize
             base.OnAuthorization(authorizationContext);
 
             var urlHelper = new UrlHelper(authorizationContext.RequestContext);
+            var url = UrlUtilities.GenerateUrl(authorizationContext.RequestContext, "Account", "Login",
+                                               new
+                                                   {
+                                                       area = "Admin",
+                                                       returnUrl = authorizationContext.HttpContext.Request.Path
+                                                   });
 
             if (authorizationContext.Result is HttpUnauthorizedResult)
             {
@@ -36,7 +43,7 @@ namespace PX.Business.Mvc.Attributes.Authorize
                 //If its an unauthorized/timed out ajax request go to top window and redirect to logon.
                 if (authorizationContext.HttpContext.Request.IsAjaxRequest())
                 {
-                    authorizationContext.Result = new JavaScriptResult { Script = string.Format("top.location = {0};", urlHelper.Action("Login", "Account", new { area = "Admin", returnUrl = authorizationContext.HttpContext.Request.Path })) };
+                    authorizationContext.Result = new JavaScriptResult { Script = string.Format("top.location = {0};", url) };
                 }
                 //If it's a child action, return 404 result
                 else if (authorizationContext.Controller.ControllerContext.IsChildAction)
@@ -46,7 +53,7 @@ namespace PX.Business.Mvc.Attributes.Authorize
                 // Redirect to login page
                 else
                 {
-                    authorizationContext.Result = new RedirectResult(urlHelper.Action("Login", "Account", new { area = "Admin", returnUrl = authorizationContext.HttpContext.Request.Path }));
+                    authorizationContext.Result = new RedirectResult(url);
                 }
             }
         }

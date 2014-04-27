@@ -26,7 +26,7 @@
             <div class="form-group">
                 @MText(Tags.Label, "AdminModule:::SiteSettings:::Forms:::SettingTypes", "Setting Type", new { @class = "col-xs-4 control-label no-padding-right", @for = "Value" })
                 <div class="col-xs-5">
-                    @Html.DropDownListFor(m => m.SettingTypeId, Model.SettingTypes, "--Choose Setting Type--")
+                    @Html.DropDownListFor(m => m.SettingTypeId, Model.SettingTypes)
                     @Html.ValidationMessageFor(m => m.SettingTypeId)
                 </div>
             </div>

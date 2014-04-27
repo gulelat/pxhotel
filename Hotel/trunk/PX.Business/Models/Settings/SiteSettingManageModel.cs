@@ -11,7 +11,7 @@ namespace PX.Business.Models.Settings
 
         public dynamic Setting { get; set; }
 
-        public int? SettingTypeId { get; set; }
+        public int SettingTypeId { get; set; }
 
         public IEnumerable<SelectListItem> SettingTypes { get; set; }
     }

@@ -25,6 +25,7 @@ namespace PX.EntityModel
             throw new UnintentionalCodeFirstException();
         }
     
+        public DbSet<Banner> Banners { get; set; }
         public DbSet<BookingRequest> BookingRequests { get; set; }
         public DbSet<ClientMenu> ClientMenus { get; set; }
         public DbSet<Country> Countries { get; set; }
@@ -45,6 +46,7 @@ namespace PX.EntityModel
         public DbSet<RoomType> RoomTypes { get; set; }
         public DbSet<RotatingImageGroup> RotatingImageGroups { get; set; }
         public DbSet<RotatingImage> RotatingImages { get; set; }
+        public DbSet<Service> Services { get; set; }
         public DbSet<SettingType> SettingTypes { get; set; }
         public DbSet<SiteSetting> SiteSettings { get; set; }
         public DbSet<SQLCommandHistory> SQLCommandHistories { get; set; }

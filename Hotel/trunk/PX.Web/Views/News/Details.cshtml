@@ -1,0 +1,94 @@
+﻿@model PX.Business.Models.News.CurlyBrackets.NewsCurlyBracket
+
+@{
+    ViewBag.Title = Model.Title;
+    Layout = "DBTemplate.Master.cshtml";
+}
+
+
+<div class="divWrapperBigHeadingIntroText">
+    <div class="col-sm-11 col-sm-offset-1 bigHeadingIntroText">
+        <h1>Khuyến mãi 30/4</h1>
+        <span>30/4 Holiday Promotion
+            </span>
+    </div>
+</div>
+
+<div class="divWrapperRoomBookingOnlineAndContact">
+    <div class="col-sm-12">
+        <ul class="blog-list">
+            <li>
+                <div class="info">
+                    <div class="date">
+                        <h4>22</h4>
+                        <span>SEP</span>
+                    </div>
+                </div>
+                <div class="preview">
+                    <img class="img-responsive" src="@Model.ImageUrl" />
+                    <a href="#">
+                        <h3 class="blog-title">@Model.Title</h3>
+                    </a>
+                    <div class="meta-info">
+                        <i class="fa fa-user"></i>
+                        <a href="#">@Model.LastUpdatedBy</a>
+                        <span>|</span>
+                        <i class="fa fa-tag"></i>
+                        @foreach (var item in Model.Categories)
+                        {
+                            <a href="#">@item.Name ,</a>
+                        }
+                        <span>|</span>
+                    </div>
+                    <blockquote>@Model.Description</blockquote>
+                    <div class="short-description">@Html.Raw(Model.Content)</div>
+                </div>
+            </li>
+        </ul>
+        <div class="blog-comment">
+            <h5 class="title">
+                <span>Bình luận (5)</span>
+            </h5>
+            <ol>
+                <li>
+                    <div class="avatar">
+                        <img alt="" class="img-responsive" src="img/avatar.jpg">
+                    </div>
+                    <div class="comment-info">
+                        <span class="c_name">Liêm Nguyễn</span>
+                        <span class="c_date">8 Tháng Tám 2013</span>
+                        <span class="c_reply"><a href="#">Trả lời</a></span>
+                    </div>
+                    <div class="comment">
+                        Không ít CĐV cho rằng David Moyes nên được BLĐ M.U cho thêm thời gian, giống Sir Alex trước đây. Tuy nhiên, thật khó để so sánh một M.U đã là đế chế ở châu Âu với M.U còn non kém của Sir Alex 27 năm trước.
+                 
+                    </div>
+                    <div class="clearfix"></div>
+                    <ol>
+                        <li>
+                            <div class="avatar">
+                                <img alt="" class="img-responsive" src="img/avatar.jpg">
+                            </div>
+                            <div class="comment-info">
+                                <span class="c_name">Nam Lê</span>
+                                <span class="c_date">18 Tháng Tám 2013</span>
+                                <span class="c_reply"><a href="#">Trả lời</a></span>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="comment">HLV Van Gaal hiện là ứng viên hàng đầu trở thành vị thuyền trưởng của M.U. Ở châu Âu, chiến lược gia người Hà Lan đã khẳng định được khả năng cầm quân khi dẫn dắt Ajax từ năm 1991 đến 1997. Ở giai đoạn này, ông cùng Ajax vô địch giải quốc gia Hà Lan 3 năm liên tiếp (từ 1993 đến 1996) và đoạt cúp Champions League mùa 1994/95.</div>
+                        </li>
+                    </ol>
+                    <div class="clearfix"></div>
+                </li>
+            </ol>
+        </div>
+        <a href="#">
+            <button class="blog-readmore-button">
+                Góp ý <i class="fa fa-mail"></i>
+            </button>
+        </a>
+        <div class="clearfix"></div>
+    </div>
+    <div class="clearfix"></div>
+</div>
+

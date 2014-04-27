@@ -490,7 +490,7 @@
         } else {
             parent.$TargetControl.val(fileUrl);
         }
-        if (parent.window["selectImage"].length > 0)
+        if (parent.window["selectImage"] != undefined && parent.window["selectImage"].length > 0)
             parent.window["selectImage"](fileUrl);
         parent.$.fancybox.close();
     }

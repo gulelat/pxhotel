@@ -241,7 +241,7 @@ namespace PX.Business.Services.ClientMenus.CurlyBracketResolvers
              */
             cacheMenu = new CacheMenu
             {
-                Content = _templateServices.RenderTemplate(_parentTemplate.Content, data, _parentTemplate.CacheName),
+                Content = _templateServices.Parse(_parentTemplate.Content, data, null, _parentTemplate.CacheName),
                 DataCacheTime = dataCacheTime,
                 TemplateCacheTime = templateCacheTime
             };
@@ -267,7 +267,7 @@ namespace PX.Business.Services.ClientMenus.CurlyBracketResolvers
                     dynamicMenuCurlyBracket.ChildMenusString = RenderMenus(dynamicMenuCurlyBracket.ChildMenus, _childTemplate);
                     dynamicMenuCurlyBracket.ChildMenusMobileString = RenderMobileMenus(dynamicMenuCurlyBracket.ChildMenus, _childTemplate);
                 }
-                return _templateServices.RenderTemplate(template.Content, menus, template.CacheName);
+                return _templateServices.Parse(template.Content, menus, null, template.CacheName);
             }
             return string.Empty;
         }
@@ -281,7 +281,7 @@ namespace PX.Business.Services.ClientMenus.CurlyBracketResolvers
                     //Recursive render child html
                     dynamicMenuCurlyBracket.ChildMenusString = RenderMobileMenus(dynamicMenuCurlyBracket.ChildMenus, _childMobileTemplate);
                 }
-                return _templateServices.RenderTemplate(template.Content, menus, template.CacheName);
+                return _templateServices.Parse(template.Content, menus, null, template.CacheName);
             }
             return string.Empty;
         }

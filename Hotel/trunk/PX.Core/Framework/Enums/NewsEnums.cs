@@ -2,7 +2,7 @@
 {
     public class NewsEnums
     {
-        public enum NewsStatusEnums
+        public enum StatusEnums
         {
             Active = 1,
             Inactive = 2

@@ -4,8 +4,6 @@
     ViewBag.Description = "Rotating Image Management Page";
 }
 @section styles{
-    <link rel="stylesheet" href="/Content/backend/css/jquery-ui-1.10.3.full.min.css" />
-    <link rel="stylesheet" href="/Content/backend/css/datepicker.css" />
     <link rel="stylesheet" href="/Content/backend/css/ui.jqgrid.css" />
 }
 <div class="page-header">
@@ -56,10 +54,7 @@
                 url: "@Url.Action("_AjaxBinding")",
                 caption: "Rotating Image Management",
                 height: 370,
-                ondblClickRow: function (rowId) {
-                    jQuery(gridSelector).editRow(rowId, true);
-                },
-                colNames: ['', 'Id', 'Text', 'Url', 'Group', 'Order', 'Active', 'Created', 'CreatedBy', 'Updated', 'UpdatedBy'],
+                colNames: ['', 'Id', 'Image', 'Url', 'Group', 'Order', 'Active', 'Created', 'CreatedBy', 'Updated', 'Updated By'],
                 colModel: [
                     {
                         name: 'action',
@@ -72,7 +67,13 @@
                         }
                     },
                     { name: 'Id', index: 'Id', width: 60, key: true, sorttype: "int" },
-                    { name: 'Text', index: 'Text', width: 250, editable: true },
+                    {
+                        name: 'ImageUrl', index: 'ImageUrl', width: 260,
+                        formatter: function (cellvalue, options, rowObject) {
+                            var image = "<img src='" + imageThumbnail(cellvalue, 250, 60) + "'/>";
+                            return image;
+                        }
+                    },
                     { name: 'Url', index: 'Url', width: 150, editable: true, editrules: { required: true } },
                     {
                         name: 'GroupName',

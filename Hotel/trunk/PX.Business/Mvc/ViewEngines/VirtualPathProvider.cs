@@ -1,10 +1,13 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Caching;
 using System.Web.Hosting;
 using PX.Business.Models.Pages;
+using PX.Business.Services.CurlyBrackets;
 using PX.Business.Services.PageTemplates;
 using PX.Business.Services.Pages;
 using PX.Business.Services.Templates;
@@ -135,12 +138,25 @@ namespace PX.Business.Mvc.ViewEngines
         {
             var pageTemplateServices = HostContainer.GetInstance<IPageTemplateServices>();
             var pageServices = HostContainer.GetInstance<IPageServices>();
+            var curlyBracketServices = HostContainer.GetInstance<ICurlyBracketServices>();
 
             var pageId = HttpContext.Current.Request["activePageId"].ToNullableInt();
             var page = pageServices.GetById(pageId);
             var model = page != null ? new PageRenderModel(page) : new PageRenderModel();
             var content = pageTemplateServices.RenderPageTemplate(template.Id, model);
-            _data = System.Text.Encoding.ASCII.GetBytes(content);
+            content = curlyBracketServices.Render(content);
+            var encoding = new UnicodeEncoding();
+            _data = Encoding.Unicode.GetBytes(content);
+
+
+            var utf8Bytes = new byte[content.Length];
+            //for (int i = 0; i < content.Length; ++i)
+            //{
+            //    //Debug.Assert( 0 <= utf8String[i] && utf8String[i] <= 255, "the char must be in byte's range");
+            //    utf8Bytes[i] = (byte)content[i];
+            //}
+
+            //_data = utf8Bytes;
         }
 
         public override Stream Open()

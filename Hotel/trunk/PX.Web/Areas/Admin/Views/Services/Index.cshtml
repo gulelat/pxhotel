@@ -1,0 +1,114 @@
+﻿@{
+    ViewBag.Header = "Services";
+    ViewBag.Title = "Service Management";
+    ViewBag.Description = "Service Management Page";
+}
+@section styles{
+    <link rel="stylesheet" href="/Content/backend/css/ui.jqgrid.css" />
+}
+<div class="page-header">
+    <h1>@ViewBag.Header
+        <small>
+            <i class="icon-double-angle-right"></i>
+            @ViewBag.Title
+        </small>
+    </h1>
+</div>
+<div class="row">
+    @ShowStatusMessage()
+    <div class="col-xs-12">
+        <a href="@Url.Action("Create")" class="btn btn-yellow btn-minier">
+            <i class="icon-plus align-top bigger-125"></i>
+            Create Service
+        </a>
+    </div>
+    <div class="col-xs-12">
+        <!-- PAGE CONTENT BEGINS -->
+
+        <table id="grid-table"></table>
+
+        <div id="grid-pager"></div>
+
+        <!-- PAGE CONTENT ENDS -->
+    </div>
+</div>
+@section scripts
+{
+    <script src="/Scripts/BackEnd/date-time/bootstrap-datepicker.min.js"></script>
+    <script src="/Scripts/BackEnd/jqGrid/jquery.jqGrid.min.js"></script>
+    <script src="/Scripts/BackEnd/jqGrid/i18n/grid.locale-en.js"></script>
+    <script type="text/javascript">
+        var gridSelector = "#grid-table";
+        var pagerSelector = "#grid-pager";
+        var navButtonsSetup = {
+            enableEdit: true,
+            enableCreate: true,
+            enableDelete: true,
+            enableSearch: true,
+            enableRefresh: true,
+            enableView: true
+        };
+        
+        jQuery(function ($) {
+            jQuery(gridSelector).jqGrid({
+                datatype: "json",
+                url: "@Url.Action("_AjaxBinding")",
+                caption: "Service Management",
+                height: 370,
+                colNames: ['', 'Id', 'Title', 'Status', 'Created', 'CreatedBy', 'Updated', 'Updated By'],
+                colModel: [
+                    {
+                        name: 'edit', width: 50, sortable: false, search: false, align: "center",
+                        formatter: function (cellvalue, options, rowObject) {
+                            return "<a href='@Url.Action("Edit")/" + options.rowId + "'><div class='ui-pg-div ui-inline-edit' title='' data-original-title='Edit Service'><span class='icon-edit'></span></div></a>";
+                        }
+                    },
+                    { name: 'Id', index: 'Id', width: 60, key: true, sorttype: "int" },
+                    { name: 'Title', index: 'Title', width: 240, editable: true },
+                    {
+                        name: 'StatusName',
+                        index: 'StatusName',
+                        width: 150,
+                        editable: true,
+                        edittype: "select",
+                        editoptions: {
+                            dataUrl: '@Url.Action("GetStatus")',
+                            buildSelect: function (response) {
+                                return buildDropdown(response, false);
+                            }
+                        },
+                        editrules: { required: true }
+                    },
+                    { name: 'Created', index: 'Created', formatter: "date", width: 80, editable: false, sorttype: "datetime", unformat: pickDate },
+                    { name: 'CreatedBy', index: 'CreatedBy', width: 180, editable: false, editoptions: { size: "20", maxlength: "30" } },
+                    { name: 'Updated', index: 'Updated', formatter: "date", width: 80, editable: false, sorttype: "datetime", unformat: pickDate },
+                    { name: 'UpdatedBy', index: 'UpdatedBy', width: 180, editable: false, editoptions: { size: "20", maxlength: "30" } }
+                ],
+                pager: pagerSelector,
+                rowList: [10, 20, 30],
+                shrinkToFit: false,
+                editurl: '@Url.Action("Manage")',
+
+                //Default Value
+                altRows: true,
+                multiboxonly: true,
+                autowidth: true,
+                viewrecords: true,
+                loadComplete: function () {
+                    var table = this;
+                    setTimeout(function () {
+                        styleCheckbox(table);
+                        updateActionIcons(table);
+                        updatePagerIcons(table);
+                        enableTooltips(table);
+                    }, 0);
+                }
+            });
+
+            //enable search/filter toolbar
+            jQuery(gridSelector).jqGrid('filterToolbar', { defaultSearch: "cn", stringResult: true });
+        });
+    </script>
+    <script src="/Scripts/Shared/grid.js"></script>
+
+}

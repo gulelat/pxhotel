@@ -12,6 +12,21 @@ namespace PX.Core.Ultilities
 {
     public static class UrlUtilities
     {
+
+        /// <summary>
+        /// Generate url from request context
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="controller"></param>
+        /// <param name="action"></param>
+        /// <param name="routeValues"></param>
+        /// <returns></returns>
+        public static string GenerateUrl(RequestContext context, string controller, string action, object routeValues)
+        {
+            var urlHelper = new UrlHelper(context);
+            return urlHelper.Action(action, controller, routeValues);
+        }
+
         /// <summary>
         /// </summary>
         private static readonly Regex InvalidUrlCharacter = new Regex(@"[^a-z|^_|^\d|^\u4e00-\u9fa5|^/]+",
@@ -367,7 +382,6 @@ namespace PX.Core.Ultilities
             return "http://" + url;
         }
 
-
         /// <summary>
         ///     Gets the virtual path.
         /// </summary>
@@ -380,7 +394,6 @@ namespace PX.Core.Ultilities
             physicalPath = physicalPath.Replace("\\", "/");
             return "~/" + physicalPath;
         }
-
 
         /// <summary>
         ///     Adds the query param.

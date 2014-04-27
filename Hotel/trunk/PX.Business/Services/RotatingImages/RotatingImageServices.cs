@@ -73,7 +73,7 @@ namespace PX.Business.Services.RotatingImages
             var rotatingImages = GetAll().Select(u => new RotatingImageModel
             {
                 Id = u.Id,
-                Text = u.Text,
+                ImageUrl = u.ImageUrl,
                 Url = u.Url,
                 GroupId = u.GroupId,
                 GroupName = u.RotatingImageGroup.Name,
@@ -107,11 +107,10 @@ namespace PX.Business.Services.RotatingImages
             {
                 case GridOperationEnums.Edit:
                     rotatingImage = GetById(model.Id);
-                    rotatingImage.Text = model.Text;
+                    rotatingImage.ImageUrl = model.ImageUrl;
                     rotatingImage.Url = model.Url;
                     rotatingImage.GroupId = model.GroupName.ToInt();
                     rotatingImage.RecordOrder = model.RecordOrder;
-                    rotatingImage.RecordActive = model.RecordActive;
                     response = Update(rotatingImage);
                     return response.SetMessage(response.Success ?
                         _localizedResourceServices.T("AdminModule:::RotatingImages:::Messages:::UpdateSuccessfully:::Update rotating image successfully.")

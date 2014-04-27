@@ -74,12 +74,7 @@
 <script type="text/javascript" src="@Url.Content("~/Scripts/ckeditor/ckeditor.js")"></script>
 <script src="@Url.Content("~/Scripts/Backend/chosen.jquery.min.js")"></script>
 <script>
-    CKEDITOR.replace('pageContent', {
-        filebrowserBrowseUrl: '/Admin/FileManager/Browser/1',
-        filebrowserImageBrowseUrl: '/Admin/FileManager/Browser/2',
-        filebrowserUploadUrl: '/Admin/FileManager/Upload/1',
-        filebrowserImageUploadUrl: '/Admin/FileManager/Upload/2'
-    });
+    CKEDITOR.replace('pageContent');
 
     $(".chosen-select").chosen();
     $('.chosen-container').each(function () {
