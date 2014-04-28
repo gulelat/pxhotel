@@ -1,45 +1,518 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <title>@ViewBag.Title - My ASP.NET MVC Application</title>
-        <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
-        <meta name="viewport" content="width=device-width" />
-        @Styles.Render("~/Content/css")
-        @Scripts.Render("~/bundles/modernizr")
-    </head>
-    <body>
-        <header>
-            <div class="content-wrapper">
-                <div class="float-left">
-                    <p class="site-title">@Html.ActionLink("your logo here", "Index", "Home")</p>
-                </div>
-                <div class="float-right">
-                    <section id="login">
-                    </section>
-                    <nav>
-                        <ul id="menu">
-                            <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                        </ul>
-                    </nav>
-                </div>
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="PXHotel, ">
+    <meta name="author" content="PXHotel">
+    <link rel="shortcut icon" href="favicon.png">
+
+    <title>PXHotel - </title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/Content/FrontEnd/css/bootstrap.css" rel="stylesheet">
+
+    <!-- Just for debugging purposes. Don't actually copy this line! -->
+    <!--[if lt IE 9]><script src="~/Scripts/FrontEnd/ie8-responsive-file-warning.js"></script><![endif]-->
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.~/Scripts/FrontEnd/1.3.0/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Custom styles for this template -->
+    <link href="/Content/FrontEnd/css/styles.css" rel="stylesheet">
+    <link href="/Content/FrontEnd/css/font-awesome.min.css" rel="stylesheet">
+    <link href="fonts/allura-regular-webfont.css" rel="stylesheet">
+    <link href="fonts/fontviet1-webfont.css" rel="stylesheet">
+    <link href="/Content/FrontEnd/css/owl.carousel.css" rel="stylesheet">
+    <link href="/Content/FrontEnd/css/owl.theme.css" rel="stylesheet">
+    <link href="/Content/FrontEnd/css/owl.transitions.css" rel="stylesheet">
+    <link href="/Content/FrontEnd/css/animate.min.css" rel="stylesheet">
+    <link href="/Content/FrontEnd/css/datepicker.css" rel="stylesheet">
+    <link href="/Content/FrontEnd/css/datepicker.date.css" rel="stylesheet">
+    <link href="/Content/FrontEnd/css/photobox.css" rel="stylesheet">
+    <link href="/Content/FrontEnd/css/photobox.ie.css" rel="stylesheet">
+    <link href="/Content/FrontEnd/css/summernote.css" rel="stylesheet">
+    <script src="/Scripts/FrontEnd/jquery-1.10.2.min.js"></script>
+  </head>
+  <body>
+    <div class="bigWrapper col-lg-10 col-lg-offset-1">
+      <div>
+        <div class="divMenuAndLogo">
+          <div id="dynamicMenus" class="navbar navbar-static-top navbar-default" role="navigation">
+  <div class="navbar-header">
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+      <span class="sr-only">Toggle navigation</span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+  </div>
+  <div class="navbar-collapse collapse">
+    <ul class="nav navbar-nav myNavbarNav">
+      <li id="5" class="PX.Business.Models.ClientMenus.CurlyBrackets.DynamicMenuCurlyBracket dropdown parentDropdownMenu hidden-xs">
+        <a class="dropdown-submenu" data-toggle="dropdown" href="Home">Trang Chủ</a>
+      </li>
+      <li class="visible-xs menuItemOnMobileWithoutChildren">
+        	<a href="Home">Trang Chủ</a>
+      </li>
+      <li id="6" class="PX.Business.Models.ClientMenus.CurlyBrackets.DynamicMenuCurlyBracket dropdown parentDropdownMenu hidden-xs">
+        <a class="dropdown-submenu" data-toggle="dropdown" href="Dich-Vu">Dịch Vụ</a>
+        <ul class="dropdown-menu">
+          <li class="dropdown-submenu">
+  <a href="Test-2" tabindex="-1">Test 2 </a>
+  	<ul class="dropdown-menu">
+  	<li class="dropdown-submenu">
+  <a href="Test-2-1" tabindex="-1">Test 2.1 </a>
+  	<ul class="dropdown-menu">
+  	<li class="dropdown-submenu">
+  <a href="Test-2-1-2" tabindex="-1">Test 2.1.2 </a>
+</li>
+<li class="dropdown-submenu">
+  <a href="Test-2-1-3" tabindex="-1">Test 2.1.3 </a>
+</li>
+
+  	</ul>
+</li>
+
+  	</ul>
+</li>
+
+        </ul>
+      </li>
+      <li class="visible-xs menuItemOnMobile">
+        	<div class="linkItemLevel1OnMobile">Dịch Vụ</div>
+        	<ul class="menuItemContainerLevel1OnMobile">
+              <li class="visible-xs menuItemOnMobileWithoutChildren">
+                <a href="Dich-Vu">OverView</a>
+              </li>
+                <li class="subMenuWithImage">
+    <div class="linkItemLevel2OnMobile">Test 2</div>
+      <ul class="dropdown-menu">
+        <li class="subMenuWithImage">
+    <div class="linkItemLevel3OnMobile">Test 2.1</div>
+      <ul class="dropdown-menu">
+        <li class="visible-xs menuItemOnMobileWithoutChildren">
+    <a href="Test-2-1-2">Test 2.1.2</a>
+  </li>
+  <li class="visible-xs menuItemOnMobileWithoutChildren">
+    <a href="Test-2-1-3">Test 2.1.3</a>
+  </li>
+
+      </ul>
+  </li>
+
+      </ul>
+  </li>
+
+        	</ul>
+      </li>
+      <li id="7" class="PX.Business.Models.ClientMenus.CurlyBrackets.DynamicMenuCurlyBracket dropdown parentDropdownMenu hidden-xs">
+        <a class="dropdown-submenu" data-toggle="dropdown" href="Tin-Tuc-Su-Kien">Tin Tức - Sự Kiện</a>
+      </li>
+      <li class="visible-xs menuItemOnMobileWithoutChildren">
+        	<a href="Tin-Tuc-Su-Kien">Tin Tức - Sự Kiện</a>
+      </li>
+      <li id="8" class="PX.Business.Models.ClientMenus.CurlyBrackets.DynamicMenuCurlyBracket dropdown parentDropdownMenu hidden-xs">
+        <a class="dropdown-submenu" data-toggle="dropdown" href="Phong-Nghi">Ph&#242;ng Nghỉ</a>
+      </li>
+      <li class="visible-xs menuItemOnMobileWithoutChildren">
+        	<a href="Phong-Nghi">Ph&#242;ng Nghỉ</a>
+      </li>
+      <li id="9" class="PX.Business.Models.ClientMenus.CurlyBrackets.DynamicMenuCurlyBracket dropdown parentDropdownMenu hidden-xs">
+        <a class="dropdown-submenu" data-toggle="dropdown" href="Lien-He">Li&#234;n Hệ</a>
+      </li>
+      <li class="visible-xs menuItemOnMobileWithoutChildren">
+        	<a href="Lien-He">Li&#234;n Hệ</a>
+      </li>
+      <li id="10" class="PX.Business.Models.ClientMenus.CurlyBrackets.DynamicMenuCurlyBracket dropdown parentDropdownMenu hidden-xs">
+        <a class="dropdown-submenu" data-toggle="dropdown" href="Ve-Chung-Toi">Về Ch&#250;ng T&#244;i</a>
+        <ul class="dropdown-menu">
+          <li class="dropdown-submenu">
+  <a href="Test-1-2-1" tabindex="-1">Test 1.2.1 </a>
+</li>
+
+        </ul>
+      </li>
+      <li class="visible-xs menuItemOnMobile">
+        	<div class="linkItemLevel1OnMobile">Về Ch&#250;ng T&#244;i</div>
+        	<ul class="menuItemContainerLevel1OnMobile">
+              <li class="visible-xs menuItemOnMobileWithoutChildren">
+                <a href="Ve-Chung-Toi">OverView</a>
+              </li>
+                <li class="visible-xs menuItemOnMobileWithoutChildren">
+    <a href="Test-1-2-1">Test 1.2.1</a>
+  </li>
+
+        	</ul>
+      </li>
+      <li id="18" class="PX.Business.Models.ClientMenus.CurlyBrackets.DynamicMenuCurlyBracket dropdown parentDropdownMenu hidden-xs">
+        <a class="dropdown-submenu" data-toggle="dropdown" href="Test-Another-Page">Test Another Page</a>
+        <ul class="dropdown-menu">
+          <li class="dropdown-submenu">
+  <a href="Test-2-2" tabindex="-1">Test 2.2 </a>
+</li>
+<li class="dropdown-submenu">
+  <a href="Test-2-1-1" tabindex="-1">Test 2.1.1 </a>
+</li>
+<li class="dropdown-submenu">
+  <a href="Test-3" tabindex="-1">Test 3 </a>
+  	<ul class="dropdown-menu">
+  	<li class="dropdown-submenu">
+  <a href="Test-4" tabindex="-1">Test 4 </a>
+  	<ul class="dropdown-menu">
+  	<li class="dropdown-submenu">
+  <a href="Test-4-1" tabindex="-1">Test 4.1 </a>
+</li>
+
+  	</ul>
+</li>
+
+  	</ul>
+</li>
+
+        </ul>
+      </li>
+      <li class="visible-xs menuItemOnMobile">
+        	<div class="linkItemLevel1OnMobile">Test Another Page</div>
+        	<ul class="menuItemContainerLevel1OnMobile">
+              <li class="visible-xs menuItemOnMobileWithoutChildren">
+                <a href="Test-Another-Page">OverView</a>
+              </li>
+                <li class="visible-xs menuItemOnMobileWithoutChildren">
+    <a href="Test-2-2">Test 2.2</a>
+  </li>
+  <li class="visible-xs menuItemOnMobileWithoutChildren">
+    <a href="Test-2-1-1">Test 2.1.1</a>
+  </li>
+  <li class="subMenuWithImage">
+    <div class="linkItemLevel2OnMobile">Test 3</div>
+      <ul class="dropdown-menu">
+        <li class="subMenuWithImage">
+    <div class="linkItemLevel3OnMobile">Test 4</div>
+      <ul class="dropdown-menu">
+        <li class="visible-xs menuItemOnMobileWithoutChildren">
+    <a href="Test-4-1">Test 4.1</a>
+  </li>
+
+      </ul>
+  </li>
+
+      </ul>
+  </li>
+
+        	</ul>
+      </li>
+    </ul>
+  </div>
+</div>
+          <div class="divLogo col-sm-2 col-sm-offset-5 col-xs-4 col-xs-offset-4">
+              <img src="/Content/FrontEnd/img/hotelLogo.png" class="img-responsive" />
+          </div>
+          <div class="clearfix"></div>
+
+          <div class="col-lg-4 col-lg-offset-4 divTextLuxuryHotel">
+            <hr>
+            <div>
+              <div>Luxury Hotel</div>
             </div>
-        </header>
-        <div id="body">
-            @RenderSection("featured", required: false)
-            <section class="content-wrapper main-content clear-fix">
-                @RenderBody()
-            </section>
+          </div>
+          <div class="clearfix"></div>
+
+          <div class="lineSeparator"><hr></div>
         </div>
+
+        @RenderBody()
+
         <footer>
-            <div class="content-wrapper">
-                <div class="float-left">
-                    <p>&copy; @DateTime.Now.Year - My ASP.NET MVC Application</p>
-                </div>
-            </div>
+          <div class="col-sm-6">
+            PX HOTEL &copy; 2014
+          </div>
+          <div class="col-sm-6">
+            <ul class="containerSocialLinkAtFooter">
+              <li>
+                <a href="#" class="iconSocialAtFooter facebookIcon">&#61594;</a>
+                <a href="#" class="iconSocialAtFooter googleIcon">&#61653;</a>
+                <a href="#" class="iconSocialAtFooter youTubeIcon">&#61799;</a>
+                <a href="#" class="iconSocialAtFooter twitterIcon">&#61593;</a>
+                <a href="#" class="iconSocialAtFooter rssIcon">&#xF09E;</a>
+              </li>
+            </ul>
+          </div>
+          <div class="clearfix"></div>
         </footer>
 
-        @Scripts.Render("~/bundles/jquery")
-        @RenderSection("scripts", required: false)
-    </body>
+        <div class="fixedNavigation">
+          <ul class="smallItemWrapperFixedNavigation">
+            <li class="smallItemFixedNavigation">
+              <a id="btnScrollTop" href="" title="Top"><i class="fa fa-arrow-up"></i></a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="/Scripts/FrontEnd/bootstrap.min.js"></script>
+    <script src="/Scripts/FrontEnd/owl.carousel.min.js"></script>
+    <script src="/Scripts/FrontEnd/waypoints.min.js"></script>
+    <script src="/Scripts/FrontEnd/imagesloaded.pkgd.min.js"></script>
+    <script src="/Scripts/FrontEnd/picker.js"></script>
+    <script src="/Scripts/FrontEnd/picker.date.js"></script>
+    <script src="/Scripts/FrontEnd/jquery.photobox.js"></script>
+    <script src="/Scripts/FrontEnd/summernote.min.js"></script>
+    <script src="/Scripts/FrontEnd/jquery.parallax-1.1.3.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var activePageId = "0";
+            $("#dynamicMenus li").removeClass("active");
+            $("#dynamicMenus li#" + activePageId + "").addClass("active");
+
+            $("#bigCarousel").owlCarousel({
+                autoPlay: 3000,
+                stopOnHover: true,
+                navigation: true,
+                paginationSpeed: 1000,
+                paginationNumbers: true,
+                lazyLoad: true,
+                goToFirstSpeed: 2000,
+                singleItem: true,
+                autoHeight: true,
+                transitionStyle: "fade",
+                navigationText: [
+                "<i class='fa fa-chevron-left'></i>",
+                "<i class='fa fa-chevron-right'></i>"]
+            });
+
+            $(".carouselServiceList").owlCarousel({
+                autoPlay: 5000,
+                stopOnHover: true,
+                paginationNumbers: true,
+                lazyLoad: true,
+                singleItem: true
+            });
+
+            $("#carouselTestimonial").owlCarousel({
+                autoPlay: 5000,
+                singleItem: true,
+                pagination: false,
+                transitionStyle: "backSlide"
+            });
+
+            $('#bigCarousel').addClass('animated bounceIn');
+
+            $('.divWrapperTwoHalf').imagesLoaded(function (instance) {
+                $('.divWrapperTwoHalf').waypoint(function (direction) {
+                    if (direction == "down") {
+                        $('.divHalfContentWrapper.halfOnRight').addClass('animated fadeInRight showDiv');
+                        $('.divHalfContentWrapper.halfOnLeft').addClass('animated fadeInLeft showDiv');
+                    }
+                }, {
+                    offset: function () {
+                        if ($(window).width() < 768)
+                            return ($(window).height());
+                        else
+                            return ($('#bigCarousel').height() * 1.5);
+                    }
+                });
+            });
+
+            $('.adsOrPromo').imagesLoaded(function (instance) {
+                $('.adsOrPromo').waypoint(function (direction) {
+                    if (direction == "down") {
+                        $(this).addClass('animated fadeInDown showDiv');
+                    }
+                }, {
+                    offset: function () {
+                        return ($(window).height() - $(this).height() * 0.5);
+                    }
+                });
+            });
+
+            $('.divFeedbackAndGallery').imagesLoaded(function (instance) {
+                $('.divFeedbackAndGallery').waypoint(function (direction) {
+                    if (direction == "down") {
+                        $(this).find('.divWrapperTestimonial').addClass('animated bounceIn showDiv');
+                        $(this).find('.divWrapperFeedback').addClass('animated bounceIn showDiv');
+                        $(this).find('.divWrapperContact').addClass('animated bounceIn showDiv');
+                        $(this).find('.divWrapperImageGallery').addClass('animated bounceIn showDiv');
+                    }
+                }, {
+                    offset: function () {
+                        if ($(window).width() < 768)
+                            return ($(window).height());
+                        else
+                            return ($(window).height() - $(this).height() * 0.5);
+                    }
+                });
+            });
+
+            /*Small Fixed Navigation behavior*/
+            if ($(window).scrollTop() == 0)
+                $("#btnScrollTop").css({ "color": "#000000" });
+
+            $(function () {
+                $(window).scroll(function () {
+                    if ($(this).scrollTop() > 10) {
+                        $('#btnScrollTop').css({ "color": "#FFFFFF" });
+                        $('.fixedNavigation').addClass('move');
+                    } else {
+                        $('#btnScrollTop').css({ "color": "#000000" });
+                        $('.fixedNavigation').removeClass('move');
+                    }
+                });
+            });
+
+            $('#btnScrollTop').click(function () {
+                $('body,html').animate({
+                    scrollTop: 0
+                }, 800);
+                return false;
+            });
+
+            $('.divSmallSquareImg > div').hover(function () {
+                $(this).addClass('smallHovered');
+            }, function () {
+                $(this).removeClass('smallHovered');
+            });
+
+            // Datepicker
+            $('.datepickerfield').pickadate({
+                monthsFull: ['Tháng Một', 'Tháng Hai', 'Tháng Ba', 'Tháng Tư', 'Tháng Năm', 'Tháng Sáu', 'Tháng Bảy', 'Tháng Tám', 'Tháng Chín', 'Tháng Mười', 'Tháng Mười Một', 'Tháng Mười Hai'],
+                monthsShort: ['Th 1', 'Th 2', 'Th 3', 'Th 4', 'Th 5', 'Th 6', 'Th 7', 'Th 8', 'Th 9', 'Th 10', 'Th 11', 'Th 12'],
+                weekdaysFull: ['Chủ Nhật', 'Thứ Hai', 'Thứ Ba', 'Thứ Tư', 'Thứ Năm', 'Thứ Sáu', 'Thứ Bảy'],
+                weekdaysShort: ['CN', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7'],
+                today: 'Hôm nay',
+                clear: 'Xóa',
+                format: 'dd/mm/yyyy'
+            });
+
+            // Photobox
+            $('#gallery').photobox({
+                time: 2000
+            });
+
+            // Hover the heading text
+            $('.divNewsEvents').hover(function () {
+                $(this).find('.text-center').addClass('animated fadeInDown');
+            }, function () {
+                $(this).find('.text-center').removeClass('animated fadeInDown');
+            });
+
+            $('.divServices').hover(function () {
+                $(this).find('.text-center').addClass('animated fadeInDown');
+            }, function () {
+                $(this).find('.text-center').removeClass('animated fadeInDown');
+            });
+
+            $('.divBooking').hover(function () {
+                $(this).find('.text-center').addClass('animated fadeInDown');
+            }, function () {
+                $(this).find('.text-center').removeClass('animated fadeInDown');
+            });
+
+            // Hover the heading text
+            $('.divWrapperTestimonial').hover(function () {
+                $(this).find('.textHeadingDivFeedback').addClass('animated fadeInRight');
+            }, function () {
+                $(this).find('.textHeadingDivFeedback').removeClass('animated fadeInRight');
+            });
+
+            $('.divWrapperFeedback').hover(function () {
+                $(this).find('.textHeadingDivFeedback').addClass('animated fadeInRight');
+            }, function () {
+                $(this).find('.textHeadingDivFeedback').removeClass('animated fadeInRight');
+            });
+
+            $('.divWrapperContact').hover(function () {
+                $(this).find('.textHeadingDivFeedback').addClass('animated fadeInRight');
+            }, function () {
+                $(this).find('.textHeadingDivFeedback').removeClass('animated fadeInRight');
+            });
+
+            $('.divWrapperImageGallery').hover(function () {
+                $(this).find('.textHeadingDivFeedback').addClass('animated fadeInRight');
+            }, function () {
+                $(this).find('.textHeadingDivFeedback').removeClass('animated fadeInRight');
+            });
+
+            // Hover the menu
+            $('li.parentDropdownMenu').hover(function () {
+                $(this).find('ul.dropdown-menu').addClass('animated fadeInUp MenuHovered');
+            }, function () {
+                $(this).find('ul.dropdown-menu').removeClass('animated fadeInUp MenuHovered');
+            });
+
+            $('li.dropdown-submenu').hover(function () {
+                $(this).find('ul.dropdown-menu').addClass('animated fadeInRight MenuHovered');
+            }, function () {
+                $(this).find('ul.dropdown-menu').removeClass('animated fadeInRight MenuHovered');
+            });
+
+            // IF MENU HAS SUBMENU(S), TURN ON RIGHT ARROW
+            $(".myNavbarNav .dropdown .dropdown-menu .dropdown-submenu").each(function (index) {
+                if ($(this).children("ul.dropdown-menu").length > 0) {
+                    $(this).children("a").after().addClass("HasChildMenusArrow");
+                }
+            });
+
+            // Enable click
+            $('.myNavbarNav > li a').click(function () {
+                window.location.href = $(this).attr("href");
+            });
+
+            // Menu on mobile
+            $('.linkItemLevel1OnMobile').click(function () {
+                //collapse another menu before expand this
+                $.each($(this).parent().siblings(), function (i, val) {
+                    if ($(this).find("ul").is(":visible")) {
+                        $(this).find("ul")[0].style.display = "none";
+                        $(this).removeClass("AfterExpand");
+                    }
+                });
+
+                $(this).siblings('ul.menuItemContainerLevel1OnMobile').toggle();
+                $(this).parent().toggleClass("AfterExpand");
+                if ($(this).parent().hasClass('AfterExpand')) {
+                    $('html, body').animate({
+                        scrollTop: $(this).offset().top - 13
+                    }, 350);
+                }
+                else
+                    $('html, body').animate({
+                        scrollTop: 0
+                    }, 350);
+
+            });
+
+            $('.linkItemLevel2OnMobile').click(function () {
+                //collapse another menu before expand this
+                $.each($(this).parent().siblings(), function (i, val) {
+                    if ($(this).find("ul").is(":visible")) {
+                        $(this).find("ul")[0].style.display = "none";
+                        $(this).removeClass("AfterExpand");
+                    }
+                });
+
+                $(this).siblings('ul.menuItemContainerLevel2OnMobile').toggle();
+                $(this).parent().toggleClass("AfterExpand");
+                if ($(this).parent().hasClass('AfterExpand')) {
+                    $('html, body').animate({
+                        scrollTop: $(this).offset().top - 13
+                    }, 350);
+                }
+                else
+                    $('html, body').animate({
+                        scrollTop: 0
+                    }, 350);
+
+            });
+        });
+    </script>
+  </body>
 </html>

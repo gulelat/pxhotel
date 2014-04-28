@@ -3,6 +3,7 @@ using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using PX.Business.Services.CurlyBrackets;
 using PX.Business.Services.Localizes;
 using PX.Business.Services.Settings;
 using PX.Core.Configurations;
@@ -16,11 +17,13 @@ namespace PX.Business.Mvc.ViewEngines.Razor
         private ControllerBase _currentController;
         private ILocalizedResourceServices _localizedResourceServices;
         private ISettingServices _settingServices;
+        private ICurlyBracketServices _curlyBracketServices;
 
         public override void InitHelpers()
         {
             _localizedResourceServices = HostContainer.GetInstance<ILocalizedResourceServices>();
             _settingServices = HostContainer.GetInstance<ISettingServices>();
+            _curlyBracketServices = HostContainer.GetInstance<ICurlyBracketServices>();
             _currentController = (ControllerBase)HttpContext.Current.Items[Configurations.PxHotelCurrentController];
             base.InitHelpers();
         }
@@ -223,6 +226,19 @@ namespace PX.Business.Mvc.ViewEngines.Razor
                 builder.Append(HttpUtility.HtmlEncode(lines[i]));
             }
             return MvcHtmlString.Create(builder.ToString());
+        }
+        #endregion
+
+        #region Curly Bracket Render
+
+        /// <summary>
+        /// Render curly bracket
+        /// </summary>
+        /// <param name="curlyBracket"></param>
+        /// <returns></returns>
+        public HtmlString RenderCurlyBracket(string curlyBracket)
+        {
+            return new HtmlString(_curlyBracketServices.Render(curlyBracket));
         }
         #endregion
 

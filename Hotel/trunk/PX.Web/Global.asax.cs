@@ -6,6 +6,8 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using PX.Business.Mvc.ViewEngines;
+using PX.Business.Mvc.ViewEngines.Razor;
+using PX.Business.Mvc.ViewEngines.Razor.RazorEngine;
 using PX.Business.Services.Banners;
 using PX.Business.Services.ClientMenus;
 using PX.Business.Services.CurlyBrackets;
@@ -35,6 +37,7 @@ using PX.Business.Services.Users;
 using PX.Core.Framework.Mvc.Environments;
 using SimpleInjector;
 using SimpleInjector.Integration.Web.Mvc;
+using RazorViewEngine = PX.Business.Mvc.ViewEngines.Razor.RazorViewEngine;
 
 namespace PX.Web
 {

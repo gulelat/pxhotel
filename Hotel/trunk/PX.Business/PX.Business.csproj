@@ -135,8 +135,10 @@
     <Compile Include="Mvc\Attributes\TemplateAttribute.cs" />
     <Compile Include="Mvc\Attributes\ErrorHandle\PxHandleErrorAttribute.cs" />
     <Compile Include="Mvc\Controllers\ClientController.cs" />
+    <Compile Include="Mvc\ViewEngines\Razor\RazorView.cs" />
     <Compile Include="Mvc\ViewEngines\Razor\RazorEngine\MvcHtmlStringFactory.cs" />
     <Compile Include="Mvc\ViewEngines\Razor\RazorEngine\MvcTemplateBase.cs" />
+    <Compile Include="Mvc\ViewEngines\Razor\RazorViewEngine.cs" />
     <Compile Include="Mvc\ViewEngines\ViewResult\MVCTransferResult.cs" />
     <Compile Include="Mvc\ViewEngines\VirtualPathProvider.cs" />
     <Compile Include="Services\Banners\CurlyBracketResolvers\BannerResolver.cs" />
@@ -218,7 +220,6 @@
     <Compile Include="Models\Users\UserModel.cs" />
     <Compile Include="Models\Users\UserProfileModel.cs" />
     <Compile Include="Mvc\Controllers\AdminController.cs" />
-    <Compile Include="Mvc\ViewEngines\Razor\HtmlStringWriter.cs" />
     <Compile Include="Mvc\WorkContext\WorkContext.cs" />
     <Compile Include="Mvc\ViewEngines\Razor\WebViewPage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

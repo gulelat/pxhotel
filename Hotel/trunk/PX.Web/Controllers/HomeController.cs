@@ -14,5 +14,10 @@ namespace PX.Web.Controllers
         {
             return View("Index");
         }
+
+        public ActionResult Test()
+        {
+            return View("DBTemplate.Test 2");
+        }
     }
 }
