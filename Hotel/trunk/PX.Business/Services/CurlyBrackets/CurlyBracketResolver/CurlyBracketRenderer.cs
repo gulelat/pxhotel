@@ -16,7 +16,7 @@ namespace PX.Business.Services.CurlyBrackets.CurlyBracketResolver
 
         private const int MaxDepth = 5;
 
-        public string ResolverContent(string content, int maxLoop = 5)
+        public static string ResolverContent(string content, int maxLoop = 5)
         {
             bool hasCurlyBrackets = true;
             while (hasCurlyBrackets && maxLoop > 0)
@@ -27,7 +27,7 @@ namespace PX.Business.Services.CurlyBrackets.CurlyBracketResolver
             return content;
         }
 
-        public string ResolveCurlyBracket(string content, out bool hasCurlyBrackets)
+        public static string ResolveCurlyBracket(string content, out bool hasCurlyBrackets)
         {
             hasCurlyBrackets = false;
             if (string.IsNullOrEmpty(content))

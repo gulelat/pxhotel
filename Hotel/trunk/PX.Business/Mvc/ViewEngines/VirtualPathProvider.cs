@@ -2,7 +2,6 @@
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Caching;
 using System.Web.Hosting;
@@ -20,11 +19,7 @@ namespace PX.Business.Mvc.ViewEngines
     public class MyVirtualPathProvider : VirtualPathProvider
     {
         private const string DBTemplate = "DBTemplate";
-        private readonly IPageTemplateServices _pageTemplateServices;
-        public MyVirtualPathProvider()
-        {
-            _pageTemplateServices = HostContainer.GetInstance<IPageTemplateServices>();
-        }
+        private IPageTemplateServices _pageTemplateServices;
 
         #region Private Methods
         /// <summary>
@@ -49,6 +44,7 @@ namespace PX.Business.Mvc.ViewEngines
         /// <returns></returns>
         private PageTemplate FindTemplate(string virtualPath)
         {
+            _pageTemplateServices = HostContainer.GetInstance<IPageTemplateServices>();
             return _pageTemplateServices.FindTemplate(virtualPath);
         }
 
@@ -93,6 +89,7 @@ namespace PX.Business.Mvc.ViewEngines
         /// <returns></returns>
         public override bool FileExists(string virtualPath)
         {
+            _pageTemplateServices = HostContainer.GetInstance<IPageTemplateServices>();
             if (IsPathIsDbTemplate(virtualPath))
             {
                 return _pageTemplateServices.IsPageTemplateExisted(virtualPath);
@@ -145,18 +142,11 @@ namespace PX.Business.Mvc.ViewEngines
             var model = page != null ? new PageRenderModel(page) : new PageRenderModel();
             var content = pageTemplateServices.RenderPageTemplate(template.Id, model);
             content = curlyBracketServices.Render(content);
-            var encoding = new UnicodeEncoding();
-            _data = Encoding.Unicode.GetBytes(content);
-
-
-            var utf8Bytes = new byte[content.Length];
-            //for (int i = 0; i < content.Length; ++i)
-            //{
-            //    //Debug.Assert( 0 <= utf8String[i] && utf8String[i] <= 255, "the char must be in byte's range");
-            //    utf8Bytes[i] = (byte)content[i];
-            //}
-
-            //_data = utf8Bytes;
+            _data = Encoding.UTF8.GetBytes(content);
+            Encoding iso = Encoding.GetEncoding("ISO-8859-1");
+            Encoding utf8 = Encoding.UTF8;
+            byte[] utfBytes = utf8.GetBytes(content);
+            _data = Encoding.Convert(utf8, iso, utfBytes);
         }
 
         public override Stream Open()

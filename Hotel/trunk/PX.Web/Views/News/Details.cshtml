@@ -1,10 +1,12 @@
-﻿@model PX.Business.Models.News.CurlyBrackets.NewsCurlyBracket
+﻿@using PX.Business.Services.CurlyBrackets.CurlyBracketResolver
+@model PX.Business.Models.News.CurlyBrackets.NewsCurlyBracket
 
 @{
     ViewBag.Title = Model.Title;
-    Layout = "DBTemplate.Master.cshtml";
+    Layout = "../Shared/_Layout.cshtml";
 }
 
+@*@RenderCurlyBracket("{DynamicMenu}")*@
 
 <div class="divWrapperBigHeadingIntroText">
     <div class="col-sm-11 col-sm-offset-1 bigHeadingIntroText">
