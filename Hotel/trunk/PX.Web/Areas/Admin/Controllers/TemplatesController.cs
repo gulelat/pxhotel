@@ -76,14 +76,23 @@ namespace PX.Web.Areas.Admin.Controllers
         #endregion
 
         #region Edit
-        public ActionResult Edit(int id)
+        public ActionResult Edit(int? id, int? logId)
         {
-            var template = _templateServices.GetTemplateManageModel(id);
-            if (!template.Id.HasValue)
+            TemplateManageModel model = null;
+            if (id.HasValue)
             {
+                model = _templateServices.GetTemplateManageModel(id.Value);
+            }
+            else if (logId.HasValue)
+            {
+                model = _templateServices.GetTemplateManageModelByLogId(logId.Value);
+            }
+            if (model == null)
+            {
+                SetErrorMessage(LocalizedResourceServices.T("AdminModule:::Templates:::Messages:::ObjectNotFounded:::Template is not founded."));
                 return RedirectToAction("Index");
             }
-            return View(template);
+            return View(model);
         }
 
         [HttpPost]

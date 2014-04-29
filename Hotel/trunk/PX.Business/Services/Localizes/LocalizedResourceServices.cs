@@ -17,10 +17,12 @@ namespace PX.Business.Services.Localizes
     {
         private const string LocalizedSerperator = ":::";
         private readonly LocalizedResourceRepository _localizedResourceRepository;
+        private readonly LanguageRepository _languageRepository;
 
-        public LocalizedResourceServices()
+        public LocalizedResourceServices(PXHotelEntities entities)
         {
-            _localizedResourceRepository = new LocalizedResourceRepository();
+            _localizedResourceRepository = new LocalizedResourceRepository(entities);
+            _languageRepository = new LanguageRepository(entities);
         }
 
         #region Base
@@ -247,9 +249,8 @@ namespace PX.Business.Services.Localizes
         /// <param name="parameters"> </param>
         private string UpdateDictionaryToDb(string textKey, string defaultValue, params object[] parameters)
         {
-            var languageRepository = new LanguageRepository();
             var existedResourceIds = Fetch(l => l.TextKey.Equals(textKey)).Select(l => l.LanguageId).ToList();
-            var languages = languageRepository.Fetch(l => !existedResourceIds.Contains(l.Id)).Select(l => l.Id).ToList();
+            var languages = _languageRepository.Fetch(l => !existedResourceIds.Contains(l.Id)).Select(l => l.Id).ToList();
             foreach (var language in languages)
             {
                 var localizeResource = new LocalizedResource

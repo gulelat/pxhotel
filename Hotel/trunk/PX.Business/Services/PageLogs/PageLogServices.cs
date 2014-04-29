@@ -18,10 +18,12 @@ namespace PX.Business.Services.PageLogs
     {
         private readonly ILocalizedResourceServices _localizedResourceServices;
         private readonly PageLogRepository _pageLogRepository;
-        public PageLogServices()
+        private readonly PageRepository _pageRepository;
+        public PageLogServices(PXHotelEntities entities)
         {
             _localizedResourceServices = HostContainer.GetInstance<ILocalizedResourceServices>();
-            _pageLogRepository = new PageLogRepository();
+            _pageLogRepository = new PageLogRepository(entities);
+            _pageRepository = new PageRepository(entities);
         }
 
         #region Base
@@ -94,8 +96,7 @@ namespace PX.Business.Services.PageLogs
         /// <returns></returns>
         public ResponseModel SavePageLog(PageLogManageModel model)
         {
-            var pageRepository = new PageRepository();
-            var page = pageRepository.GetById(model.PageId);
+            var page = _pageRepository.GetById(model.PageId);
             if (page != null)
             {
                 /*

@@ -18,6 +18,11 @@ namespace PX.EntityModel.Repositories.RepositoryBase
 
         #endregion
 
+        public HierarchyRepository(PXHotelEntities entities)
+            : base(entities)
+        {
+        }
+
         #region Hierarchy Repository
 
         /// <summary>

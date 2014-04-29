@@ -21,10 +21,10 @@ namespace PX.Business.Services.NewsCategories
     {
         private readonly ILocalizedResourceServices _localizedResourceServices;
         private readonly NewsCategoryRepository _newsCategoryRepository;
-        public NewsCategorieservices()
+        public NewsCategorieservices(PXHotelEntities entities)
         {
             _localizedResourceServices = HostContainer.GetInstance<ILocalizedResourceServices>();
-            _newsCategoryRepository = new NewsCategoryRepository();
+            _newsCategoryRepository = new NewsCategoryRepository(entities);
         }
 
         #region Base

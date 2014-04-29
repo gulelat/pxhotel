@@ -4,5 +4,9 @@ namespace PX.EntityModel.Repositories
 {
     public class UserInGroupRepository : HierarchyRepository<UserInGroup>
     {
+        public UserInGroupRepository(PXHotelEntities entities)
+            : base(entities)
+        {
+        }
     }
 }

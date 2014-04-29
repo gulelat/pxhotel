@@ -18,10 +18,12 @@ namespace PX.Business.Services.PageTemplateLogs
     {
         private readonly ILocalizedResourceServices _localizedResourceServices;
         private readonly PageTemplateLogRepository _pageTemplateLogRepository;
-        public PageTemplateLogServices()
+        private readonly PageTemplateRepository _pageTemplateRepository;
+        public PageTemplateLogServices(PXHotelEntities entities)
         {
             _localizedResourceServices = HostContainer.GetInstance<ILocalizedResourceServices>();
-            _pageTemplateLogRepository = new PageTemplateLogRepository();
+            _pageTemplateLogRepository = new PageTemplateLogRepository(entities);
+            _pageTemplateRepository = new PageTemplateRepository(entities);
         }
 
         #region Base
@@ -97,8 +99,7 @@ namespace PX.Business.Services.PageTemplateLogs
         /// <returns></returns>
         public ResponseModel SavePageTemplateLog(PageTemplateLogManageModel model)
         {
-            var pageTemplateRepository= new PageTemplateRepository();
-            var pageTemplate = pageTemplateRepository.GetById(model.PageTemplateId);
+            var pageTemplate = _pageTemplateRepository.GetById(model.PageTemplateId);
             if (pageTemplate != null)
             {
                 /*

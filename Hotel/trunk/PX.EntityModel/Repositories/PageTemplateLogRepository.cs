@@ -4,5 +4,9 @@ namespace PX.EntityModel.Repositories
 {
     public class PageTemplateLogRepository : HierarchyRepository<PageTemplateLog>
     {
+        public PageTemplateLogRepository(PXHotelEntities entities)
+            : base(entities)
+        {
+        }
     }
 }

@@ -17,10 +17,10 @@ namespace PX.Business.Services.Languages
     {
         private readonly ILocalizedResourceServices _localizedResourceServices;
         private readonly LanguageRepository _languageRepository;
-        public LanguageServices()
+        public LanguageServices(PXHotelEntities entities)
         {
             _localizedResourceServices = HostContainer.GetInstance<ILocalizedResourceServices>();
-            _languageRepository = new LanguageRepository();
+            _languageRepository = new LanguageRepository(entities);
         }
 
         #region Base

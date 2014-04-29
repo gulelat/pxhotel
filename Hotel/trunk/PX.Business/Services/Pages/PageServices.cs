@@ -38,7 +38,11 @@ namespace PX.Business.Services.Pages
         private readonly ISettingServices _settingServices;
         private readonly ITemplateServices _templateServices;
         private readonly PageRepository _pageRepository;
-        public PageServices()
+        private readonly ClientMenuRepository _clientMenuRepository;
+        private readonly PageLogRepository _pageLogRepository;
+        private readonly PageTagRepository _pageTagRepository;
+        private readonly TagRepository _tagRepository;
+        public PageServices(PXHotelEntities entities)
         {
             _localizedResourceServices = HostContainer.GetInstance<ILocalizedResourceServices>();
             _pageTemplateServices = HostContainer.GetInstance<IPageTemplateServices>();
@@ -47,7 +51,11 @@ namespace PX.Business.Services.Pages
             _pageLogServices = HostContainer.GetInstance<IPageLogServices>();
             _settingServices = HostContainer.GetInstance<ISettingServices>();
             _templateServices = HostContainer.GetInstance<ITemplateServices>();
-            _pageRepository = new PageRepository();
+            _pageRepository = new PageRepository(entities);
+            _clientMenuRepository = new ClientMenuRepository(entities);
+            _pageLogRepository = new PageLogRepository(entities);
+            _pageTagRepository = new PageTagRepository(entities);
+            _tagRepository = new TagRepository(entities);
         }
 
         #region Base
@@ -177,11 +185,12 @@ namespace PX.Business.Services.Pages
         public ResponseModel ManagePage(GridOperationEnums operation, PageModel model)
         {
             ResponseModel response;
+            Page page;
             Mapper.CreateMap<PageModel, Page>();
             switch (operation)
             {
                 case GridOperationEnums.Edit:
-                    var page = GetById(model.Id);
+                    page = GetById(model.Id);
                     page.Title = model.Title;
                     page.Status = model.Status;
                     page.FriendlyUrl = string.IsNullOrWhiteSpace(model.FriendlyUrl)
@@ -197,10 +206,25 @@ namespace PX.Business.Services.Pages
                         : _localizedResourceServices.T("AdminModule:::Pages:::Messages:::UpdateFailure:::Update page failed. Please try again later.. Please try again later."));
 
                 case GridOperationEnums.Del:
-                    response = Delete(model.Id);
-                    return response.SetMessage(response.Success ?
-                        _localizedResourceServices.T("AdminModule:::Pages:::Messages:::DeleteSuccessfully:::Delete page successfully.")
-                        : _localizedResourceServices.T("AdminModule:::Pages:::Messages:::DeleteFailure:::Delete page failed. Please try again later."));
+                    page = GetById(model.Id);
+                    if (page != null)
+                    {
+                        if (page.Pages1.Any())
+                        {
+                            return new ResponseModel
+                            {
+                                Success = false,
+                                Message = _localizedResourceServices.T("AdminModule:::Pages:::Messages:::DeleteReferenceFailure:::Delete is disabled for this page as there are child pages. Please delete child pages first.")
+                            };
+                        }
+                        _clientMenuRepository.Delete(page.ClientMenus.First().Id);
+
+                        response = Delete(model.Id);
+                        return response.SetMessage(response.Success ?
+                            _localizedResourceServices.T("AdminModule:::Pages:::Messages:::DeleteSuccessfully:::Delete page successfully.")
+                            : _localizedResourceServices.T("AdminModule:::Pages:::Messages:::DeleteFailure:::Delete page failed. Please try again later."));
+                    }
+                    break;
             }
             return new ResponseModel
             {
@@ -230,8 +254,7 @@ namespace PX.Business.Services.Pages
         /// <returns></returns>
         public PageManageModel GetPageManageModelByLogId(int? id = null)
         {
-            var pageLogRepository = new PageLogRepository();
-            var log = pageLogRepository.GetById(id);
+            var log = _pageLogRepository.GetById(id);
             return log != null ? new PageManageModel(log) : new PageManageModel();
         }
 
@@ -242,7 +265,6 @@ namespace PX.Business.Services.Pages
         /// <returns></returns>
         public ResponseModel SavePageManageModel(PageManageModel model)
         {
-            var pageTagRepository = new PageTagRepository();
             Page relativePage;
             ResponseModel response;
             var page = GetById(model.Id);
@@ -269,11 +291,11 @@ namespace PX.Business.Services.Pages
                     page.Caption = model.Caption;
                 }
 
-                
+
                 var currentTags = page.PageTags.Select(t => t.TagId).ToList();
                 foreach (var id in currentTags.Where(id => model.Tags == null || !model.Tags.Contains(id)))
                 {
-                    pageTagRepository.Delete(page.Id, id);
+                    _pageTagRepository.Delete(page.Id, id);
                 }
                 if (model.Tags != null && model.Tags.Any())
                 {
@@ -286,7 +308,7 @@ namespace PX.Business.Services.Pages
                                 PageId = page.Id,
                                 TagId = tagId
                             };
-                            pageTagRepository.Insert(pageTag);
+                            _pageTagRepository.Insert(pageTag);
                         }
                     }
                 }
@@ -314,8 +336,6 @@ namespace PX.Business.Services.Pages
                         if (page.RecordOrder > relativePage.RecordOrder || relativePages.Any(p => p.RecordOrder > page.RecordOrder && p.RecordOrder < relativePage.RecordOrder))
                         {
                             page.RecordOrder = relativePage.RecordOrder;
-                            //Set this for keep relative page update in static db context
-                            relativePage.RecordOrder = relativePage.RecordOrder + 1;
                             var query =
                                 string.Format(
                                     "Update Pages set RecordOrder = RecordOrder + 1 Where {0} And RecordOrder >= {1}",
@@ -476,14 +496,13 @@ namespace PX.Business.Services.Pages
         /// <returns></returns>
         public IEnumerable<SelectListItem> GetPageTags(int? pageId = null)
         {
-            var tagRepository = new TagRepository();
             var pageTagIds = new List<int>();
             var page = GetById(pageId);
             if (page != null)
             {
                 pageTagIds = page.PageTags.Select(t => t.TagId).ToList();
             }
-            return tagRepository.GetAll().Select(t => new SelectListItem
+            return _tagRepository.GetAll().Select(t => new SelectListItem
             {
                 Text = t.Name,
                 Value = SqlFunctions.StringConvert((double)t.Id).Trim(),

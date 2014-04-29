@@ -4,12 +4,35 @@ using System.ComponentModel.DataAnnotations;
 using PX.Core.Framework.Mvc.Environments;
 using PX.Business.Services.Localizes;
 using PX.Business.Services.Templates;
+using PX.EntityModel;
 using RazorEngine.Templating;
 
 namespace PX.Business.Models.Templates
 {
     public class TemplateManageModel : BaseModel, IValidatableObject
     {
+        public TemplateManageModel()
+        {
+            
+        }
+
+        public TemplateManageModel(Template template)
+        {
+            Id = template.Id;
+            Name = template.Name;
+            Content = template.Content;
+            DataType = template.DataType;
+        }
+
+        public TemplateManageModel(TemplateLog log)
+            : this()
+        {
+            Id = log.TemplateId;
+            Name = log.Name;
+            Content = log.Content;
+            DataType = log.DataType;
+        }
+
         #region Public Properties
         public int? Id { get; set; }
 

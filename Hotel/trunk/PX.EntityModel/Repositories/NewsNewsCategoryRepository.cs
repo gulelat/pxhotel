@@ -4,5 +4,9 @@ namespace PX.EntityModel.Repositories
 {
     public class NewsNewsCategoryRepository : Repository<NewsNewsCategory>
     {
+        public NewsNewsCategoryRepository(PXHotelEntities entities)
+            : base(entities)
+        {
+        }
     }
 }

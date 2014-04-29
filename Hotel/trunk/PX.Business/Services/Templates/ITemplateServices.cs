@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Linq.Expressions;
 using PX.Business.Models.Templates;
-using PX.Business.Mvc.ViewEngines.Razor.RazorEngine;
 using PX.Core.Framework.Enums;
 using PX.Core.Framework.Mvc.Models;
 using PX.Core.Framework.Mvc.Models.JqGrid;
@@ -43,6 +42,9 @@ namespace PX.Business.Services.Templates
         #endregion
 
         #region Manage
+
+        TemplateManageModel GetTemplateManageModelByLogId(int? logId);
+
         TemplateManageModel GetTemplateManageModel(int? id = null);
 
         TemplateManageModel GetTemplateManageModel(string type);
