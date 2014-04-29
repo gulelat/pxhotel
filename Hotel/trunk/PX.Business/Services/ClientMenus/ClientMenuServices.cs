@@ -23,10 +23,12 @@ namespace PX.Business.Services.ClientMenus
     {
         private readonly ILocalizedResourceServices _localizedResourceServices;
         private readonly ClientMenuRepository _clientMenuRepository;
-        public ClientMenuServices()
+        private readonly PageRepository _pageRepository;
+        public ClientMenuServices(PXHotelEntities entities)
         {
             _localizedResourceServices = HostContainer.GetInstance<ILocalizedResourceServices>();
-            _clientMenuRepository = new ClientMenuRepository();
+            _clientMenuRepository = new ClientMenuRepository(entities);
+            _pageRepository = new PageRepository(entities);
         }
 
         #region Base
@@ -180,7 +182,6 @@ namespace PX.Business.Services.ClientMenus
         {
             ClientMenu relativeMenu;
             ResponseModel response;
-            var pageRepository = new PageRepository();
             var clientMenu = GetById(model.Id);
 
             #region Edit ClientMenu
@@ -208,7 +209,7 @@ namespace PX.Business.Services.ClientMenus
                             string.Format(
                                 "Update ClientMenus set RecordOrder = RecordOrder + 1 Where {0} And RecordOrder >= {1}",
                                 relativeMenu.ParentId.HasValue ? string.Format(" ParentId = {0}", relativeMenu.ParentId) : "ParentId Is NULL", relativeMenu.RecordOrder);
-                        pageRepository.ExcuteSql(query);
+                        _pageRepository.ExcuteSql(query);
                     }
                     else
                     {
@@ -217,7 +218,7 @@ namespace PX.Business.Services.ClientMenus
                             string.Format(
                                 "Update ClientMenus set RecordOrder = RecordOrder + 1 Where {0} And RecordOrder > {1}",
                                 relativeMenu.ParentId.HasValue ? string.Format(" ParentId = {0}", relativeMenu.ParentId) : "ParentId Is NULL", relativeMenu.RecordOrder);
-                        pageRepository.ExcuteSql(query);
+                        _pageRepository.ExcuteSql(query);
                     }
                 }
 
@@ -267,8 +268,7 @@ namespace PX.Business.Services.ClientMenus
         /// <returns></returns>
         public ResponseModel SavePageToClientMenu(int pageId)
         {
-            var pageRepository = new PageRepository();
-            var page = pageRepository.GetById(pageId);
+            var page = _pageRepository.GetById(pageId);
             var clientMenu = FetchFirst(c => c.PageId == pageId);
             if (clientMenu != null)
             {
@@ -288,7 +288,7 @@ namespace PX.Business.Services.ClientMenus
                 clientMenu.EndPublishingDate = page.EndPublishingDate;
                 if(page.RecordOrder * 10 != clientMenu.RecordOrder)
                 {
-                    var relativePages = pageRepository.Fetch(p => (page.ParentId.HasValue ? p.ParentId == page.ParentId : !p.ParentId.HasValue) && p.Id != page.Id);
+                    var relativePages = _pageRepository.Fetch(p => (page.ParentId.HasValue ? p.ParentId == page.ParentId : !p.ParentId.HasValue) && p.Id != page.Id);
                     foreach (var relativePage in relativePages)
                     {
                         var relativeMenu = relativePage.ClientMenus.First();

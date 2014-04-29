@@ -35,6 +35,7 @@ using PX.Business.Services.Testimonials;
 using PX.Business.Services.UserGroups;
 using PX.Business.Services.Users;
 using PX.Core.Framework.Mvc.Environments;
+using PX.EntityModel;
 using SimpleInjector;
 using SimpleInjector.Integration.Web.Mvc;
 using RazorViewEngine = PX.Business.Mvc.ViewEngines.Razor.RazorViewEngine;
@@ -178,7 +179,7 @@ namespace PX.Web
         /// <param name="container"></param>
         private static void SimpleInjectorInitializeContainer(Container container)
         {
-            //container.Register(() => new PXHotelEntities(), Lifestyle.Transient);
+            container.Register(() => new PXHotelEntities(), Lifestyle.Transient);
             container.Register<ILocalizedResourceServices, LocalizedResourceServices>(Lifestyle.Transient);
             container.Register<IMenuServices, MenuServices>(Lifestyle.Transient);
             container.Register<IUserServices, UserServices>(Lifestyle.Transient);

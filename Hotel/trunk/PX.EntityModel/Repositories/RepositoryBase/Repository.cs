@@ -19,9 +19,9 @@ namespace PX.EntityModel.Repositories.RepositoryBase
 
         #endregion
 
-        public Repository()
+        public Repository(PXHotelEntities entities)
         {
-            DataContext = new PXHotelEntities();
+            DataContext = entities;
         }
 
         #region Public Methods

@@ -20,11 +20,11 @@ namespace PX.Business.Services.RotatingImages
         private readonly ILocalizedResourceServices _localizedResourceServices;
         private readonly IRotatingImageGroupServices _rotatingImageGroupServices;
         private readonly RotatingImageRepository _rotatingImageRepository;
-        public RotatingImageServices()
+        public RotatingImageServices(PXHotelEntities entities)
         {
             _localizedResourceServices = HostContainer.GetInstance<ILocalizedResourceServices>();
             _rotatingImageGroupServices = HostContainer.GetInstance<IRotatingImageGroupServices>();
-            _rotatingImageRepository = new RotatingImageRepository();
+            _rotatingImageRepository = new RotatingImageRepository(entities);
         }
 
         #region Base

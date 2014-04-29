@@ -17,10 +17,10 @@ namespace PX.Business.Services.Tags
     {
         private readonly ILocalizedResourceServices _localizedResourceServices;
         private readonly TagRepository _tagRepository;
-        public TagServices()
+        public TagServices(PXHotelEntities entities)
         {
             _localizedResourceServices = HostContainer.GetInstance<ILocalizedResourceServices>();
-            _tagRepository = new TagRepository();
+            _tagRepository = new TagRepository(entities);
         }
 
         #region Base

@@ -22,10 +22,10 @@ namespace PX.Business.Services.UserGroups
         private readonly ILocalizedResourceServices _localizedResourceServices;
         private readonly UserGroupRepository _userGroupRepository;
         private readonly GroupPermissionRepository _groupPermissionRepository;
-        public UserGroupServices()
+        public UserGroupServices(PXHotelEntities entities)
         {
-            _userGroupRepository = new UserGroupRepository();
-            _groupPermissionRepository = new GroupPermissionRepository();
+            _userGroupRepository = new UserGroupRepository(entities);
+            _groupPermissionRepository = new GroupPermissionRepository(entities);
             _localizedResourceServices = HostContainer.GetInstance<ILocalizedResourceServices>();
         }
 

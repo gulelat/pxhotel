@@ -4,5 +4,9 @@ namespace PX.EntityModel.Repositories
 {
     public class SQLCommandHistoryRepository : Repository<SQLCommandHistory>
     {
+        public SQLCommandHistoryRepository(PXHotelEntities entities)
+            : base(entities)
+        {
+        }
     }
 }

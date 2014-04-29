@@ -20,10 +20,10 @@ namespace PX.Business.Services.SettingTypes
     {
         private readonly ILocalizedResourceServices _localizedResourceServices;
         private readonly SettingTypeRepository _settingTypeRepository;
-        public SettingTypeServices()
+        public SettingTypeServices(PXHotelEntities entities)
         {
             _localizedResourceServices = HostContainer.GetInstance<ILocalizedResourceServices>();
-            _settingTypeRepository = new SettingTypeRepository();
+            _settingTypeRepository = new SettingTypeRepository(entities);
         }
 
         #region Base

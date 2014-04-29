@@ -19,10 +19,10 @@ namespace PX.Business.Services.Testimonials
     {
         private readonly ILocalizedResourceServices _localizedResourceServices;
         private readonly TestimonialRepository _testimonialRepository;
-        public TestimonialServices()
+        public TestimonialServices(PXHotelEntities entities)
         {
             _localizedResourceServices = HostContainer.GetInstance<ILocalizedResourceServices>();
-            _testimonialRepository = new TestimonialRepository();
+            _testimonialRepository = new TestimonialRepository(entities);
         }
 
         #region Base

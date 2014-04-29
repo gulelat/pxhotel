@@ -13,6 +13,7 @@ using PX.Core.Framework.Mvc.Models;
 using PX.Core.Framework.Mvc.Models.JqGrid;
 using AutoMapper;
 using PX.Core.Ultilities;
+using PX.EntityModel;
 using PX.EntityModel.Repositories;
 
 namespace PX.Business.Services.Services
@@ -21,34 +22,34 @@ namespace PX.Business.Services.Services
     {
         private readonly ILocalizedResourceServices _localizedResourceServices;
         private readonly ServiceRepository _serviceRepository;
-        public ServiceServices()
+        public ServiceServices(PXHotelEntities entities)
         {
             _localizedResourceServices = HostContainer.GetInstance<ILocalizedResourceServices>();
-            _serviceRepository = new ServiceRepository();
+            _serviceRepository = new ServiceRepository(entities);
         }
 
         #region Base
-        public IQueryable<EntityModel.Service> GetAll()
+        public IQueryable<Service> GetAll()
         {
             return _serviceRepository.GetAll();
         }
-        public IQueryable<EntityModel.Service> Fetch(Expression<Func<EntityModel.Service, bool>> expression)
+        public IQueryable<Service> Fetch(Expression<Func<Service, bool>> expression)
         {
             return _serviceRepository.Fetch(expression);
         }
-        public EntityModel.Service GetById(object id)
+        public Service GetById(object id)
         {
             return _serviceRepository.GetById(id);
         }
-        public ResponseModel Insert(EntityModel.Service service)
+        public ResponseModel Insert(Service service)
         {
             return _serviceRepository.Insert(service);
         }
-        public ResponseModel Update(EntityModel.Service service)
+        public ResponseModel Update(Service service)
         {
             return _serviceRepository.Update(service);
         }
-        public ResponseModel Delete(EntityModel.Service service)
+        public ResponseModel Delete(Service service)
         {
             return _serviceRepository.Delete(service);
         }
@@ -98,8 +99,8 @@ namespace PX.Business.Services.Services
         public ResponseModel ManageService(GridOperationEnums operation, ServiceModel model)
         {
             ResponseModel response;
-            Mapper.CreateMap<ServiceModel, EntityModel.Service>();
-            EntityModel.Service service;
+            Mapper.CreateMap<ServiceModel, Service>();
+            Service service;
             switch (operation)
             {
                 case GridOperationEnums.Edit:
@@ -114,7 +115,7 @@ namespace PX.Business.Services.Services
                         : _localizedResourceServices.T("AdminModule:::Services:::Messages:::UpdateFailure:::Update service failed. Please try again later."));
 
                 case GridOperationEnums.Add:
-                    service = Mapper.Map<ServiceModel, EntityModel.Service>(model);
+                    service = Mapper.Map<ServiceModel, Service>(model);
                     service.Status = model.Status;
                     service.Content = string.Empty;
                     service.Description = string.Empty;
@@ -197,7 +198,7 @@ namespace PX.Business.Services.Services
             }
             #endregion
 
-            service = new EntityModel.Service
+            service = new Service
             {
                 Title = model.Title,
                 Status = model.Status,

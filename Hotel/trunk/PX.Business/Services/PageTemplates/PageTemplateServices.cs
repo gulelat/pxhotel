@@ -35,13 +35,19 @@ namespace PX.Business.Services.PageTemplates
         private readonly ISettingServices _settingServices;
         private readonly ITemplateServices _templateServices;
         private readonly PageTemplateRepository _pageTemplateRepository;
-        public PageTemplateServices()
+        private readonly PageRepository _pageRepository;
+        private readonly FileTemplateRepository _fileTemplateRepository;
+        private readonly PageTemplateLogRepository _pageTemplateLogRepository;
+        public PageTemplateServices(PXHotelEntities entities)
         {
             _localizedResourceServices = HostContainer.GetInstance<ILocalizedResourceServices>();
             _pageTemplateLogServices = HostContainer.GetInstance<IPageTemplateLogServices>();
             _settingServices = HostContainer.GetInstance<ISettingServices>();
             _templateServices = HostContainer.GetInstance<ITemplateServices>();
-            _pageTemplateRepository = new PageTemplateRepository();
+            _pageTemplateRepository = new PageTemplateRepository(entities);
+            _fileTemplateRepository = new FileTemplateRepository(entities);
+            _pageRepository = new PageRepository(entities);
+            _pageTemplateLogRepository = new PageTemplateLogRepository(entities);
         }
 
         #region Initialize
@@ -190,12 +196,11 @@ namespace PX.Business.Services.PageTemplates
         /// <summary>
         /// Get page template manage model for edit/create
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="logId"></param>
         /// <returns></returns>
-        public PageTemplateManageModel GetTemplateManageModelByLogId(int? id = null)
+        public PageTemplateManageModel GetTemplateManageModelByLogId(int? logId = null)
         {
-            var pageTemplateLogRepository = new PageTemplateLogRepository();
-            var log = pageTemplateLogRepository.GetById(id);
+            var log = _pageTemplateLogRepository.GetById(logId);
             return log != null ? new PageTemplateManageModel(log) : new PageTemplateManageModel();
         }
 
@@ -325,10 +330,9 @@ namespace PX.Business.Services.PageTemplates
         /// <returns></returns>
         public IEnumerable<SelectListItem> GetPageTemplateSelectList(int? id = null)
         {
-            var pageRepository = new PageRepository();
             var pageTemplates = GetAll();
             int? templateId = null;
-            var page = pageRepository.GetById(id);
+            var page = _pageRepository.GetById(id);
             if (page != null)
             {
                 templateId = page.PageTemplateId;
@@ -351,10 +355,9 @@ namespace PX.Business.Services.PageTemplates
         /// <returns></returns>
         public IEnumerable<SelectListItem> GetPageTemplateSelectListForFileTemplate(int? id = null)
         {
-            var fileTemplateRepository = new FileTemplateRepository();
             var pageTemplates = GetAll();
             int? templateId = null;
-            var fileTemplate = fileTemplateRepository.GetById(id);
+            var fileTemplate = _fileTemplateRepository.GetById(id);
             if (fileTemplate != null)
             {
                 templateId = fileTemplate.PageTemplateId;

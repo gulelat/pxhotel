@@ -45,7 +45,7 @@ namespace PX.Business.Services.PageTemplates
 
         PageTemplateManageModel GetTemplateManageModel(int? id = null);
 
-        PageTemplateManageModel GetTemplateManageModelByLogId(int? id = null);
+        PageTemplateManageModel GetTemplateManageModelByLogId(int? logId = null);
 
         ResponseModel SavePageTemplate(PageTemplateManageModel model);
 

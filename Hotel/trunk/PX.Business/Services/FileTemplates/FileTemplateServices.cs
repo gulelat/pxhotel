@@ -23,11 +23,13 @@ namespace PX.Business.Services.FileTemplates
         private readonly ILocalizedResourceServices _localizedResourceServices;
         private readonly IPageTemplateServices _pageTemplateServices;
         private readonly FileTemplateRepository _fileTemplateRepository;
-        public FileTemplateServices()
+        private readonly PageRepository _pageRepository;
+        public FileTemplateServices(PXHotelEntities entities)
         {
             _localizedResourceServices = HostContainer.GetInstance<ILocalizedResourceServices>();
             _pageTemplateServices = HostContainer.GetInstance<IPageTemplateServices>();
-            _fileTemplateRepository = new FileTemplateRepository();
+            _fileTemplateRepository = new FileTemplateRepository(entities);
+            _pageRepository = new PageRepository(entities);
         }
 
         #region Initialize
@@ -266,10 +268,9 @@ namespace PX.Business.Services.FileTemplates
         /// <returns></returns>
         public IEnumerable<SelectListItem> GetFileTemplateSelectList(int? id = null)
         {
-            var pageRepository= new PageRepository();
             var fileTemplates = GetAll();
             int? templateId = null;
-            var file = pageRepository.GetById(id);
+            var file = _pageRepository.GetById(id);
             if (file != null)
             {
                 templateId = file.FileTemplateId;

@@ -6,6 +6,11 @@ namespace PX.EntityModel.Repositories
 {
     public class LocalizedResourceRepository : Repository<LocalizedResource>
     {
+        public LocalizedResourceRepository(PXHotelEntities entities)
+            : base(entities)
+        {
+        }
+
         /// <summary>
         /// Get localized resource by key and language
         /// </summary>

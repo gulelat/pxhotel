@@ -24,11 +24,11 @@ namespace PX.Business.Services.Settings
         private readonly ILocalizedResourceServices _localizedResourceServices;
         private readonly ISettingTypeServices _settingTypeServices;
         private readonly SiteSettingRepository _siteSettingRepository;
-        public SettingServices()
+        public SettingServices(PXHotelEntities entities)
         {
             _localizedResourceServices = HostContainer.GetInstance<ILocalizedResourceServices>();
             _settingTypeServices = HostContainer.GetInstance<ISettingTypeServices>();
-            _siteSettingRepository = new SiteSettingRepository();
+            _siteSettingRepository = new SiteSettingRepository(entities);
         }
 
         #region Base

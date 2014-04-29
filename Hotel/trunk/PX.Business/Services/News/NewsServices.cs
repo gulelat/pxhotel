@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Web;
 using System.Web.Mvc;
 using PX.Business.Models.News;
 using PX.Business.Models.News.CurlyBrackets;
@@ -25,11 +24,13 @@ namespace PX.Business.Services.News
         private readonly ILocalizedResourceServices _localizedResourceServices;
         private readonly INewsCategoryServices _newsCategoryServices;
         private readonly NewsRepository _newsRepository;
-        public NewsServices()
+        private readonly NewsNewsCategoryRepository _newsNewsCategoryRepository;
+        public NewsServices(PXHotelEntities entities)
         {
             _localizedResourceServices = HostContainer.GetInstance<ILocalizedResourceServices>();
             _newsCategoryServices = HostContainer.GetInstance<INewsCategoryServices>();
-            _newsRepository = new NewsRepository();
+            _newsRepository = new NewsRepository(entities);
+            _newsNewsCategoryRepository = new NewsNewsCategoryRepository(entities);
         }
 
         #region Base
@@ -103,7 +104,6 @@ namespace PX.Business.Services.News
         /// <returns></returns>
         public ResponseModel ManageNews(GridOperationEnums operation, NewsModel model)
         {
-            var newsNewsCategoryRepository = new NewsNewsCategoryRepository();
             IEnumerable<int> categoryIds;
             ResponseModel response;
             Mapper.CreateMap<NewsModel, EntityModel.News>();
@@ -123,7 +123,7 @@ namespace PX.Business.Services.News
                     {
                         if (!categoryIds.Contains(id))
                         {
-                            newsNewsCategoryRepository.Delete(id);
+                            _newsNewsCategoryRepository.Delete(id);
                         }
                     }
                     foreach (var categoryId in categoryIds)
@@ -135,7 +135,7 @@ namespace PX.Business.Services.News
                                 NewsId = news.Id,
                                 NewsCategoryId = categoryId
                             };
-                            newsNewsCategoryRepository.Insert(newsNewsCategory);
+                            _newsNewsCategoryRepository.Insert(newsNewsCategory);
                         }
                     }
                     return response.SetMessage(response.Success ?
@@ -158,7 +158,7 @@ namespace PX.Business.Services.News
                                 NewsId = news.Id,
                                 NewsCategoryId = categoryId
                             };
-                        newsNewsCategoryRepository.Insert(newsNewsCategory);
+                        _newsNewsCategoryRepository.Insert(newsNewsCategory);
                     }
                     return response.SetMessage(response.Success ?
                         _localizedResourceServices.T("AdminModule:::News:::Messages:::CreateSuccessfully:::Create news successfully.")
@@ -219,7 +219,6 @@ namespace PX.Business.Services.News
         /// <returns></returns>
         public ResponseModel SaveNewsManageModel(NewsManageModel model)
         {
-            var newsNewsCategoryRepository = new NewsNewsCategoryRepository();
             ResponseModel response;
             var news = GetById(model.Id);
 
@@ -237,7 +236,7 @@ namespace PX.Business.Services.News
                 {
                     if (!model.NewsCategoryIds.Contains(id))
                     {
-                        newsNewsCategoryRepository.Delete(id);
+                        _newsNewsCategoryRepository.Delete(id);
                     }
                 }
                 foreach (var categoryId in model.NewsCategoryIds)
@@ -249,7 +248,7 @@ namespace PX.Business.Services.News
                             NewsId = news.Id,
                             NewsCategoryId = categoryId
                         };
-                        newsNewsCategoryRepository.Insert(newsNewsCategory);
+                        _newsNewsCategoryRepository.Insert(newsNewsCategory);
                     }
                 }
 
@@ -280,7 +279,7 @@ namespace PX.Business.Services.News
                     NewsId = news.Id,
                     NewsCategoryId = categoryId
                 };
-                newsNewsCategoryRepository.Insert(newsNewsCategory);
+                _newsNewsCategoryRepository.Insert(newsNewsCategory);
             }
             return response.SetMessage(response.Success ?
                 _localizedResourceServices.T("AdminModule:::News:::Messages:::CreateSuccessfully:::Create news successfully.")

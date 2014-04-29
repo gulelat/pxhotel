@@ -25,10 +25,10 @@ namespace PX.Business.Services.Menus
     {
         private readonly ILocalizedResourceServices _localizedResourceServices;
         private readonly MenuRepository _menuRepository;
-        public MenuServices()
+        public MenuServices(PXHotelEntities entities)
         {
             _localizedResourceServices = HostContainer.GetInstance<ILocalizedResourceServices>();
-            _menuRepository = new MenuRepository();
+            _menuRepository = new MenuRepository(entities);
         }
 
         #region Base

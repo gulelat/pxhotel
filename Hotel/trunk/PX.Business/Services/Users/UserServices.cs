@@ -30,11 +30,13 @@ namespace PX.Business.Services.Users
         private readonly ILocalizedResourceServices _localizedResourceServices;
         private readonly IUserGroupServices _userGroupServices;
         private readonly UserRepository _userRepository;
-        public UserServices()
+        private readonly UserInGroupRepository _userInGroupRepository;
+        public UserServices(PXHotelEntities entities)
         {
             _localizedResourceServices = HostContainer.GetInstance<ILocalizedResourceServices>();
             _userGroupServices = HostContainer.GetInstance<IUserGroupServices>();
-            _userRepository = new UserRepository();
+            _userRepository = new UserRepository(entities);
+            _userInGroupRepository = new UserInGroupRepository(entities);
         }
 
         #region Base
@@ -201,10 +203,10 @@ namespace PX.Business.Services.Users
 
         public ResponseModel SaveUserManageModel(UserManageModel model, HttpPostedFileBase avatar)
         {
-            var userInGroupRepository = new UserInGroupRepository();
             ResponseModel response;
             var user = GetById(model.Id);
-            #region Edit News
+
+            #region Edit User
             if (user != null)
             {
                 user.FirstName = model.FirstName;
@@ -222,12 +224,15 @@ namespace PX.Business.Services.Users
                 user.Google = model.Google;
                 user.AvatarFileName = model.AvatarFileName;
                 user.BirthDay = model.BirthDay;
+
+                user.Password = model.Password;
+
                 var currentGroups = user.UserInGroups.Select(nc => nc.UserGroupId).ToList();
                 foreach (var id in model.UserGroupIds)
                 {
                     if (!model.UserGroupIds.Contains(id))
                     {
-                        userInGroupRepository.Delete(id);
+                        _userInGroupRepository.Delete(id);
                     }
                 }
                 foreach (var groupId in model.UserGroupIds)
@@ -239,7 +244,7 @@ namespace PX.Business.Services.Users
                             UserId = user.Id,
                             UserGroupId = groupId
                         };
-                        userInGroupRepository.Insert(userInGroup);
+                        _userInGroupRepository.Insert(userInGroup);
                     }
                 }
 
@@ -288,7 +293,7 @@ namespace PX.Business.Services.Users
                     UserId = user.Id,
                     UserGroupId = groupId
                 };
-                userInGroupRepository.Insert(userInGroup);
+                _userInGroupRepository.Insert(userInGroup);
             }
             if (response.Success && avatar != null)
             {

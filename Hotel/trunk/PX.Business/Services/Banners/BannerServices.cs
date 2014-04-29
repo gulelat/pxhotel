@@ -17,10 +17,10 @@ namespace PX.Business.Services.Banners
     {
         private readonly ILocalizedResourceServices _localizedResourceServices;
         private readonly BannerRepository _bannerRepository;
-        public BannerServices()
+        public BannerServices(PXHotelEntities entities)
         {
             _localizedResourceServices = HostContainer.GetInstance<ILocalizedResourceServices>();
-            _bannerRepository = new BannerRepository();
+            _bannerRepository = new BannerRepository(entities);
         }
 
         #region Base

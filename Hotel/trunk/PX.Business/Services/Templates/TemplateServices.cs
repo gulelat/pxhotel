@@ -3,7 +3,6 @@ using System.Linq;
 using System.Linq.Expressions;
 using PX.Business.Models.TemplateLogs;
 using PX.Business.Models.Templates;
-using PX.Business.Mvc.ViewEngines.Razor;
 using PX.Business.Mvc.ViewEngines.Razor.RazorEngine;
 using PX.Business.Services.Settings;
 using PX.Business.Services.TemplateLogs;
@@ -32,13 +31,15 @@ namespace PX.Business.Services.Templates
         private readonly ICurlyBracketServices _curlyBracketServices;
         private readonly ISettingServices _settingServices;
         private readonly TemplateRepository _templateRepository;
-        public TemplateServices()
+        private readonly TemplateLogRepository _templateLogRepository;
+        public TemplateServices(PXHotelEntities entities)
         {
             _localizedResourceServices = HostContainer.GetInstance<ILocalizedResourceServices>();
             _templateLogServices = HostContainer.GetInstance<ITemplateLogServices>();
             _curlyBracketServices = HostContainer.GetInstance<ICurlyBracketServices>();
             _settingServices = HostContainer.GetInstance<ISettingServices>();
-            _templateRepository = new TemplateRepository();
+            _templateRepository = new TemplateRepository(entities);
+            _templateLogRepository = new TemplateLogRepository(entities);
         }
 
         #region Initialize
@@ -168,6 +169,18 @@ namespace PX.Business.Services.Templates
         #endregion
 
         #region Manage
+
+        /// <summary>
+        /// Get template manage model by log id
+        /// </summary>
+        /// <param name="logId"></param>
+        /// <returns></returns>
+        public TemplateManageModel GetTemplateManageModelByLogId(int? logId)
+        {
+            var log = _templateLogRepository.GetById(logId);
+            return log != null ? new TemplateManageModel(log) : new TemplateManageModel();
+        }
+
         /// <summary>
         /// Get template by name
         /// </summary>
@@ -191,17 +204,7 @@ namespace PX.Business.Services.Templates
         public TemplateManageModel GetTemplateManageModel(int? id = null)
         {
             var template = GetById(id);
-            if (template != null)
-            {
-                return new TemplateManageModel
-                {
-                    Id = template.Id,
-                    Name = template.Name,
-                    Content = template.Content,
-                    DataType = template.DataType
-                };
-            }
-            return new TemplateManageModel();
+            return template != null ? new TemplateManageModel(template) : new TemplateManageModel();
         }
 
         /// <summary>
@@ -340,7 +343,6 @@ namespace PX.Business.Services.Templates
             {
                 return templateService.Parse(template, model, viewBag, cacheName);
             }
-            
         }
 
         public void Compile(string template, Type type, string cacheName)

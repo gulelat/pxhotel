@@ -142,11 +142,16 @@ namespace PX.Business.Mvc.ViewEngines
             var model = page != null ? new PageRenderModel(page) : new PageRenderModel();
             var content = pageTemplateServices.RenderPageTemplate(template.Id, model);
             content = curlyBracketServices.Render(content);
-            _data = Encoding.UTF8.GetBytes(content);
-            Encoding iso = Encoding.GetEncoding("ISO-8859-1");
-            Encoding utf8 = Encoding.UTF8;
-            byte[] utfBytes = utf8.GetBytes(content);
-            _data = Encoding.Convert(utf8, iso, utfBytes);
+
+            //Convert content to Unicode
+            using (var memoryStream = new MemoryStream())
+            {
+                using (var writer = new StreamWriter(memoryStream, new UnicodeEncoding()))
+                {
+                    writer.Write(content);
+                    _data = memoryStream.ToArray();
+                }
+            }
         }
 
         public override Stream Open()

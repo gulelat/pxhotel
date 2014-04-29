@@ -22,11 +22,11 @@ namespace PX.Business.Services.SQLTool
         private readonly ILocalizedResourceServices _localizedResourceServices;
         private readonly ISettingServices _settingServices;
         private readonly SQLCommandHistoryRepository _sqlCommandHistoryRepository;
-        public SQLCommandServices()
+        public SQLCommandServices(PXHotelEntities entities)
         {
             _settingServices = HostContainer.GetInstance<ISettingServices>();
             _localizedResourceServices = HostContainer.GetInstance<ILocalizedResourceServices>();
-            _sqlCommandHistoryRepository = new SQLCommandHistoryRepository();
+            _sqlCommandHistoryRepository = new SQLCommandHistoryRepository(entities);
         }
 
         #region Base

@@ -21,10 +21,12 @@ namespace PX.Business.Services.RotatingImageGroups
     {
         private readonly ILocalizedResourceServices _localizedResourceServices;
         private readonly RotatingImageGroupRepository _rotatingImageGroupRepository;
-        public RotatingImageGroupServices()
+        private readonly RotatingImageRepository _rotatingImageRepository;
+        public RotatingImageGroupServices(PXHotelEntities entities)
         {
             _localizedResourceServices = HostContainer.GetInstance<ILocalizedResourceServices>();
-            _rotatingImageGroupRepository = new RotatingImageGroupRepository();
+            _rotatingImageGroupRepository = new RotatingImageGroupRepository(entities);
+            _rotatingImageRepository = new RotatingImageRepository(entities);
         }
 
         #region Base
@@ -229,7 +231,6 @@ namespace PX.Business.Services.RotatingImageGroups
 
         public ResponseModel SortImages(GroupImageSortingModel model)
         {
-            var rotatingImageRepository =new RotatingImageRepository();
             var group = GetById(model.GroupId);
             if(group != null)
             {
@@ -241,7 +242,7 @@ namespace PX.Business.Services.RotatingImageGroups
                     if (image.Id != dictionary[index].Id)
                     {
                         image.RecordOrder = dictionary[index].RecordOrder;
-                        rotatingImageRepository.Update(image);
+                        _rotatingImageRepository.Update(image);
                     }
                     index++;
                 }
