@@ -134,9 +134,7 @@ namespace PX.Business.Services.SQLTool
                     {
                         transaction.Rollback();
                     }
-                    catch (Exception ex)
-                    {
-                    }
+                    catch { }
                 }
                 //Close connection if it was opened by us
                 if (openConnection)
@@ -145,9 +143,7 @@ namespace PX.Business.Services.SQLTool
                     {
                         _connection.Close();
                     }
-                    catch (Exception ex)
-                    {
-                    }
+                    catch { }
                 }
             }
             //Other properties for resutl object
@@ -205,9 +201,7 @@ namespace PX.Business.Services.SQLTool
                     {
                         _connection.Close();
                     }
-                    catch (Exception ex)
-                    {
-                    }
+                    catch { }
                 }
             }
         }
@@ -270,9 +264,7 @@ namespace PX.Business.Services.SQLTool
                     {
                         _connection.Close();
                     }
-                    catch (Exception ex)
-                    {
-                    }
+                    catch { }
                 }
             }
         }

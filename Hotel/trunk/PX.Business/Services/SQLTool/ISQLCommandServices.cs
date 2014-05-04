@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.Common;
 using System.Linq;
+using System.Linq.Expressions;
 using PX.Business.Models.SQLTool;
 using PX.Core.Framework.Enums;
 using PX.Core.Framework.Mvc.Models;
@@ -14,6 +16,8 @@ namespace PX.Business.Services.SQLTool
         #region Base
 
         IQueryable<SQLCommandHistory> GetAll();
+        IQueryable<SQLCommandHistory> Fetch(Expression<Func<SQLCommandHistory, bool>> expression);
+        SQLCommandHistory FetchFirst(Expression<Func<SQLCommandHistory, bool>> expression);
         SQLCommandHistory GetById(object id);
         ResponseModel Insert(SQLCommandHistory sqlCommandHistory);
         ResponseModel Update(SQLCommandHistory sqlCommandHistory);

@@ -5,6 +5,7 @@ using System.Linq.Expressions;
 using System.Web.Mvc;
 using PX.Business.Models.PageTemplates;
 using PX.Business.Models.Pages;
+using PX.Business.Models.Pages.ViewModels;
 using PX.Core.Framework.Enums;
 using PX.Core.Framework.Mvc.Models;
 using PX.Core.Framework.Mvc.Models.JqGrid;
@@ -23,6 +24,7 @@ namespace PX.Business.Services.PageTemplates
 
         IQueryable<PageTemplate> GetAll();
         IQueryable<PageTemplate> Fetch(Expression<Func<PageTemplate, bool>> expression);
+        PageTemplate FetchFirst(Expression<Func<PageTemplate, bool>> expression);
         PageTemplate GetById(object id);
         ResponseModel Insert(PageTemplate pageTemplate);
         ResponseModel Update(PageTemplate pageTemplate);

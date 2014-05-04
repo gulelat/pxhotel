@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Web.Mvc;
 using PX.Business.Models.Pages;
+using PX.Business.Models.Pages.ViewModels;
 using PX.Core.Framework.Enums;
 using PX.Core.Framework.Mvc.Models;
 using PX.Core.Framework.Mvc.Models.JqGrid;
@@ -17,6 +18,7 @@ namespace PX.Business.Services.Pages
 
         IQueryable<Page> GetAll();
         IQueryable<Page> Fetch(Expression<Func<Page, bool>> expression);
+        Page FetchFirst(Expression<Func<Page, bool>> expression);
         Page GetById(object id);
         ResponseModel Insert(Page page);
         ResponseModel Update(Page page);

@@ -1,0 +1,32 @@
+﻿@model PX.Business.Models.HotelRoomImages.HotelRoomImageManageModel
+
+@{
+    Layout = "../Shared/_Layout.cshtml";
+    ViewBag.Header = "Hotel Room Image Create";
+    ViewBag.Title = "Hotel Room Image Management";
+    ViewBag.Description = "Create Hotel Room Image";
+}
+<div class="page-content">
+    <div class="page-header">
+        <h1>@ViewBag.Header
+            <small>
+                <i class="icon-double-angle-right"></i>
+                @ViewBag.Title
+            </small>
+        </h1>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12">
+            @using (Ajax.BeginForm("Create", "HotelRoomImages", null, new AjaxOptions
+            {
+                OnBegin = "showLoading",
+                OnSuccess = "OnSuccess",
+                OnComplete = "hideLoading"
+            }, new { @class = "form-horizontal" }))
+            {
+                @Html.EditorForModel(Model)
+            }
+        </div>
+    </div>
+</div>

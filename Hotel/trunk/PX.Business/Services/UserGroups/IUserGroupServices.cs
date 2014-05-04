@@ -17,6 +17,7 @@ namespace PX.Business.Services.UserGroups
 
         IQueryable<UserGroup> GetAll();
         IQueryable<UserGroup> Fetch(Expression<Func<UserGroup, bool>> expression);
+        UserGroup FetchFirst(Expression<Func<UserGroup, bool>> expression);
         UserGroup GetById(object id);
         ResponseModel Insert(UserGroup userGroup);
         ResponseModel Update(UserGroup userGroup);

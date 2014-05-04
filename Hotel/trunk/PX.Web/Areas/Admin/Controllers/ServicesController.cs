@@ -62,14 +62,14 @@ namespace PX.Web.Areas.Admin.Controllers
                 var response = _serviceServices.SaveServiceManageModel(model);
                 if (response.Success)
                 {
-                    var templateId = (int)response.Data;
+                    var serviceId = (int)response.Data;
                     SetSuccessMessage(response.Message);
                     switch (submit)
                     {
                         case SubmitTypeEnums.Save:
                             return RedirectToAction("Index");
                         default:
-                            return RedirectToAction("Edit", new { id = templateId });
+                            return RedirectToAction("Edit", new { id = serviceId });
                     }
                 }
                 SetErrorMessage(response.Message);
@@ -96,14 +96,13 @@ namespace PX.Web.Areas.Admin.Controllers
                 var response = _serviceServices.SaveServiceManageModel(model);
                 if (response.Success)
                 {
-                    var ServiceId = (int)response.Data;
                     SetSuccessMessage(response.Message);
                     switch (submit)
                     {
                         case SubmitTypeEnums.Save:
                             return RedirectToAction("Index");
                         default:
-                            return RedirectToAction("Edit", new { id = ServiceId });
+                            return RedirectToAction("Edit", new { id = model.Id });
                     }
                 }
                 SetErrorMessage(response.Message);

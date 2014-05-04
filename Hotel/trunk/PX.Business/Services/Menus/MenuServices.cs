@@ -40,6 +40,10 @@ namespace PX.Business.Services.Menus
         {
             return _menuRepository.Fetch(expression);
         }
+        public Menu FetchFirst(Expression<Func<Menu, bool>> expression)
+        {
+            return _menuRepository.FetchFirst(expression);
+        }
         public Menu GetById(object id)
         {
             return _menuRepository.GetById(id);
@@ -74,6 +78,8 @@ namespace PX.Business.Services.Menus
         }
         #endregion
 
+        #region Grid Search
+
         /// <summary>
         /// search the Menus.
         /// </summary>
@@ -102,6 +108,9 @@ namespace PX.Business.Services.Menus
 
             return si.Search(menus);
         }
+        #endregion
+
+        #region Grid Manage
 
         /// <summary>
         /// Manage Menu
@@ -156,6 +165,7 @@ namespace PX.Business.Services.Menus
                 Message = _localizedResourceServices.T("AdminModule:::Menus:::Messages:::ObjectNotFounded:::Menu is not founded.")
             };
         }
+        #endregion
 
         #region Menu Permissions
 
@@ -254,20 +264,29 @@ namespace PX.Business.Services.Menus
             return _menuRepository.BuildSelectList(data);
         }
 
+        #region Render Back-End Menus
+
         /// <summary>
         /// Get menus tree by parent id
         /// </summary>
         /// <param name="parentId">the parent id</param>
         /// <returns></returns>
-        public List<AdminMenuModel> GetRenderMenus(int? parentId)
+        public List<AdminMenuModel> GetAdminMenus(int? parentId)
         {
             var userServices = HostContainer.GetInstance<IUserServices>();
             var userPermissions = userServices.GetUserPermissions(WorkContext.CurrentUser.Id);
             var menus = Fetch(m => m.Visible).ToList();
-            return GetRenderMenus(menus, userPermissions, parentId);
+            return RenderMenus(menus, userPermissions, parentId);
         }
 
-        public List<AdminMenuModel> GetRenderMenus(List<Menu> data, List<int> userPermissions, int? parentId = null)
+        /// <summary>
+        /// Recursive render menus
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="userPermissions"></param>
+        /// <param name="parentId"></param>
+        /// <returns></returns>
+        private List<AdminMenuModel> RenderMenus(List<Menu> data, List<int> userPermissions, int? parentId = null)
         {
             return
                 data.Where(
@@ -291,9 +310,11 @@ namespace PX.Business.Services.Menus
                         RecordOrder = m.RecordOrder,
                         ChildMenus = m.Id == parentId
                             ? new List<AdminMenuModel>()
-                            : GetRenderMenus(data, userPermissions, m.Id)
+                            : RenderMenus(data, userPermissions, m.Id)
                     }).ToList();
         }
+
+        #endregion
 
         /// <summary>
         /// Get breadcrumbs

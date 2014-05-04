@@ -1,0 +1,189 @@
+﻿@model PX.Business.Models.HotelRoomTypes.RoomTypeGalleryModel
+@{
+    ViewBag.Header = "Room Gallery";
+    ViewBag.Title = Model.RoomTypeName;
+    ViewBag.Description = "Room Gallery Management Page";
+}
+@section styles{
+    <link rel="stylesheet" href="/Content/backend/css/colorbox.css" />
+}
+
+<div class="page-header">
+    <h1>@ViewBag.Header
+        <small>
+            <i class="icon-double-angle-right"></i>
+            @ViewBag.Title
+        </small>
+    </h1>
+</div>
+<div class="row">
+    <div class="col-xs-12">
+        <a id="create-image" href="javascript:void(0)" class="btn btn-yellow btn-minier">
+            <i class="icon-plus align-top bigger-125"></i>
+            Create New Image
+        </a>
+    </div>
+    <div class="col-xs-12">
+        <ul id="gallery" class="ace-thumbnails">
+            @foreach (var item in Model.GalleryItems)
+            {
+                <li class="@(item.IsDefaultImage ? "default" : "")" id="@item.Id">
+                    <a href="@item.ImageUrl" data-rel="colorbox">
+                        <img alt="" src="@Thumbnail(item.ImageUrl, 150, 150)" />
+                    </a>
+
+                    <div class="tools tools-top">
+                        <a class="edit-icon" title="Edit" data-id="@item.Id" href="javascript:void(0)">
+                            <i class="icon-cog"></i>
+                        </a>
+
+                        <a class="mark-as-default" title="Mark as default" style="@(item.IsDefaultImage ? "display: none" : "")" data-id="@item.Id" href="javascript:void(0)">
+                            <i class="icon-check-sign"></i>
+                        </a>
+
+                        <a class="edit-image-icon" title="Edit Image" data-url="@item.ImageUrl" href="javascript:void(0)">
+                            <i class="icon-pencil"></i>
+                        </a>
+
+                        <a class="delete-icon" title="Delete" data-id="@item.Id" href="javascript:void(0)">
+                            <i class="icon-remove red"></i>
+                        </a>
+                    </div>
+                </li>
+            }
+        </ul>
+    </div>
+</div>
+@section scripts
+{
+    <script src="~/Scripts/Backend/jquery.colorbox-min.js"></script>
+    <script src="~/Scripts/Backend/jquery-ui-1.10.3.full.min.js"></script>
+    <script type="text/javascript">
+        var $dirty = false;
+        jQuery(function ($) {
+            var colorboxParams = {
+                reposition: true,
+                scalePhotos: true,
+                scrolling: false,
+                previous: '<i class="icon-arrow-left"></i>',
+                next: '<i class="icon-arrow-right"></i>',
+                close: '&times;',
+                current: '{current} of {total}',
+                maxWidth: '100%',
+                maxHeight: '100%',
+                onOpen: function() {
+                    document.body.style.overflow = 'hidden';
+                },
+                onClosed: function() {
+                    document.body.style.overflow = 'auto';
+                },
+                onComplete: function() {
+                    $.colorbox.resize();
+                }
+            };
+
+            $('#gallery [data-rel="colorbox"]').colorbox(colorboxParams);
+
+            $("#gallery").sortable({
+                update: function(event, ui) {
+                    var idsInOrder = $(this).sortable("toArray");
+                    var data = JSON.stringify({ RoomTypeId: @Model.Id, Ids: idsInOrder });
+                    $.ajax({
+                        type: 'POST',
+                        url: '@Url.Action("SortImages")',
+                        contentType: 'application/json',
+                        data: data,
+                        success: function(response) {
+                            ShowMessage(response);
+                            if (!response.Success) {
+                                $("#gallery").sortable('cancel');
+                            }
+                        }
+                    });
+                }
+            });
+            
+            $("#create-image").click(function () {
+                $.fancybox({
+                    href: "@Url.Action("Create", "HotelRoomImages", new { area = "Admin", hotelRoomTypeId = Model.Id })",
+                    type: 'iframe',
+                    width: '90%',
+                    afterClose: function () {
+                        if($dirty == true) {
+                            location.reload();
+                        }
+                    }
+                });
+            });
+
+            $(".edit-icon").click(function () {
+                var id = $(this).data("id");
+                $.fancybox({
+                    href: "@Url.Action("Edit", "HotelRoomImages", new { area = "Admin" })" + "?id=" + id,
+                    type: 'iframe',
+                    width: '90%',
+                    afterClose: function () {
+                        if($dirty == true) {
+                            location.reload();
+                        }
+                    }
+                });
+            });
+
+            $(".mark-as-default").click(function () {
+                var data = { id: $(this).data("id") };
+                var currentIcon = $(this);
+                bootbox.confirm('@T("AdminModule:::RotatingImageRooms:::Messages:::ConfirmMarkAsDefault:::Are you sure you want to mark this image as default?")', function(ok) {
+                    if(ok) {
+                        $.ajax({
+                            type: 'POST',
+                            url: "@Url.Action("MarkAsDefault", "HotelRoomImages")",
+                            data: data,
+                            success: function(response) {
+                                ShowMessage(response);
+                                if (response.Success) {
+                                    $("#gallery li").find(".mark-as-default").show();
+                                    currentIcon.hide();
+                                }
+                            }
+                        });
+                    }
+                });
+            });
+            
+            $(".edit-image-icon").click(function () {
+                var imageUrl = $(this).data("url");
+                var image = $(this).parent().find("img");
+                $.fancybox({
+                    href: "@Url.Action("ImageEditor", "Media", new { area = "Admin" })?virtualPath=" + imageUrl,
+                    type: 'iframe',
+                    width: '100%',
+                    afterClose: function () {
+                        image.attr("src", image.attr("src") + "?" + new Date().getTime());
+                        return true;
+                    },
+                });
+            });
+
+            $(".delete-icon").click(function () {
+                var data = { id: $(this).data("id") };
+                var liTag = $(this).closest("li");
+                bootbox.confirm('@T("AdminModule:::RotatingImageRooms:::Messages:::ConfirmRemoveRotatingImage:::Are you sure you want to remove this image? This action cannot be undone.")', function(ok) {
+                    if(ok) {
+                        $.ajax({
+                            type: 'POST',
+                            url: "@Url.Action("DeleteImage", "HotelRoomImages")",
+                            data: data,
+                            success: function(response) {
+                                ShowMessage(response);
+                                if (response.Success) {
+                                    liTag.remove();
+                                }
+                            }
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+}

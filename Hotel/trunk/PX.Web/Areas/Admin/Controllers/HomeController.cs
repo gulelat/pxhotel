@@ -29,7 +29,7 @@ namespace PX.Web.Areas.Admin.Controllers
             var action = ControllerContext.ParentActionViewContext.RouteData.Values["action"].ToString();
             var menu = _menuServices.GetAll().FirstOrDefault(m => m.Controller.Equals(controller) && m.Action.Equals(action));
             ViewBag.Hierarchy = menu != null ? menu.Hierarchy : string.Empty;
-            var model = _menuServices.GetRenderMenus();
+            var model = _menuServices.GetAdminMenus();
             return PartialView("_Menu", model);
         }
 

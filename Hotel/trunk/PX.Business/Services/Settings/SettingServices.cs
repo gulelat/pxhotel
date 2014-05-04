@@ -24,11 +24,13 @@ namespace PX.Business.Services.Settings
         private readonly ILocalizedResourceServices _localizedResourceServices;
         private readonly ISettingTypeServices _settingTypeServices;
         private readonly SiteSettingRepository _siteSettingRepository;
+        private readonly SettingTypeRepository _settingTypeRepository;
         public SettingServices(PXHotelEntities entities)
         {
             _localizedResourceServices = HostContainer.GetInstance<ILocalizedResourceServices>();
             _settingTypeServices = HostContainer.GetInstance<ISettingTypeServices>();
             _siteSettingRepository = new SiteSettingRepository(entities);
+            _settingTypeRepository = new SettingTypeRepository(entities);
         }
 
         #region Base
@@ -39,6 +41,10 @@ namespace PX.Business.Services.Settings
         public IQueryable<SiteSetting> Fetch(Expression<Func<SiteSetting, bool>> expression)
         {
             return _siteSettingRepository.Fetch(expression);
+        }
+        public SiteSetting FetchFirst(Expression<Func<SiteSetting, bool>> expression)
+        {
+            return _siteSettingRepository.FetchFirst(expression);
         }
         public SiteSetting GetById(object id)
         {

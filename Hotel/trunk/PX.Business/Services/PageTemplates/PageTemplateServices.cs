@@ -7,6 +7,7 @@ using AutoMapper;
 using PX.Business.Models.PageTemplateLogs;
 using PX.Business.Models.PageTemplates;
 using PX.Business.Models.Pages;
+using PX.Business.Models.Pages.ViewModels;
 using PX.Business.Services.CurlyBrackets;
 using PX.Business.Services.PageTemplateLogs;
 using PX.Business.Services.Settings;

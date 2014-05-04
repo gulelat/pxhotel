@@ -1,353 +1,240 @@
-﻿@model PX.Business.Models.Pages.PageRenderModel
-@{ this.Layout = "DefaultMasterTemplateWithRenderContentOnly-113930-26042014";}<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="PXHotel, @Model.Caption">
-    <meta name="author" content="PXHotel">
-    <link rel="shortcut icon" href="favicon.png">
-
-    <title>PXHotel - @Model.Title</title>
-
-    <!-- Bootstrap core CSS -->
-    <link href="~/Content/FrontEnd/css/bootstrap.css" rel="stylesheet">
-
-    <!-- Just for debugging purposes. Don't actually copy this line! -->
-    <!--[if lt IE 9]><script src="~/Scripts/FrontEnd/ie8-responsive-file-warning.js"></script><![endif]-->
-
-    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-      <script src="https://oss.maxcdn.com/libs/respond.~/Scripts/FrontEnd/1.3.0/respond.min.js"></script>
-    <![endif]-->
-
-    <!-- Custom styles for this template -->
-    <link href="~/Content/FrontEnd/css/styles.css" rel="stylesheet">
-    <link href="~/Content/FrontEnd/css/font-awesome.min.css" rel="stylesheet">
-    <link href="fonts/allura-regular-webfont.css" rel="stylesheet">
-    <link href="fonts/fontviet1-webfont.css" rel="stylesheet">
-    <link href="~/Content/FrontEnd/css/owl.carousel.css" rel="stylesheet">
-    <link href="~/Content/FrontEnd/css/owl.theme.css" rel="stylesheet">
-    <link href="~/Content/FrontEnd/css/owl.transitions.css" rel="stylesheet">
-    <link href="~/Content/FrontEnd/css/animate.min.css" rel="stylesheet">
-    <link href="~/Content/FrontEnd/css/datepicker.css" rel="stylesheet">
-    <link href="~/Content/FrontEnd/css/datepicker.date.css" rel="stylesheet">
-    <link href="~/Content/FrontEnd/css/photobox.css" rel="stylesheet">
-    <link href="~/Content/FrontEnd/css/photobox.ie.css" rel="stylesheet">
-    <link href="~/Content/FrontEnd/css/summernote.css" rel="stylesheet">
-    <script src="~/Scripts/FrontEnd/jquery-1.10.2.min.js"></script>
-  </head>
-  <body>
-    <div class="bigWrapper col-lg-10 col-lg-offset-1">
-      <div>
-        <div class="divMenuAndLogo">
-          {DynamicMenu}
-          <div class="divLogo col-sm-2 col-sm-offset-5 col-xs-4 col-xs-offset-4">
-              <img src="/Content/FrontEnd/img/hotelLogo.png" class="img-responsive" />
-          </div>
-          <div class="clearfix"></div>
-
-          <div class="col-lg-4 col-lg-offset-4 divTextLuxuryHotel">
-            <hr>
-            <div>
-              <div>Luxury Hotel</div>
+﻿<p>{RotatingImages_2}</p>
+<div class="divWrapperTwoHalf">
+    <div class="divHalfContentWrapper halfOnLeft col-xs-12 col-sm-6">
+        <div class="col-sm-12">
+            <div class="headerType1HalfContent">
+                H&Acirc;N HẠNH
+                <div>KH&Aacute;CH H&Agrave;NG L&Agrave; THƯỢNG ĐẾ SOME TEXT</div>
             </div>
-          </div>
-          <div class="clearfix"></div>
-
-          <div class="lineSeparator"><hr></div>
         </div>
 
-        {RenderBody}
+        <div class="clearfix">&nbsp;</div>
 
-        <footer>
-          <div class="col-sm-6">
-            PX HOTEL &copy; 2014
-          </div>
-          <div class="col-sm-6">
-            <ul class="containerSocialLinkAtFooter">
-              <li>
-                <a href="#" class="iconSocialAtFooter facebookIcon">&#61594;</a>
-                <a href="#" class="iconSocialAtFooter googleIcon">&#61653;</a>
-                <a href="#" class="iconSocialAtFooter youTubeIcon">&#61799;</a>
-                <a href="#" class="iconSocialAtFooter twitterIcon">&#61593;</a>
-                <a href="#" class="iconSocialAtFooter rssIcon">&#xF09E;</a>
-              </li>
-            </ul>
-          </div>
-          <div class="clearfix"></div>
-        </footer>
+        <div class="thumbnailWithShadowWrapper col-xs-12 col-sm-12 col-md-6 col-lg-6"><a href="#">
+            <img class="img-responsive img-thumbnail" src="/Content/FrontEnd/img/hotelWelcome.jpg" />
+        </a></div>
 
-        <div class="fixedNavigation">
-          <ul class="smallItemWrapperFixedNavigation">
-            <li class="smallItemFixedNavigation">
-              <a id="btnScrollTop" href="" title="Top"><i class="fa fa-arrow-up"></i></a>
-            </li>
-          </ul>
+        <div class="clearfix visible-xs visible-sm">&nbsp;</div>
+
+        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 rightSmallContent">
+            <div class="smallContentHeader">
+                PHỤC VỤ TẬN TÌNH
+                <div>Lu&ocirc;n đ&aacute;p ứng mọi nhu cầu của kh&aacute;ch h&agrave;ng với th&aacute;i độ t&iacute;ch cực, lu&ocirc;n lu&ocirc;n sẵn s&agrave;ng, niềm nở, phục vụ 24/24. Với PXHotel, qu&yacute; vị sẽ c&oacute; những gi&acirc;y ph&uacute;t ấm &aacute;p b&ecirc;n người th&acirc;n v&agrave; gia đ&igrave;nh.</div>
+            </div>
+            Đọc thêm
         </div>
-      </div>
+    </div>
+    <div class="clearfix visible-xs">&nbsp;</div>
+    <div class="divHalfContentWrapper halfOnRight col-xs-12 col-sm-6">
+        <div class="col-sm-12">
+            <div class="headerType2HalfContent">PHÒNG NGHỈ CAO CẤP</div>
+
+            <div>
+                <img class="center-block img-responsive" src="/Content/FrontEnd/img/pattern1.gif" /></div>
+        </div>
+
+        <div class="clearfix">&nbsp;</div>
+
+        <div class="divBigSquareImg col-xs-12 col-sm-12 col-md-6 col-lg-6">
+            <a href="#">
+                <img class="img-responsive img-thumbnail" src="/Content/FrontEnd/img/squareImg1.jpg" />
+            </a>
+
+            <div class="squareShortDetail">
+                <div class="squareRoomType"><a href="#">SUITE</a></div>
+
+                <div class="squareRoomPrice"><a href="#">1.800.000 VND</a></div>
+            </div>
+        </div>
+
+        <div class="clearfix visible-xs visible-sm">&nbsp;</div>
+
+        <div class="divSmallSquareImg col-xs-12 col-sm-12 col-md-6 col-lg-6">
+            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                <a href="#">
+                    <img class="img-responsive img-thumbnail" src="/Content/FrontEnd/img/squareImg2.jpg" />
+                </a>
+
+                <div class="squareShortDetail">
+                    <div class="squareRoomType"><a href="#">STANDARD</a></div>
+
+                    <div class="squareRoomPrice"><a href="#">500.000 VND</a></div>
+                </div>
+            </div>
+
+            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                <a href="#">
+                    <img class="img-responsive img-thumbnail" src="/Content/FrontEnd/img/squareImg3.jpg" />
+                </a>
+
+                <div class="squareShortDetail">
+                    <div class="squareRoomType"><a href="#">SUPERIOR</a></div>
+
+                    <div class="squareRoomPrice"><a href="#">700.000 VND</a></div>
+                </div>
+            </div>
+
+            <div class="clearfix">&nbsp;</div>
+
+            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                <a href="#">
+                    <img class="img-responsive img-thumbnail" src="/Content/FrontEnd/img/squareImg4.jpg" />
+                </a>
+
+                <div class="squareShortDetail">
+                    <div class="squareRoomType"><a href="#">DELUXE</a></div>
+
+                    <div class="squareRoomPrice"><a href="#">900.000 VND</a></div>
+                </div>
+            </div>
+
+            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                <a href="#">
+                    <img class="img-responsive img-thumbnail" src="/Content/FrontEnd/img/squareImg5.jpg" />
+                </a>
+
+                <div class="squareShortDetail">
+                    <div class="squareRoomType"><a href="#">SUITE</a></div>
+
+                    <div class="squareRoomPrice"><a href="#">1.800.000 VND</a></div>
+                </div>
+            </div>
+
+            <div class="clearfix">&nbsp;</div>
+
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">Xem th&ecirc;m</div>
+        </div>
     </div>
 
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="~/Scripts/FrontEnd/bootstrap.min.js"></script>
-    <script src="~/Scripts/FrontEnd/owl.carousel.min.js"></script>
-    <script src="~/Scripts/FrontEnd/waypoints.min.js"></script>
-    <script src="~/Scripts/FrontEnd/imagesloaded.pkgd.min.js"></script>
-    <script src="~/Scripts/FrontEnd/picker.js"></script>
-    <script src="~/Scripts/FrontEnd/picker.date.js"></script>
-    <script src="~/Scripts/FrontEnd/jquery.photobox.js"></script>
-    <script src="~/Scripts/FrontEnd/summernote.min.js"></script>
-    <script src="~/Scripts/FrontEnd/jquery.parallax-1.1.3.js"></script>
-    <script type="text/javascript">
-        $(document).ready(function () {
-            var activePageId = "@Model.Id";
-          $("#dynamicMenus li").removeClass("active");
-          $("#dynamicMenus li#" + activePageId + "").addClass("active");
+    <div class="clearfix visible-xs">&nbsp;</div>
+</div>
 
-          $("#bigCarousel").owlCarousel({
-              autoPlay: 3000,
-              stopOnHover: true,
-              navigation: true,
-              paginationSpeed: 1000,
-              paginationNumbers: true,
-              lazyLoad: true,
-              goToFirstSpeed: 2000,
-              singleItem: true,
-              autoHeight: true,
-              transitionStyle: "fade",
-              navigationText: [
-              "<i class='fa fa-chevron-left'></i>",
-              "<i class='fa fa-chevron-right'></i>"]
-          });
+<div class="clearfix">&nbsp;</div>
 
-          $(".carouselServiceList").owlCarousel({
-              autoPlay: 5000,
-              stopOnHover: true,
-              paginationNumbers: true,
-              lazyLoad: true,
-              singleItem: true
-          });
+<p>{Banner_1}</p>
 
-          $("#carouselTestimonial").owlCarousel({
-              autoPlay: 5000,
-              singleItem: true,
-              pagination: false,
-              transitionStyle: "backSlide"
-          });
+<div class="clearfix">&nbsp;</div>
 
-          $('#bigCarousel').addClass('animated bounceIn');
+<div class="threePartsServices">
+    <div class="col-sm-4 divNewsEvents">
+        <img class="center-block img-responsive imgPattern" src="/Content/FrontEnd/img/pattern1.png" />
+        <img class="center-block img-responsive" src="/Content/FrontEnd/img/border-top.png" />
+        <div class="text-center">TIN TỨC - SỰ KIỆN</div>
+        <img class="center-block img-responsive" src="/Content/FrontEnd/img/border-bot.png" />
+        {News_2}
+    </div>
 
-          $('.divWrapperTwoHalf').imagesLoaded(function (instance) {
-              $('.divWrapperTwoHalf').waypoint(function (direction) {
-                  if (direction == "down") {
-                      $('.divHalfContentWrapper.halfOnRight').addClass('animated fadeInRight showDiv');
-                      $('.divHalfContentWrapper.halfOnLeft').addClass('animated fadeInLeft showDiv');
-                  }
-              }, {
-                  offset: function () {
-                      if ($(window).width() < 768)
-                          return ($(window).height());
-                      else
-                          return ($('#bigCarousel').height() * 1.5);
-                  }
-              });
-          });
+    <div class="col-sm-4 divServices">
+        <img class="center-block img-responsive imgPattern" src="/Content/FrontEnd/img/pattern1.png" />
+        <img class="center-block img-responsive" src="/Content/FrontEnd/img/border-top.png" />
+        <div class="text-center">DỊCH VỤ</div>
+        <img class="center-block img-responsive" src="/Content/FrontEnd/img/border-bot.png" />
+        {Services_3}
+    </div>
 
-          $('.adsOrPromo').imagesLoaded(function (instance) {
-              $('.adsOrPromo').waypoint(function (direction) {
-                  if (direction == "down") {
-                      $(this).addClass('animated fadeInDown showDiv');
-                  }
-              }, {
-                  offset: function () {
-                      return ($(window).height() - $(this).height() * 0.5);
-                  }
-              });
-          });
+    <div class="col-sm-4 divBooking">
+        <img class="center-block img-responsive imgPattern" src="/Content/FrontEnd/img/pattern1.png" />
+        <img class="center-block img-responsive" src="/Content/FrontEnd/img/border-top.png" />
+        <div class="text-center">ĐẶT PH&Ograve;NG TRỰC TUYẾN</div>
+        <img class="center-block img-responsive" src="/Content/FrontEnd/img/border-bot.png" />
+        <form>
+            <div class="form-group">
+                Ng&agrave;y đến
+                <div class="col-sm-7">
+                    <input type="date" /></div>
+            </div>
 
-          $('.divFeedbackAndGallery').imagesLoaded(function (instance) {
-              $('.divFeedbackAndGallery').waypoint(function (direction) {
-                  if (direction == "down") {
-                      $(this).find('.divWrapperTestimonial').addClass('animated bounceIn showDiv');
-                      $(this).find('.divWrapperFeedback').addClass('animated bounceIn showDiv');
-                      $(this).find('.divWrapperContact').addClass('animated bounceIn showDiv');
-                      $(this).find('.divWrapperImageGallery').addClass('animated bounceIn showDiv');
-                  }
-              }, {
-                  offset: function () {
-                      if ($(window).width() < 768)
-                          return ($(window).height());
-                      else
-                          return ($(window).height() - $(this).height() * 0.5);
-                  }
-              });
-          });
+            <div class="form-group">
+                Ng&agrave;y đi
+                <div class="col-sm-7">
+                    <input type="date" /></div>
+            </div>
 
-          /*Small Fixed Navigation behavior*/
-          if ($(window).scrollTop() == 0)
-              $("#btnScrollTop").css({ "color": "#000000" });
+            <div class="form-group">
+                <div class="col-sm-offset-4 col-sm-7">Kiểm tra</div>
+            </div>
+        </form>
 
-          $(function () {
-              $(window).scroll(function () {
-                  if ($(this).scrollTop() > 10) {
-                      $('#btnScrollTop').css({ "color": "#FFFFFF" });
-                      $('.fixedNavigation').addClass('move');
-                  } else {
-                      $('#btnScrollTop').css({ "color": "#000000" });
-                      $('.fixedNavigation').removeClass('move');
-                  }
-              });
-          });
+        <div class="col-xs-6 col-sm-6 divSkypeOnline" id="SkypeButton_Call_iamnguyenhuykha_1">&nbsp;</div>
+        <!-- <a href="ymsgr:sendIM?iamnguyenhuykha"><img border="0" src="http://opi.yahoo.com/online?u=iamnguyenhuykha&m=g&t=9&l=us"></a> -->
 
-          $('#btnScrollTop').click(function () {
-              $('body,html').animate({
-                  scrollTop: 0
-              }, 800);
-              return false;
-          });
+        <div class="col-xs-6 col-sm-6 divSkypeOnline" id="SkypeButton_Call_liemdl_1">&nbsp;</div>
 
-          $('.divSmallSquareImg > div').hover(function () {
-              $(this).addClass('smallHovered');
-          }, function () {
-              $(this).removeClass('smallHovered');
-          });
+        <div class="clearfix">&nbsp;</div>
+    </div>
 
-          // Datepicker
-          $('.datepickerfield').pickadate({
-              monthsFull: ['Tháng Một', 'Tháng Hai', 'Tháng Ba', 'Tháng Tư', 'Tháng Năm', 'Tháng Sáu', 'Tháng Bảy', 'Tháng Tám', 'Tháng Chín', 'Tháng Mười', 'Tháng Mười Một', 'Tháng Mười Hai'],
-              monthsShort: ['Th 1', 'Th 2', 'Th 3', 'Th 4', 'Th 5', 'Th 6', 'Th 7', 'Th 8', 'Th 9', 'Th 10', 'Th 11', 'Th 12'],
-              weekdaysFull: ['Chủ Nhật', 'Thứ Hai', 'Thứ Ba', 'Thứ Tư', 'Thứ Năm', 'Thứ Sáu', 'Thứ Bảy'],
-              weekdaysShort: ['CN', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7'],
-              today: 'Hôm nay',
-              clear: 'Xóa',
-              format: 'dd/mm/yyyy'
-          });
+    <div class="clearfix">&nbsp;</div>
+</div>
 
-          // Photobox
-          $('#gallery').photobox({
-              time: 2000
-          });
+<div class="divFeedbackAndGallery">
+    <div class="col-lg-6">
+        <div class="col-lg-7 divWrapperTestimonial">{Testimonials}</div>
 
-          // Hover the heading text
-          $('.divNewsEvents').hover(function () {
-              $(this).find('.text-center').addClass('animated fadeInDown');
-          }, function () {
-              $(this).find('.text-center').removeClass('animated fadeInDown');
-          });
+        <div class="col-lg-5 divWrapperFeedback">
+            <div class="textHeadingDivFeedback col-lg-12">&Yacute; KIẾN</div>
 
-          $('.divServices').hover(function () {
-              $(this).find('.text-center').addClass('animated fadeInDown');
-          }, function () {
-              $(this).find('.text-center').removeClass('animated fadeInDown');
-          });
+            <form>
+                <div class="form-group">
+                    <input type="text" /></div>
 
-          $('.divBooking').hover(function () {
-              $(this).find('.text-center').addClass('animated fadeInDown');
-          }, function () {
-              $(this).find('.text-center').removeClass('animated fadeInDown');
-          });
+                <div class="form-group">
+                    <textarea rows="3"></textarea></div>
+                Gửi phản hồi
+            </form>
+        </div>
+    </div>
 
-          // Hover the heading text
-          $('.divWrapperTestimonial').hover(function () {
-              $(this).find('.textHeadingDivFeedback').addClass('animated fadeInRight');
-          }, function () {
-              $(this).find('.textHeadingDivFeedback').removeClass('animated fadeInRight');
-          });
+    <div class="col-lg-3 divWrapperContact">
+        <div class="textHeadingDivFeedback col-lg-12">LI&Ecirc;N HỆ</div>
 
-          $('.divWrapperFeedback').hover(function () {
-              $(this).find('.textHeadingDivFeedback').addClass('animated fadeInRight');
-          }, function () {
-              $(this).find('.textHeadingDivFeedback').removeClass('animated fadeInRight');
-          });
+        <ul>
+            <li>
+                <p><strong>Địa chỉ:</strong> 112 Phan Đ&igrave;nh Ph&ugrave;ng, Phường 6, TP. Đ&agrave; Lạt</p>
+            </li>
+            <li>
+                <p><strong>Phone:</strong> +84 63 00000</p>
+            </li>
+            <li>
+                <p><strong>Email:</strong><a href="mailto:pxmail@yahoo.com">pxmail@yahoo.com</a></p>
+            </li>
+        </ul>
+    </div>
 
-          $('.divWrapperContact').hover(function () {
-              $(this).find('.textHeadingDivFeedback').addClass('animated fadeInRight');
-          }, function () {
-              $(this).find('.textHeadingDivFeedback').removeClass('animated fadeInRight');
-          });
+    <div class="col-lg-3 divWrapperImageGallery">
+        <div class="textHeadingDivFeedback col-lg-12">THƯ VIỆN ẢNH</div>
 
-          $('.divWrapperImageGallery').hover(function () {
-              $(this).find('.textHeadingDivFeedback').addClass('animated fadeInRight');
-          }, function () {
-              $(this).find('.textHeadingDivFeedback').removeClass('animated fadeInRight');
-          });
+        <div id="gallery">
+            <div class="imageInGallery col-sm-4 col-xs-6"><a href="/Content/FrontEnd/img/galleryImg1.jpg">
+                <img class="img-responsive" src="/Content/FrontEnd/img/galleryImg1.jpg" />
+            </a></div>
 
-          // Hover the menu
-          $('li.parentDropdownMenu').hover(function () {
-              $(this).find('ul.dropdown-menu').addClass('animated fadeInUp MenuHovered');
-          }, function () {
-              $(this).find('ul.dropdown-menu').removeClass('animated fadeInUp MenuHovered');
-          });
+            <div class="imageInGallery col-sm-4 col-xs-6"><a href="/Content/FrontEnd/img/galleryImg2.jpg">
+                <img class="img-responsive" src="/Content/FrontEnd/img/galleryImg2.jpg" />
+            </a></div>
 
-          $('li.dropdown-submenu').hover(function () {
-              $(this).find('ul.dropdown-menu').addClass('animated fadeInRight MenuHovered');
-          }, function () {
-              $(this).find('ul.dropdown-menu').removeClass('animated fadeInRight MenuHovered');
-          });
+            <div class="clearfix visible-xs">&nbsp;</div>
 
-          // IF MENU HAS SUBMENU(S), TURN ON RIGHT ARROW
-          $(".myNavbarNav .dropdown .dropdown-menu .dropdown-submenu").each(function (index) {
-              if ($(this).children("ul.dropdown-menu").length > 0) {
-                  $(this).children("a").after().addClass("HasChildMenusArrow");
-              }
-          });
+            <div class="imageInGallery col-sm-4 col-xs-6"><a href="/Content/FrontEnd/img/galleryImg3.jpg">
+                <img class="img-responsive" src="/Content/FrontEnd/img/galleryImg3.jpg" />
+            </a></div>
 
-          // Enable click
-          $('.myNavbarNav > li a').click(function () {
-              window.location.href = $(this).attr("href");
-          });
+            <div class="imageInGallery col-sm-4 col-xs-6"><a href="/Content/FrontEnd/img/galleryImg4.jpg">
+                <img class="img-responsive" src="/Content/FrontEnd/img/galleryImg4.jpg" />
+            </a></div>
 
-          // Menu on mobile
-          $('.linkItemLevel1OnMobile').click(function () {
-              //collapse another menu before expand this
-              $.each($(this).parent().siblings(), function (i, val) {
-                  if ($(this).find("ul").is(":visible")) {
-                      $(this).find("ul")[0].style.display = "none";
-                      $(this).removeClass("AfterExpand");
-                  }
-              });
+            <div class="clearfix visible-xs">&nbsp;</div>
 
-              $(this).siblings('ul.menuItemContainerLevel1OnMobile').toggle();
-              $(this).parent().toggleClass("AfterExpand");
-              if ($(this).parent().hasClass('AfterExpand')) {
-                  $('html, body').animate({
-                      scrollTop: $(this).offset().top - 13
-                  }, 350);
-              }
-              else
-                  $('html, body').animate({
-                      scrollTop: 0
-                  }, 350);
+            <div class="imageInGallery col-sm-4 col-xs-6"><a href="/Content/FrontEnd/img/galleryImg5.jpg">
+                <img class="img-responsive" src="/Content/FrontEnd/img/galleryImg5.jpg" />
+            </a></div>
 
-          });
+            <div class="imageInGallery col-sm-4 col-xs-6"><a href="/Content/FrontEnd/img/galleryImg6.jpg">
+                <img class="img-responsive" src="/Content/FrontEnd/img/galleryImg6.jpg" />
+            </a></div>
 
-          $('.linkItemLevel2OnMobile').click(function () {
-              //collapse another menu before expand this
-              $.each($(this).parent().siblings(), function (i, val) {
-                  if ($(this).find("ul").is(":visible")) {
-                      $(this).find("ul")[0].style.display = "none";
-                      $(this).removeClass("AfterExpand");
-                  }
-              });
+            <div class="clearfix visible-xs">&nbsp;</div>
+        </div>
+    </div>
 
-              $(this).siblings('ul.menuItemContainerLevel2OnMobile').toggle();
-              $(this).parent().toggleClass("AfterExpand");
-              if ($(this).parent().hasClass('AfterExpand')) {
-                  $('html, body').animate({
-                      scrollTop: $(this).offset().top - 13
-                  }, 350);
-              }
-              else
-                  $('html, body').animate({
-                      scrollTop: 0
-                  }, 350);
-
-          });
-      });
-    </script>
-  </body>
-</html>
+    <div class="clearfix">&nbsp;</div>
+</div>

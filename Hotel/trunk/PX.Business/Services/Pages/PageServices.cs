@@ -8,6 +8,7 @@ using System.Web.Mvc;
 using AutoMapper;
 using PX.Business.Models.PageLogs;
 using PX.Business.Models.Pages;
+using PX.Business.Models.Pages.ViewModels;
 using PX.Business.Mvc.WorkContext;
 using PX.Business.Services.ClientMenus;
 using PX.Business.Services.PageLogs;
@@ -66,6 +67,10 @@ namespace PX.Business.Services.Pages
         public IQueryable<Page> Fetch(Expression<Func<Page, bool>> expression)
         {
             return _pageRepository.Fetch(expression);
+        }
+        public Page FetchFirst(Expression<Func<Page, bool>> expression)
+        {
+            return _pageRepository.FetchFirst(expression);
         }
         public Page GetById(object id)
         {

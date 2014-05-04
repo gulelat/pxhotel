@@ -34,6 +34,10 @@ namespace PX.Business.Services.Testimonials
         {
             return _testimonialRepository.Fetch(expression);
         }
+        public Testimonial FetchFirst(Expression<Func<Testimonial, bool>> expression)
+        {
+            return _testimonialRepository.FetchFirst(expression);
+        }
         public Testimonial GetById(object id)
         {
             return _testimonialRepository.GetById(id);

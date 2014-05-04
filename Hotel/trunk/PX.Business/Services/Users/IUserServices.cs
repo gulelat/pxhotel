@@ -20,6 +20,7 @@ namespace PX.Business.Services.Users
 
         IQueryable<User> GetAll();
         IQueryable<User> Fetch(Expression<Func<User, bool>> expression);
+        User FetchFirst(Expression<Func<User, bool>> expression);
         User GetById(object id);
         ResponseModel Insert(User user);
         ResponseModel Update(User user);

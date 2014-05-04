@@ -9,7 +9,7 @@ namespace PX.Business.Mvc.ViewEngines.Razor.RazorEngine
 {
     public abstract class MvcTemplateBase<T> : TemplateBase<T>
     {
-        public TemplateWriter RenderPart<T>(string path, T model = default(T))
+        public TemplateWriter RenderPart<TModel>(string path, TModel model = default(TModel))
         {
             return Include(path, model);
         }
@@ -19,18 +19,18 @@ namespace PX.Business.Mvc.ViewEngines.Razor.RazorEngine
         {
             get
             {
-                if (this._html == null)
+                if (_html == null)
                 {
-                    var container = new InternalViewDataContainer<T>(this.Model);
+                    var container = new InternalViewDataContainer<T>(Model);
                     var context = new ViewContext(
                         new ControllerContext(),
                         new InternalView(),
                         new ViewDataDictionary(),
                         new TempDataDictionary(),
-                        new System.IO.StringWriter(new System.Text.StringBuilder()));
-                    this._html = new HtmlHelper<T>(context, container);
+                        new StringWriter(new System.Text.StringBuilder()));
+                    _html = new HtmlHelper<T>(context, container);
                 }
-                return this._html;
+                return _html;
             }
         }
 
@@ -62,14 +62,14 @@ namespace PX.Business.Mvc.ViewEngines.Razor.RazorEngine
 
         private class InternalView : IView
         {
-            public void Render(ViewContext context, System.IO.TextWriter writer) { }
+            public void Render(ViewContext context, TextWriter writer) { }
         }
 
-        private class InternalViewDataContainer<T> : IViewDataContainer
+        private class InternalViewDataContainer<TModel> : IViewDataContainer
         {
-            public InternalViewDataContainer(T model)
+            public InternalViewDataContainer(TModel model)
             {
-                ViewData = new ViewDataDictionary<T>(model);
+                ViewData = new ViewDataDictionary<TModel>(model);
             }
             public ViewDataDictionary ViewData { get; set; }
         }

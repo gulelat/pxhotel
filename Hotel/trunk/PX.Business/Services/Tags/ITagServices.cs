@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using PX.Business.Models.Tags;
 using PX.Core.Framework.Enums;
 using PX.Core.Framework.Mvc.Models;
@@ -13,6 +15,8 @@ namespace PX.Business.Services.Tags
         #region Base
 
         IQueryable<Tag> GetAll();
+        IQueryable<Tag> Fetch(Expression<Func<Tag, bool>> expression);
+        Tag FetchFirst(Expression<Func<Tag, bool>> expression);
         Tag GetById(object id);
         ResponseModel Insert(Tag tag);
         ResponseModel Update(Tag tag);

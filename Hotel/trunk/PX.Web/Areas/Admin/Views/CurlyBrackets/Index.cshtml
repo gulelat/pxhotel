@@ -27,7 +27,6 @@
 </div>
 @section scripts
 {
-    <script src="/Scripts/BackEnd/date-time/bootstrap-datepicker.min.js"></script>
     <script src="/Scripts/BackEnd/jqGrid/jquery.jqGrid.min.js"></script>
     <script src="/Scripts/BackEnd/jqGrid/i18n/grid.locale-en.js"></script>
     <script type="text/javascript">
@@ -43,7 +42,7 @@
                 colNames: ['', 'Name', 'Description', 'Type'],
                 colModel: [
                     {
-                        name: 'preview', width: 50, sortable: false, search: false, align: "center",
+                        name: 'actions', width: 50, sortable: false, search: false, align: "center",
                         formatter: function (cellvalue, options, rowObject) {
                             var type = rowObject["Type"];
                             return "<a href='@Url.Action("Create", "Templates")?type=" + type + "'><div class='ui-pg-div ui-inline-edit' title='' data-original-title='Create Template'><span class='icon-edit'></span></div></a>";

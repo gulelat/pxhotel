@@ -79,7 +79,7 @@ namespace PX.Web.Areas.Admin.Controllers
                 SetErrorMessage(response.Message);
             }
             model.StatusList = _newsServices.GetStatus();
-            model.NewsCategories = _newsCategoryServices.GetNewsCategories(model.Id);
+            model.NewsCategories = _newsCategoryServices.GetNewsCategories();
             return View(model);
         }
         #endregion
@@ -101,14 +101,13 @@ namespace PX.Web.Areas.Admin.Controllers
                 var response = _newsServices.SaveNewsManageModel(model);
                 if (response.Success)
                 {
-                    var newsId = (int)response.Data;
                     SetSuccessMessage(response.Message);
                     switch (submit)
                     {
                         case SubmitTypeEnums.Save:
                             return RedirectToAction("Index");
                         default:
-                            return RedirectToAction("Edit", new { id = newsId });
+                            return RedirectToAction("Edit", new { id = model.Id });
                     }
                 }
                 SetErrorMessage(response.Message);

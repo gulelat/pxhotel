@@ -64,6 +64,8 @@
     <Compile Include="Configurations\Configurations.cs" />
     <Compile Include="Configurations\SettingNames.cs" />
     <Compile Include="Framework\Enums\ClientMenuEnums.cs" />
+    <Compile Include="Framework\Enums\HotelBookingEnums.cs" />
+    <Compile Include="Framework\Enums\HotelRoomEnums.cs" />
     <Compile Include="Framework\Enums\ServiceEnums.cs" />
     <Compile Include="Framework\Enums\SettingEnums.cs" />
     <Compile Include="Framework\Enums\GridEnums.cs" />
@@ -87,6 +89,7 @@
     <Compile Include="Framework\Mvc\Models\JqGrid\GridManagingModel.cs" />
     <Compile Include="Framework\Mvc\Models\JqGrid\JqGrid.cs" />
     <Compile Include="Framework\Mvc\Models\JqGrid\WhereClauseGenerator.cs" />
+    <Compile Include="Framework\Mvc\Models\PaginationModel.cs" />
     <Compile Include="Framework\Mvc\Models\ResponseModel.cs" />
     <Compile Include="Framework\Mvc\Models\ValidationResultModel.cs" />
     <Compile Include="Framework\Mvc\MvcResults\Image\FilesystemExtensionMethods.cs" />

@@ -32,6 +32,10 @@ namespace PX.Business.Services.Tags
         {
             return _tagRepository.Fetch(expression);
         }
+        public Tag FetchFirst(Expression<Func<Tag, bool>> expression)
+        {
+            return _tagRepository.FetchFirst(expression);
+        }
         public Tag GetById(object id)
         {
             return _tagRepository.GetById(id);

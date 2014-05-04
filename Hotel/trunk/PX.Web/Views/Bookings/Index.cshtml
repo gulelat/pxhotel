@@ -1,0 +1,123 @@
+﻿@model PX.Business.Models.HotelBookings.ViewModels.HotelBookingViewModel
+
+@{
+    ViewBag.Title = "Bookings";
+    Layout = "../Shared/_Layout.cshtml";
+}
+
+<div class="divWrapperBigHeadingIntroText">
+    <div class="col-sm-11 col-sm-offset-1 bigHeadingIntroText">
+        <h1>Booking</h1>
+        <span>đặt phòng trực tuyến
+        </span>
+    </div>
+</div>
+
+<div class="divWrapperRoomBookingOnlineAndContact">
+    <div class="col-xs-12 col-sm-8 divWrapperRoomBookingOnlineInfo">
+        <div class="headingPartRoomBooking"></div>
+        <div class="roomBookingOnlineInfo col-sm-12">
+            <div><strong>Loại phòng</strong></div>
+            <div class="lineSeparated"></div>
+            @foreach (var item in Model.HotelRoomTypes)
+            {
+                <div class="oneRoomType">
+                    <div class="col-sm-4 offset0">
+                        <a href="#">
+                            <img class="img-responsive" src="@item.ImageUrl" />
+                        </a>
+                    </div>
+                    <div class="col-sm-8 offset0">
+                        <div class="col-sm-7">
+                            <h4>@item.Name</h4>
+                            <div class="occupancy">2 người lớn</div>
+                            <div class="hotelPreferences">
+                                @foreach (var service in item.HotelServices)
+                                {
+                                    <i class="fa @service.ServiceIcon"></i>
+                                }
+                            </div>
+                            @foreach (var service in item.HotelServices)
+                            {
+                                <div class="hotelBenefits"><i class="fa fa-check"></i>@service.Name</div>
+                            }
+                        </div>
+                        <div class="col-sm-5 priceAndHasBorder">
+                            <div class="text-center priceInfo">@item.Price VND</div>
+                            <div class="text-center">@Model.TotalDays ngày đêm</div>
+                            <br>
+                            <div class="text-center roomAvailable">còn @item.AvailableRooms chỗ</div>
+                            @if (item.AvailableRooms > 0)
+                            {
+                                <select class="selectRooms" data-id="@item.Id">
+                                    @for (int i = 0; i <= @item.AvailableRooms; i++)
+                                    {
+                                        <option value="@i">@i </option>
+                                    }
+                                </select>
+                            }
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            }
+                            <button id="book-button" class="center-block btnRoomBooking">Book</button>
+        </div>
+    </div>
+
+    <div class="col-xs-12 col-sm-4 roomBookingContactAndExtra">
+        <div class="testinomialBox">
+            <div class="col-sm-12">
+                <i class="fa fa-quote-left"></i>
+                <p class="quoteContent">
+                    Thật sự tôi rất thoải mái khi nghỉ dưỡng tại đây. Nhân viên rất nhiệt tình và mến khách.
+                 
+                    <br>
+                    <span>Liêm Nguyễn từ San Francisco</span>
+                </p>
+            </div>
+        </div>
+        <div class="testinomialBox contactSupportBox">
+            <div class="col-sm-12">
+                <i class="fa fa-phone"></i>
+                <strong>TRỢ GIÚP</strong>
+                <p class="quoteContent">
+                    Chúng tôi phục vụ Quý khách 24/7 về việc đặt phòng và trả lời các vấn đề liên quan.
+                 
+                    <br>
+                    <span>063-123-1234</span>
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+</div>
+@section scripts{
+    <script type="text/javascript">
+        $("#book-button").click(function () {
+            var bookingRooms = [];
+            $(".selectRooms").each(function () {
+                var totalRooms = $(this).val();
+                var roomType = $(this).data("id");
+                if (totalRooms > 0) {
+                    bookingRooms.push({
+                        roomTypeId: roomType,
+                        totalRooms: totalRooms
+                    });
+                }
+            });
+
+            if (bookingRooms.length == 0) {
+                alert("please choose booking room!");
+            }
+            else {
+                var data = {
+                    bookingRooms: bookingRooms,
+                    from: '@Model.DateFrom',
+                    to: '@Model.DateTo'
+                };
+                console.log(data);
+            }
+        });
+    </script>
+}

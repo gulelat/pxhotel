@@ -10,12 +10,7 @@ namespace PX.Business.Models.NewsCategories
         public string Name { get; set; }
 
         public string Description { get; set; }
-
-        [Required]
-        public string Content { get; set; }
-
-        public string ImageFileName { get; set; }
-
+        
         public int? ParentId { get; set; }
 
         public string ParentName { get; set; }

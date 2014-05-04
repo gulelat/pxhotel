@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using PX.Business.Models.Testimonials;
 using PX.Business.Models.Testimonials.CurlyBrackets;
 using PX.Core.Framework.Enums;
@@ -14,6 +16,8 @@ namespace PX.Business.Services.Testimonials
         #region Base
 
         IQueryable<Testimonial> GetAll();
+        IQueryable<Testimonial> Fetch(Expression<Func<Testimonial, bool>> expression);
+        Testimonial FetchFirst(Expression<Func<Testimonial, bool>> expression);
         Testimonial GetById(object id);
         ResponseModel Insert(Testimonial testimonial);
         ResponseModel Update(Testimonial testimonial);

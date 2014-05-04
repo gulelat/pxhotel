@@ -17,6 +17,7 @@ namespace PX.Business.Services.ClientMenus
 
         IQueryable<ClientMenu> GetAll();
         IQueryable<ClientMenu> Fetch(Expression<Func<ClientMenu, bool>> expression);
+        ClientMenu FetchFirst(Expression<Func<ClientMenu, bool>> expression);
         ClientMenu GetById(object id);
         ResponseModel Insert(ClientMenu clientMenu);
         ResponseModel Update(ClientMenu clientMenu);

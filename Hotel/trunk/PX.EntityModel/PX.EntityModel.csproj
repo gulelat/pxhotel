@@ -61,9 +61,6 @@
     <Compile Include="Banner.cs">
       <DependentUpon>PXHotel.tt</DependentUpon>
     </Compile>
-    <Compile Include="BookingRequest.cs">
-      <DependentUpon>PXHotel.tt</DependentUpon>
-    </Compile>
     <Compile Include="ClientMenu.cs">
       <DependentUpon>PXHotel.tt</DependentUpon>
     </Compile>
@@ -74,6 +71,30 @@
       <DependentUpon>PXHotel.tt</DependentUpon>
     </Compile>
     <Compile Include="GroupPermission.cs">
+      <DependentUpon>PXHotel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="HotelBooking.cs">
+      <DependentUpon>PXHotel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="HotelBookingRoom.cs">
+      <DependentUpon>PXHotel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="HotelCustomer.cs">
+      <DependentUpon>PXHotel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="HotelRoom.cs">
+      <DependentUpon>PXHotel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="HotelRoomImage.cs">
+      <DependentUpon>PXHotel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="HotelRoomService.cs">
+      <DependentUpon>PXHotel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="HotelRoomType.cs">
+      <DependentUpon>PXHotel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="HotelService.cs">
       <DependentUpon>PXHotel.tt</DependentUpon>
     </Compile>
     <Compile Include="Language.cs">
@@ -126,6 +147,14 @@
     </Compile>
     <Compile Include="Repositories\ClientMenuRepository.cs" />
     <Compile Include="Repositories\BannerRepository.cs" />
+    <Compile Include="Repositories\HotelCustomerRepository.cs" />
+    <Compile Include="Repositories\HotelBookingRoomRepository.cs" />
+    <Compile Include="Repositories\HotelBookingRepository.cs" />
+    <Compile Include="Repositories\HotelRoomImageRepository.cs" />
+    <Compile Include="Repositories\HotelRoomTypeRepository.cs" />
+    <Compile Include="Repositories\HotelServiceRepository.cs" />
+    <Compile Include="Repositories\HotelRoomServiceRepository.cs" />
+    <Compile Include="Repositories\HotelRoomRepository.cs" />
     <Compile Include="Repositories\ServiceRepository.cs" />
     <Compile Include="Repositories\UserInGroupRepository.cs" />
     <Compile Include="Repositories\SQLCommandHistoryRepository.cs" />
@@ -173,12 +202,6 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>PXHotel.edmx</DependentUpon>
-    </Compile>
-    <Compile Include="Room.cs">
-      <DependentUpon>PXHotel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="RoomType.cs">
-      <DependentUpon>PXHotel.tt</DependentUpon>
     </Compile>
     <Compile Include="RotatingImage.cs">
       <DependentUpon>PXHotel.tt</DependentUpon>
@@ -243,9 +266,6 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="PXHotel.edmx.sql" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\PX.Core\PX.Core.csproj">

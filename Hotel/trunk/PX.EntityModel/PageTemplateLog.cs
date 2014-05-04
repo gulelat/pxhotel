@@ -15,6 +15,7 @@ namespace PX.EntityModel
     public partial class PageTemplateLog
     {
         public int Id { get; set; }
+        public string SessionId { get; set; }
         public int PageTemplateId { get; set; }
         public string Name { get; set; }
         public string Content { get; set; }

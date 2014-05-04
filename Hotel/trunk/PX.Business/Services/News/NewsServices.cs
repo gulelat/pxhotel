@@ -42,6 +42,10 @@ namespace PX.Business.Services.News
         {
             return _newsRepository.Fetch(expression);
         }
+        public EntityModel.News FetchFirst(Expression<Func<EntityModel.News, bool>> expression)
+        {
+            return _newsRepository.FetchFirst(expression);
+        }
         public EntityModel.News GetById(object id)
         {
             return _newsRepository.GetById(id);
@@ -80,6 +84,7 @@ namespace PX.Business.Services.News
                 ImageUrl = u.ImageUrl,
                 Content = u.Content,
                 Status = u.Status,
+                IsHotNews = u.IsHotNews,
                 Categories = string.Join(",", u.NewsNewsCategories.Select(c => c.NewsCategory.Name)),
                 RecordActive = u.RecordActive,
                 RecordOrder = u.RecordOrder,
@@ -114,8 +119,7 @@ namespace PX.Business.Services.News
                     news = _newsRepository.GetById(model.Id);
                     news.Title = model.Title;
                     news.Status = model.Status;
-                    news.RecordOrder = model.RecordOrder;
-                    news.RecordActive = model.RecordActive;
+                    news.IsHotNews = model.IsHotNews;
                     response = Update(news);
                     categoryIds = model.Categories.Split(',').Select(int.Parse).ToList();
                     var currentCategories = news.NewsNewsCategories.Select(nc => nc.Id).ToList();
@@ -142,33 +146,43 @@ namespace PX.Business.Services.News
                         _localizedResourceServices.T("AdminModule:::News:::Messages:::UpdateSuccessfully:::Update news successfully.")
                         : _localizedResourceServices.T("AdminModule:::News:::Messages:::UpdateFailure:::Update news failed. Please try again later."));
 
-                case GridOperationEnums.Add:
-                    news = Mapper.Map<NewsModel, EntityModel.News>(model);
-                    categoryIds = model.Categories.Split(',').Select(int.Parse);
-                    news.Status = model.Status;
-                    news.Content = string.Empty;
-                    news.Description = string.Empty;
-                    news.Updated = DateTime.Now;
-                    news.UpdatedBy = WorkContext.CurrentUser.Email;
-                    response = Insert(news);
-                    foreach (var categoryId in categoryIds)
-                    {
-                        var newsNewsCategory = new NewsNewsCategory
-                            {
-                                NewsId = news.Id,
-                                NewsCategoryId = categoryId
-                            };
-                        _newsNewsCategoryRepository.Insert(newsNewsCategory);
-                    }
-                    return response.SetMessage(response.Success ?
-                        _localizedResourceServices.T("AdminModule:::News:::Messages:::CreateSuccessfully:::Create news successfully.")
-                        : _localizedResourceServices.T("AdminModule:::News:::Messages:::CreateFailure:::Insert news failed. Please try again later."));
+                //case GridOperationEnums.Add:
+                //    news = Mapper.Map<NewsModel, EntityModel.News>(model);
+                //    categoryIds = model.Categories.Split(',').Select(int.Parse);
+                //    news.Status = model.Status;
+                //    news.Content = string.Empty;
+                //    news.Description = string.Empty;
+                //    news.Updated = DateTime.Now;
+                //    news.UpdatedBy = WorkContext.CurrentUser.Email;
+                //    response = Insert(news);
+                //    foreach (var categoryId in categoryIds)
+                //    {
+                //        var newsNewsCategory = new NewsNewsCategory
+                //            {
+                //                NewsId = news.Id,
+                //                NewsCategoryId = categoryId
+                //            };
+                //        _newsNewsCategoryRepository.Insert(newsNewsCategory);
+                //    }
+                //    return response.SetMessage(response.Success ?
+                //        _localizedResourceServices.T("AdminModule:::News:::Messages:::CreateSuccessfully:::Create news successfully.")
+                //        : _localizedResourceServices.T("AdminModule:::News:::Messages:::CreateFailure:::Insert news failed. Please try again later."));
 
                 case GridOperationEnums.Del:
-                    response = Delete(model.Id);
-                    return response.SetMessage(response.Success ?
-                        _localizedResourceServices.T("AdminModule:::News:::Messages:::DeleteSuccessfully:::Delete news successfully.")
-                        : _localizedResourceServices.T("AdminModule:::News:::Messages:::DeleteFailure:::Delete news failed. Please try again later."));
+                    news = _newsRepository.GetById(model.Id);
+                    if (news != null)
+                    {
+                        foreach (var currentCategory in news.NewsNewsCategories)
+                        {
+                            _newsNewsCategoryRepository.Delete(currentCategory);
+                        }
+                        response = Delete(model.Id);
+                        return response.SetMessage(response.Success ?
+                            _localizedResourceServices.T("AdminModule:::News:::Messages:::DeleteSuccessfully:::Delete news successfully.")
+                            : _localizedResourceServices.T("AdminModule:::News:::Messages:::DeleteFailure:::Delete news failed. Please try again later."));
+
+                    }
+                    break;
             }
             return new ResponseModel
             {
@@ -198,6 +212,7 @@ namespace PX.Business.Services.News
                     Content = news.Content,
                     ImageUrl = news.ImageUrl,
                     Title = news.Title,
+                    IsHotNews = news.IsHotNews,
                     Status = news.Status,
                     StatusList = GetStatus(),
                     NewsCategories = _newsCategoryServices.GetNewsCategories(news.Id),
@@ -226,11 +241,12 @@ namespace PX.Business.Services.News
             if (news != null)
             {
                 news.Title = model.Title;
-
                 news.Status = model.Status;
                 news.Description = model.Description;
                 news.Content = model.Content;
                 news.ImageUrl = model.ImageUrl;
+                news.IsHotNews = model.IsHotNews;
+
                 var currentCategories = news.NewsNewsCategories.Select(nc => nc.NewsCategoryId).ToList();
                 foreach (var id in currentCategories)
                 {
@@ -267,6 +283,7 @@ namespace PX.Business.Services.News
                 Description = model.Description,
                 Content = model.Content,
                 ImageUrl = model.ImageUrl,
+                IsHotNews = model.IsHotNews,
                 Updated = DateTime.Now,
                 UpdatedBy = WorkContext.CurrentUser.Email
             };
@@ -315,7 +332,7 @@ namespace PX.Business.Services.News
         public NewsCurlyBracket GetNews(int id)
         {
             var news = GetById(id);
-            if(news != null)
+            if (news != null)
             {
                 return new NewsCurlyBracket(news);
             }
@@ -325,13 +342,26 @@ namespace PX.Business.Services.News
         /// <summary>
         /// Get news
         /// </summary>
-        /// <param name="count"></param>
+        /// <param name="total"></param>
         /// <returns></returns>
-        public List<NewsCurlyBracket> GetNewsListing(int count)
+        public List<NewsCurlyBracket> GetNewsListing(int total)
         {
             return Fetch(news => news.Status == (int)ServiceEnums.StatusEnums.Active)
                 .OrderByDescending(news => news.Updated)
-                .Take(count)
+                .Take(total)
+                .ToList().Select(news => new NewsCurlyBracket(news)).ToList();
+        }
+
+        /// <summary>
+        /// Get hot news
+        /// </summary>
+        /// <param name="total"></param>
+        /// <returns></returns>
+        public List<NewsCurlyBracket> GetHotNews(int total)
+        {
+            return Fetch(news => news.Status == (int)ServiceEnums.StatusEnums.Active && news.IsHotNews)
+                .OrderByDescending(news => news.Updated)
+                .Take(total)
                 .ToList().Select(news => new NewsCurlyBracket(news)).ToList();
         }
 
@@ -353,6 +383,17 @@ namespace PX.Business.Services.News
                         .ToList().Select(news => new NewsCurlyBracket(news)).ToList()
                 };
             return model;
+        }
+
+        /// <summary>
+        /// Get news of category
+        /// </summary>
+        /// <param name="categoryId"></param>
+        /// <returns></returns>
+        public List<NewsCurlyBracket> GetNewsOfCategory(int categoryId)
+        {
+            return Fetch(n => n.NewsNewsCategories.Any(c => c.NewsCategoryId == categoryId)).ToList()
+                .Select(n => new NewsCurlyBracket(n)).ToList();
         }
     }
 }

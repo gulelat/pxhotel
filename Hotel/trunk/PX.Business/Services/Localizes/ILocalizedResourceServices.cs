@@ -15,6 +15,7 @@ namespace PX.Business.Services.Localizes
 
         IQueryable<LocalizedResource> GetAll();
         IQueryable<LocalizedResource> Fetch(Expression<Func<LocalizedResource, bool>> expression);
+        LocalizedResource FetchFirst(Expression<Func<LocalizedResource, bool>> expression);
         LocalizedResource GetById(object id);
         ResponseModel Insert(LocalizedResource localizedResource);
         ResponseModel Update(LocalizedResource localizedResource);

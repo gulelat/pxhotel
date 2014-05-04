@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
+using System.Web;
 using PX.Business.Models.TemplateLogs;
 using PX.Core.Framework.Mvc.Environments;
 using PX.Business.Services.Localizes;
@@ -91,6 +92,7 @@ namespace PX.Business.Services.TemplateLogs
 
         #endregion
 
+        #region Logs
         /// <summary>
         /// Save current page to audit
         /// </summary>
@@ -123,6 +125,7 @@ namespace PX.Business.Services.TemplateLogs
                         Success = true
                     };
                 }
+                log.SessionId = HttpContext.Current.Session.SessionID;
                 return Insert(log);
             }
             return new ResponseModel
@@ -160,5 +163,7 @@ namespace PX.Business.Services.TemplateLogs
 
             return changeLog.ToString();
         }
+
+        #endregion
     }
 }
