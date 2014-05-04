@@ -59,7 +59,7 @@ namespace PX.Business.Services.Templates
 
         #region Logs
 
-        TemplateLogsModel GetLogs(int id, int index = 1);
+        TemplateLogsModel GetLogs(int id, int total = 0, int index = 1);
         #endregion
 
         #region Razor Engine

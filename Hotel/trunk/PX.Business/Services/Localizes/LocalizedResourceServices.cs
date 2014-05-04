@@ -34,6 +34,10 @@ namespace PX.Business.Services.Localizes
         {
             return _localizedResourceRepository.Fetch(expression);
         }
+        public LocalizedResource FetchFirst(Expression<Func<LocalizedResource, bool>> expression)
+        {
+            return _localizedResourceRepository.FetchFirst(expression);
+        }
         public LocalizedResource GetById(object id)
         {
             return _localizedResourceRepository.GetById(id);

@@ -25,6 +25,7 @@ namespace PX.EntityModel
         public string Content { get; set; }
         public string ImageUrl { get; set; }
         public int Status { get; set; }
+        public bool IsHotNews { get; set; }
         public int RecordOrder { get; set; }
         public bool RecordActive { get; set; }
         public System.DateTime Created { get; set; }

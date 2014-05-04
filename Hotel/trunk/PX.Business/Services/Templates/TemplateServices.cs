@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using PX.Business.Models.TemplateLogs;
@@ -6,6 +7,7 @@ using PX.Business.Models.Templates;
 using PX.Business.Mvc.ViewEngines.Razor.RazorEngine;
 using PX.Business.Services.Settings;
 using PX.Business.Services.TemplateLogs;
+using PX.Business.Services.Users;
 using PX.Core.Configurations;
 using PX.Core.Framework.Mvc.Environments;
 using PX.Business.Mvc.WorkContext;
@@ -28,6 +30,7 @@ namespace PX.Business.Services.Templates
     {
         private readonly ILocalizedResourceServices _localizedResourceServices;
         private readonly ITemplateLogServices _templateLogServices;
+        private readonly IUserServices _userServices;
         private readonly ICurlyBracketServices _curlyBracketServices;
         private readonly ISettingServices _settingServices;
         private readonly TemplateRepository _templateRepository;
@@ -37,6 +40,7 @@ namespace PX.Business.Services.Templates
             _localizedResourceServices = HostContainer.GetInstance<ILocalizedResourceServices>();
             _templateLogServices = HostContainer.GetInstance<ITemplateLogServices>();
             _curlyBracketServices = HostContainer.GetInstance<ICurlyBracketServices>();
+            _userServices = HostContainer.GetInstance<IUserServices>();
             _settingServices = HostContainer.GetInstance<ISettingServices>();
             _templateRepository = new TemplateRepository(entities);
             _templateLogRepository = new TemplateLogRepository(entities);
@@ -48,7 +52,7 @@ namespace PX.Business.Services.Templates
         /// </summary>
         public void InitializeTemplates()
         {
-            var types = ReflectionUtilities.GetAllImplementTypesOfInterface(typeof (ICurlyBracketResolver));
+            var types = ReflectionUtilities.GetAllImplementTypesOfInterface(typeof(ICurlyBracketResolver));
             foreach (var type in types)
             {
                 var instance = (ICurlyBracketResolver)Activator.CreateInstance(type);
@@ -291,22 +295,37 @@ namespace PX.Business.Services.Templates
         /// Get page log model
         /// </summary>
         /// <param name="id"></param>
+        /// <param name="total"> </param>
         /// <param name="index"></param>
         /// <returns></returns>
-        public TemplateLogsModel GetLogs(int id, int index = 1)
+        public TemplateLogsModel GetLogs(int id, int total = 0, int index = 1)
         {
             var pageSize = _settingServices.GetSetting<int>(SettingNames.LogsPageSize);
             var template = GetById(id);
             if (template != null)
             {
+                var logs = template.TemplateLogs.OrderByDescending(l => l.Created)
+                    .GroupBy(l => l.SessionId)
+                    .Skip((index - 1) * pageSize)
+                    .Take(pageSize)
+                    .ToList()
+                    .Select(l => new TemplateLogsViewModel
+                    {
+                        SessionId = l.First().SessionId,
+                        Creator = _userServices.GetUser(l.First().CreatedBy),
+                        From = l.Last().Created,
+                        To = l.First().Created,
+                        Total = l.Count(),
+                        Logs = l.Select(i => new TemplateLogItem(i)).ToList()
+                    }).ToList();
+                total = total + logs.Sum(l => l.Logs.Count);
                 var model = new TemplateLogsModel
                 {
-
                     Id = template.Id,
                     Name = template.Name,
-                    Logs = template.TemplateLogs.OrderByDescending(l => l.Created)
-                        .Skip((index - 1) * pageSize).Take(pageSize).Select(l => new TemplateLogViewModel(l)).ToList(),
-                    LoadComplete = (template.TemplateLogs.Count <= index * pageSize)
+                    Total = total,
+                    Logs = logs,
+                    LoadComplete = total == template.TemplateLogs.Count
                 };
                 return model;
             }
@@ -324,6 +343,8 @@ namespace PX.Business.Services.Templates
 
         #endregion
 
+        #region Razor Engine
+
         /// <summary>
         /// Render template using Razor engine
         /// </summary>
@@ -332,7 +353,7 @@ namespace PX.Business.Services.Templates
         /// <param name="viewBag"> </param>
         /// <param name="cacheName"></param>
         /// <returns></returns>
-        public string Parse(string template, dynamic model, DynamicViewBag viewBag = null , string cacheName = "")
+        public string Parse(string template, dynamic model, DynamicViewBag viewBag = null, string cacheName = "")
         {
             var config = new TemplateServiceConfiguration
             {
@@ -357,17 +378,6 @@ namespace PX.Business.Services.Templates
         }
 
         /// <summary>
-        /// Check if template name is existed
-        /// </summary>
-        /// <param name="templateId"></param>
-        /// <param name="name"></param>
-        /// <returns></returns>
-        public bool IsTemplateNameExisted(int? templateId, string name)
-        {
-            return Fetch(t => t.Id != templateId && t.Name.Equals(name)).Any();
-        }
-
-        /// <summary>
         /// Get cache template name
         /// </summary>
         /// <param name="templateName"></param>
@@ -381,5 +391,22 @@ namespace PX.Business.Services.Templates
                                      ? updated.Value.ToString(Configurations.DateTimeFormat)
                                      : created.ToString(Configurations.DateTimeFormat));
         }
+
+        #endregion
+
+        #region Validation
+
+        /// <summary>
+        /// Check if template name is existed
+        /// </summary>
+        /// <param name="templateId"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public bool IsTemplateNameExisted(int? templateId, string name)
+        {
+            return Fetch(t => t.Id != templateId && t.Name.Equals(name)).Any();
+        }
+
+        #endregion
     }
 }

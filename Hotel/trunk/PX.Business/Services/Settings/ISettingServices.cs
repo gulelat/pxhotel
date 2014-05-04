@@ -16,6 +16,7 @@ namespace PX.Business.Services.Settings
 
         IQueryable<SiteSetting> GetAll();
         IQueryable<SiteSetting> Fetch(Expression<Func<SiteSetting, bool>> expression);
+        SiteSetting FetchFirst(Expression<Func<SiteSetting, bool>> expression);
         SiteSetting GetById(object id);
         ResponseModel Insert(SiteSetting siteSetting);
         ResponseModel Update(SiteSetting siteSetting);

@@ -36,6 +36,10 @@ namespace PX.Business.Services.RotatingImages
         {
             return _rotatingImageRepository.Fetch(expression);
         }
+        public RotatingImage FetchFirst(Expression<Func<RotatingImage, bool>> expression)
+        {
+            return _rotatingImageRepository.FetchFirst(expression);
+        }
         public RotatingImage GetById(object id)
         {
             return _rotatingImageRepository.GetById(id);
@@ -223,6 +227,5 @@ namespace PX.Business.Services.RotatingImages
             };
         }
         #endregion
-        
     }
 }

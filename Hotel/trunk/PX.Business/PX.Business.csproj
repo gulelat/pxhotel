@@ -81,6 +81,23 @@
     <Compile Include="Models\ClientMenus\ClientMenuManageModel.cs" />
     <Compile Include="Models\Banners\BannerManageModel.cs" />
     <Compile Include="Models\Banners\BannerModel.cs" />
+    <Compile Include="Models\HotelBookings\ViewModels\CalendarViewModel.cs" />
+    <Compile Include="Models\HotelBookings\ViewModels\BookingViewModel.cs" />
+    <Compile Include="Models\HotelBookings\ViewModels\HotelBookingViewModel.cs" />
+    <Compile Include="Models\HotelBookings\HotelBookingModel.cs" />
+    <Compile Include="Models\HotelCustomers\HotelCustomerModel.cs" />
+    <Compile Include="Models\HotelRoomImages\RotatingImageManageModel.cs" />
+    <Compile Include="Models\HotelRoomTypes\GroupGalleryModel.cs" />
+    <Compile Include="Models\HotelRoomTypes\GroupImageSortingModel.cs" />
+    <Compile Include="Models\HotelRoomTypes\ViewModels\RoomEventViewModel.cs" />
+    <Compile Include="Models\HotelRoomTypes\ViewModels\HotelRoomTypeViewModel.cs" />
+    <Compile Include="Models\HotelServices\HotelServiceModel.cs" />
+    <Compile Include="Models\HotelRooms\HotelRoomModel.cs" />
+    <Compile Include="Models\HotelRoomImages\HotelRoomImageModel.cs" />
+    <Compile Include="Models\HotelRoomTypes\HotelRoomTypeModel.cs" />
+    <Compile Include="Models\HotelRoomTypes\HotelRoomTypeManageModel.cs" />
+    <Compile Include="Models\HotelServices\ViewModels\HotelServiceModel.cs" />
+    <Compile Include="Models\NewsCategories\CurlyBrackets\CategoriesModel.cs" />
     <Compile Include="Models\NewsCategories\CurlyBrackets\CategoryItemModel.cs" />
     <Compile Include="Models\News\CurlyBrackets\NewsItemModel.cs" />
     <Compile Include="Models\News\CurlyBrackets\NewsListingModel.cs" />
@@ -97,7 +114,7 @@
     <Compile Include="Models\SQLTool\SQLResult.cs" />
     <Compile Include="Models\TemplateLogs\TemplateLogModel.cs" />
     <Compile Include="Models\TemplateLogs\TemplateLogManageModel.cs" />
-    <Compile Include="Models\TemplateLogs\TemplateLogViewModel.cs" />
+    <Compile Include="Models\TemplateLogs\TemplateLogItem.cs" />
     <Compile Include="Models\PageTemplateLogs\PageTemplateLogManageModel.cs" />
     <Compile Include="Models\PageTemplateLogs\PageTemplateLogViewModel.cs" />
     <Compile Include="Models\PageTemplateLogs\PageTemplateLogModel.cs" />
@@ -150,6 +167,20 @@
     <Compile Include="Services\ClientMenus\ClientMenuServices.cs" />
     <Compile Include="Services\Banners\IBannerServices.cs" />
     <Compile Include="Services\Banners\BannerServices.cs" />
+    <Compile Include="Services\HotelBookings\HotelBookingServices.cs" />
+    <Compile Include="Services\HotelBookings\IHotelBookingServices.cs" />
+    <Compile Include="Services\HotelCustomers\HotelRoomServices.cs" />
+    <Compile Include="Services\HotelCustomers\IHotelCustomerServices.cs" />
+    <Compile Include="Services\HotelRoomImages\IHotelRoomImageServices.cs" />
+    <Compile Include="Services\HotelRoomImages\HotelRoomImageServices.cs" />
+    <Compile Include="Services\HotelServices\HotelServiceServices.cs" />
+    <Compile Include="Services\HotelServices\IHotelServiceServices.cs" />
+    <Compile Include="Services\HotelRooms\IHotelRoomServices.cs" />
+    <Compile Include="Services\HotelRooms\HotelRoomServices.cs" />
+    <Compile Include="Services\HotelRoomTypes\IHotelRoomTypeServices.cs" />
+    <Compile Include="Services\HotelRoomTypes\HotelRoomTypeServices.cs" />
+    <Compile Include="Services\NewsCategories\CurlyBracketResolvers\CategoryListingResolver.cs" />
+    <Compile Include="Services\News\CurlyBracketResolvers\HotNewsResolver.cs" />
     <Compile Include="Services\News\CurlyBracketResolvers\NewsListingResolver.cs" />
     <Compile Include="Services\News\CurlyBracketResolvers\NewsResolver.cs" />
     <Compile Include="Services\Services\CurlyBracketResolvers\ServiceResolver.cs" />
@@ -198,7 +229,7 @@
     <Compile Include="Models\Languages\LanguageModel.cs" />
     <Compile Include="Models\LocalizedResources\LocalizeDictionaryItem.cs" />
     <Compile Include="Models\Pages\PageModel.cs" />
-    <Compile Include="Models\Pages\PageRenderModel.cs" />
+    <Compile Include="Models\Pages\ViewModels\PageRenderModel.cs" />
     <Compile Include="Models\PageTemplates\PageTemplateManageModel.cs" />
     <Compile Include="Models\PageTemplates\PageTemplateModel.cs" />
     <Compile Include="Models\Settings\SettingTypes\Base\ISettingModel.cs" />
@@ -260,9 +291,7 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Models\News\FrontEnd\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

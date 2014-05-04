@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
+using System.Web;
 using AutoMapper;
 using PX.Business.Models.PageLogs;
 using PX.Core.Framework.Mvc.Environments;
@@ -89,6 +90,8 @@ namespace PX.Business.Services.PageLogs
 
         #endregion
 
+        #region Logs
+
         /// <summary>
         /// Save current page to audit
         /// </summary>
@@ -122,13 +125,14 @@ namespace PX.Business.Services.PageLogs
                         Success = true
                     };
                 }
+                log.SessionId = HttpContext.Current.Session.SessionID;
                 return Insert(log);
             }
             return new ResponseModel
-                {
-                    Success = false,
-                    Message = _localizedResourceServices.T("AdminModule:::Pages:::Messages:::ObjectNotFounded:::Page is not founded.")
-                };
+            {
+                Success = false,
+                Message = _localizedResourceServices.T("AdminModule:::Pages:::Messages:::ObjectNotFounded:::Page is not founded.")
+            };
         }
 
         /// <summary>
@@ -219,5 +223,7 @@ namespace PX.Business.Services.PageLogs
 
             return changeLog.ToString();
         }
+
+        #endregion
     }
 }

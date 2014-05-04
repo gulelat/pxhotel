@@ -24,6 +24,9 @@ namespace PX.Business.Models.News
         [Required]
         public string Content { get; set; }
 
+        [Required]
+        public bool IsHotNews { get; set; }
+
         public List<int> NewsCategoryIds { get; set; }
 
         public IEnumerable<SelectListItem> NewsCategories { get; set; }

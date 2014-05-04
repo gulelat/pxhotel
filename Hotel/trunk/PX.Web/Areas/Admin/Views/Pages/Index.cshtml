@@ -34,7 +34,6 @@
 </div>
 @section scripts
 {
-    <script src="/Scripts/BackEnd/date-time/bootstrap-datepicker.min.js"></script>
     <script src="/Scripts/BackEnd/jqGrid/jquery.jqGrid.min.js"></script>
     <script src="/Scripts/BackEnd/jqGrid/i18n/grid.locale-en.js"></script>
     <script type="text/javascript">
@@ -76,7 +75,7 @@
                 url: "@Url.Action("_AjaxBinding")",
                 caption: "Page Management",
                 height: 370,
-                colNames: ['', 'Id', 'Title', 'Friendly Url', 'Page Template', 'Parent Page', 'Status', 'Order', 'Active', 'Created', 'CreatedBy', 'Updated', 'Updated By'],
+                colNames: ['', 'Id', 'Title', 'Friendly Url', 'Page Template', 'Parent Page', 'Status', 'Order', 'Active', 'Created', 'Created By', 'Updated', 'Updated By'],
                 colModel: [
                     {
                         name: 'actions', width: 120, sortable: false, search: false, align: "center",
@@ -93,7 +92,7 @@
                             return editIcon + previewIcon + logIcon + homePageIcon;
                         }
                     },
-                    { name: 'Id', index: 'Id', width: 60, key: true, sorttype: "int" },
+                    { name: 'Id', index: 'Id', width: 60, key: true, align: 'center', sorttype: "int" },
                     { name: 'Title', index: 'Title', width: 150, editable: true, editrules: { required: true } },
                     { name: 'FriendlyUrl', index: 'FriendlyUrl', width: 150, editable: true, editrules: { required: true } },
                     {
@@ -130,7 +129,7 @@
                         }
                     },
                     { name: 'RecordOrder', index: 'RecordOrder', width: 50, sorttype: "int", align: "center" },
-                    { name: 'Active', index: 'Active', width: 100, editable: true, edittype: "checkbox",  align:"center", editoptions: { value: "Yes:No", defaultValue: 'Yes' }, unformat: aceSwitch },
+                    { name: 'Active', index: 'Active', width: 60, editable: true, edittype: "checkbox",  align:"center", editoptions: { value: "Yes:No", defaultValue: 'Yes' }, unformat: aceSwitch },
                     { name: 'Created', index: 'Created', formatter: "date", width: 80, editable: false, sorttype: "datetime", unformat: pickDate },
                     { name: 'CreatedBy', index: 'CreatedBy', width: 180, editable: false, editoptions: { size: "20", maxlength: "30" } },
                     { name: 'Updated', index: 'Updated', formatter: "date", width: 80, editable: false, sorttype: "datetime", unformat: pickDate },

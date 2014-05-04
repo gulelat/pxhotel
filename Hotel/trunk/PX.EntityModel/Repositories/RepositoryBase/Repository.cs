@@ -53,7 +53,10 @@ namespace PX.EntityModel.Repositories.RepositoryBase
 
         public ResponseModel ExcuteSql(string sql)
         {
-            var response = new ResponseModel();
+            var response = new ResponseModel
+                {
+                    Success = true
+                };
             try
             {
                 DataContext.Database.ExecuteSqlCommand(sql);

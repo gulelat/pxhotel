@@ -38,6 +38,10 @@ namespace PX.Business.Services.SQLTool
         {
             return _sqlCommandHistoryRepository.Fetch(expression);
         }
+        public SQLCommandHistory FetchFirst(Expression<Func<SQLCommandHistory, bool>> expression)
+        {
+            return _sqlCommandHistoryRepository.FetchFirst(expression);
+        }
         public SQLCommandHistory GetById(object id)
         {
             return _sqlCommandHistoryRepository.GetById(id);

@@ -34,7 +34,6 @@
 </div>
 @section scripts
 {
-    <script src="/Scripts/BackEnd/date-time/bootstrap-datepicker.min.js"></script>
     <script src="/Scripts/BackEnd/jqGrid/jquery.jqGrid.min.js"></script>
     <script src="/Scripts/BackEnd/jqGrid/i18n/grid.locale-en.js"></script>
     <script type="text/javascript">
@@ -55,7 +54,7 @@
                 url: "@Url.Action("_AjaxBinding")",
                 caption: "Service Management",
                 height: 370,
-                colNames: ['', 'Id', 'Title', 'Status', 'Created', 'CreatedBy', 'Updated', 'Updated By'],
+                colNames: ['', 'Id', 'Title', 'Status', 'Created', 'Created By', 'Updated', 'Updated By'],
                 colModel: [
                     {
                         name: 'edit', width: 50, sortable: false, search: false, align: "center",
@@ -63,7 +62,7 @@
                             return "<a href='@Url.Action("Edit")/" + options.rowId + "'><div class='ui-pg-div ui-inline-edit' title='' data-original-title='Edit Service'><span class='icon-edit'></span></div></a>";
                         }
                     },
-                    { name: 'Id', index: 'Id', width: 60, key: true, sorttype: "int" },
+                    { name: 'Id', index: 'Id', width: 60, key: true, align: 'center', sorttype: "int" },
                     { name: 'Title', index: 'Title', width: 240, editable: true },
                     {
                         name: 'StatusName',

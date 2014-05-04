@@ -37,6 +37,10 @@ namespace PX.Business.Services.Services
         {
             return _serviceRepository.Fetch(expression);
         }
+        public Service FetchFirst(Expression<Func<Service, bool>> expression)
+        {
+            return _serviceRepository.FetchFirst(expression);
+        }
         public Service GetById(object id)
         {
             return _serviceRepository.GetById(id);

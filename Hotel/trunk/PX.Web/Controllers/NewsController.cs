@@ -1,9 +1,10 @@
 ﻿using System.Web.Mvc;
+using PX.Business.Mvc.Controllers;
 using PX.Business.Services.News;
 
 namespace PX.Web.Controllers
 {
-    public class NewsController : Controller
+    public class NewsController : ClientController
     {
         private readonly INewsServices _newsServices;
         public NewsController(INewsServices newsServices)

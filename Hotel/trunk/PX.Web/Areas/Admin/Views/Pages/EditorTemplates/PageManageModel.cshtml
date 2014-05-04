@@ -3,19 +3,19 @@
 @Html.HiddenFor(m => m.Id)
 <div class="form-group">
     <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
-        @MText(Tags.Label, "AdminModule:::Pages:::Forms:::Title", "Title", new { @class = "col-xs-12 no-padding-right", @for = "Title" })
+        @MText(Tags.Label, "AdminModule:::Pages:::Forms:::Title", "Title", new { @class = "col-xs-12 no-padding-left", @for = "Title" })
         <div class="space-4"></div>
         @Html.TextBoxFor(m => m.Title, new { @class = "col-xs-12", placeholder = T("AdminModule:::Pages:::Forms:::Title place holder", "Please input page title") })
         @Html.ValidationMessageFor(m => m.Title)
     </div>
     <div class="col-xs-12 col-sm-9 col-md-4 col-lg-4">
-        @MText(Tags.Label, "AdminModule:::Pages:::Forms:::FriendlyUrl", "Friendly Url", new { @class = "col-xs-12 no-padding-right", @for = "FriendlyUrl" })
+        @MText(Tags.Label, "AdminModule:::Pages:::Forms:::FriendlyUrl", "Friendly Url", new { @class = "col-xs-12 no-padding-left", @for = "FriendlyUrl" })
         <div class="space-4"></div>
         @Html.TextBoxFor(m => m.FriendlyUrl, new { @class = "col-xs-12" })
         @Html.ValidationMessageFor(m => m.FriendlyUrl)
     </div>
     <div class="col-xs-12 col-sm-3 col-md-4 col-lg-4">
-        @MText(Tags.Label, "AdminModule:::Pages:::Forms:::Status", "Status", new { @class = "col-xs-12 no-padding-right", @for = "Status" })
+        @MText(Tags.Label, "AdminModule:::Pages:::Forms:::Status", "Status", new { @class = "col-xs-12 no-padding-left", @for = "Status" })
         <div class="space-4"></div>
         @Html.DropDownListFor(m => m.Status, Model.StatusList, new { @class = "col-xs-12" })
         @Html.ValidationMessageFor(m => m.Status)
@@ -44,7 +44,7 @@
 <div class="space-4"></div>
 <div class="form-group">
     <div class="col-xs-12">
-        @MText(Tags.Label, "AdminModule:::Pages:::Forms:::Caption", "Caption", new { @class = "col-xs-12 no-padding-right", @for = "Caption" })
+        @MText(Tags.Label, "AdminModule:::Pages:::Forms:::Caption", "Caption", new { @class = "col-xs-12 no-padding-left", @for = "Caption" })
         <div class="space-4"></div>
         @Html.TextAreaFor(m => m.Caption, new { @class = "col-xs-12", placeholder = T("AdminModule:::Pages:::Forms:::Caption place holder", "Please input page caption") })
         @Html.ValidationMessageFor(m => m.Caption)

@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Caching;
 using System.Web.Hosting;
 using PX.Business.Models.Pages;
+using PX.Business.Models.Pages.ViewModels;
 using PX.Business.Services.CurlyBrackets;
 using PX.Business.Services.PageTemplates;
 using PX.Business.Services.Pages;

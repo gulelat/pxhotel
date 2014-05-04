@@ -15,7 +15,7 @@ namespace PX.Business.Services.News.CurlyBracketResolvers
         #region Private Properties
         private readonly ITemplateServices _templateServices;
         private readonly INewsServices _newsServices;
-        private const int DefaultRandomNumber = 5;
+        private const int DefaultTotal = 5;
         #endregion
 
         #region Public Properties
@@ -37,7 +37,7 @@ namespace PX.Business.Services.News.CurlyBracketResolvers
 
         #region Parse Params
 
-        private int Count { get; set; }
+        private int Total { get; set; }
 
         private string Template { get; set; }
 
@@ -48,13 +48,13 @@ namespace PX.Business.Services.News.CurlyBracketResolvers
              * * Count
              * * Template
              */
-            Count = DefaultRandomNumber;
+            Total = DefaultTotal;
             Template = DefaultTemplate;
 
             //Count
             if(parameters.Length > 1)
             {
-                Count = parameters[1].ToInt(DefaultRandomNumber);
+                Total = parameters[1].ToInt(DefaultTotal);
             }
 
             //Template
@@ -94,7 +94,7 @@ namespace PX.Business.Services.News.CurlyBracketResolvers
             var templateManageModel = _templateServices.GetTemplateByName(Template) ??
                                                       _templateServices.GetTemplateByName(DefaultTemplate);
 
-            var model = _newsServices.GetNewsListing(Count);
+            var model = _newsServices.GetNewsListing(Total);
             return _templateServices.Parse(templateManageModel.Content, model, null, templateManageModel.CacheName);
         }
     }

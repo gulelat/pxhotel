@@ -35,32 +35,30 @@ namespace PX.Business.Services.RotatingImageGroups
         {
             return _rotatingImageGroupRepository.GetAll();
         }
-
         public IQueryable<RotatingImageGroup> Fetch(Expression<Func<RotatingImageGroup, bool>> expression)
         {
             return _rotatingImageGroupRepository.Fetch(expression);
         }
-
+        public RotatingImageGroup FetchFirst(Expression<Func<RotatingImageGroup, bool>> expression)
+        {
+            return _rotatingImageGroupRepository.FetchFirst(expression);
+        }
         public RotatingImageGroup GetById(object id)
         {
             return _rotatingImageGroupRepository.GetById(id);
         }
-
         public ResponseModel Insert(RotatingImageGroup rotatingImageGroup)
         {
             return _rotatingImageGroupRepository.Insert(rotatingImageGroup);
         }
-
         public ResponseModel Update(RotatingImageGroup rotatingImageGroup)
         {
             return _rotatingImageGroupRepository.Update(rotatingImageGroup);
         }
-
         public ResponseModel Delete(RotatingImageGroup rotatingImageGroup)
         {
             return _rotatingImageGroupRepository.Delete(rotatingImageGroup);
         }
-
         public ResponseModel Delete(object id)
         {
             return _rotatingImageGroupRepository.Delete(id);

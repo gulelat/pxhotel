@@ -18,6 +18,14 @@ namespace PX.Business.Models.News
 
         public string ImageUrl { get; set; }
 
+        public bool IsHotNews { get; set; }
+
+        public string IsHotNewsString
+        {
+            get { return IsHotNews ? "Yes" : "No"; }
+            set { IsHotNews = value.Equals("Yes"); }
+        }
+
         public int Status { get; set; }
 
         public string StatusName

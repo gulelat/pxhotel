@@ -4,7 +4,9 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Web.Mvc;
 using AutoMapper;
+using PX.Business.Models.News.CurlyBrackets;
 using PX.Business.Models.NewsCategories;
+using PX.Business.Models.NewsCategories.CurlyBrackets;
 using PX.Core.Framework.Mvc.Environments;
 using PX.Business.Services.Localizes;
 using PX.Core.Framework.Enums;
@@ -35,6 +37,10 @@ namespace PX.Business.Services.NewsCategories
         public IQueryable<NewsCategory> Fetch(Expression<Func<NewsCategory, bool>> expression)
         {
             return _newsCategoryRepository.Fetch(expression);
+        }
+        public NewsCategory FetchFirst(Expression<Func<NewsCategory, bool>> expression)
+        {
+            return _newsCategoryRepository.FetchFirst(expression);
         }
         public NewsCategory GetById(object id)
         {
@@ -70,7 +76,34 @@ namespace PX.Business.Services.NewsCategories
         }
         #endregion
 
-        #region Manage News Category
+        #region Grid Search
+        /// <summary>
+        /// search the NewsCategories.
+        /// </summary>
+        /// <returns></returns>
+        public JqGridSearchOut SearchNewsCategories(JqSearchIn si)
+        {
+            var newsCategories = GetAll().Select(u => new NewsCategoryModel
+            {
+                Id = u.Id,
+                Name = u.Name,
+                Description = u.Description,
+                RecordActive = u.RecordActive,
+                RecordOrder = u.RecordOrder,
+                ParentId = u.ParentId,
+                ParentName = u.NewsCategory1.Name,
+                Created = u.Created,
+                CreatedBy = u.CreatedBy,
+                Updated = u.Updated,
+                UpdatedBy = u.UpdatedBy
+            });
+
+            return si.Search(newsCategories);
+        }
+
+        #endregion
+
+        #region Grid Manage
 
         /// <summary>
         /// Manage Site Setting
@@ -121,30 +154,6 @@ namespace PX.Business.Services.NewsCategories
         #endregion
 
         /// <summary>
-        /// search the NewsCategories.
-        /// </summary>
-        /// <returns></returns>
-        public JqGridSearchOut SearchNewsCategories(JqSearchIn si)
-        {
-            var newsCategories = GetAll().Select(u => new NewsCategoryModel
-            {
-                Id = u.Id,
-                Name = u.Name,
-                Description = u.Description,
-                RecordActive = u.RecordActive,
-                RecordOrder = u.RecordOrder,
-                ParentId = u.ParentId,
-                ParentName = u.NewsCategory1.Name,
-                Created = u.Created,
-                CreatedBy = u.CreatedBy,
-                Updated = u.Updated,
-                UpdatedBy = u.UpdatedBy
-            });
-
-            return si.Search(newsCategories);
-        }
-
-        /// <summary>
         /// Get possible parent menu
         /// </summary>
         /// <param name="id">the current menu id</param>
@@ -171,11 +180,31 @@ namespace PX.Business.Services.NewsCategories
         }
 
         /// <summary>
+        /// Get category model
+        /// </summary>
+        /// <param name="categoryId"></param>
+        /// <returns></returns>
+        public CategoryItemModel GetCategoryModel(int categoryId)
+        {
+            var category = GetById(categoryId);
+            if (category != null)
+            {
+                return new CategoryItemModel(category)
+                {
+                    NewsListing = category.NewsNewsCategories.Select(n => n.News)
+                        .ToList()
+                        .Select(n => new NewsCurlyBracket(n)).ToList()
+                };
+            }
+            return null;
+        }
+
+        /// <summary>
         /// Get NewsCategory by parent id
         /// </summary>
         /// <param name="newsId"> the new id </param>
         /// <returns></returns>
-        public List<SelectListItem> GetNewsCategories(int? newsId)
+        public IEnumerable<SelectListItem> GetNewsCategories(int? newsId)
         {
             var data = GetAll().Select(c => new HierarchyModel
                 {
@@ -186,6 +215,18 @@ namespace PX.Business.Services.NewsCategories
                     Selected = newsId.HasValue && c.NewsNewsCategories.Any(nc => nc.NewsId == newsId)
                 }).ToList();
             return _newsCategoryRepository.BuildSelectList(data);
+        }
+
+        /// <summary>
+        /// Get news category listing
+        /// </summary>
+        /// <returns></returns>
+        public CategoriesModel GetCategoryListing()
+        {
+            return new CategoriesModel
+                {
+                    Categories = GetAll().ToList().Select(c => new CategoryItemModel(c)).ToList()
+                };
         }
 
         /// <summary>

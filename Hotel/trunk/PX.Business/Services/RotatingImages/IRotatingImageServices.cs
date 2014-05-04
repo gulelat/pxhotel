@@ -15,6 +15,7 @@ namespace PX.Business.Services.RotatingImages
 
         IQueryable<RotatingImage> GetAll();
         IQueryable<RotatingImage> Fetch(Expression<Func<RotatingImage, bool>> expression);
+        RotatingImage FetchFirst(Expression<Func<RotatingImage, bool>> expression);
         RotatingImage GetById(object id);
         ResponseModel Insert(RotatingImage rotatingImage);
         ResponseModel Update(RotatingImage rotatingImage);

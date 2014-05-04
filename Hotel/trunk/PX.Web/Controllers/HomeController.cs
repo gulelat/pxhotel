@@ -8,16 +8,10 @@ namespace PX.Web.Controllers
     {
         //
         // GET: /Home/
-
         [Template(Name = "Home Page Template")]
         public ActionResult Index(int? id)
         {
             return View("Index");
-        }
-
-        public ActionResult Test()
-        {
-            return View("DBTemplate.Test 2");
         }
     }
 }

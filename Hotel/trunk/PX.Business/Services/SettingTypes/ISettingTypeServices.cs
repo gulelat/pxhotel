@@ -17,12 +17,18 @@ namespace PX.Business.Services.SettingTypes
 
         IQueryable<SettingType> GetAll();
         IQueryable<SettingType> Fetch(Expression<Func<SettingType, bool>> expression);
+        SettingType FetchFirst(Expression<Func<SettingType, bool>> expression);
         SettingType GetById(object id);
         ResponseModel Insert(SettingType settingType);
         ResponseModel Update(SettingType settingType);
         ResponseModel Delete(SettingType settingType);
         ResponseModel Delete(object id);
 
+        #endregion
+
+        #region Initialize
+
+        void Initialize();
         #endregion
 
         #region Grid Search

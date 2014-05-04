@@ -27,7 +27,6 @@
 </div>
 @section scripts
 {
-    <script src="/Scripts/BackEnd/date-time/bootstrap-datepicker.min.js"></script>
     <script src="/Scripts/BackEnd/jqGrid/jquery.jqGrid.min.js"></script>
     <script src="/Scripts/BackEnd/jqGrid/i18n/grid.locale-en.js"></script>
     <script type="text/javascript">
@@ -130,18 +129,15 @@
                 url: "@Url.Action("_AjaxBinding")",
                 caption: "Menu Management",
                 height: 370,
-                colNames: ['Id', 'Name', 'Url', 'Controller', 'Action', 'Parent Menu', 'MenuClass', "Visible", 'Order', 'Active', 'Created', 'CreatedBy', 'Updated', 'Updated By'],
+                colNames: ['Id', 'Name', 'Url', 'Controller', 'Action', 'Parent Menu', 'Menu Icon', "Visible", 'Order', 'Created', 'Created By', 'Updated', 'Updated By'],
                 colModel: [
-                    { name: 'Id', index: 'Id', width: 60, key: true, sorttype: "int" },
+                    { name: 'Id', index: 'Id', width: 60, key: true, align: 'center', sorttype: "int" },
                     { name: 'Name', index: 'Name', width: 150, editable: true, editrules: { required: true } },
                     { name: 'Url', index: 'Url', width: 50, editable: true },
                     { name: 'Controller', index: 'Controller', width: 120, editable: true },
                     { name: 'Action', index: 'Action', width: 120, editable: true },
                     {
                         name: 'ParentName', index: 'ParentName', width: 180, editable: true, edittype: "select",
-                        formatter: function (cellvalue, options, rowObject) {
-                            return formatSelectCell(cellvalue);
-                        },
                         editoptions: {
                             dataUrl: '@Url.Action("GetParents")',
                             buildSelect: function (response) {
@@ -150,14 +146,17 @@
                         }
                     },
                     {
-                        name: 'MenuIcon', index: 'MenuIcon', width: 150, editable: true, edittype: "select",
+                        name: 'MenuIcon', index: 'MenuIcon', width: 90, align: "center", editable: true, edittype: "select",
                         editoptions: {
                             value: icons
+                        },
+                        formatter: function (cellvalue, options, rowObject) {
+                            var icon = "<i class='" + cellvalue + "'></i>";
+                            return icon;
                         }
                     },
-                    { name: 'VisibleString', index: 'VisibleString', width: 100, editable: true, edittype: "checkbox", align: "center", editoptions: { value: "Yes:No", defaultValue: 'Yes' }, unformat: aceSwitch },
-                    { name: 'RecordOrder', index: 'RecordOrder', width: 50, sorttype: "int", align: "center", editable: true, editrules: { required: true } },
-                    { name: 'Active', index: 'Active', width: 100, editable: true, edittype: "checkbox",  align:"center", editoptions: { value: "Yes:No", defaultValue: 'Yes' }, unformat: aceSwitch },
+                    { name: 'VisibleString', index: 'VisibleString', width: 80, editable: true, edittype: "checkbox", align: "center", editoptions: { value: "Yes:No", defaultValue: 'Yes' }, unformat: aceSwitch },
+                    { name: 'RecordOrder', index: 'RecordOrder', width: 55, sorttype: "int", align: "center", editable: true, editrules: { required: true } },
                     { name: 'Created', index: 'Created', formatter: "date", width: 80, editable: false, sorttype: "datetime", unformat: pickDate },
                     { name: 'CreatedBy', index: 'CreatedBy', width: 180, editable: false, editoptions: { size: "20", maxlength: "30" } },
                     { name: 'Updated', index: 'Updated', formatter: "date", width: 80, editable: false, sorttype: "datetime", unformat: pickDate },

@@ -28,7 +28,6 @@
 </div>
 @section scripts
 {
-    <script src="/Scripts/BackEnd/date-time/bootstrap-datepicker.min.js"></script>
     <script src="/Scripts/BackEnd/jqGrid/jquery.jqGrid.min.js"></script>
     <script src="/Scripts/BackEnd/jqGrid/i18n/grid.locale-en.js"></script>
     <script type="text/javascript">
@@ -50,7 +49,7 @@
                 postData: { language: '@Model.Id' },
                 caption: "Localized Resource Management",
                 height: 370,
-                colNames: ['Id', 'Language', 'Text Key', 'Value', 'Created', 'CreatedBy', 'Updated', 'Updated By'],
+                colNames: ['Id', 'Language', 'Text Key', 'Value', 'Created', 'Created By', 'Updated', 'Updated By'],
                 colModel: [
                     { name: 'Id', index: 'Id', width: 100, key: true },
                     { name: 'LanguageId', index: 'LanguageId', width: 150, editable: false },

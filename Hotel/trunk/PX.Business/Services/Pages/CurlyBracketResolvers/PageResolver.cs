@@ -1,4 +1,5 @@
 ﻿using PX.Business.Models.Pages;
+using PX.Business.Models.Pages.ViewModels;
 using PX.Business.Mvc.Attributes;
 using PX.Business.Services.CurlyBrackets.CurlyBracketResolver;
 using PX.Business.Services.Localizes;

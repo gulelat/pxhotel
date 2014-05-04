@@ -4,9 +4,11 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Web.Mvc;
 using PX.Business.Models.NewsCategories;
+using PX.Business.Models.NewsCategories.CurlyBrackets;
 using PX.Core.Framework.Enums;
 using PX.Core.Framework.Mvc.Models;
 using PX.Core.Framework.Mvc.Models.JqGrid;
+using PX.EntityModel;
 
 namespace PX.Business.Services.NewsCategories
 {
@@ -14,12 +16,13 @@ namespace PX.Business.Services.NewsCategories
     {
         #region Base
 
-        IQueryable<EntityModel.NewsCategory> GetAll();
-        IQueryable<EntityModel.NewsCategory> Fetch(Expression<Func<EntityModel.NewsCategory, bool>> expression);
-        EntityModel.NewsCategory GetById(object id);
-        ResponseModel Insert(EntityModel.NewsCategory newsCategory);
-        ResponseModel Update(EntityModel.NewsCategory newsCategory);
-        ResponseModel Delete(EntityModel.NewsCategory newsCategory);
+        IQueryable<NewsCategory> GetAll();
+        IQueryable<NewsCategory> Fetch(Expression<Func<NewsCategory, bool>> expression);
+        NewsCategory FetchFirst(Expression<Func<NewsCategory, bool>> expression);
+        NewsCategory GetById(object id);
+        ResponseModel Insert(NewsCategory newsCategory);
+        ResponseModel Update(NewsCategory newsCategory);
+        ResponseModel Delete(NewsCategory newsCategory);
         ResponseModel Delete(object id);
 
         #endregion
@@ -38,6 +41,11 @@ namespace PX.Business.Services.NewsCategories
 
         IEnumerable<SelectListItem> GetPossibleParents(int? id = null);
 
-        List<SelectListItem> GetNewsCategories(int? newsId = null);
+        IEnumerable<SelectListItem> GetNewsCategories(int? newsId = null);
+
+        CategoriesModel GetCategoryListing();
+
+        CategoryItemModel GetCategoryModel(int categoryId);
+
     }
 }

@@ -27,7 +27,6 @@
 </div>
 @section scripts
 {
-    <script src="/Scripts/BackEnd/date-time/bootstrap-datepicker.min.js"></script>
     <script src="/Scripts/BackEnd/jqGrid/jquery.jqGrid.min.js"></script>
     <script src="/Scripts/BackEnd/jqGrid/i18n/grid.locale-en.js"></script>
     <script type="text/javascript">
@@ -47,9 +46,9 @@
                 url: "@Url.Action("_AjaxBinding")",
                 caption: "Tag Management",
                 height: 370,
-                colNames: ['Id', 'Name', 'Active', 'Created', 'CreatedBy', 'Updated', 'Updated By'],
+                colNames: ['Id', 'Name', 'Active', 'Created', 'Created By', 'Updated', 'Updated By'],
                 colModel: [
-                    { name: 'Id', index: 'Id', width: 60, key: true, sorttype: "int" },
+                    { name: 'Id', index: 'Id', width: 60, key: true, align: 'center', sorttype: "int" },
                     { name: 'Name', index: 'Name', width: 150, editable: true, editrules: { required: true } },
                     { name: 'Active', index: 'Active', width: 100, editable: true, edittype: "checkbox", align: "center", editoptions: { value: "Yes:No", defaultValue: 'Yes' }, unformat: aceSwitch },
                     { name: 'Created', index: 'Created', formatter: "date", width: 80, editable: false, sorttype: "datetime", unformat: pickDate },

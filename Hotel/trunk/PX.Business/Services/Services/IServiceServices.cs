@@ -8,6 +8,7 @@ using PX.Business.Models.Services.CurlyBrackets;
 using PX.Core.Framework.Enums;
 using PX.Core.Framework.Mvc.Models;
 using PX.Core.Framework.Mvc.Models.JqGrid;
+using PX.EntityModel;
 
 namespace PX.Business.Services.Services
 {
@@ -15,12 +16,13 @@ namespace PX.Business.Services.Services
     {
         #region Base
 
-        IQueryable<EntityModel.Service> GetAll();
-        IQueryable<EntityModel.Service> Fetch(Expression<Func<EntityModel.Service, bool>> expression);
-        EntityModel.Service GetById(object id);
-        ResponseModel Insert(EntityModel.Service service);
-        ResponseModel Update(EntityModel.Service service);
-        ResponseModel Delete(EntityModel.Service service);
+        IQueryable<Service> GetAll();
+        IQueryable<Service> Fetch(Expression<Func<Service, bool>> expression);
+        Service FetchFirst(Expression<Func<Service, bool>> expression);
+        Service GetById(object id);
+        ResponseModel Insert(Service service);
+        ResponseModel Update(Service service);
+        ResponseModel Delete(Service service);
         ResponseModel Delete(object id);
 
         #endregion

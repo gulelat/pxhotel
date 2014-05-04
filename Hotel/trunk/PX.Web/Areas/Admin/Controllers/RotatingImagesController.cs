@@ -94,14 +94,14 @@ namespace PX.Web.Areas.Admin.Controllers
                 var response = _rotatingImageServices.SaveRotatingImage(model);
                 if (response.Success)
                 {
-                    var templateId = (int)response.Data;
+                    var rotatingImageId = (int)response.Data;
                     SetSuccessMessage(response.Message);
                     switch (submit)
                     {
                         case SubmitTypeEnums.Save:
                             return RedirectToAction("Index");
                         default:
-                            return RedirectToAction("Edit", new { id = templateId });
+                            return RedirectToAction("Edit", new { id = rotatingImageId });
                     }
                 }
                 SetErrorMessage(response.Message);

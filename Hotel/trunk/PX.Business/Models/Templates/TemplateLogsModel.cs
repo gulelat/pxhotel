@@ -18,9 +18,11 @@ namespace PX.Business.Models.Templates
 
         public string Name { get; set; }
 
+        public int Total { get; set; }
+
         public bool LoadComplete { get; set; }
 
-        public List<TemplateLogViewModel> Logs { get; set; }
+        public List<TemplateLogsViewModel> Logs { get; set; }
 
         #endregion
     }

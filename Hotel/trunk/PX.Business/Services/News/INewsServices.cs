@@ -17,6 +17,7 @@ namespace PX.Business.Services.News
 
         IQueryable<EntityModel.News> GetAll();
         IQueryable<EntityModel.News> Fetch(Expression<Func<EntityModel.News, bool>> expression);
+        EntityModel.News FetchFirst(Expression<Func<EntityModel.News, bool>> expression);
         EntityModel.News GetById(object id);
         ResponseModel Insert(EntityModel.News news);
         ResponseModel Update(EntityModel.News news);
@@ -49,8 +50,12 @@ namespace PX.Business.Services.News
 
         NewsCurlyBracket GetNews(int id);
 
-        List<NewsCurlyBracket> GetNewsListing(int count);
+        List<NewsCurlyBracket> GetNewsListing(int total);
+
+        List<NewsCurlyBracket> GetHotNews(int total);
 
         NewsListingModel GetNewsListing(int index, int pageSize);
+
+        List<NewsCurlyBracket> GetNewsOfCategory(int categoryId);
     }
 }

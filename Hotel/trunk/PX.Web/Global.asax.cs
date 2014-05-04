@@ -6,12 +6,16 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using PX.Business.Mvc.ViewEngines;
-using PX.Business.Mvc.ViewEngines.Razor;
-using PX.Business.Mvc.ViewEngines.Razor.RazorEngine;
 using PX.Business.Services.Banners;
 using PX.Business.Services.ClientMenus;
 using PX.Business.Services.CurlyBrackets;
 using PX.Business.Services.FileTemplates;
+using PX.Business.Services.HotelBookings;
+using PX.Business.Services.HotelCustomers;
+using PX.Business.Services.HotelRoomImages;
+using PX.Business.Services.HotelRoomTypes;
+using PX.Business.Services.HotelRooms;
+using PX.Business.Services.HotelServices;
 using PX.Business.Services.Languages;
 using PX.Business.Services.Localizes;
 using PX.Business.Services.Media;
@@ -112,6 +116,8 @@ namespace PX.Web
         public void SettingInitialize()
         {
             var settingServices = HostContainer.GetInstance<ISettingServices>();
+            var settingTypeServices = HostContainer.GetInstance<ISettingTypeServices>();
+            settingTypeServices.Initialize();
             settingServices.Initialize();
         }
 
@@ -207,6 +213,16 @@ namespace PX.Web
             container.Register<ISQLCommandServices, SQLCommandServices>(Lifestyle.Transient);
             container.Register<IBannerServices, BannerServices>(Lifestyle.Transient);
             container.Register<IServiceServices, ServiceServices>(Lifestyle.Transient);
+
+            #region Hotel
+            container.Register<IHotelRoomTypeServices, HotelRoomTypeServices>(Lifestyle.Transient);
+            container.Register<IHotelRoomServices, HotelRoomServices>(Lifestyle.Transient);
+            container.Register<IHotelServiceServices, HotelServiceServices>(Lifestyle.Transient);
+            container.Register<IHotelRoomImageServices, HotelRoomImageServices>(Lifestyle.Transient);
+            container.Register<IHotelCustomerServices, HotelCustomerServices>(Lifestyle.Transient);
+            container.Register<IHotelBookingServices, HotelBookingServices>(Lifestyle.Transient);
+
+            #endregion
         }
 
         #endregion

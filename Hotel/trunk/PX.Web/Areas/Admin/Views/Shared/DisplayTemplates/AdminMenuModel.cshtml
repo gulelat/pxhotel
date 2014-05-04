@@ -18,10 +18,10 @@
         : (string.IsNullOrEmpty(Model.Controller) || string.IsNullOrEmpty(Model.Action) ?
             "#"
             : Url.Action(Model.Action, Model.Controller));
-    if(url.Equals("#") && !Model.ChildMenus.Any())
-    {
-        return;
-    }
+    //if(url.Equals("#") && !Model.ChildMenus.Any())
+    //{
+    //    return;
+    //}
 }
 <li class="@cClass">
     <a href="@url" class="dropdown-toggle">

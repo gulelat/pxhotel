@@ -48,6 +48,10 @@ namespace PX.Business.Services.Users
         {
             return _userRepository.Fetch(expression);
         }
+        public User FetchFirst(Expression<Func<User, bool>> expression)
+        {
+            return _userRepository.FetchFirst(expression);
+        }
         public User GetById(object id)
         {
             return _userRepository.GetById(id);

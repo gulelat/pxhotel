@@ -53,7 +53,7 @@
                 url: "@Url.Action("_AjaxBinding")",
                 caption: "Banner Management",
                 height: 340,
-                colNames: ['', 'Id', 'Image', 'Url', 'Group', 'Order', 'Active', 'Created', 'CreatedBy', 'Updated', 'Updated By'],
+                colNames: ['', 'Id', 'Image', 'Url', 'Group', 'Order', 'Active', 'Created', 'Created By', 'Updated', 'Updated By'],
                 colModel: [
                     {
                         name: 'action',
@@ -66,7 +66,7 @@
                             return editIcon;
                         }
                     },
-                    { name: 'Id', index: 'Id', width: 60, key: true, sorttype: "int" },
+                    { name: 'Id', index: 'Id', width: 60, key: true, align: 'center', sorttype: "int" },
                     {
                         name: 'ImageUrl', index: 'ImageUrl', width: 260,
                         formatter: function (cellvalue, options, rowObject) {
@@ -76,7 +76,7 @@
                     },
                     { name: 'Url', index: 'Url', width: 150, editable: true, editrules: { required: true } },
                     { name: 'GroupName', index: 'GroupName', width: 150, editable: true, editrules: { required: true } },
-                    { name: 'RecordOrder', index: 'RecordOrder', width: 50, sorttype: "int", align: "center", editable: true, editrules: { required: true } },
+                    { name: 'RecordOrder', index: 'RecordOrder', width: 55, sorttype: "int", align: "center", editable: true, editrules: { required: true } },
                     { name: 'Active', index: 'Active', width: 100, editable: true, edittype: "checkbox", align: "center", editoptions: { value: "Yes:No", defaultValue: 'Yes' }, unformat: aceSwitch },
                     { name: 'Created', index: 'Created', formatter: "date", width: 80, editable: false, sorttype: "datetime", unformat: pickDate },
                     { name: 'CreatedBy', index: 'CreatedBy', width: 180, editable: false, editoptions: { size: "20", maxlength: "30" } },

@@ -35,6 +35,10 @@ namespace PX.Business.Services.SettingTypes
         {
             return _settingTypeRepository.Fetch(expression);
         }
+        public SettingType FetchFirst(Expression<Func<SettingType, bool>> expression)
+        {
+            return _settingTypeRepository.FetchFirst(expression);
+        }
         public SettingType GetById(object id)
         {
             return _settingTypeRepository.GetById(id);
@@ -55,6 +59,25 @@ namespace PX.Business.Services.SettingTypes
         {
             return _settingTypeRepository.Delete(id);
         }
+
+        public void Initialize()
+        {
+            var settingTypes = new List<SettingType>
+                {
+                   new SettingType{ Name = "System", RecordOrder = 1},
+                   new SettingType{ Name = "BackEnd", RecordOrder = 2},
+                   new SettingType{ Name = "FrontEnd", RecordOrder = 3}
+                };
+
+            foreach (var settingType in settingTypes)
+            {
+                if(!_settingTypeRepository.Fetch(s => s.Name.Equals(settingType.Name)).Any())
+                {
+                    Insert(settingType);
+                }
+            }
+        }
+
         #endregion
 
         #region Grid Search
@@ -101,7 +124,6 @@ namespace PX.Business.Services.SettingTypes
                     settingType = _settingTypeRepository.GetById(model.Id);
                     settingType.Name = model.Name;
                     settingType.RecordOrder = model.RecordOrder;
-                    settingType.RecordActive = model.RecordActive;
                     response = Update(settingType);
                     return response.SetMessage(response.Success ?
                         _localizedResourceServices.T("AdminModule:::SettingTypes:::Messages:::UpdateSuccessfully:::Update setting type successfully.")

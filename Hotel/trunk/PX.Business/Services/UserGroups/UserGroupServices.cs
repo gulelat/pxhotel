@@ -38,6 +38,10 @@ namespace PX.Business.Services.UserGroups
         {
             return _userGroupRepository.Fetch(expression);
         }
+        public UserGroup FetchFirst(Expression<Func<UserGroup, bool>> expression)
+        {
+            return _userGroupRepository.FetchFirst(expression);
+        }
         public UserGroup GetById(object id)
         {
             return _userGroupRepository.GetById(id);

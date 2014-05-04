@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Text;
 using PX.Business.Models.Pages;
+using PX.Business.Models.Pages.ViewModels;
 using PX.Business.Mvc.WorkContext;
 using PX.Core.Configurations;
 using PX.Core.Ultilities;

@@ -26,11 +26,18 @@ namespace PX.EntityModel
         }
     
         public DbSet<Banner> Banners { get; set; }
-        public DbSet<BookingRequest> BookingRequests { get; set; }
         public DbSet<ClientMenu> ClientMenus { get; set; }
         public DbSet<Country> Countries { get; set; }
         public DbSet<FileTemplate> FileTemplates { get; set; }
         public DbSet<GroupPermission> GroupPermissions { get; set; }
+        public DbSet<HotelBookingRoom> HotelBookingRooms { get; set; }
+        public DbSet<HotelBooking> HotelBookings { get; set; }
+        public DbSet<HotelCustomer> HotelCustomers { get; set; }
+        public DbSet<HotelRoomImage> HotelRoomImages { get; set; }
+        public DbSet<HotelRoom> HotelRooms { get; set; }
+        public DbSet<HotelRoomService> HotelRoomServices { get; set; }
+        public DbSet<HotelRoomType> HotelRoomTypes { get; set; }
+        public DbSet<HotelService> HotelServices { get; set; }
         public DbSet<Language> Languages { get; set; }
         public DbSet<LocalizedResource> LocalizedResources { get; set; }
         public DbSet<Menu> Menus { get; set; }
@@ -42,8 +49,6 @@ namespace PX.EntityModel
         public DbSet<PageTag> PageTags { get; set; }
         public DbSet<PageTemplateLog> PageTemplateLogs { get; set; }
         public DbSet<PageTemplate> PageTemplates { get; set; }
-        public DbSet<Room> Rooms { get; set; }
-        public DbSet<RoomType> RoomTypes { get; set; }
         public DbSet<RotatingImageGroup> RotatingImageGroups { get; set; }
         public DbSet<RotatingImage> RotatingImages { get; set; }
         public DbSet<Service> Services { get; set; }

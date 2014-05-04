@@ -2,12 +2,12 @@
 @model PX.Business.Models.News.NewsManageModel
 @Html.HiddenFor(m => m.Id)
 <div class="form-group">
-    @MText(Tags.Label, "AdminModule:::News:::Forms:::Title", "Title", new { @class = "col-sm-1 no-padding-right", @for = "Title" })
+    @MText(Tags.Label, "AdminModule:::News:::Forms:::Title", "Title", new { @class = "col-sm-1 no-padding-left", @for = "Title" })
     <div class="col-sm-6">
         @Html.TextBoxFor(m => m.Title, new { @class = "col-sm-12", placeholder = T("AdminModule:::News:::Form:::Title place holder", "Please input page title") })
         @Html.ValidationMessageFor(m => m.Title)
     </div>
-    @MText(Tags.Label, "AdminModule:::News:::Forms:::Status", "Status", new { @class = "col-sm-1 no-padding-right control-label", @for = "News" })
+    @MText(Tags.Label, "AdminModule:::News:::Forms:::Status", "Status", new { @class = "col-sm-1 no-padding-left control-label", @for = "News" })
     <div class="col-sm-3">
         @Html.DropDownListFor(m => m.Status, Model.StatusList, new { @class = "col-sm-12" })
         @Html.ValidationMessageFor(m => m.Status)
@@ -43,18 +43,24 @@
 </div>
 <div class="space-4"></div>
 <div class="form-group">
-    <div class="col-sm-11">
-        @MText(Tags.Label, "AdminModule:::News:::Forms:::Content", "Content", new { @class = "col-sm-1 no-padding-right", @for = "Content" })
-        <div class="clearfix"></div>
+    @MText(Tags.Label, "AdminModule:::News:::Forms:::Content", "Content", new { @class = "col-sm-1 no-padding-right", @for = "Content" })
+    <div class="col-sm-10">
         @Html.TextAreaFor(m => m.Content, new { @class = "col-sm-12", id = "pageContent" })
         @Html.ValidationMessageFor(m => m.Content)
     </div>
 </div>
 <div class="space-4"></div>
+<div class="form-group">
+    @MText(Tags.Label, "AdminModule:::News:::Forms:::IsHotNews", "Hot News", new { @class = "col-sm-1 no-padding-right", @for = "IsHotNews" })
+    <div class="col-sm-10">
+        @Html.CheckBoxFor(m => m.IsHotNews)
+        @Html.ValidationMessageFor(m => m.IsHotNews)
+    </div>
+</div>
+<div class="space-4"></div>
 <div class="clearfix form-actions">
     <div class="col-md-offset-1 col-md-9">
-        <a class="btn btn-link" href="@Url.Action("Index")">
-            Back To List
+        <a class="btn btn-link" href="@Url.Action("Index")">Back To List
         </a>
         <button class="btn btn-primary" type="submit" value="@SubmitTypeEnums.Save" name="Submit">
             <i class="icon-ok bigger-110"></i>

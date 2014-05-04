@@ -22,6 +22,7 @@ namespace PX.Business.Services.FileTemplates
 
         IQueryable<FileTemplate> GetAll();
         IQueryable<FileTemplate> Fetch(Expression<Func<FileTemplate, bool>> expression);
+        FileTemplate FetchFirst(Expression<Func<FileTemplate, bool>> expression);
         FileTemplate GetById(object id);
         ResponseModel Insert(FileTemplate fileTemplate);
         ResponseModel Update(FileTemplate fileTemplate);

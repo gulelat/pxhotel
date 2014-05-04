@@ -27,7 +27,6 @@
 </div>
 @section scripts
 {
-    <script src="/Scripts/BackEnd/date-time/bootstrap-datepicker.min.js"></script>
     <script src="/Scripts/BackEnd/jqGrid/jquery.jqGrid.min.js"></script>
     <script src="/Scripts/BackEnd/jqGrid/i18n/grid.locale-en.js"></script>
     <script type="text/javascript">
@@ -47,13 +46,13 @@
                 url: "@Url.Action("_AjaxBinding")",
                 caption: "Testimonial Management",
                 height: 370,
-                colNames: ['Id', 'Author', 'Content', 'Author Description', 'Active', 'Created', 'CreatedBy', 'Updated', 'Updated By'],
+                colNames: ['Id', 'Author', 'Content', 'Author Description', 'Active', 'Created', 'Created By', 'Updated', 'Updated By'],
                 colModel: [
-                    { name: 'Id', index: 'Id', width: 60, key: true, sorttype: "int" },
+                    { name: 'Id', index: 'Id', width: 60, key: true, align: 'center', sorttype: "int" },
                     { name: 'Author', index: 'Author', width: 150, editable: true, editrules: { required: true } },
                     { name: 'Content', index: 'Content', edittype: "textarea", width: 350, editable: true },
                     { name: 'AuthorDescription', index: 'AuthorDescription', width: 150, editable: true },
-                    { name: 'Active', index: 'Active', width: 100, editable: true, edittype: "checkbox",  align:"center", editoptions: { value: "Yes:No", defaultValue: 'Yes' }, unformat: aceSwitch },
+                    { name: 'Active', index: 'Active', width: 60, editable: true, edittype: "checkbox",  align:"center", editoptions: { value: "Yes:No", defaultValue: 'Yes' }, unformat: aceSwitch },
                     { name: 'Created', index: 'Created', formatter: "date", width: 80, editable: false, sorttype: "datetime", unformat: pickDate },
                     { name: 'CreatedBy', index: 'CreatedBy', width: 180, editable: false, editoptions: { size: "20", maxlength: "30" } },
                     { name: 'Updated', index: 'Updated', formatter: "date", width: 80, editable: false, sorttype: "datetime", unformat: pickDate },

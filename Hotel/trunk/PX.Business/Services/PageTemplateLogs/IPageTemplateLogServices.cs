@@ -14,6 +14,7 @@ namespace PX.Business.Services.PageTemplateLogs
 
         IQueryable<PageTemplateLog> GetAll();
         IQueryable<PageTemplateLog> Fetch(Expression<Func<PageTemplateLog, bool>> expression);
+        PageTemplateLog FetchFirst(Expression<Func<PageTemplateLog, bool>> expression);
         PageTemplateLog GetById(object id);
         ResponseModel Insert(PageTemplateLog pageTemplateLog);
         ResponseModel Update(PageTemplateLog pageTemplateLog);

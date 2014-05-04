@@ -14,4 +14,6 @@ CKEDITOR.editorConfig = function (config) {
     config.filebrowserWindowWidth = 1200;
     config.filebrowserWindowHeight = 640; 
     config.contentsCss = '/Content/FrontEnd/css/styles.css';
+    config.enterMode = CKEDITOR.ENTER_BR;
+    config.allowedContent = true;
 };

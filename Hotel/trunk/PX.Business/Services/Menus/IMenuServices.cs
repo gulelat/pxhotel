@@ -22,6 +22,7 @@ namespace PX.Business.Services.Menus
 
         IQueryable<Menu> GetAll();
         IQueryable<Menu> Fetch(Expression<Func<Menu, bool>> expression);
+        Menu FetchFirst(Expression<Func<Menu, bool>> expression);
         Menu GetById(object id);
         ResponseModel Insert(Menu menu);
         ResponseModel Update(Menu menu);
@@ -36,7 +37,7 @@ namespace PX.Business.Services.Menus
 
         IEnumerable<SelectListItem> GetPossibleParents(int? id = null);
 
-        List<AdminMenuModel> GetRenderMenus(int? parentId = null);
+        List<AdminMenuModel> GetAdminMenus(int? parentId = null);
 
         BreadCrumbModel GetBreadCrumbs(string controller, string action);
     }

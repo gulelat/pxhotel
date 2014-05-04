@@ -27,7 +27,6 @@
 </div>
 @section scripts
 {
-    <script src="/Scripts/BackEnd/date-time/bootstrap-datepicker.min.js"></script>
     <script src="/Scripts/BackEnd/jqGrid/jquery.jqGrid.min.js"></script>
     <script src="/Scripts/BackEnd/jqGrid/i18n/grid.locale-en.js"></script>
     <script type="text/javascript">
@@ -47,7 +46,7 @@
                 url: "@Url.Action("_AjaxBinding")",
                 caption: "Site Setting Management",
                 height: 370,
-                colNames: ['', 'Id', 'Name', 'Value', 'Type', 'Created', 'CreatedBy', 'Updated', 'Updated By'],
+                colNames: ['', 'Id', 'Name', 'Value', 'Type', 'Created', 'Created By', 'Updated', 'Updated By'],
                 colModel: [
                     {
                         name: 'action', width: 40, sortable: false, search: false, align: "center",
@@ -56,7 +55,7 @@
                             return editIcon;
                         }
                     },
-                    { name: 'Id', index: 'Id', width: 60, key: true, sorttype: "int" },
+                    { name: 'Id', index: 'Id', width: 60, key: true, align: 'center', sorttype: "int" },
                     { name: 'Name', index: 'Name', width: 150, editable: false },
                     { name: 'Value', index: 'Value', width: 250, editable: true },
                     {
