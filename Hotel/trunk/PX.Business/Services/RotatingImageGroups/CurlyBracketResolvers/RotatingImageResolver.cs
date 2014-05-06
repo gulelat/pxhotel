@@ -75,6 +75,7 @@ namespace PX.Business.Services.RotatingImageGroups.CurlyBracketResolvers
                 {
                     Name = DefaultTemplate,
                     DataType = typeof(GroupGalleryModel).AssemblyQualifiedName,
+                    CurlyBracket = "{RotatingImages}",
                     Content = string.Empty,
                     IsDefaultTemplate = true
                 };

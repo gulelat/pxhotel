@@ -2,35 +2,78 @@
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
-using System.Web.Routing;
-using PX.Business.Services.CurlyBrackets;
 using PX.Business.Services.Localizes;
 using PX.Business.Services.Settings;
 using PX.Core.Configurations;
 using PX.Core.Framework.Mvc.Environments;
-using PX.EntityModel;
 using RazorEngine.Templating;
 
-namespace PX.Business.Mvc.ViewEngines.Razor
+namespace PX.Business.Mvc.ViewEngines.Razor.RazorEngine
 {
-    public class WebViewPage<TModel> : System.Web.Mvc.WebViewPage<TModel>
+    [RequireNamespaces("System.Web.Mvc.Html")]
+    public class RazorEngineTemplateBase<TModel> : TemplateBase<TModel>
     {
-        private ControllerBase _currentController;
-        private ILocalizedResourceServices _localizedResourceServices;
-        private ISettingServices _settingServices;
-        private ICurlyBracketServices _curlyBracketServices;
+        #region Html/Url Helpers
+        private UrlHelper _urlhelper;
 
-        public override void InitHelpers()
+        //private ViewDataDictionary _viewdata;
+        //private readonly System.Dynamic.DynamicObject _viewbag = null;
+        //private HtmlHelper<TModel> _helper;
+        //public HtmlHelper<TModel> Html
+        //{
+        //    get
+        //    {
+        //        if (_helper == null)
+        //        {
+        //            var p = WebPageContext.Current;
+        //            var wvp = p.Page as WebViewPage;
+        //            var context = wvp != null ? wvp.ViewContext : null;
+        //            _helper = new HtmlHelper<TModel>(context, this, RouteTable.Routes);
+        //        }
+        //        return _helper;
+        //    }
+        //}
+        //public ViewDataDictionary ViewData
+        //{
+        //    get
+        //    {
+        //        if (_viewbag == null)
+        //        {
+        //            var p = WebPageContext.Current;
+        //            var viewcontainer = p.Page as IViewDataContainer;
+        //            _viewdata = new ViewDataDictionary(viewcontainer.ViewData);
+
+        //            if (Model != null)
+        //            {
+        //                _viewdata.Model = Model;
+        //            }
+
+        //        }
+
+        //        return _viewdata;
+        //    }
+        //    set
+        //    {
+        //        _viewdata = value;
+        //    }
+
+        //}
+
+        public UrlHelper Url
+        {
+            get { return _urlhelper ?? (_urlhelper = new UrlHelper(HttpContext.Current.Request.RequestContext)); }
+        }
+
+        #endregion
+
+        private readonly ControllerBase _currentController;
+        private readonly ILocalizedResourceServices _localizedResourceServices;
+        private readonly ISettingServices _settingServices;
+        public RazorEngineTemplateBase()
         {
             _localizedResourceServices = HostContainer.GetInstance<ILocalizedResourceServices>();
             _settingServices = HostContainer.GetInstance<ISettingServices>();
-            _curlyBracketServices = HostContainer.GetInstance<ICurlyBracketServices>();
             _currentController = (ControllerBase)HttpContext.Current.Items[Configurations.PxHotelCurrentController];
-            base.InitHelpers();
-        }
-
-        public override void Execute()
-        {
         }
 
         #region Multi Languages Helpers
@@ -53,65 +96,6 @@ namespace PX.Business.Mvc.ViewEngines.Razor
         public string T(string key, string defaultValue)
         {
             return _localizedResourceServices.T(key, defaultValue);
-        }
-
-        /// <summary>
-        /// Render a tag with text in multi language
-        /// </summary>
-        /// <param name="tagName">Tag name to render</param>
-        /// <param name="textKey">Key of the text</param>
-        /// <param name="defaultValue">Default value of the text</param>
-        /// <returns>Rendered Tag</returns>
-        public IHtmlString MText(Tags tagName,
-                                 string textKey,
-                                 string defaultValue)
-        {
-            return MText(tagName, textKey, defaultValue, null);
-        }
-
-        /// <summary>
-        /// Render a tag with text in multi language
-        /// </summary>
-        /// <param name="tagName">Tag name to render</param>
-        /// <param name="textKey">Key of the text</param>
-        /// <param name="defaultValue">Default value of the text</param>
-        /// <param name="htmlAttributes">Html attributes for the tag</param>
-        /// <param name="parameters">Parameters for the string</param>
-        /// <returns>Rendered Tag</returns>
-        public IHtmlString MText(Tags tagName,
-            string textKey,
-            string defaultValue,
-            object htmlAttributes,
-            object[] parameters = null)
-        {
-            var text = _localizedResourceServices.GetLocalizedResource(textKey, defaultValue, parameters);
-
-            var tag = new TagBuilder(tagName.ToString().ToLower());
-            tag.Attributes.Add("language-edit", "true");
-            tag.Attributes.Add("data-textKey", textKey);
-            tag.SetInnerText(text);
-            tag.MergeAttributes(new RouteValueDictionary(htmlAttributes));
-
-            return new MvcHtmlString(tag.ToString(TagRenderMode.Normal));
-        }
-
-        public enum Tags
-        {
-            P,
-            Label,
-            Span,
-            Div,
-            Button,
-            A,
-            Th,
-            Text
-        }
-        #endregion
-
-        #region Setting Helpers
-        public T SValue<T>(string key)
-        {
-            return _settingServices.GetSetting<T>(key);
         }
         #endregion
 
@@ -206,6 +190,13 @@ namespace PX.Business.Mvc.ViewEngines.Razor
 
         #endregion
 
+        #region Setting Helpers
+        public T SValue<T>(string key)
+        {
+            return _settingServices.GetSetting<T>(key);
+        }
+        #endregion
+
         #region Image Helpers
         public string Thumbnail(string filePath, int width, int height)
         {
@@ -228,28 +219,19 @@ namespace PX.Business.Mvc.ViewEngines.Razor
             }
             return MvcHtmlString.Create(builder.ToString());
         }
-        #endregion
 
-        #region Curly Bracket Render
-
-        /// <summary>
-        /// Render curly bracket
-        /// </summary>
-        /// <param name="curlyBracket"></param>
-        /// <returns></returns>
-        public HtmlString RenderCurlyBracket(string curlyBracket)
+        public static string SafeSubstring(string input, int length)
         {
-            return new HtmlString(_curlyBracketServices.Render(curlyBracket));
+            if (length > input.Length)
+            {
+                return input;
+            }
+
+            var endPosition = input.IndexOf(" ", length, StringComparison.Ordinal);
+            if (endPosition < 0) endPosition = input.Length;
+
+            return length >= input.Length ? input : input.Substring(0, endPosition) + "...";
         }
         #endregion
-
-        /// <summary>
-        /// Get current logged in user
-        /// </summary>
-        public User CurrentUser
-        {
-            get { return WorkContext.WorkContext.CurrentUser; }
-            set { WorkContext.WorkContext.CurrentUser = value; }
-        }
     }
 }

@@ -63,6 +63,7 @@ namespace PX.Business.Services.NewsCategories.CurlyBracketResolvers
                     {
                         Name = DefaultTemplate,
                         DataType = typeof(CategoriesModel).AssemblyQualifiedName,
+                        CurlyBracket = "{CategoryListing}",
                         Content = string.Empty,
                         IsDefaultTemplate = true
                     };

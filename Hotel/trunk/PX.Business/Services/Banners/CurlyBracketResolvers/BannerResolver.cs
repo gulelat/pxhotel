@@ -73,6 +73,7 @@ namespace PX.Business.Services.Banners.CurlyBracketResolvers
                 {
                     Name = DefaultTemplate,
                     DataType = typeof(BannerCurlyBracket).AssemblyQualifiedName,
+                    CurlyBracket = "{Banner}",
                     Content = string.Empty,
                     IsDefaultTemplate = true
                 };

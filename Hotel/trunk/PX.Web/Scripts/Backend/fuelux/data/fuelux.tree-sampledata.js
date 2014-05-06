@@ -137,20 +137,20 @@ tree_data_2['pictures']['additionalParameters'] = {
 }
 tree_data_2['pictures']['additionalParameters']['children']['wallpapers']['additionalParameters'] = {
 	'children' : [
-		{name: '<i class="fa fa-picture green"></i> wallpaper1.jpg', type: 'item'},
-		{name: '<i class="fa fa-picture green"></i> wallpaper2.jpg', type: 'item'},
-		{name: '<i class="fa fa-picture green"></i> wallpaper3.jpg', type: 'item'},
-		{name: '<i class="fa fa-picture green"></i> wallpaper4.jpg', type: 'item'}
+		{name: '<i class="fa fa-picture-o green"></i> wallpaper1.jpg', type: 'item'},
+		{name: '<i class="fa fa-picture-o green"></i> wallpaper2.jpg', type: 'item'},
+		{name: '<i class="fa fa-picture-o green"></i> wallpaper3.jpg', type: 'item'},
+		{name: '<i class="fa fa-picture-o green"></i> wallpaper4.jpg', type: 'item'}
 	]
 }
 tree_data_2['pictures']['additionalParameters']['children']['camera']['additionalParameters'] = {
 	'children' : [
-		{name: '<i class="fa fa-picture green"></i> photo1.jpg', type: 'item'},
-		{name: '<i class="fa fa-picture green"></i> photo2.jpg', type: 'item'},
-		{name: '<i class="fa fa-picture green"></i> photo3.jpg', type: 'item'},
-		{name: '<i class="fa fa-picture green"></i> photo4.jpg', type: 'item'},
-		{name: '<i class="fa fa-picture green"></i> photo5.jpg', type: 'item'},
-		{name: '<i class="fa fa-picture green"></i> photo6.jpg', type: 'item'}
+		{name: '<i class="fa fa-picture-o green"></i> photo1.jpg', type: 'item'},
+		{name: '<i class="fa fa-picture-o green"></i> photo2.jpg', type: 'item'},
+		{name: '<i class="fa fa-picture-o green"></i> photo3.jpg', type: 'item'},
+		{name: '<i class="fa fa-picture-o green"></i> photo4.jpg', type: 'item'},
+		{name: '<i class="fa fa-picture-o green"></i> photo5.jpg', type: 'item'},
+		{name: '<i class="fa fa-picture-o green"></i> photo6.jpg', type: 'item'}
 	]
 }
 

@@ -18,7 +18,7 @@ namespace PX.Business.Models.News.CurlyBrackets
         {
             Id = news.Id;
             Title = news.Title;
-            Description = news.Description.SafeSubstring(90);
+            Description = news.Description;
             Content = news.Content;
             ImageUrl = news.ImageUrl;
             DetailsUrl = UrlUtilities.GenerateUrl(HttpContext.Current.Request.RequestContext, "News", "Details",

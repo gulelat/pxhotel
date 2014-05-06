@@ -73,7 +73,7 @@ namespace PX.Web
                 "Category/{title}/{id}",
                 new
                 {
-                    controller = "Category",
+                    controller = "NewsCategory",
                     action = "Details",
                     id = UrlParameter.Optional,
                     title = UrlParameter.Optional

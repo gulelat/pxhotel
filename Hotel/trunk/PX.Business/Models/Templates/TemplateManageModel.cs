@@ -44,6 +44,7 @@ namespace PX.Business.Models.Templates
 
         [Required]
         public string Content { get; set; }
+        #endregion
 
         /// <summary>
         /// Validate the model
@@ -76,6 +77,5 @@ namespace PX.Business.Models.Templates
                     yield return new ValidationResult(string.Format(localizedResourceServices.T("AdminModule:::PageTemplates:::ValidationMessages:::TemplateCompileFailure:::Content is invalid. Error message: {0}."), razorValidMessage), new[] { "Content" });
             }
         }
-        #endregion
     }
 }

@@ -164,10 +164,10 @@ function updateActionIcons(table) {
     /*
     var replacement = 
     {
-        'ui-icon-pencil' : 'icon-pencil blue',
-        'ui-icon-trash' : 'icon-trash red',
-        'ui-icon-disk' : 'icon-ok green',
-        'ui-icon-cancel' : 'icon-remove red'
+        'ui-icon-pencil' : 'fa fa-pencil blue',
+        'ui-icon-trash' : 'fa fa-trash red',
+        'ui-icon-disk' : 'fa fa-ok green',
+        'ui-icon-cancel' : 'fa fa-remove red'
     };
     $(table).find('.ui-pg-div span.ui-icon').each(function(){
         var icon = $(this);
@@ -181,10 +181,10 @@ function updateActionIcons(table) {
 function updatePagerIcons(table) {
     var replacement =
         {
-            'ui-icon-seek-first': 'icon-double-angle-left bigger-140',
-            'ui-icon-seek-prev': 'icon-angle-left bigger-140',
-            'ui-icon-seek-next': 'icon-angle-right bigger-140',
-            'ui-icon-seek-end': 'icon-double-angle-right bigger-140'
+            'ui-icon-seek-first': 'fa fa-angle-double-left bigger-140',
+            'ui-icon-seek-prev': 'fa fa-angle-left bigger-140',
+            'ui-icon-seek-next': 'fa fa-angle-right bigger-140',
+            'ui-icon-seek-end': 'fa fa-angle-double-right bigger-140'
         };
     $('.ui-pg-table:not(.navtable) > tbody > tr > .ui-pg-button > .ui-icon').each(function () {
         var icon = $(this);

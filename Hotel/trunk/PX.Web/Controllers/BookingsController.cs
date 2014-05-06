@@ -20,5 +20,10 @@ namespace PX.Web.Controllers
             var model = _hotelBookingServices.GetBooking(from, to);
             return View(model);
         }
+
+        public ActionResult BookingDetails()
+        {
+            return View();
+        }
     }
 }

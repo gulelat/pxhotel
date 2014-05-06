@@ -76,6 +76,7 @@ namespace PX.Business.Services.Testimonials.CurlyBracketResolvers
                     {
                         Name = DefaultTemplate,
                         DataType = typeof(List<TestimonialCurlyBracket>).AssemblyQualifiedName,
+                        CurlyBracket = "{Testimonials}",
                         Content = string.Empty,
                         IsDefaultTemplate = true
                     };
