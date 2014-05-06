@@ -1,32 +1,42 @@
-﻿@model PX.Business.Models.Pages.PageLogsModel
+﻿@model PX.Business.Models.Pages.PageLogListingModel
 @foreach (var item in Model.Logs)
 {
-    <div class="log-item clearfix">
-        <div class="col-xs-12">
-            <div class="creator col-xs-3 col-sm-2 col-md-1">
-                <img alt="@item.Creator.FullName" src="@item.Creator.AvatarPath" />
-                <div class="creator-name col-xs-12">
-                    <a class="user" href="@Url.Action("Profiles", "Users", new { id = item.Creator.Id })">@item.Creator.FullName </a>
+    <div style="margin-top: 10px" class="panel-group accordion-style1 accordion-style2">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <a style="height: 60px" href="#@item.SessionId" data-parent="#faq-list-1" data-toggle="collapse" class="accordion-toggle collapsed">
+                    <img class="avatar pull-left" alt="@item.Creator.FullName" src="@item.Creator.AvatarPath" />
+                    <div class="pull-left" style="line-height: 35px;">
+                        <span style="margin-left: 10px" onclick="location.href='@Url.Action("Profiles", "Users", new { id = item.Creator.Id })'" class="user pull-left">@item.Creator.FullName </span>
+                        <span style="margin-left: 10px" class="pull-left">@item.Total items </span>
+                        <span style="margin-left: 10px" class="user pull-left">(@item.From.ToShortTimeString() - @item.To.ToShortTimeString())</span>
+
+                    </div>
+                </a>
+            </div>
+            <div class="panel-collapse collapse" id="@item.SessionId">
+                <div class="panel-body">
+                    @foreach (var log in item.Logs)
+                    {
+                        <div class="log-item clearfix">
+                            <div class="col-xs-12">
+                                <div class="col-sm-2 no-padding" style="margin-top: 10px;">
+                                    <i class="fa fa-clock-o  bigger-110"></i>
+                                    @log.Created
+                                </div>
+                                <div class="col-sm-10">
+                                    @Nl2Br(log.ChangeLog)
+                                </div>
+                            </div>
+                            <div class="tools action-buttons">
+                                <a href="@Url.Action("Edit", new { logId = log.Id })" class="blue" data-rel="tooltip" data-placement="left" data-original-title="Revert to this version">
+                                    <i class="fa fa-rotate-left bigger-125"></i>
+                                </a>
+                            </div>
+                        </div>
+                    }
                 </div>
             </div>
-            <div class="log col-xs-9 col-sm-10 col-md-11">
-                @Nl2Br(item.ChangeLog)
-            </div>
-
-            <div class="time col-xs-9 col-sm-10 col-md-11">
-                <i class="icon-time bigger-110"></i>
-                @item.Created
-            </div>
-        </div>
-
-        <div class="tools action-buttons">
-            <a href="@Url.Action("Edit", new { logId = item.Id })" class="blue" title="Revert to this version">
-                <i class="icon-rotate-left bigger-125"></i>
-            </a>
-
-            <a href="#" class="red" title="Preview this version">
-                <i class="icon-eye-open bigger-125"></i>
-            </a>
         </div>
     </div>
 }

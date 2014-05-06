@@ -42,7 +42,7 @@
                             @if (Model.Histories != null && Model.Histories.Any())
                             {
                                 <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                                    <span class="icon-angle-down icon-on-right bigger-110"></span>
+                                    <span class="fa fa-angle-down icon-on-right bigger-110"></span>
                                 </button>
                                 <ul class="dropdown-menu">
                                     @{ 
@@ -63,7 +63,7 @@
                         <div class="btn-group">
                             <button class="btn btn-danger dropdown-toggle" data-toggle="dropdown">
                                 @MText(Tags.Text, "AdminModule:::SQLTool:::Forms:::Select", "Select")
-                                <span class="icon-angle-down icon-on-right bigger-110"></span>
+                                <span class="fa fa-angle-down icon-on-right bigger-110"></span>
                             </button>
                             <ul class="dropdown-menu">
                                 @foreach (string table in Model.Tables)
@@ -87,7 +87,7 @@
                                 <div class="btn-group">
                                     <button class="btn dropdown-toggle btn-info" data-toggle="dropdown" href="#">
                                         Insert
-                                            <span class="icon-angle-down icon-on-right bigger-110"></span>
+                                            <span class="fa fa-angle-down icon-on-right bigger-110"></span>
                                     </button>
                                     <ul class="dropdown-menu">
                                         @foreach (string table in Model.Tables)
@@ -101,7 +101,7 @@
                                 <div class="btn-group">
                                     <button class="btn dropdown-toggle btn-info" data-toggle="dropdown" href="#">
                                         Update
-                                            <span class="icon-angle-down icon-on-right bigger-110"></span>
+                                            <span class="fa fa-angle-down icon-on-right bigger-110"></span>
                                     </button>
                                     <ul class="dropdown-menu">
                                         @foreach (string table in Model.Tables)
@@ -115,7 +115,7 @@
                                 <div class="btn-group">
                                     <button class="btn dropdown-toggle btn-danger" data-toggle="dropdown" href="#">
                                         Delete
-                                            <span class="icon-angle-down icon-on-right bigger-110"></span>
+                                            <span class="fa fa-angle-down icon-on-right bigger-110"></span>
                                     </button>
                                     <ul class="dropdown-menu">
                                         @foreach (string table in Model.Tables)
@@ -129,7 +129,7 @@
                                 <div class="btn-group">
                                     <button class="btn dropdown-toggle btn-info" data-toggle="dropdown" href="#">
                                         Create
-                                            <span class="icon-angle-down icon-on-right bigger-110"></span>
+                                            <span class="fa fa-angle-down icon-on-right bigger-110"></span>
                                     </button>
                                     <ul class="dropdown-menu">
                                         @foreach (string table in Model.Tables)
@@ -143,7 +143,7 @@
                                 <div class="btn-group col-sm-11">
                                     <button class="btn dropdown-toggle" data-toggle="dropdown">
                                         @MText(Tags.Text, "AdminModule:::SQLTools:::Forms:::Alter", "Alter")
-                                        <span class="icon-angle-down icon-on-right bigger-110"></span>
+                                        <span class="fa fa-angle-down icon-on-right bigger-110"></span>
                                     </button>
                                     <ul class="dropdown-menu">
                                         @foreach (string table in Model.Tables)

@@ -34,7 +34,7 @@
                         <div class="col-sm-8">
                             <span class="input-icon input-icon-right">
                                 @Html.TextBoxFor(m => m.Email, new { placeholder = T("AdminModule:::Users:::Forms:::Email place holder", "Email") })
-                                <i class="icon-envelope"></i>
+                                <i class="fa fa-envelope"></i>
                             </span>
                             @Html.ValidationMessageFor(m => m.Email)
                         </div>
@@ -74,7 +74,7 @@
                         <div class="input-group">
                             @Html.TextBoxFor(m => m.BirthDay, new { @class = "input-medium date-picker", placeholder = "dd/mm/yyyy" })
                             <span class="input-group-addon">
-                                <i class="icon-calendar"></i>
+                                <i class="fa fa-calendar"></i>
                             </span>
                         </div>
                         @Html.ValidationMessageFor(m => m.BirthDay)
@@ -129,7 +129,7 @@
                 <div class="col-sm-9">
                     <span class="input-icon input-icon-right">
                         @Html.TextBoxFor(m => m.IdentityNumber)
-                        <i class="icon-user"></i>
+                        <i class="fa fa-user"></i>
                     </span>
                     @Html.ValidationMessageFor(m => m.IdentityNumber)
                 </div>
@@ -140,7 +140,7 @@
                 <div class="col-sm-9">
                     <span class="input-icon input-icon-right">
                         @Html.TextBoxFor(m => m.Phone, new { @class = "input-mask-phone" })
-                        <i class="icon-phone icon-flip-horizontal"></i>
+                        <i class="fa fa-phone icon-flip-horizontal"></i>
                     </span>
                     @Html.ValidationMessageFor(m => m.Phone)
                 </div>
@@ -165,7 +165,7 @@
                 <div class="col-sm-9">
                     <span class="input-icon">
                         @Html.TextBoxFor(m => m.Facebook)
-                        <i class="icon-facebook blue"></i>
+                        <i class="fa fa-facebook blue"></i>
                     </span>
                     @Html.ValidationMessageFor(m => m.Facebook)
                 </div>
@@ -178,7 +178,7 @@
                 <div class="col-sm-9">
                     <span class="input-icon">
                         @Html.TextBoxFor(m => m.Twitter)
-                        <i class="icon-twitter light-blue"></i>
+                        <i class="fa fa-twitter light-blue"></i>
                     </span>
                     @Html.ValidationMessageFor(m => m.Twitter)
                 </div>
@@ -191,7 +191,7 @@
                 <div class="col-sm-9">
                     <span class="input-icon">
                         @Html.TextBoxFor(m => m.Google)
-                        <i class="icon-google-plus red"></i>
+                        <i class="fa fa-google-plus red"></i>
                     </span>
                     @Html.ValidationMessageFor(m => m.Google)
                 </div>
@@ -206,13 +206,13 @@
 <div class="clearfix form-actions">
     <div class="col-md-offset-3 col-md-9">
         <button id="btn-save" class="btn btn-info" type="submit">
-            <i class="icon-ok bigger-110"></i>
+            <i class="fa fa-check bigger-110"></i>
             Save
         </button>
 
         &nbsp; &nbsp;
 														<button class="btn" type="reset">
-                                                            <i class="icon-undo bigger-110"></i>
+                                                            <i class="fa fa-undo bigger-110"></i>
                                                             Reset
                                                         </button>
     </div>

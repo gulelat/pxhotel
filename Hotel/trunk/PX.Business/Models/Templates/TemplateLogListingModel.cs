@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
-using PX.Business.Models.TemplateLogs;
+using PX.Business.Models.Templates.Logs;
 
 namespace PX.Business.Models.Templates
 {
-    public class TemplateLogsModel
+    public class TemplateLogListingModel
     {
         #region Constructors
-        public TemplateLogsModel()
+        public TemplateLogListingModel()
         {
 
         }
@@ -22,7 +22,7 @@ namespace PX.Business.Models.Templates
 
         public bool LoadComplete { get; set; }
 
-        public List<TemplateLogsViewModel> Logs { get; set; }
+        public List<TemplateLogsModel> Logs { get; set; }
 
         #endregion
     }

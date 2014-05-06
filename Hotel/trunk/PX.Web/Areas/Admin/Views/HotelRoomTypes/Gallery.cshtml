@@ -11,7 +11,7 @@
 <div class="page-header">
     <h1>@ViewBag.Header
         <small>
-            <i class="icon-double-angle-right"></i>
+            <i class="fa fa-angle-double-right"></i>
             @ViewBag.Title
         </small>
     </h1>
@@ -19,7 +19,7 @@
 <div class="row">
     <div class="col-xs-12">
         <a id="create-image" href="javascript:void(0)" class="btn btn-yellow btn-minier">
-            <i class="icon-plus align-top bigger-125"></i>
+            <i class="fa fa-plus align-top bigger-125"></i>
             Create New Image
         </a>
     </div>
@@ -34,19 +34,19 @@
 
                     <div class="tools tools-top">
                         <a class="edit-icon" title="Edit" data-id="@item.Id" href="javascript:void(0)">
-                            <i class="icon-cog"></i>
+                            <i class="fa fa-cog"></i>
                         </a>
 
                         <a class="mark-as-default" title="Mark as default" style="@(item.IsDefaultImage ? "display: none" : "")" data-id="@item.Id" href="javascript:void(0)">
-                            <i class="icon-check-sign"></i>
+                            <i class="fa fa-check-square-o "></i>
                         </a>
 
                         <a class="edit-image-icon" title="Edit Image" data-url="@item.ImageUrl" href="javascript:void(0)">
-                            <i class="icon-pencil"></i>
+                            <i class="fa fa-pencil"></i>
                         </a>
 
                         <a class="delete-icon" title="Delete" data-id="@item.Id" href="javascript:void(0)">
-                            <i class="icon-remove red"></i>
+                            <i class="fa fa-clock-o s red"></i>
                         </a>
                     </div>
                 </li>
@@ -65,8 +65,8 @@
                 reposition: true,
                 scalePhotos: true,
                 scrolling: false,
-                previous: '<i class="icon-arrow-left"></i>',
-                next: '<i class="icon-arrow-right"></i>',
+                previous: '<i class="fa fa-arrow-left"></i>',
+                next: '<i class="fa fa-arrow-right"></i>',
                 close: '&times;',
                 current: '{current} of {total}',
                 maxWidth: '100%',

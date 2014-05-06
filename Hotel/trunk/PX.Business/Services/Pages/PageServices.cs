@@ -8,6 +8,7 @@ using System.Web.Mvc;
 using AutoMapper;
 using PX.Business.Models.PageLogs;
 using PX.Business.Models.Pages;
+using PX.Business.Models.Pages.Logs;
 using PX.Business.Models.Pages.ViewModels;
 using PX.Business.Mvc.WorkContext;
 using PX.Business.Services.ClientMenus;
@@ -15,6 +16,7 @@ using PX.Business.Services.PageLogs;
 using PX.Business.Services.PageTemplates;
 using PX.Business.Services.Settings;
 using PX.Business.Services.Templates;
+using PX.Business.Services.Users;
 using PX.Core.Configurations;
 using PX.Core.Framework.Mvc.Environments;
 using PX.Business.Services.CurlyBrackets;
@@ -38,6 +40,7 @@ namespace PX.Business.Services.Pages
         private readonly IClientMenuServices _clientMenuServices;
         private readonly ISettingServices _settingServices;
         private readonly ITemplateServices _templateServices;
+        private readonly IUserServices _userServices;
         private readonly PageRepository _pageRepository;
         private readonly ClientMenuRepository _clientMenuRepository;
         private readonly PageLogRepository _pageLogRepository;
@@ -52,6 +55,7 @@ namespace PX.Business.Services.Pages
             _pageLogServices = HostContainer.GetInstance<IPageLogServices>();
             _settingServices = HostContainer.GetInstance<ISettingServices>();
             _templateServices = HostContainer.GetInstance<ITemplateServices>();
+            _userServices = HostContainer.GetInstance<IUserServices>();
             _pageRepository = new PageRepository(entities);
             _clientMenuRepository = new ClientMenuRepository(entities);
             _pageLogRepository = new PageLogRepository(entities);
@@ -443,22 +447,37 @@ namespace PX.Business.Services.Pages
         /// Get page log model
         /// </summary>
         /// <param name="id"></param>
+        /// <param name="total"> </param>
         /// <param name="index"></param>
         /// <returns></returns>
-        public PageLogsModel GetLogs(int id, int index = 1)
+        public PageLogListingModel GetLogs(int id, int total = 0, int index = 1)
         {
             var pageSize = _settingServices.GetSetting<int>(SettingNames.LogsPageSize);
             var page = GetById(id);
             if (page != null)
             {
-                var model = new PageLogsModel
+                var logs = page.PageLogs.OrderByDescending(l => l.Created)
+                    .GroupBy(l => l.SessionId)
+                    .Skip((index - 1) * pageSize)
+                    .Take(pageSize)
+                    .ToList()
+                    .Select(l => new PageLogsModel
+                    {
+                        SessionId = l.First().SessionId,
+                        Creator = _userServices.GetUser(l.First().CreatedBy),
+                        From = l.Last().Created,
+                        To = l.First().Created,
+                        Total = l.Count(),
+                        Logs = l.Select(i => new PageLogItem(i)).ToList()
+                    }).ToList();
+                total = total + logs.Sum(l => l.Logs.Count);
+                var model = new PageLogListingModel
                 {
                     Id = page.Id,
                     Title = page.Title,
-                    Url = page.FriendlyUrl,
-                    Logs = page.PageLogs.OrderByDescending(l => l.Created)
-                        .Skip((index - 1) * pageSize).Take(pageSize).Select(l => new PageLogViewModel(l)).ToList(),
-                    LoadComplete = (page.PageLogs.Count <= index * pageSize)
+                    Total = total,
+                    Logs = logs,
+                    LoadComplete = total == page.PageLogs.Count
                 };
                 return model;
             }

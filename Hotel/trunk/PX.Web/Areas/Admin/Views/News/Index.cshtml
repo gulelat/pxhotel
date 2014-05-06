@@ -9,7 +9,7 @@
 <div class="page-header">
     <h1>@ViewBag.Header
         <small>
-            <i class="icon-double-angle-right"></i>
+            <i class="fa fa-angle-double-right"></i>
             @ViewBag.Title
         </small>
     </h1>
@@ -18,7 +18,7 @@
     @ShowStatusMessage()
     <div class="col-xs-12">
         <a href="@Url.Action("Create")" class="btn btn-yellow btn-minier">
-            <i class="icon-plus align-top bigger-125"></i>
+            <i class="fa fa-plus align-top bigger-125"></i>
             Create News
         </a>
     </div>
@@ -63,7 +63,7 @@
                     {
                         name: 'edit', width: 50, sortable: false, search: false, align: "center",
                         formatter: function (cellvalue, options, rowObject) {
-                            return "<a href='@Url.Action("Edit")/" + options.rowId + "'><div class='ui-pg-div ui-inline-edit' title='' data-original-title='Edit News'><span class='icon-edit'></span></div></a>";
+                            return "<a href='@Url.Action("Edit")/" + options.rowId + "'><div class='ui-pg-div ui-inline-edit' title='' data-original-title='Edit News'><span class='fa fa-edit'></span></div></a>";
                         }
                     },
                     { name: 'Id', index: 'Id', width: 60, key: true, align: 'center', sorttype: "int" },

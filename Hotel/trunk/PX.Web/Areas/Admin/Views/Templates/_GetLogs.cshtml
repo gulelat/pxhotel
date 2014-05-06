@@ -1,4 +1,4 @@
-﻿@model PX.Business.Models.Templates.TemplateLogsModel
+﻿@model PX.Business.Models.Templates.TemplateLogListingModel
 @foreach (var item in Model.Logs)
 {
     <div style="margin-top: 10px" class="panel-group accordion-style1 accordion-style2">
@@ -21,7 +21,7 @@
                         <div class="log-item clearfix">
                             <div class="col-xs-12">
                                 <div class="col-sm-2 no-padding" style="margin-top: 10px;">
-                                    <i class="icon-time bigger-110"></i>
+                                    <i class="fa fa-clock-o  bigger-110"></i>
                                     @log.Created
                                 </div>
                                 <div class="col-sm-10">
@@ -30,7 +30,7 @@
                             </div>
                             <div class="tools action-buttons">
                                 <a href="@Url.Action("Edit", new { logId = log.Id })" class="blue" data-rel="tooltip" data-placement="left" data-original-title="Revert to this version">
-                                    <i class="icon-rotate-left bigger-125"></i>
+                                    <i class="fa fa-rotate-left bigger-125"></i>
                                 </a>
                             </div>
                         </div>

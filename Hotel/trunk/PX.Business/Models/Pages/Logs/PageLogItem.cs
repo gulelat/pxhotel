@@ -6,22 +6,23 @@ using PX.Core.Framework.Mvc.Environments;
 using PX.Core.Ultilities;
 using PX.EntityModel;
 
-namespace PX.Business.Models.PageLogs
+namespace PX.Business.Models.Pages.Logs
 {
-    public class PageLogViewModel
+    public class PageLogItem
     {
         #region Constructors
 
         private readonly IUserServices _userServices;
-        public PageLogViewModel()
+        public PageLogItem()
         {
             _userServices = HostContainer.GetInstance<IUserServices>();
         }
 
-        public PageLogViewModel(PageLog pageLog): this()
+        public PageLogItem(PageLog pageLog): this()
         {
             Id = pageLog.Id;
             PageId = pageLog.PageId;
+            SessionId = pageLog.SessionId;
             Title = pageLog.Title;
             ChangeLog = pageLog.ChangeLog;
             FileTemplateId = pageLog.FileTemplateId;
@@ -38,6 +39,8 @@ namespace PX.Business.Models.PageLogs
         public int Id { get; set; }
 
         public int PageId { get; set; }
+
+        public string SessionId { get; set; }
 
         public string Title { get; set; }
 

@@ -4481,8 +4481,8 @@ Editableform based on Twitter Bootstrap
     });    
     
     //buttons
-    $.fn.editableform.buttons = '<button type="submit" class="btn btn-primary editable-submit"><i class="icon-ok icon-white"></i></button>'+
-                                '<button type="button" class="btn editable-cancel"><i class="icon-remove"></i></button>';         
+    $.fn.editableform.buttons = '<button type="submit" class="btn btn-primary editable-submit"><i class="fa fa-check icon-white"></i></button>'+
+                                '<button type="button" class="btn editable-cancel"><i class="fa fa-clock-o s"></i></button>';         
     
     //error classes
     $.fn.editableform.errorGroupClass = 'error';
@@ -5858,9 +5858,9 @@ Editableform based on Twitter Bootstrap
 		},
 		headTemplate: '<thead>'+
 							'<tr>'+
-								'<th class="prev"><i class="icon-arrow-left"/></th>'+
+								'<th class="prev"><i class="fa fa-arrow-left"/></th>'+
 								'<th colspan="5" class="datepicker-switch"></th>'+
-								'<th class="next"><i class="icon-arrow-right"/></th>'+
+								'<th class="next"><i class="fa fa-arrow-right"/></th>'+
 							'</tr>'+
 						'</thead>',
 		contTemplate: '<tbody><tr><td colspan="7"></td></tr></tbody>',
@@ -6216,7 +6216,7 @@ Automatically shown in inline mode.
         /**
         @property tpl 
         **/         
-        tpl:'<div class="input-group input-append date"><input type="text"/><span class="add-on input-group-addon"><i class="icon-th"></i></span></div>',
+        tpl:'<div class="input-group input-append date"><input type="text"/><span class="add-on input-group-addon"><i class="fa fa-th"></i></span></div>',
         /**
         @property inputclass 
         @default 'input-small'
@@ -6539,7 +6539,7 @@ Automatically shown in inline mode.
         /**
         @property tpl 
         **/         
-        tpl:'<div class="input-group input-append date"><input type="text"/><span class="input-group-addon add-on"><i class="icon-th"></i></span></div>',
+        tpl:'<div class="input-group input-append date"><input type="text"/><span class="input-group-addon add-on"><i class="fa fa-th"></i></span></div>',
         /**
         @property inputclass 
         @default 'input-medium'

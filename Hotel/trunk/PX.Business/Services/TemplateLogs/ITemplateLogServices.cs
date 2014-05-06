@@ -3,7 +3,6 @@ using System.Linq;
 using System.Linq.Expressions;
 using PX.Business.Models.TemplateLogs;
 using PX.Core.Framework.Mvc.Models;
-using PX.Core.Framework.Mvc.Models.JqGrid;
 using PX.EntityModel;
 
 namespace PX.Business.Services.TemplateLogs
@@ -20,11 +19,6 @@ namespace PX.Business.Services.TemplateLogs
         ResponseModel Update(TemplateLog templateLog);
         ResponseModel Delete(TemplateLog templateLog);
         ResponseModel Delete(object id);
-
-        #endregion
-
-        #region Grid Search
-        JqGridSearchOut SearchTemplateLogs(JqSearchIn si);
 
         #endregion
 

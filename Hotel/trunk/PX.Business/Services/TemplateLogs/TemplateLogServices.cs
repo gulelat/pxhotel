@@ -7,7 +7,6 @@ using PX.Business.Models.TemplateLogs;
 using PX.Core.Framework.Mvc.Environments;
 using PX.Business.Services.Localizes;
 using PX.Core.Framework.Mvc.Models;
-using PX.Core.Framework.Mvc.Models.JqGrid;
 using PX.Core.Ultilities;
 using PX.EntityModel;
 using PX.EntityModel.Repositories;
@@ -64,32 +63,6 @@ namespace PX.Business.Services.TemplateLogs
         {
             return _templateLogRepository.InactiveRecord(id);
         }
-        #endregion
-
-        #region Grid Search
-
-        /// <summary>
-        /// search the TemplateLogs.
-        /// </summary>
-        /// <returns></returns>
-        public JqGridSearchOut SearchTemplateLogs(JqSearchIn si)
-        {
-            var templateLogs = GetAll().Select(u => new TemplateLogModel
-            {
-                Id = u.Id,
-                TemplateId = u.TemplateId,
-                Name = u.Name,
-                RecordActive = u.RecordActive,
-                RecordOrder = u.RecordOrder,
-                Created = u.Created,
-                CreatedBy = u.CreatedBy,
-                Updated = u.Updated,
-                UpdatedBy = u.UpdatedBy
-            });
-
-            return si.Search(templateLogs);
-        }
-
         #endregion
 
         #region Logs

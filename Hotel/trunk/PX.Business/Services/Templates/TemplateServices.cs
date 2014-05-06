@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using PX.Business.Models.TemplateLogs;
 using PX.Business.Models.Templates;
+using PX.Business.Models.Templates.Logs;
 using PX.Business.Mvc.ViewEngines.Razor.RazorEngine;
 using PX.Business.Services.Settings;
 using PX.Business.Services.TemplateLogs;
@@ -298,7 +298,7 @@ namespace PX.Business.Services.Templates
         /// <param name="total"> </param>
         /// <param name="index"></param>
         /// <returns></returns>
-        public TemplateLogsModel GetLogs(int id, int total = 0, int index = 1)
+        public TemplateLogListingModel GetLogs(int id, int total = 0, int index = 1)
         {
             var pageSize = _settingServices.GetSetting<int>(SettingNames.LogsPageSize);
             var template = GetById(id);
@@ -309,7 +309,7 @@ namespace PX.Business.Services.Templates
                     .Skip((index - 1) * pageSize)
                     .Take(pageSize)
                     .ToList()
-                    .Select(l => new TemplateLogsViewModel
+                    .Select(l => new TemplateLogsModel
                     {
                         SessionId = l.First().SessionId,
                         Creator = _userServices.GetUser(l.First().CreatedBy),
@@ -319,7 +319,7 @@ namespace PX.Business.Services.Templates
                         Logs = l.Select(i => new TemplateLogItem(i)).ToList()
                     }).ToList();
                 total = total + logs.Sum(l => l.Logs.Count);
-                var model = new TemplateLogsModel
+                var model = new TemplateLogListingModel
                 {
                     Id = template.Id,
                     Name = template.Name,
@@ -332,6 +332,10 @@ namespace PX.Business.Services.Templates
             return null;
         }
 
+        #endregion
+
+        #region Razor Engine
+
         public TemplateServiceConfiguration GetConfig()
         {
             return new TemplateServiceConfiguration
@@ -340,10 +344,6 @@ namespace PX.Business.Services.Templates
                 EncodedStringFactory = new MvcHtmlStringFactory()
             };
         }
-
-        #endregion
-
-        #region Razor Engine
 
         /// <summary>
         /// Render template using Razor engine
