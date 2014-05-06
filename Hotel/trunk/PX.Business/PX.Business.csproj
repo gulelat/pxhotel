@@ -160,7 +160,7 @@
     <Compile Include="Mvc\Controllers\ClientController.cs" />
     <Compile Include="Mvc\ViewEngines\Razor\RazorView.cs" />
     <Compile Include="Mvc\ViewEngines\Razor\RazorEngine\MvcHtmlStringFactory.cs" />
-    <Compile Include="Mvc\ViewEngines\Razor\RazorEngine\MvcTemplateBase.cs" />
+    <Compile Include="Mvc\ViewEngines\Razor\RazorEngine\RazorEngineTemplateBase.cs" />
     <Compile Include="Mvc\ViewEngines\Razor\RazorViewEngine.cs" />
     <Compile Include="Mvc\ViewEngines\ViewResult\MVCTransferResult.cs" />
     <Compile Include="Mvc\ViewEngines\VirtualPathProvider.cs" />

@@ -80,6 +80,7 @@ namespace PX.Business.Services.News.CurlyBracketResolvers
                     {
                         Name = DefaultTemplate,
                         DataType = typeof(NewsListingModel).AssemblyQualifiedName,
+                        CurlyBracket = "{NewsListing}",
                         Content = string.Empty,
                         IsDefaultTemplate = true
                     };

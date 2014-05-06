@@ -76,6 +76,7 @@ namespace PX.Business.Services.Services.CurlyBracketResolvers
                     {
                         Name = DefaultTemplate,
                         DataType = typeof(List<ServiceCurlyBracket>).AssemblyQualifiedName,
+                        CurlyBracket = "{Services}",
                         Content = string.Empty,
                         IsDefaultTemplate = true
                     };

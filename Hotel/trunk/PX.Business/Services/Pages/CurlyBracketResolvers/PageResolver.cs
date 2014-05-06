@@ -75,6 +75,7 @@ namespace PX.Business.Services.Pages.CurlyBracketResolvers
                 {
                     Name = DefaultTemplate,
                     DataType = typeof(PageRenderModel).AssemblyQualifiedName,
+                    CurlyBracket = "{PageContent}",
                     Content = string.Empty,
                     IsDefaultTemplate = true
                 };

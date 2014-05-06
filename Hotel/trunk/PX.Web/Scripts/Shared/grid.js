@@ -33,18 +33,18 @@ $(function () {
     jQuery(gridSelector).jqGrid('navGrid', pagerSelector,
         {
             edit: typeof navButtonsSetup.enableEdit === 'undefined' ? true : navButtonsSetup.enableEdit,
-            editicon: 'icon-pencil blue',
+            editicon: 'fa fa-pencil blue',
             add: typeof navButtonsSetup.enableCreate === 'undefined' ? true : navButtonsSetup.enableCreate,
             add: navButtonsSetup.enableCreate,
-            addicon: 'icon-plus-sign purple',
+            addicon: 'fa fa-plus-square purple',
             del: typeof navButtonsSetup.enableDelete === 'undefined' ? true : navButtonsSetup.enableDelete,
-            delicon: 'icon-trash red',
+            delicon: 'fa fa-trash-o red',
             search: typeof navButtonsSetup.enableSearch === 'undefined' ? true : navButtonsSetup.enableSearch,
-            searchicon: 'icon-search orange',
+            searchicon: 'fa fa-search orange',
             refresh: typeof navButtonsSetup.enableRefresh === 'undefined' ? true : navButtonsSetup.enableRefresh,
-            refreshicon: 'icon-refresh green',
+            refreshicon: 'fa fa-refresh green',
             view: typeof navButtonsSetup.enableView === 'undefined' ? true : navButtonsSetup.enableView,
-            viewicon: 'icon-zoom-in grey'
+            viewicon: 'fa fa-search-plus grey'
         },
         {
             //edit record form
@@ -213,9 +213,9 @@ function styleSearchFilters(form) {
 function styleSearchForm(form) {
     var dialog = form.closest('.ui-jqdialog');
     var buttons = dialog.find('.EditTable');
-    buttons.find('.EditButton a[id*="_reset"]').addClass('btn btn-sm btn-info').find('.ui-icon').attr('class', 'icon-retweet');
-    buttons.find('.EditButton a[id*="_query"]').addClass('btn btn-sm btn-inverse').find('.ui-icon').attr('class', 'icon-comment-alt');
-    buttons.find('.EditButton a[id*="_search"]').addClass('btn btn-sm btn-purple').find('.ui-icon').attr('class', 'icon-search');
+    buttons.find('.EditButton a[id*="_reset"]').addClass('btn btn-sm btn-info').find('.ui-icon').attr('class', 'fa fa-retweet');
+    buttons.find('.EditButton a[id*="_query"]').addClass('btn btn-sm btn-inverse').find('.ui-icon').attr('class', 'fa fa-comment-alt');
+    buttons.find('.EditButton a[id*="_search"]').addClass('btn btn-sm btn-purple').find('.ui-icon').attr('class', 'fa fa-search');
 }
 
 function beforeDeleteCallback(e) {

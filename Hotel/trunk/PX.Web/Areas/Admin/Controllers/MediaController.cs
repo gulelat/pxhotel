@@ -303,13 +303,21 @@ namespace PX.Web.Areas.Admin.Controllers
 
         public ImageResult Thumbnail(string path, int w = 0, int h = 0)
         {
-            var filepath = Path.Combine("~", path);
-            filepath = Server.MapPath(filepath);
-            if (!System.IO.File.Exists(filepath))
+            string filePath;
+            if(string.IsNullOrEmpty(path))
             {
-                filepath = Server.MapPath(Configurations.NoImage);
+                filePath = Server.MapPath(Configurations.NoImage);
             }
-            return new ImageResult(filepath, w, h);
+            else
+            {
+                filePath = Path.Combine("~", path);
+                filePath = Server.MapPath(filePath);
+                if (!System.IO.File.Exists(filePath))
+                {
+                    filePath = Server.MapPath(Configurations.NoImage);
+                }
+            }
+            return new ImageResult(filePath, w, h);
         }
     }
 }

@@ -1,0 +1,200 @@
+﻿@{
+    ViewBag.Title = "Bookings";
+    Layout = "DBTemplate.Master.cshtml";
+}
+
+<div class="divWrapperBigHeadingIntroText">
+    <div class="col-sm-11 col-sm-offset-1 bigHeadingIntroText">
+        <h1>Đặt phòng</h1>
+        <span>room booking
+            </span>
+    </div>
+</div>
+
+<div class="divWrapperRoomBookingOnlineAndContact">
+
+    <div class="col-sm-12">
+        <div class="wrapperRoomDetail">
+            <div class="text-center confirmBookingText">
+                <div><span>Superior Room</span></div>
+                <div class="smallerConfirmText">Phòng cao cấp</div>
+            </div>
+            <div class="wrapperConfirmBookingContent">
+                <form class="form-horizontal" role="form">
+                    <div class="col-sm-6 contentConfirmBooking withBorderRight">
+                        <div class="bigTitle">THÔNG TIN CÁ NHÂN</div>
+                        <div class="smallTitle">QUÝ KHÁCH</div>
+                        <div class="form-group twoColsInfoContent">
+                            <label for="inputBookingName" class="col-sm-3 control-label">Họ và tên *</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control highlightInfo" id="inputBookingName" placeholder="">
+                            </div>
+                        </div>
+                        <div class="form-group twoColsInfoContent">
+                            <label for="inputBookingEmail" class="col-sm-3 control-label">Email *</label>
+                            <div class="col-sm-6">
+                                <input type="email" class="form-control highlightInfo" id="inputBookingEmail" placeholder="">
+                            </div>
+                        </div>
+                        <div class="form-group twoColsInfoContent">
+                            <label for="inputBookingAddress" class="col-sm-3 control-label">Địa chỉ *</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control highlightInfo" id="inputBookingAddress" placeholder="">
+                            </div>
+                        </div>
+                        <div class="form-group twoColsInfoContent">
+                            <label for="inputBookingPhone" class="col-sm-3 control-label">Điện thoại *</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control highlightInfo" id="inputBookingPhone" placeholder="">
+                            </div>
+                        </div>
+                        <div class="form-group twoColsInfoContent">
+                            <label for="inputBookingNationality" class="col-sm-3 control-label">Quốc tịch *</label>
+                            <div class="col-sm-6">
+                                <select class="form-control highlightInfo">
+                                    <option>Việt Nam</option>
+                                    <option>Mỹ</option>
+                                    <option>Pháp</option>
+                                    <option>Đức</option>
+                                    <option>Nga</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group twoColsInfoContent">
+                            <label for="inputBookingPhone" class="col-sm-3 control-label">Điện thoại *</label>
+                            <div class="col-sm-6">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" class="highlightInfo">
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group twoColsInfoContent">
+                            <label for="inputBookingNationality" class="col-sm-3 control-label">Yêu cầu khác</label>
+                        </div>
+                        <div id="summernote" class="highlightInfo"></div>
+                        <br>
+                        <div class="bigTitle">
+                            THANH TOÁN
+                   
+                            <img src="~/Images/FrontEnd/payment1.jpg" class="img-responsive" style="display: inline; height: 27px;" /><img src="~/Images/FrontEnd/payment2.gif" class="img-responsive" style="display: inline; height: 27px;" />
+                        </div>
+                        <div class="smallTitle">PHƯƠNG THỨC</div>
+                        <div class="form-horizontal" role="form">
+                            <div class="form-group twoColsInfoContent">
+                                <label class="col-sm-3 control-label">Loại thẻ *</label>
+                                <div class="col-sm-6">
+                                    <select class="form-control highlightInfo">
+                                        <option>VISA</option>
+                                        <option>MASTER CARD</option>
+                                        <option>PAYPAL</option>
+                                        <option>Ngân lượng</option>
+                                        <option>Trực tiếp</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group twoColsInfoContent">
+                                <label for="inputPaymentName" class="col-sm-3 control-label">Chủ thẻ *</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control highlightInfo" id="inputPaymentName" placeholder="">
+                                </div>
+                            </div>
+                            <div class="form-group twoColsInfoContent">
+                                <label for="inputPaymentCardNumber" class="col-sm-3 control-label">Số thẻ *</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control highlightInfo" id="inputPaymentCardNumber" placeholder="">
+                                </div>
+                            </div>
+                            <div class="form-group twoColsInfoContent">
+                                <label for="inputPaymentBank" class="col-sm-3 control-label">Ngân hàng *</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control highlightInfo" id="inputPaymentBank" placeholder="">
+                                </div>
+                            </div>
+                            <div class="form-group twoColsInfoContent">
+                                <label for="inputPaymentExpire" class="col-sm-3 control-label">Ngày hết hạn *</label>
+                                <div class="col-sm-6">
+                                    <input type="date" class="form-control highlightInfo" id="inputPaymentExpire" placeholder="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-5 col-sm-offset-1 contentConfirmBooking">
+                        <div class="bigTitle">THÔNG TIN ĐẶT PHÒNG</div>
+                        <div class="smallTitle">CHI TIẾT</div>
+                        <div class="twoColsInfoContent">
+                            <div class="col-sm-3">Phòng:</div>
+                            <div class="col-sm-9 highlightInfo">Superior</div>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="twoColsInfoContent">
+                            <div class="col-sm-3">Giường:</div>
+                            <div class="col-sm-9 highlightInfo">2 giường</div>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="twoColsInfoContent">
+                            <div class="col-sm-3">Giá:</div>
+                            <div class="col-sm-9 highlightInfo">500.000 VNĐ/đêm</div>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="twoColsInfoContent">
+                            <div class="col-sm-3">Check-in:</div>
+                            <div class="col-sm-9 highlightInfo">23/4/2014</div>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="twoColsInfoContent">
+                            <div class="col-sm-3">Check-out:</div>
+                            <div class="col-sm-9 highlightInfo">25/4/2014</div>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="smallTitle">DỊCH VỤ</div>
+                        <div class="twoColsInfoContent">
+                            <div class="col-sm-3">Internet:</div>
+                            <div class="col-sm-9 highlightInfo">
+                                <input type="checkbox" class="highlightInfo">
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="twoColsInfoContent">
+                            <div class="col-sm-3">Ăn uống:</div>
+                            <div class="col-sm-9 highlightInfo">
+                                <input type="checkbox" class="highlightInfo">
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="bigTitle">&nbsp;</div>
+                        <div class="smallTitle">ĐIỀU KHOẢN</div>
+                        <div class="twoColsInfoContent">
+                            <div class="col-sm-1">
+                                <input type="checkbox" class="highlightInfo">
+                            </div>
+                            <div class="col-sm-11">
+                                Tôi đồng ý với các điều khoản và quy định
+                     
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="twoColsInfoContent">
+                            <div class="col-sm-12 text-left">
+                                <strong>TỔNG GIÁ TRỊ &nbsp;&nbsp;&nbsp;</strong>
+                                <span class="highlightInfo bigHighlightInfo">2.345.000 VNĐ</span>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="twoColsInfoContent">
+                            <div class="col-sm-6 col-offset-3 block-left">
+                                <a href="#" class="btn btn-primary btn-lg"><strong>ĐẶT PHÒNG</strong></a>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="clearfix"></div>
+</div>

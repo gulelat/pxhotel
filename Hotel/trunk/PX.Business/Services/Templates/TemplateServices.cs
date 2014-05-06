@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Web.Mvc;
 using PX.Business.Models.TemplateLogs;
 using PX.Business.Models.Templates;
 using PX.Business.Models.Templates.Logs;
@@ -340,7 +341,7 @@ namespace PX.Business.Services.Templates
         {
             return new TemplateServiceConfiguration
             {
-                BaseTemplateType = typeof(MvcTemplateBase<>),
+                BaseTemplateType = typeof(RazorEngineTemplateBase<>),
                 EncodedStringFactory = new MvcHtmlStringFactory()
             };
         }
@@ -355,11 +356,7 @@ namespace PX.Business.Services.Templates
         /// <returns></returns>
         public string Parse(string template, dynamic model, DynamicViewBag viewBag = null, string cacheName = "")
         {
-            var config = new TemplateServiceConfiguration
-            {
-                BaseTemplateType = typeof(MvcTemplateBase<>),
-                EncodedStringFactory = new MvcHtmlStringFactory()
-            };
+            var config = GetConfig();
             using (var templateService = new TemplateService(config))
             {
                 return templateService.Parse(template, model, viewBag, cacheName);
@@ -368,11 +365,7 @@ namespace PX.Business.Services.Templates
 
         public void Compile(string template, Type type, string cacheName)
         {
-            var config = new TemplateServiceConfiguration
-            {
-                BaseTemplateType = typeof(MvcTemplateBase<>),
-                EncodedStringFactory = new MvcHtmlStringFactory()
-            };
+            var config = GetConfig();
             var templateService = new TemplateService(config);
             templateService.Compile(template, type, cacheName);
         }

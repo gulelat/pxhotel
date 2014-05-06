@@ -15,7 +15,7 @@ using PX.EntityModel;
 
 namespace PX.Business.Services.ClientMenus.CurlyBracketResolvers
 {
-    [CurlyBracket(Name = "Dynamic Menu", CurlyBracket = "DynamicMenu", Descrition = "Dynamic menu curly bracket", Type = typeof(List<DynamicMenuCurlyBracket>))]
+    [CurlyBracket(Name = "Dynamic Menu", CurlyBracket = "DynamicMenus", Descrition = "Dynamic menu curly bracket", Type = typeof(List<DynamicMenuCurlyBracket>))]
     public class DynamicMenuResolver : ICurlyBracketResolver
     {
         #region Private Properties
@@ -140,6 +140,7 @@ namespace PX.Business.Services.ClientMenus.CurlyBracketResolvers
                 {
                     Name = DefaultTemplate,
                     DataType = typeof(List<DynamicMenuCurlyBracket>).AssemblyQualifiedName,
+                    CurlyBracket = "{DynamicMenus}",
                     Content = string.Empty,
                     IsDefaultTemplate = true
                 };
@@ -152,6 +153,7 @@ namespace PX.Business.Services.ClientMenus.CurlyBracketResolvers
                 {
                     Name = DefaultChildTemplate,
                     DataType = typeof(List<DynamicMenuCurlyBracket>).AssemblyQualifiedName,
+                    CurlyBracket = "{DynamicMenus}",
                     Content = string.Empty,
                     IsDefaultTemplate = true
                 };
@@ -164,6 +166,7 @@ namespace PX.Business.Services.ClientMenus.CurlyBracketResolvers
                 {
                     Name = DefaultChildMobileTemplate,
                     DataType = typeof(List<DynamicMenuCurlyBracket>).AssemblyQualifiedName,
+                    CurlyBracket = "{DynamicMenus}",
                     Content = string.Empty,
                     IsDefaultTemplate = true
                 };
@@ -226,7 +229,7 @@ namespace PX.Business.Services.ClientMenus.CurlyBracketResolvers
                     PageId = m.PageId,
                     Name = m.Name,
                     RecordOrder = m.RecordOrder,
-                    Url = m.Url,
+                    Url = m.Page.IsHomePage ? string.Empty : m.Url,
                     ParentId = m.ParentId,
                 }).ToList();
             var data = GetTree(items, ParentId, 0);

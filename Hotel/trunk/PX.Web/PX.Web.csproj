@@ -1359,6 +1359,7 @@
     <Content Include="Views\News\Details.cshtml" />
     <Content Include="Views\NewsCategory\Details.cshtml" />
     <Content Include="Views\Bookings\Index.cshtml" />
+    <Content Include="Views\Bookings\BookingDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

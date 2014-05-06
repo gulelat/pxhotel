@@ -22,7 +22,7 @@ namespace PX.Business.Models.NewsCategories.CurlyBrackets
             ParentName = category.ParentId.HasValue ? category.NewsCategory1.Name : string.Empty;
             Total = category.NewsNewsCategories.Count;
 
-            DetailsUrl = UrlUtilities.GenerateUrl(HttpContext.Current.Request.RequestContext, "Category", "Index",
+            DetailsUrl = UrlUtilities.GenerateUrl(HttpContext.Current.Request.RequestContext, "NewsCategory", "Details",
                                                   new
                                                       {
                                                           id = category.Id,
