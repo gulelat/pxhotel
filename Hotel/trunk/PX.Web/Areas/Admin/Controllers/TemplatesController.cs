@@ -132,7 +132,7 @@ namespace PX.Web.Areas.Admin.Controllers
             var model = _templateServices.GetLogs(id);
             if (model == null)
             {
-                SetErrorMessage(LocalizedResourceServices.T("AdminModule:::Pages:::Messages:::ObjectNotFounded:::Page is not founded."));
+                SetErrorMessage(LocalizedResourceServices.T("AdminModule:::Templates:::Messages:::ObjectNotFounded:::Template is not founded."));
                 return RedirectToAction("Index");
             }
             return View(model);

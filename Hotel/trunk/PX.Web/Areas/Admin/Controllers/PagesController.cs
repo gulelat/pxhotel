@@ -189,9 +189,9 @@ namespace PX.Web.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public JsonResult GetLogs(int id, int index)
+        public JsonResult GetLogs(int id, int total, int index)
         {
-            var model = _pageServices.GetLogs(id, index);
+            var model = _pageServices.GetLogs(id, total, index);
             var content = RenderPartialViewToString("_GetLogs", model);
             var response = new ResponseModel
             {

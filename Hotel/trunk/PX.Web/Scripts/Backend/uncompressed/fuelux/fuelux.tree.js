@@ -48,7 +48,7 @@
 						var header = $entity.find('.tree-folder-header');
 						header.data(value);
 						if('icon-class' in value)
-							header.find('[class*="icon-"]').addClass(value['icon-class']);
+							header.find('[class*="fa fa-"]').addClass(value['icon-class']);
 					} else if (value.type === "item") {
 						$entity = self.$element.find('.tree-item:eq(0)').clone().show();
 						$entity.find('.tree-item-name').html(value.name);

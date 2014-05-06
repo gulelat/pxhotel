@@ -4,7 +4,6 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Web.Mvc;
 using PX.Business.Models.PageTemplates;
-using PX.Business.Models.Pages;
 using PX.Business.Models.Pages.ViewModels;
 using PX.Core.Framework.Enums;
 using PX.Core.Framework.Mvc.Models;
@@ -55,7 +54,7 @@ namespace PX.Business.Services.PageTemplates
 
         #region Logs
 
-        PageTemplateLogsModel GetLogs(int id, int index = 1);
+        PageTemplateLogListingModel GetLogs(int id, int total = 0, int index = 1);
         #endregion
 
         PageTemplate FindTemplate(string filePath);

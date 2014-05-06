@@ -32,20 +32,20 @@
             <ul class="nav nav-tabs" id="myTab">
                 <li class="active">
                     <a data-toggle="tab" href="#profile">
-                        <i class="green icon-home bigger-110"></i>
+                        <i class="green fa fa-home bigger-110"></i>
                         My Profile
                     </a>
                 </li>
 
                 <li>
                     <a data-toggle="tab" href="#settings">
-                        <i class="purple icon-cog bigger-110"></i>Settings
+                        <i class="purple fa fa-cog bigger-110"></i>Settings
                     </a>
                 </li>
 
                 <li>
                     <a data-toggle="tab" href="#change-password">
-                        <i class="blue icon-key bigger-110"></i>Change Password
+                        <i class="blue fa fa-key bigger-110"></i>Change Password
                     </a>
                 </li>
             </ul>
@@ -63,7 +63,7 @@
                                 <div class="width-80 label label-info label-xlg arrowed-in arrowed-in-right">
                                     <div class="inline position-relative">
                                         <a href="javascript:void(0)" class="user-title-label">
-                                            <i class="icon-circle light-green middle"></i>
+                                            <i class="fa fa-circle light-green middle"></i>
                                             &nbsp;<span class="white">@CurrentUser.FullName</span>
                                         </a>
                                     </div>
@@ -204,9 +204,9 @@
 
             //editables on first profile page
             $.fn.editable.defaults.mode = 'inline';
-            $.fn.editableform.loading = "<div class='editableform-loading'><i class='light-blue icon-2x icon-spinner icon-spin'></i></div>";
-            $.fn.editableform.buttons = '<button type="submit" class="btn btn-info editable-submit"><i class="icon-ok icon-white"></i></button>' +
-                '<button type="button" class="btn editable-cancel"><i class="icon-remove"></i></button>';
+            $.fn.editableform.loading = "<div class='editableform-loading'><i class='light-blue fa fa-2x fa-spinner fa-spin'></i></div>";
+            $.fn.editableform.buttons = '<button type="submit" class="btn btn-info editable-submit"><i class="fa fa-check fa-white"></i></button>' +
+                '<button type="button" class="btn editable-cancel"><i class="fa fa-clock-o s"></i></button>';
             
             //editables 
             $('.editable-text').editable({

@@ -9,7 +9,7 @@
 <div class="page-header">
     <h1>@ViewBag.Header
         <small>
-            <i class="icon-double-angle-right"></i>
+            <i class="fa fa-angle-double-right"></i>
             @ViewBag.Title
         </small>
     </h1>
@@ -18,7 +18,7 @@
     @ShowStatusMessage()
     <div class="col-xs-12">
         <a href="@Url.Action("Index", "CurlyBrackets")" class="btn btn-yellow btn-minier">
-            <i class="icon-plus align-top bigger-125"></i>
+            <i class="fa fa-plus align-top bigger-125"></i>
             Create New Template
         </a>
     </div>
@@ -78,11 +78,11 @@
                     {
                         name: 'actions', width: 90, sortable: false, search: false,
                         formatter: function (cellvalue, options, rowObject) {
-                            var editIcon = "<a class='grid-action' href='@Url.Action("Edit")/" + options.rowId + "'><div class='ui-pg-div ui-inline-edit' title='' data-original-title='Edit Template'><span class='icon-edit'></span></div></a>";
+                            var editIcon = "<a class='grid-action' href='@Url.Action("Edit")/" + options.rowId + "'><div class='ui-pg-div ui-inline-edit' title='' data-original-title='Edit Template'><span class='fa fa-edit'></span></div></a>";
 
-                            var logIcon = "<a class='grid-action' href='@Url.Action("Logs")/" + options.rowId + "'><div class='ui-pg-div ui-inline-edit' title='' data-original-title='View Logs'><span class='icon-book'></span></div></a>";
+                            var logIcon = "<a class='grid-action' href='@Url.Action("Logs")/" + options.rowId + "'><div class='ui-pg-div ui-inline-edit' title='' data-original-title='View Logs'><span class='fa fa-book'></span></div></a>";
 
-                            var deleteIcon = "<a class='delete-icon' href='javascript:void(0)' data-id='" + options.rowId + "'><div class='ui-pg-div ui-inline-edit' title='' data-original-title='Delete Template'><span class='icon-delete'></span></div></a>";
+                            var deleteIcon = "<a class='delete-icon' href='javascript:void(0)' data-id='" + options.rowId + "'><div class='ui-pg-div ui-inline-edit' title='' data-original-title='Delete Template'><span class='fa fa-delete'></span></div></a>";
                             var isDefaultTemplate = rowObject["IsDefaultTemplate"];
                             if (isDefaultTemplate) {
                                 deleteIcon = '';

@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
-using PX.Business.Models.PageLogs;
+using PX.Business.Models.Pages.Logs;
 
 namespace PX.Business.Models.Pages
 {
-    public class PageLogsModel
+    public class PageLogListingModel
     {
         #region Constructors
-        public PageLogsModel()
+        public PageLogListingModel()
         {
         }
         #endregion
@@ -19,9 +19,11 @@ namespace PX.Business.Models.Pages
 
         public string Url { get; set; }
 
+        public int Total { get; set; }
+
         public bool LoadComplete { get; set; }
 
-        public List<PageLogViewModel> Logs { get; set; }
+        public List<PageLogsModel> Logs { get; set; }
 
         #endregion
     }

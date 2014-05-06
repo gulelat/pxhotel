@@ -10,7 +10,7 @@
 <div class="page-header">
     <h1>@ViewBag.Header
         <small>
-            <i class="icon-double-angle-right"></i>
+            <i class="fa fa-angle-double-right"></i>
             @ViewBag.Title
         </small>
     </h1>
@@ -53,8 +53,8 @@
                     {
                         name: 'action', width: 80, sortable: false, search: false, align: "center",
                         formatter: function (cellvalue, options, rowObject) {
-                            var settingIcon = "<a class='grid-action' href='@Url.Action("EditSettings")/" + options.rowId + "'><div class='ui-pg-div ui-inline-edit' title='' data-original-title='Config Settings'><span class='icon-cogs'></span></div></a>";
-                            var showImagesIcon = "<a class='grid-action' href='@Url.Action("Gallery")/" + options.rowId + "'><div class='ui-pg-div ui-inline-edit' title='' data-original-title='Show Group Images'><span class='icon-film'></span></div></a>";
+                            var settingIcon = "<a class='grid-action' href='@Url.Action("EditSettings")/" + options.rowId + "'><div class='ui-pg-div ui-inline-edit' title='' data-original-title='Config Settings'><span class='fa fa-cogs'></span></div></a>";
+                            var showImagesIcon = "<a class='grid-action' href='@Url.Action("Gallery")/" + options.rowId + "'><div class='ui-pg-div ui-inline-edit' title='' data-original-title='Show Group Images'><span class='fa fa-film'></span></div></a>";
                             return settingIcon + showImagesIcon;
                         }
                     },

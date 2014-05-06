@@ -3,19 +3,19 @@ using PX.Business.Services.Users;
 using PX.Core.Framework.Mvc.Environments;
 using PX.EntityModel;
 
-namespace PX.Business.Models.PageTemplateLogs
+namespace PX.Business.Models.PageTemplates.Logs
 {
-    public class PageTemplateLogViewModel
+    public class PageTemplateLogItem
     {
         #region Constructor
         private readonly IUserServices _userServices;
-        public PageTemplateLogViewModel()
+        public PageTemplateLogItem()
         {
             _userServices = HostContainer.GetInstance<IUserServices>();
         }
 
 
-        public PageTemplateLogViewModel(PageTemplateLog model): this()
+        public PageTemplateLogItem(PageTemplateLog model): this()
         {
             Id = model.Id;
             Name = model.Name;

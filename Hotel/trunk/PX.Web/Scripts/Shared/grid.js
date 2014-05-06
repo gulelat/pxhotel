@@ -187,20 +187,20 @@ function styleEditForm(form) {
     //update buttons classes
     var buttons = form.next().find('.EditButton .fm-button');
     buttons.addClass('btn btn-sm').find('[class*="-icon"]').remove();//ui-icon, s-icon
-    buttons.eq(0).addClass('btn-primary').prepend('<i class="icon-ok"></i>');
-    buttons.eq(1).prepend('<i class="icon-remove"></i>');
+    buttons.eq(0).addClass('btn-primary').prepend('<i class="fa fa-check"></i>');
+    buttons.eq(1).prepend('<i class="fa fa-clock-o s"></i>');
 
     buttons = form.next().find('.navButton a');
     buttons.find('.ui-icon').remove();
-    buttons.eq(0).append('<i class="icon-chevron-left"></i>');
-    buttons.eq(1).append('<i class="icon-chevron-right"></i>');
+    buttons.eq(0).append('<i class="fa fa-chevron-left"></i>');
+    buttons.eq(1).append('<i class="fa fa-chevron-right"></i>');
 }
 
 function styleDeleteForm(form) {
     var buttons = form.next().find('.EditButton .fm-button');
     buttons.addClass('btn btn-sm').find('[class*="-icon"]').remove();//ui-icon, s-icon
-    buttons.eq(0).addClass('btn-danger').prepend('<i class="icon-trash"></i>');
-    buttons.eq(1).prepend('<i class="icon-remove"></i>');
+    buttons.eq(0).addClass('btn-danger').prepend('<i class="fa fa-trash"></i>');
+    buttons.eq(1).prepend('<i class="fa fa-clock-o s"></i>');
 }
 
 function styleSearchFilters(form) {

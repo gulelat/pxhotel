@@ -145,14 +145,24 @@ namespace PX.Business.Mvc.ViewEngines
             content = curlyBracketServices.Render(content);
 
             //Convert content to Unicode
-            using (var memoryStream = new MemoryStream())
+            //using (var memoryStream = new MemoryStream())
+            //{
+            //    using (var writer = new StreamWriter(memoryStream, new UnicodeEncoding()))
+            //    {
+            //        writer.Write(content);
+            //        _data = memoryStream.ToArray();
+            //    }
+            //}
+            _data = Encoding.UTF8.GetBytes(content);
+            var firstBytes = new byte[]
             {
-                using (var writer = new StreamWriter(memoryStream, new UnicodeEncoding()))
-                {
-                    writer.Write(content);
-                    _data = memoryStream.ToArray();
-                }
-            }
+                239, 187, 191
+            };
+            int newSize = firstBytes.Length + _data.Length;
+            var ms = new MemoryStream(new byte[newSize], 0, newSize, true, true);
+            ms.Write(firstBytes, 0, firstBytes.Length);
+            ms.Write(_data, 0, _data.Length);
+            _data = ms.GetBuffer();
         }
 
         public override Stream Open()

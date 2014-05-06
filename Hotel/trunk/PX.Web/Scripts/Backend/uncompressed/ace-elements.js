@@ -94,7 +94,7 @@ jQuery(function() {
 			else if((/\.(mp3|ogg|wav|wma|amr|aac)$/i).test(filename)) fileIcon = 'icon-music';
 
 
-			if(!this.well_style) this.$label.find('.file-name').attr({'data-title':filename}).find('[class*="icon-"]').attr('class', fileIcon);
+			if(!this.well_style) this.$label.find('.file-name').attr({'data-title':filename}).find('[class*="fa fa-"]').attr('class', fileIcon);
 			else {
 				this.$label.append('<span class="file-name" data-title="'+filename+'"><i class="'+fileIcon+'"></i></span>');
 				var type = $.trim(files[i].type);
@@ -118,9 +118,9 @@ jQuery(function() {
 	Ace_File_Input.prototype.reset_input = function() {
 	  this.$label.attr({'data-title':this.settings.btn_choose, 'class':'file-label'})
 			.find('.file-name:first').attr({'data-title':this.settings.no_file , 'class':'file-name'})
-			.find('[class*="icon-"]').attr('class', this.settings.no_icon)
+			.find('[class*="fa fa-"]').attr('class', this.settings.no_icon)
 			.prev('img').remove();
-			if(!this.settings.no_icon) this.$label.find('[class*="icon-"]').remove();
+			if(!this.settings.no_icon) this.$label.find('[class*="fa fa-"]').remove();
 		
 		this.$label.find('.file-name').not(':first').remove();
 		
@@ -677,7 +677,7 @@ jQuery(function() {
 			'insertImage' : {
 				icon : 'icon-picture',
 				title : 'Insert picture',
-				button_text : '<i class="icon-file"></i> Choose Image &hellip;',
+				button_text : '<i class="fa fa-file"></i> Choose Image &hellip;',
 				placeholder : 'Image URL',
 				button_insert : 'Insert',
 				button_class : 'btn-success',
@@ -763,7 +763,7 @@ jQuery(function() {
 				var className = "className" in button ? button.className : '';
 				switch(button.name) {
 					case 'font':
-						toolbar += ' <a class="btn btn-sm '+className+' dropdown-toggle" data-toggle="dropdown" title="'+button.title+'"><i class="'+button.icon+'"></i><i class="icon-angle-down icon-on-right"></i></a> ';
+						toolbar += ' <a class="btn btn-sm '+className+' dropdown-toggle" data-toggle="dropdown" title="'+button.title+'"><i class="'+button.icon+'"></i><i class="fa fa-angle-down icon-on-right"></i></a> ';
 						toolbar += ' <ul class="dropdown-menu dropdown-light">';
 						for(var font in button.values)
 							if(button.values.hasOwnProperty(font))
@@ -772,7 +772,7 @@ jQuery(function() {
 					break;
 
 					case 'fontSize':
-						toolbar += ' <a class="btn btn-sm '+className+' dropdown-toggle" data-toggle="dropdown" title="'+button.title+'"><i class="'+button.icon+'"></i>&nbsp;<i class="icon-angle-down icon-on-right"></i></a> ';
+						toolbar += ' <a class="btn btn-sm '+className+' dropdown-toggle" data-toggle="dropdown" title="'+button.title+'"><i class="'+button.icon+'"></i>&nbsp;<i class="fa fa-angle-down icon-on-right"></i></a> ';
 						toolbar += ' <ul class="dropdown-menu dropdown-light"> ';
 						for(var size in button.values)
 							if(button.values.hasOwnProperty(size))

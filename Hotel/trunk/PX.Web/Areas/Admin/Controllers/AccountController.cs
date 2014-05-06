@@ -116,8 +116,9 @@ namespace PX.Web.Areas.Admin.Controllers
         public ActionResult LogOut()
         {
             FormsAuthentication.SignOut();
-            Session.Clear();
             Session.Abandon();
+            Session.Clear();
+            Response.Cookies.Add(new HttpCookie("ASP.NET_SessionId", ""));
 
             var returnUrl = System.Web.HttpContext.Current.Request.UrlReferrer != null ? System.Web.HttpContext.Current.Request.UrlReferrer.AbsolutePath : string.Empty;
             return RedirectToAction("Login", new { returnUrl });
