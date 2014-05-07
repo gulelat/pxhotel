@@ -104,12 +104,12 @@ namespace PX.Web.Areas.Admin.Controllers
         #region Edit
         public ActionResult Edit(int id)
         {
-            var template = _fileTemplateServices.GetTemplateManageModel(id);
-            if (!template.Id.HasValue)
+            var model = _fileTemplateServices.GetTemplateManageModel(id);
+            if (!model.Id.HasValue)
             {
                 return RedirectToAction("Index");
             }
-            return View(template);
+            return View(model);
         }
 
         [HttpPost]

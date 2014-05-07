@@ -1,9 +1,9 @@
-﻿@model PX.Business.Models.RotatingImages.RotatingImageManageModel
+﻿@model PX.Business.Models.EmailAccounts.EmailAccountManageModel
 
 @{
-    ViewBag.Header = "Rotating Image Management";
+    ViewBag.Header = "Email Account Management";
     ViewBag.Title = "Create";
-    ViewBag.Description = "Create Rotating Image";
+    ViewBag.Description = "Create Email Account";
 }
 <div class="page-header">
     <h1>@ViewBag.Header
@@ -15,9 +15,9 @@
 </div>
 
 <div class="row">
-    <div class="col-xs-12">
+    <div class="col-xs-10">
         @ShowStatusMessage()
-        @using (Html.BeginForm("Create", "RotatingImages", null, FormMethod.Post, new { @class = "form-horizontal" }))
+        @using (Html.BeginForm("Create", "EmailAccounts", null, FormMethod.Post, new { @class = "form-horizontal" }))
         {
             @Html.EditorForModel(Model)
         }

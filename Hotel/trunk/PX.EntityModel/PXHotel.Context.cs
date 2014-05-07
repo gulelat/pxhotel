@@ -28,6 +28,7 @@ namespace PX.EntityModel
         public DbSet<Banner> Banners { get; set; }
         public DbSet<ClientMenu> ClientMenus { get; set; }
         public DbSet<Country> Countries { get; set; }
+        public DbSet<EmailAccount> EmailAccounts { get; set; }
         public DbSet<FileTemplate> FileTemplates { get; set; }
         public DbSet<GroupPermission> GroupPermissions { get; set; }
         public DbSet<HotelBookingRoom> HotelBookingRooms { get; set; }

@@ -9,6 +9,7 @@ using PX.Business.Mvc.ViewEngines;
 using PX.Business.Services.Banners;
 using PX.Business.Services.ClientMenus;
 using PX.Business.Services.CurlyBrackets;
+using PX.Business.Services.EmailAccounts;
 using PX.Business.Services.FileTemplates;
 using PX.Business.Services.HotelBookings;
 using PX.Business.Services.HotelCustomers;
@@ -213,6 +214,7 @@ namespace PX.Web
             container.Register<ISQLCommandServices, SQLCommandServices>(Lifestyle.Transient);
             container.Register<IBannerServices, BannerServices>(Lifestyle.Transient);
             container.Register<IServiceServices, ServiceServices>(Lifestyle.Transient);
+            container.Register<IEmailAccountServices, EmailAccountServices>(Lifestyle.Transient);
 
             #region Hotel
             container.Register<IHotelRoomTypeServices, HotelRoomTypeServices>(Lifestyle.Transient);

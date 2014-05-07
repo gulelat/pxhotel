@@ -1,7 +1,7 @@
 ﻿@{
-    ViewBag.Header = "Services";
-    ViewBag.Title = "Service Management";
-    ViewBag.Description = "Service Management Page";
+    ViewBag.Header = "Email Accounts";
+    ViewBag.Title = "Email Account Management";
+    ViewBag.Description = "Email Account Management Page";
 }
 @section styles{
     <link rel="stylesheet" href="/Content/backend/css/ui.jqgrid.css" />
@@ -19,7 +19,7 @@
     <div class="col-xs-12">
         <a href="@Url.Action("Create")" class="btn btn-yellow btn-minier">
             <i class="fa fa-plus align-top bigger-125"></i>
-            Create Service
+            Create New Email Account
         </a>
     </div>
     <div class="col-xs-12">
@@ -40,45 +40,58 @@
         var gridSelector = "#grid-table";
         var pagerSelector = "#grid-pager";
         var navButtonsSetup = {
-            enableEdit: true,
-            enableCreate: true,
-            enableDelete: true,
+            enableEdit: false,
+            enableCreate: false,
+            enableDelete: false,
             enableSearch: true,
             enableRefresh: true,
             enableView: true
         };
+
+        $(document).on("click", ".mark-as-default", function () {
+            var data = { id: $(this).data("id") };
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("MarkAsDefault")',
+                    data: data,
+                    success: function (response) {
+                        ShowMessage(response);
+                        if (response.Success) {
+                            $(gridSelector).trigger('reloadGrid');
+                        }
+                    }
+                });
+        });
         
         jQuery(function ($) {
             jQuery(gridSelector).jqGrid({
                 datatype: "json",
                 url: "@Url.Action("_AjaxBinding")",
-                caption: "Service Management",
+                caption: "Email Account Management",
                 height: 370,
-                colNames: ['', 'Id', 'Title', 'Status', 'Created', 'Created By', 'Updated', 'Updated By'],
+                colNames: ['', 'Id', 'Email', 'Display Name', 'Is Default', 'Created', 'Created By', 'Updated', 'Updated By'],
                 colModel: [
                     {
-                        name: 'edit', width: 50, sortable: false, search: false, align: "center",
+                        name: 'action',
+                        width: 70,
+                        sortable: false,
+                        search: false,
+                        align: "center",
                         formatter: function (cellvalue, options, rowObject) {
-                            var editIcon = "<a class='grid-action' href='@Url.Action("Edit")/" + options.rowId + "'><div class='ui-pg-div ui-inline-edit' title='' data-original-title='Edit Service'><span class='fa fa-edit'></span></div></a>";
-                            return editIcon;
+                            var editIcon = "<a class='grid-action' href='@Url.Action("Edit")/" + options.rowId + "'><div class='ui-pg-div ui-inline-edit' title='' data-original-title='Edit'><span class='fa fa-edit'></span></div></a>";
+                            var markAsDefaultIcon = "<a class='grid-action mark-as-default' data-id='" + options.rowId + "' href='javascript:void(0)'><div class='ui-pg-div ui-inline-edit' title='' data-original-title='Mark As Default Account'><span class='fa fa-check-square-o'></span></div></a>";
+                            
+                            if (rowObject["IsDefault"]) {
+                                markAsDefaultIcon = '';
+                            }
+
+                            return editIcon + markAsDefaultIcon;
                         }
                     },
                     { name: 'Id', index: 'Id', width: 60, key: true, align: 'center', sorttype: "int" },
-                    { name: 'Title', index: 'Title', width: 240, editable: true },
-                    {
-                        name: 'StatusName',
-                        index: 'StatusName',
-                        width: 150,
-                        editable: true,
-                        edittype: "select",
-                        editoptions: {
-                            dataUrl: '@Url.Action("GetStatus")',
-                            buildSelect: function (response) {
-                                return buildDropdown(response, false);
-                            }
-                        },
-                        editrules: { required: true }
-                    },
+                    { name: 'Email', index: 'Email', width: 200 },
+                    { name: 'DisplayName', index: 'DisplayName', width: 200 },
+                    { name: 'IsDefaultString', index: 'IsDefaultString', width: 80, align: 'center' },
                     { name: 'Created', index: 'Created', formatter: "date", width: 80, editable: false, sorttype: "datetime", unformat: pickDate },
                     { name: 'CreatedBy', index: 'CreatedBy', width: 180, editable: false, editoptions: { size: "20", maxlength: "30" } },
                     { name: 'Updated', index: 'Updated', formatter: "date", width: 80, editable: false, sorttype: "datetime", unformat: pickDate },
@@ -87,7 +100,6 @@
                 pager: pagerSelector,
                 rowList: [10, 20, 30],
                 shrinkToFit: false,
-                editurl: '@Url.Action("Manage")',
 
                 //Default Value
                 altRows: true,

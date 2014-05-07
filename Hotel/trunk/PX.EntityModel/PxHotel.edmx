@@ -9,6 +9,7 @@
           <EntitySet Name="Banners" EntityType="PXHotelModel.Store.Banners" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="ClientMenus" EntityType="PXHotelModel.Store.ClientMenus" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Countries" EntityType="PXHotelModel.Store.Countries" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="EmailAccounts" EntityType="PXHotelModel.Store.EmailAccounts" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="FileTemplates" EntityType="PXHotelModel.Store.FileTemplates" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="GroupPermissions" EntityType="PXHotelModel.Store.GroupPermissions" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="HotelBookingRooms" EntityType="PXHotelModel.Store.HotelBookingRooms" store:Type="Tables" Schema="dbo" />
@@ -210,6 +211,27 @@
           </Key>
           <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="512" />
+          <Property Name="RecordOrder" Type="int" Nullable="false" />
+          <Property Name="RecordActive" Type="bit" Nullable="false" />
+          <Property Name="Created" Type="datetime" Nullable="false" />
+          <Property Name="CreatedBy" Type="nvarchar" Nullable="false" MaxLength="512" />
+          <Property Name="Updated" Type="datetime" />
+          <Property Name="UpdatedBy" Type="nvarchar" MaxLength="512" />
+        </EntityType>
+        <EntityType Name="EmailAccounts">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Email" Type="nvarchar" Nullable="false" MaxLength="512" />
+          <Property Name="DisplayName" Type="nvarchar" MaxLength="512" />
+          <Property Name="Host" Type="nvarchar" Nullable="false" MaxLength="255" />
+          <Property Name="Port" Type="int" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" Nullable="false" MaxLength="512" />
+          <Property Name="Password" Type="nvarchar" Nullable="false" MaxLength="512" />
+          <Property Name="EnableSsl" Type="bit" Nullable="false" />
+          <Property Name="UseDefaultCredentials" Type="bit" Nullable="false" />
+          <Property Name="IsDefault" Type="bit" Nullable="false" />
           <Property Name="RecordOrder" Type="int" Nullable="false" />
           <Property Name="RecordActive" Type="bit" Nullable="false" />
           <Property Name="Created" Type="datetime" Nullable="false" />
@@ -1157,6 +1179,7 @@
           <EntitySet Name="Banners" EntityType="PXHotelModel.Banner" />
           <EntitySet Name="ClientMenus" EntityType="PXHotelModel.ClientMenu" />
           <EntitySet Name="Countries" EntityType="PXHotelModel.Country" />
+          <EntitySet Name="EmailAccounts" EntityType="PXHotelModel.EmailAccount" />
           <EntitySet Name="FileTemplates" EntityType="PXHotelModel.FileTemplate" />
           <EntitySet Name="GroupPermissions" EntityType="PXHotelModel.GroupPermission" />
           <EntitySet Name="HotelBookingRooms" EntityType="PXHotelModel.HotelBookingRoom" />
@@ -1361,6 +1384,27 @@
           </Key>
           <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="String" Name="Name" Nullable="false" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="RecordOrder" Nullable="false" />
+          <Property Type="Boolean" Name="RecordActive" Nullable="false" />
+          <Property Type="DateTime" Name="Created" Nullable="false" Precision="3" />
+          <Property Type="String" Name="CreatedBy" Nullable="false" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Type="DateTime" Name="Updated" Precision="3" />
+          <Property Type="String" Name="UpdatedBy" MaxLength="512" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="EmailAccount">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Email" Nullable="false" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="DisplayName" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Host" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="Port" Nullable="false" />
+          <Property Type="String" Name="UserName" Nullable="false" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Password" Nullable="false" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Type="Boolean" Name="EnableSsl" Nullable="false" />
+          <Property Type="Boolean" Name="UseDefaultCredentials" Nullable="false" />
+          <Property Type="Boolean" Name="IsDefault" Nullable="false" />
           <Property Type="Int32" Name="RecordOrder" Nullable="false" />
           <Property Type="Boolean" Name="RecordActive" Nullable="false" />
           <Property Type="DateTime" Name="Created" Nullable="false" Precision="3" />
@@ -2413,6 +2457,28 @@
                 <ScalarProperty Name="RecordActive" ColumnName="RecordActive" />
                 <ScalarProperty Name="RecordOrder" ColumnName="RecordOrder" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EmailAccounts">
+            <EntityTypeMapping TypeName="PXHotelModel.EmailAccount">
+              <MappingFragment StoreEntitySet="EmailAccounts">
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="Updated" ColumnName="Updated" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+                <ScalarProperty Name="RecordActive" ColumnName="RecordActive" />
+                <ScalarProperty Name="RecordOrder" ColumnName="RecordOrder" />
+                <ScalarProperty Name="IsDefault" ColumnName="IsDefault" />
+                <ScalarProperty Name="UseDefaultCredentials" ColumnName="UseDefaultCredentials" />
+                <ScalarProperty Name="EnableSsl" ColumnName="EnableSsl" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Port" ColumnName="Port" />
+                <ScalarProperty Name="Host" ColumnName="Host" />
+                <ScalarProperty Name="DisplayName" ColumnName="DisplayName" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

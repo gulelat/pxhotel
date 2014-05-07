@@ -1,23 +1,22 @@
 ﻿using System.Web.Mvc;
 using Newtonsoft.Json;
-using PX.Business.Models.Banners;
+using PX.Business.Models.EmailAccounts;
 using PX.Business.Mvc.Attributes.Authorize;
 using PX.Business.Mvc.Controllers;
-using PX.Business.Services.Banners;
+using PX.Business.Services.EmailAccounts;
 using PX.Core.Framework.Enums;
-using PX.Core.Framework.Mvc.Attributes;
 using PX.Core.Framework.Mvc.Models;
 using PX.Core.Framework.Mvc.Models.JqGrid;
 
 namespace PX.Web.Areas.Admin.Controllers
 {
     [PxAuthorize(Permissions = new[] { PermissionEnums.ManageContent })]
-    public class BannerController : AdminController
+    public class EmailAccountsController : AdminController
     {
-        private readonly IBannerServices _bannerServices;
-        public BannerController(IBannerServices bannerServices)
+        private readonly IEmailAccountServices _emailAccountServices;
+        public EmailAccountsController(IEmailAccountServices emailAccountServices)
         {
-            _bannerServices = bannerServices;
+            _emailAccountServices = emailAccountServices;
         }
 
         //
@@ -30,16 +29,21 @@ namespace PX.Web.Areas.Admin.Controllers
         [HttpGet]
         public string _AjaxBinding(JqSearchIn si)
         {
-            return JsonConvert.SerializeObject(_bannerServices.SearchBanners(si));
+            return JsonConvert.SerializeObject(_emailAccountServices.SearchEmailAccounts(si));
         }
 
         [HttpPost]
-        [HandleJsonException]
-        public JsonResult Manage(BannerModel model, GridManagingModel manageModel)
+        public JsonResult MarkAsDefault(int id)
         {
-            if (ModelState.IsValid || manageModel.Operation == GridOperationEnums.Del)
+            return Json(_emailAccountServices.MarkAsDefault(id));
+        }
+
+        [HttpPost]
+        public JsonResult SendTestEmail(TestEmailModel model)
+        {
+            if (ModelState.IsValid)
             {
-                return Json(_bannerServices.ManageBanner(manageModel.Operation, model));
+                return Json(_emailAccountServices.SendTestEmail(model));
             }
 
             return Json(new ResponseModel
@@ -49,56 +53,30 @@ namespace PX.Web.Areas.Admin.Controllers
             });
         }
 
-        /// <summary>
-        /// Delete the image
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        [HttpPost]
-        public JsonResult DeleteImage(int id)
-        {
-            return Json(_bannerServices.ManageBanner( GridOperationEnums.Del, new BannerModel
-                {
-                    Id = id
-                }));
-        }
-
-        /// <summary>
-        /// Update url of rotating image
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="url"></param>
-        /// <returns></returns>
-        [HttpPost]
-        public JsonResult UpdateUrl(int id, string url)
-        {
-            return Json(_bannerServices.UpdateBannerUrl(id, url));
-        }
-
         #region Create
         public ActionResult Create()
         {
-            var model = _bannerServices.GetBannerManageModel();
+            var model = _emailAccountServices.GetEmailAccountManageModel();
             return View(model);
         }
 
         [HttpPost]
         [ValidateInput(false)]
-        public ActionResult Create(BannerManageModel model, SubmitTypeEnums submit)
+        public ActionResult Create(EmailAccountManageModel model, SubmitTypeEnums submit)
         {
             if (ModelState.IsValid)
             {
-                var response = _bannerServices.SaveBanner(model);
+                var response = _emailAccountServices.SaveEmailAccount(model);
                 if (response.Success)
                 {
-                    var templateId = (int)response.Data;
+                    var emailAccountId = (int)response.Data;
                     SetSuccessMessage(response.Message);
                     switch (submit)
                     {
                         case SubmitTypeEnums.Save:
                             return RedirectToAction("Index");
                         default:
-                            return RedirectToAction("Edit", new { id = templateId });
+                            return RedirectToAction("Edit", new { id = emailAccountId });
                     }
                 }
                 SetErrorMessage(response.Message);
@@ -111,7 +89,7 @@ namespace PX.Web.Areas.Admin.Controllers
         #region Edit
         public ActionResult Edit(int id)
         {
-            var model = _bannerServices.GetBannerManageModel(id);
+            var model = _emailAccountServices.GetEmailAccountManageModel(id);
             if (!model.Id.HasValue)
             {
                 return RedirectToAction("Index");
@@ -121,11 +99,11 @@ namespace PX.Web.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateInput(false)]
-        public ActionResult Edit(BannerManageModel model, SubmitTypeEnums submit)
+        public ActionResult Edit(EmailAccountManageModel model, SubmitTypeEnums submit)
         {
             if (ModelState.IsValid)
             {
-                var response = _bannerServices.SaveBanner(model);
+                var response = _emailAccountServices.SaveEmailAccount(model);
                 if (response.Success)
                 {
                     SetSuccessMessage(response.Message);

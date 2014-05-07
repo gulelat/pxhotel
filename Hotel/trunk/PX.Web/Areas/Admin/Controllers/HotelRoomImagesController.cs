@@ -63,12 +63,12 @@ namespace PX.Web.Areas.Admin.Controllers
         #region Edit
         public ActionResult Edit(int id)
         {
-            var template = _hotelRoomImageServices.GetHotelRoomImageManageModel(id);
-            if (!template.Id.HasValue)
+            var model = _hotelRoomImageServices.GetHotelRoomImageManageModel(id);
+            if (!model.Id.HasValue)
             {
                 return HttpNotFound();
             }
-            return View(template);
+            return View(model);
         }
 
         [HttpPost]
