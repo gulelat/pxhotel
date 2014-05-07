@@ -81,6 +81,9 @@
     <Compile Include="Models\ClientMenus\ClientMenuManageModel.cs" />
     <Compile Include="Models\Banners\BannerManageModel.cs" />
     <Compile Include="Models\Banners\BannerModel.cs" />
+    <Compile Include="Models\EmailAccounts\EmailAccountManageModel.cs" />
+    <Compile Include="Models\EmailAccounts\EmailAccountModel.cs" />
+    <Compile Include="Models\EmailAccounts\TestEmailModel.cs" />
     <Compile Include="Models\HotelBookings\ViewModels\CalendarViewModel.cs" />
     <Compile Include="Models\HotelBookings\ViewModels\BookingViewModel.cs" />
     <Compile Include="Models\HotelBookings\ViewModels\HotelBookingViewModel.cs" />
@@ -169,6 +172,8 @@
     <Compile Include="Services\ClientMenus\ClientMenuServices.cs" />
     <Compile Include="Services\Banners\IBannerServices.cs" />
     <Compile Include="Services\Banners\BannerServices.cs" />
+    <Compile Include="Services\EmailAccounts\IEmailAccountServices.cs" />
+    <Compile Include="Services\EmailAccounts\EmailAccountServices.cs" />
     <Compile Include="Services\HotelBookings\HotelBookingServices.cs" />
     <Compile Include="Services\HotelBookings\IHotelBookingServices.cs" />
     <Compile Include="Services\HotelCustomers\HotelRoomServices.cs" />

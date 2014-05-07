@@ -191,6 +191,7 @@
     <Compile Include="Areas\Admin\Controllers\AccountController.cs" />
     <Compile Include="Areas\Admin\Controllers\ClientMenusController.cs" />
     <Compile Include="Areas\Admin\Controllers\BannerController.cs" />
+    <Compile Include="Areas\Admin\Controllers\EmailAccountsController.cs" />
     <Compile Include="Areas\Admin\Controllers\HotelBookingsController.cs" />
     <Compile Include="Areas\Admin\Controllers\HotelCustomersController.cs" />
     <Compile Include="Areas\Admin\Controllers\HotelRoomImagesController.cs" />
@@ -1132,6 +1133,10 @@
     <Content Include="Content\frontend\fonts\fontviet1-webfont.eot" />
     <Content Include="Content\frontend\fonts\fontviet1-webfont.ttf" />
     <Content Include="Content\frontend\fonts\fontviet1-webfont.woff" />
+    <Content Include="Areas\Admin\Views\EmailAccounts\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\EmailAccounts\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\EmailAccounts\EditorTemplates\EmailAccountManageModel.cshtml" />
+    <Content Include="Areas\Admin\Views\EmailAccounts\Index.cshtml" />
     <None Include="Properties\PublishProfiles\Hotel.pubxml" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <None Include="Scripts\jquery-1.8.3.intellisense.js" />

@@ -60,7 +60,8 @@
                         search: false,
                         align: "center",
                         formatter: function (cellvalue, options, rowObject) {
-                            return "<a href='@Url.Action("Index", "LocalizedResources")?language=" + options.rowId + "'><div class='ui-pg-div ui-inline-edit' title='' data-original-title='Edit Localization Resource'><span class='ui-icon ui-icon-pencil'></span></div></a>";
+                            var editIcon = "<a class='grid-action' href='@Url.Action("Index", "LocalizedResources")?language=" + options.rowId + "'><div class='ui-pg-div ui-inline-edit' title='' data-original-title='Edit Localization Resource'><span class='ui-icon ui-icon-pencil'></span></div></a>";;
+                            return editIcon;
                         }
                     },
                 ],
